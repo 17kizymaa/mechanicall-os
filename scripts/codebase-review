@@ -1,0 +1,7 @@
+#!/bin/sh
+# /codebase-review centralized in Grok CLI.
+# Use inside the Grok CLI: /codebase-review [target]
+# It uses native in-built parallel subagent swarms + project doctrines.
+# See /root/.grok/skills/codebase-review/SKILL.md
+echo "Use /codebase-review inside the Grok CLI (centralized with built-in swarms)."
+echo "Custom wrappers deprecated."

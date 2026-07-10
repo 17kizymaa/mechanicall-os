@@ -1,0 +1,156 @@
+#!/bin/sh
+# code-review — thin prototype for Grok Heavy multi-agent reviews using doctrines
+# Primary: prepares prompt for your SuperGrok account on grok.com (uses your subscription rates)
+# Run with --help for usage.
+# Follows project doctrines: thin, FS-based, outputs artifacts, inspectable.
+
+set -e
+
+TARGET_DIR="${1:-.}"
+OUTPUT_FILE=""
+API_MODE=false
+AGENT_COUNT=16
+
+print_help() {
+  cat <<HELP
+code-review [TARGET_DIR] [options]
+
+Prepares a doctrine-injected prompt for Grok Heavy (multi-agent) codebase review.
+
+Primary use (SuperGrok rates):
+  Run this, copy the output prompt, paste into grok.com chat (logged in with your SuperGrok account).
+  Use Grok Heavy / multi-agent there — this consumes your subscription's usage rates.
+
+Options:
+  --output FILE     Write prompt to FILE instead of stdout
+  --api             Direct API mode (uses XAI_API_KEY, separate billing — not your SuperGrok rates)
+  --agents N        4 or 16 (default 16 for Heavy)
+  --help            This help
+
+Examples:
+  code-review .
+  code-review /path/to/project --output prompt.md
+  code-review --api .
+
+The command gathers from filesystem only. For best results, ensure target has fresh .context.md.
+HELP
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --output) OUTPUT_FILE="$2"; shift 2 ;;
+    --api) API_MODE=true; shift ;;
+    --agents) AGENT_COUNT="$2"; shift 2 ;;
+    --help|-h) print_help; exit 0 ;;
+    -*) echo "Unknown option: $1" >&2; exit 1 ;;
+    *) TARGET_DIR="$1"; shift ;;
+  esac
+done
+
+# Resolve absolute target
+TARGET_DIR=$(cd "$TARGET_DIR" 2>/dev/null && pwd) || { echo "Invalid target dir"; exit 1; }
+
+# Locate doctrines (relative to this script or current dir; adjust as needed)
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+DOCTRINES_BASE="${DOCTRINES_BASE:-$SCRIPT_DIR/../../../}"  # Adjust based on where doctrines live
+
+get_doctrine() {
+  cat "$DOCTRINES_BASE/$1" 2>/dev/null || echo "(doctrine $1 not found at $DOCTRINES_BASE)"
+}
+
+# Gather target context
+CONTEXT_FILE="$TARGET_DIR/.context.md"
+if [ -f "$CONTEXT_FILE" ]; then
+  TARGET_CONTEXT=$(cat "$CONTEXT_FILE")
+else
+  TARGET_CONTEXT="(No .context.md found in target. Run aether distill or equivalent for best results.)"
+fi
+
+# Collect some source (simple, limited for prototype — respects git if present)
+if command -v git >/dev/null && [ -d "$TARGET_DIR/.git" ]; then
+  SOURCE_FILES=$(cd "$TARGET_DIR" && git ls-files '*.py' '*.md' '*.sh' '*.toml' 2>/dev/null | head -20)
+else
+  SOURCE_FILES=$(cd "$TARGET_DIR" && find . -type f \( -name '*.py' -o -name '*.md' -o -name '*.sh' \) ! -path '*/.*' | head -20)
+fi
+
+SOURCE_SNIPPETS=""
+for f in $SOURCE_FILES; do
+  full="$TARGET_DIR/$f"
+  if [ -f "$full" ]; then
+    echo "=== FILE: $f ===" >> /tmp/code-review-sources.txt
+    head -c 2000 "$full" >> /tmp/code-review-sources.txt || true
+    echo "" >> /tmp/code-review-sources.txt
+  fi
+done
+SOURCE_SNIPPETS=$(cat /tmp/code-review-sources.txt 2>/dev/null || echo "(source collection limited in this prototype)")
+
+# Build the prompt
+PROMPT=$(cat <<PROMPT_CONTENT
+You are Grok Heavy operating in full 16-agent multi-agent mode.
+
+**Task**: Perform an externally evaluated, rigorous codebase review of the provided target.
+
+**Strict Rules**:
+- Evaluate **ONLY** against the immutable doctrines provided below. Quote them verbatim when citing.
+- Different specialized agents should focus in parallel on different doctrine areas:
+  - Principles Auditor: CORE_PRINCIPLES (filesystem truth, Markdown+Python only userland, active sidecars, low overhead + maximum inspectability).
+  - ICM / Meta-Agent Auditor: AGENTS.md and Interpretable Context Methodology (numbered stages, CONTEXT.md contracts, Layer 0-4, output/ gates, human review before advancing).
+  - Architecture Auditor: Three-layer model (Filesystem Substrate, Awareness Layer, Interface Layer).
+  - Minimalism & Sidecar Auditor: SPEC-v0.1 brutalist rules, .context.md quality, no hidden state/databases, thin tools.
+  - Cross-Cutting & Leader: Synthesize all perspectives, score overall alignment, produce final report with evidence from specific files/artifacts.
+- Be evidence-based. Point to exact files, lines, or sidecar content.
+- The leader agent must produce the final structured review after collaboration.
+
+=== DOCTRINES (full text) ===
+
+**CORE_PRINCIPLES.md**:
+$(get_doctrine CORE_PRINCIPLES.md)
+
+**AGENTS.md**:
+$(get_doctrine AGENTS.md)
+
+**ARCHITECTURE.md**:
+$(get_doctrine ARCHITECTURE.md)
+
+**SPEC-v0.1.md** (key excerpts):
+$(get_doctrine SPEC-v0.1.md)
+
+=== END DOCTRINES ===
+
+**Target Project Self-Awareness (.context.md)**:
+$TARGET_CONTEXT
+
+**Selected Source Excerpts** (prototype-limited collection):
+$SOURCE_SNIPPETS
+
+**Output Format** (follow exactly):
+- Overall Alignment Score (0-100) with justification
+- Per-Doctrine Assessment (quote relevant doctrine text)
+- Specific Violations with file evidence + severity
+- Strengths
+- Recommendations (each tied to a specific doctrine)
+- Multi-Agent Collaboration Notes (what different agents contributed, if visible)
+- Final Verdict
+
+Reason collaboratively across agents. Deliver the leader's synthesized report.
+PROMPT_CONTENT
+)
+
+if [ "$API_MODE" = true ]; then
+  echo "WARNING: Direct API mode uses separate xAI API billing/quotas."
+  echo "This will NOT use your SuperGrok consumer account free/included usage rates."
+  echo "Set XAI_API_KEY and call the API yourself with the prompt below (or extend this script)."
+  echo ""
+  echo "Model suggestion: grok-4.20-multi-agent with reasoning.effort high (16 agents)"
+fi
+
+if [ -n "$OUTPUT_FILE" ]; then
+  echo "$PROMPT" > "$OUTPUT_FILE"
+  echo "Prompt written to $OUTPUT_FILE"
+  echo "For SuperGrok rates: log into grok.com with your account, start a new chat with Grok Heavy, paste the content of $OUTPUT_FILE, and send."
+else
+  echo "$PROMPT"
+fi
+
+# Cleanup
+rm -f /tmp/code-review-sources.txt 2>/dev/null || true

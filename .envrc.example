@@ -1,0 +1,8 @@
+# Example for use with direnv + Nix flakes
+# Copy to .envrc in the repo root and run `direnv allow`
+# (Do not commit your personal .envrc — or do, if you want it shared)
+
+use flake
+
+# Optional: extra project-specific setup
+# export AETHER_EXTRA=whatever

@@ -1,0 +1,165 @@
+#!/bin/sh
+# code-review-enhanced — lowest-friction version of the Quick Test protocol
+# Auto: generate prompt -> clipboard (cross-platform) -> open grok.com
+# Primary for SuperGrok consumer rates + Grok Heavy multi-agent
+# Still thin, doctrine-aligned.
+
+set -e
+
+TARGET_DIR="${1:-.}"
+OUTPUT_FILE=""
+API_MODE=false
+AGENT_COUNT=16
+NO_BROWSER=false
+WEB_MODE=false
+
+print_help() {
+  cat <<HELP
+code-review-enhanced [TARGET_DIR] [options]
+
+Lowest-friction Quick Test for Grok Heavy reviews with doctrines.
+Generates prompt, copies to clipboard, opens grok.com.
+
+Use your SuperGrok login + Heavy mode in the browser. Rates apply.
+
+Options:
+  --output FILE     Also write to file
+  --api             Direct API mode (separate billing)
+  --agents N        16 for Heavy (default)
+  --no-browser      Skip opening browser
+  --web             Start local web UI (Python stdlib) instead
+  --help
+
+After run: Prompt is in clipboard. Paste into grok.com Grok Heavy chat.
+HELP
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --output) OUTPUT_FILE="$2"; shift 2 ;;
+    --api) API_MODE=true; shift ;;
+    --agents) AGENT_COUNT="$2"; shift 2 ;;
+    --no-browser) NO_BROWSER=true; shift ;;
+    --web) WEB_MODE=true; shift ;;
+    --help|-h) print_help; exit 0 ;;
+    -*) echo "Unknown: $1"; exit 1 ;;
+    *) TARGET_DIR="$1"; shift ;;
+  esac
+done
+
+TARGET_DIR=$(cd "$TARGET_DIR" 2>/dev/null && pwd) || { echo "Bad target"; exit 1; }
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+DOCTRINES_BASE="${DOCTRINES_BASE:-$SCRIPT_DIR/../../../}"
+
+get_doctrine() {
+  cat "$DOCTRINES_BASE/$1" 2>/dev/null || echo "(missing $1)"
+}
+
+# Gather
+CONTEXT_FILE="$TARGET_DIR/.context.md"
+TARGET_CONTEXT=$(cat "$CONTEXT_FILE" 2>/dev/null || echo "(no .context.md)")
+
+if command -v git >/dev/null && [ -d "$TARGET_DIR/.git" ]; then
+  SOURCE_FILES=$(cd "$TARGET_DIR" && git ls-files '*.py' '*.md' '*.sh' 2>/dev/null | head -15)
+else
+  SOURCE_FILES=$(cd "$TARGET_DIR" && find . -type f \( -name '*.py' -o -name '*.md' \) ! -path '*/.*' | head -15)
+fi
+
+SOURCE_SNIPPETS=""
+for f in $SOURCE_FILES; do
+  full="$TARGET_DIR/$f"
+  [ -f "$full" ] && { echo "=== $f ==="; head -c 1500 "$full"; echo; } >> /tmp/cr-src.txt
+done
+SOURCE_SNIPPETS=$(cat /tmp/cr-src.txt 2>/dev/null || echo "")
+
+PROMPT="You are Grok Heavy in 16-agent mode.
+
+**Task**: Externally evaluate this codebase against the doctrines below using parallel agents.
+
+**Agents**:
+- Principles: CORE_PRINCIPLES (FS truth, MD+PY only, sidecars, inspectability)
+- ICM: AGENTS.md (stages, CONTEXT.md, output gates)
+- Arch: ARCHITECTURE.md
+- Minimalism: SPEC-v0.1
+- Leader: Synthesize with quotes + evidence
+
+=== DOCTRINES ===
+$(get_doctrine CORE_PRINCIPLES.md)
+
+$(get_doctrine AGENTS.md)
+
+$(get_doctrine ARCHITECTURE.md)
+
+$(get_doctrine SPEC-v0.1.md)
+=== END ===
+
+Target .context.md:
+$TARGET_CONTEXT
+
+Sources:
+$SOURCE_SNIPPETS
+
+Output structured review with scores, violations (evidence), recommendations tied to doctrines."
+
+if [ "$WEB_MODE" = true ]; then
+  echo "Starting local web UI (lowest friction for review)..."
+  mkdir -p /tmp/cr-web
+  echo "$PROMPT" > /tmp/cr-web/prompt.txt
+  cat > /tmp/cr-web/index.html <<HTML
+<!DOCTYPE html>
+<html>
+<head><title>Code Review Prompt for Grok Heavy</title>
+<style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:20px} button{padding:12px 24px;font-size:16px;margin:10px} pre{background:#f4f4f4;padding:20px;white-space:pre-wrap}</style>
+</head>
+<body>
+<h1>Quick Test Prompt Ready</h1>
+<p>1. Click Copy. 2. Go to grok.com (SuperGrok login). 3. Paste in Heavy mode.</p>
+<button onclick="navigator.clipboard.writeText(document.getElementById('p').innerText).then(()=>alert('Copied!'))">Copy Prompt to Clipboard</button>
+<button onclick="window.open('https://grok.com','_blank')">Open grok.com</button>
+<pre id="p">$(echo "$PROMPT" | sed 's/</\&lt;/g')</pre>
+<p><small>Generated for $TARGET_DIR. Save the review output as Markdown artifact.</small></p>
+</body></html>
+HTML
+  echo "Open http://localhost:9876 in browser"
+  (cd /tmp/cr-web && python3 -m http.server 9876) &
+  sleep 1
+  exit 0
+fi
+
+# Clipboard + open (lowest friction core)
+copy_and_open() {
+  case "$(uname)" in
+    Darwin)
+      echo "$PROMPT" | pbcopy
+      [ "$NO_BROWSER" != true ] && open "https://grok.com"
+      ;;
+    Linux)
+      if command -v wl-copy >/dev/null; then
+        echo "$PROMPT" | wl-copy
+      else
+        echo "$PROMPT" | xclip -selection clipboard 2>/dev/null || echo "$PROMPT" | xsel --clipboard 2>/dev/null || true
+      fi
+      [ "$NO_BROWSER" != true ] && xdg-open "https://grok.com" 2>/dev/null || true
+      ;;
+    MINGW*|CYGWIN*|MSYS*)
+      echo "$PROMPT" | clip
+      [ "$NO_BROWSER" != true ] && start "https://grok.com"
+      ;;
+    *)
+      echo "$PROMPT"
+      ;;
+  esac
+}
+
+copy_and_open
+
+if [ -n "$OUTPUT_FILE" ]; then
+  echo "$PROMPT" > "$OUTPUT_FILE"
+  echo "Also saved to $OUTPUT_FILE"
+fi
+
+echo "Prompt in clipboard. Log into grok.com with SuperGrok, use Heavy mode, paste."
+echo "For full auto in future stages, consider local web UI (--web) or launcher."
+
+rm -f /tmp/cr-src.txt 2>/dev/null || true

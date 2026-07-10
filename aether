@@ -1,0 +1,384 @@
+#!/bin/sh
+# aether — the Awareness Layer for Mechanicall OS v0.1
+#
+# Single POSIX shell script.
+# Filesystem is God. cat/grep/sed/awk are your debugger.
+#
+# Core commands:
+#   aether init
+#   aether status
+#   aether distill
+#   aether watch          # entr-powered by default
+#   aether watch --poll 3
+#   aether repair
+#
+# See SPEC-v0.1.md
+
+set -e
+
+die() { printf 'aether: %s\n' "$*" >&2; exit 1; }
+
+abspath() {
+    case "$1" in
+        /*) printf '%s\n' "$1" ;;
+        *)  printf '%s\n' "$(cd "$(dirname "$1")" 2>/dev/null && pwd -P)/$(basename "$1")" ;;
+    esac
+}
+
+AETHER_SELF="$(abspath "$0")"
+AETHER_ROOT="$(cd "$(dirname "$AETHER_SELF")" 2>/dev/null && pwd -P)"
+
+project_root() {
+    if [ -n "$1" ]; then abspath "$1"; else pwd -P; fi
+}
+
+# Extract first non-flag argument as path (for subcommands)
+get_path_arg() {
+    for a in "$@"; do
+        case "$a" in
+            -*) continue ;;
+            *) printf '%s\n' "$a"; return 0 ;;
+        esac
+    done
+}
+
+ensure_dir() { mkdir -p "$1" 2>/dev/null || true; }
+
+# --- scope ------------------------------------------------------------
+
+scope_file() { printf '%s/.aether/.scope\n' "$(project_root "$1")"; }
+
+read_scope() {
+    sf="$(scope_file "$1")"
+    if [ -f "$sf" ]; then
+        while IFS= read -r line || [ -n "$line" ]; do
+            case "$line" in ''|\#*) continue ;; *) printf '%s\n' "$line" ;; esac
+        done < "$sf"
+    else
+        printf '.\n'
+    fi
+}
+
+scope_dirs() {
+    root="$(project_root "$1")"
+    read_scope "$1" | while IFS= read -r p; do
+        case "$p" in /*) printf '%s\n' "$p" ;; *) printf '%s/%s\n' "$root" "$p" ;; esac
+    done
+}
+
+collect_files() {
+    scope_dirs "$1" | while IFS= read -r d; do
+        [ -d "$d" ] || continue
+        find "$d" -type f \( -name '*.md' -o -name '*.py' -o -name '*.txt' -o -name '*.sh' \) 2>/dev/null \
+            | grep -v '/.git/' | grep -v '/.aether/' | sort
+    done | sort -u
+}
+
+file_count() { collect_files "$1" | wc -l | tr -d ' '; }
+tree_hash()  { collect_files "$1" | xargs cksum 2>/dev/null | cksum | awk '{print $1}'; }
+now_iso()    { date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date +%s; }
+
+# --- paths ------------------------------------------------------------
+
+ctx_file()   { printf '%s/.context.md\n'  "$(project_root "$1")"; }
+aether_dir() { printf '%s/.aether\n'    "$(project_root "$1")"; }
+state_file() { printf '%s/.aether/state.json\n' "$(project_root "$1")"; }
+hooks_dir()  { printf '%s/.aether/hooks\n' "$(project_root "$1")"; }
+
+ensure_aether_dirs() {
+    ensure_dir "$(aether_dir "$1")"
+    ensure_dir "$(hooks_dir "$1")"
+}
+
+# --- state ------------------------------------------------------------
+
+write_state() {
+    sf="$(state_file "$1")"
+    ensure_aether_dirs "$1"
+    {
+        printf '{\n  "last_distill": "%s",\n  "file_count": %s,\n  "tree_hash": "%s"\n}\n' "$2" "$3" "$4"
+    } > "$sf"
+}
+
+read_state_field() {
+    sf="$(state_file "$1")"
+    [ -f "$sf" ] || return 1
+    case "$2" in
+        last_distill) grep -o '"last_distill": *"[^"]*"' "$sf" | cut -d'"' -f4 ;;
+        file_count)   grep -o '"file_count": *[0-9]*' "$sf" | awk -F: '{print $2}' | tr -d ' ,' ;;
+        tree_hash)    grep -o '"tree_hash": *"[^"]*"' "$sf" | cut -d'"' -f4 ;;
+    esac
+}
+
+# --- embed machine state in markdown (no jq required) -----------------
+
+embed_state_comment() {
+    ctx="$(ctx_file "$1")"
+    block="<!--aether
+{\"last_distill\":\"$2\",\"file_count\":$3,\"tree_hash\":\"$4\"}
+-->"
+    if [ -f "$ctx" ]; then
+        tmp="$(mktemp 2>/dev/null || printf '/tmp/aether.%s' $$)"
+        # crude but effective: strip old block then insert new one early
+        awk -v b="$block" '
+            /<!--aether[[:space:]]*/, /-->/ { next }
+            { print }
+            NR==1 { print ""; print b; }
+        ' "$ctx" > "$tmp" && mv "$tmp" "$ctx" 2>/dev/null || printf '\n%s\n' "$block" >> "$ctx"
+    else
+        printf '# Context\n\n%s\n' "$block" > "$ctx"
+    fi
+}
+
+# --- distill (dumb shell version) -------------------------------------
+
+dumb_distill() {
+    root="$(project_root "$1")"
+    ctx="$(ctx_file "$root")"
+    cnt="$(file_count "$root")"
+    hsh="$(tree_hash "$root")"
+    ts="$(now_iso)"
+
+    {
+        printf '# Context — %s\n\n' "$(basename "$root")"
+        printf '**aether v0.1 (shell).** Edit this file. It is the source of truth.\n\n'
+        printf '## Root\n%s\n\n' "$root"
+        printf '## Files (scoped)\n%d\n\n' "$cnt"
+        printf '## Sample\n'
+        collect_files "$root" | head -25 | sed "s|^$root/||;s|^| - \`|;s|$|\`|"
+        printf '\n'
+        if [ -f "$root/README.md" ]; then
+            printf '## README (head)\n\n```\n'
+            head -c 1600 "$root/README.md" | head -35
+            printf '\n```\n\n'
+        fi
+        printf '## State\n- last: %s\n- hash: %s\n\n' "$ts" "$hsh"
+        printf '<!--aether\n{"last_distill":"%s","file_count":%s,"tree_hash":"%s"}\n-->\n' "$ts" "$cnt" "$hsh"
+    } > "$ctx"
+
+    write_state "$root" "$ts" "$cnt" "$hsh"
+    embed_state_comment "$root" "$ts" "$cnt" "$hsh"
+}
+
+# --- optional smart python distill ------------------------------------
+
+python_distill() {
+    root="$(project_root "$1")"
+    py="$AETHER_ROOT/python/aether_distill.py"
+    if command -v python3 >/dev/null 2>&1 && [ -f "$py" ]; then
+        python3 "$py" "$root" || dumb_distill "$root"
+    else
+        dumb_distill "$root"
+    fi
+}
+
+# --- hooks ------------------------------------------------------------
+
+run_hook() {
+    name="$1"; shift
+    root="$(project_root "$1")"
+    h="$(hooks_dir "$root")/$name"
+    [ -x "$h" ] && (cd "$root" && "$h") || true
+    [ -f "$h" ] && (cd "$root" && sh "$h") || true
+}
+
+# --- commands ---------------------------------------------------------
+
+cmd_init() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    ensure_aether_dirs "$root"
+
+    sf="$(scope_file "$root")"
+    [ -f "$sf" ] || printf '.\n' > "$sf"
+
+    hd="$(hooks_dir "$root")"
+    for hook in on-save on-distill; do
+        [ -f "$hd/$hook" ] && continue
+        {
+            printf '#!/bin/sh\n# %s hook\n' "$hook"
+            cat <<'HOOKBODY'
+# Resolve aether robustly:
+#   - $AETHER_BIN env
+#   - aether in $PATH
+#   - sibling "aether" script two directories up (common when aether lives at project root)
+if command -v aether >/dev/null 2>&1; then
+  AETHER_BIN="aether"
+elif [ -n "$AETHER_BIN" ] && [ -x "$AETHER_BIN" ]; then
+  :
+else
+  AETHER_BIN="$(cd "$(dirname "$0")/../.." && pwd)/aether"
+  [ -x "$AETHER_BIN" ] || AETHER_BIN="aether"
+fi
+
+echo "[aether] HOOKNAME in $(basename "$(pwd)")"
+# "$AETHER_BIN" distill --quiet || true
+HOOKBODY
+        } | sed "s/HOOKNAME/$hook/g" > "$hd/$hook"
+        chmod +x "$hd/$hook" 2>/dev/null || true
+    done
+
+    [ -f "$(ctx_file "$root")" ] || dumb_distill "$root"
+
+    printf 'initialized: %s\n' "$root"
+    printf '  .context.md + .aether/{state.json,hooks/,.scope}\n'
+}
+
+cmd_status() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    printf 'root: %s\n\n' "$root"
+
+    [ -f "$(ctx_file "$root")" ] && printf '.context.md: %s bytes\n' "$(wc -c < "$(ctx_file "$root")" | tr -d ' ')" || printf '.context.md: MISSING\n'
+
+    stf="$(state_file "$root")"
+    if [ -f "$stf" ]; then
+        printf '.aether/state.json:\n'
+        sed 's/^/  /' "$stf"
+    else
+        printf '.aether/state.json: (will be created on distill)\n'
+    fi
+
+    printf '\nscope (.aether/.scope):\n'
+    read_scope "$root" | sed 's/^/  /'
+
+    printf '\nhooks:\n'
+    ls "$(hooks_dir "$root")" 2>/dev/null | sed 's/^/  /' || echo '  (none)'
+}
+
+cmd_distill() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    quiet=0
+    for a in "$@"; do [ "$a" = "--quiet" ] && quiet=1; done
+
+    ensure_aether_dirs "$root"
+    cnt=$(file_count "$root")
+    hsh=$(tree_hash "$root")
+    ts=$(now_iso)
+
+    python_distill "$root"
+
+    write_state "$root" "$ts" "$cnt" "$hsh"
+    embed_state_comment "$root" "$ts" "$cnt" "$hsh"
+    run_hook on-distill "$root"
+
+    [ "$quiet" = 0 ] && printf 'distilled (%s files, hash %s)\n' "$cnt" "$hsh"
+}
+
+cmd_watch() {
+    # first argument may be the literal subcommand "watch"
+    if [ "$1" = "watch" ]; then shift; fi
+
+    poll=""
+    path_arg=""
+
+    # parse --poll and an optional path (path can be before or after flags)
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --poll)
+                poll="${2:-5}"
+                shift 2 || shift
+                ;;
+            -*)
+                shift
+                ;;
+            *)
+                # treat as path
+                if [ -z "$path_arg" ]; then
+                    path_arg="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    root="$(project_root "$path_arg")"
+
+    if [ -n "$poll" ]; then
+        printf 'watch (poll %ss). Ctrl-C stops.\n' "$poll"
+        while true; do
+            sleep "$poll"
+            cmd_distill "$root" --quiet
+            run_hook on-save "$root"
+        done
+        return
+    fi
+
+    if ! command -v entr > /dev/null 2>&1; then
+        cat >&2 <<'E'
+entr not found.
+
+Recommended (tiny static binary):
+  aether watch --poll 5
+
+Or install entr and rerun:
+  find ... | entr -r ...
+
+E
+        return 1
+    fi
+
+    printf 'watch (entr) — modify files to trigger. Ctrl-C to stop.\n\n'
+
+    cd "$root" || die "cd failed"
+    # Feed entr a live list of paths from scope
+    (
+        scope_dirs "$root" | while read -r d; do [ -d "$d" ] && printf '%s\n' "$d"; done | head -30 \
+        | xargs -I{} find {} -type f \( -name '*.md' -o -name '*.py' -o -name '*.txt' -o -name '*.sh' \) 2>/dev/null \
+        | grep -v '/.git/' | grep -v '/.aether/' | sort -u \
+        | entr -d -r sh -c '
+            echo "[aether] change"
+            "'"$AETHER_SELF"'" distill "'"$root"'" --quiet || true
+            if [ -f "'"$root"'/.aether/hooks/on-save" ]; then
+                (cd "'"$root"'" && sh "'"$root"'/.aether/hooks/on-save" || true)
+            fi
+        '
+    )
+}
+
+cmd_repair() {
+    printf 'repair + distill...\n'
+    cmd_distill "$@"
+}
+
+cmd_poke() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    touch "$(aether_dir "$root")/.poke" 2>/dev/null || true
+    run_hook on-save "$root"
+    printf 'poked\n'
+}
+
+usage() {
+cat <<'U'
+aether v0.1 (shell)
+
+  init [path]            bootstrap .aether/ + sidecars
+  status [path]          inspect current state
+  distill [path]         rebuild .context.md + state
+  watch [path] [--poll N]
+                         live updates (entr or polling)
+  repair [path]
+  poke [path]
+
+All truth is in the filesystem.
+U
+}
+
+main() {
+    cmd=${1:-status}
+    [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ] || [ "$cmd" = "help" ] && { usage; exit 0; }
+    shift || true
+    case "$cmd" in
+        init)    cmd_init "$@" ;;
+        status)  cmd_status "$@" ;;
+        distill) cmd_distill "$@" ;;
+        watch)   cmd_watch "$@" ;;
+        repair)  cmd_repair "$@" ;;
+        poke)    cmd_poke "$@" ;;
+        *)       cmd_status "$cmd" ;;
+    esac
+}
+
+main "$@"

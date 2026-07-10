@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[meta-agent] ICM active — folder structure as architecture, markdown as skills/contracts, Python as behaviours, single agent (Grok) as orchestrator. See .grok/skills/meta-agent/SKILL.md and AGENTS.md (arXiv:2603.16021).'"
+          }
+        ]
+      }
+    ]
+  }
+}

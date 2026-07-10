@@ -1,0 +1,17 @@
+#!/bin/sh
+# on-save hook
+# Resolve aether robustly:
+#   - $AETHER_BIN env
+#   - aether in $PATH
+#   - sibling "aether" script two directories up (common when aether lives at project root)
+if command -v aether >/dev/null 2>&1; then
+  AETHER_BIN="aether"
+elif [ -n "$AETHER_BIN" ] && [ -x "$AETHER_BIN" ]; then
+  :
+else
+  AETHER_BIN="$(cd "$(dirname "$0")/../.." && pwd)/aether"
+  [ -x "$AETHER_BIN" ] || AETHER_BIN="aether"
+fi
+
+echo "[aether] on-save in $(basename "$(pwd)")"
+# "$AETHER_BIN" distill --quiet || true
