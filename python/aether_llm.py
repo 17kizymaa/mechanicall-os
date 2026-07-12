@@ -2,16 +2,18 @@
 """Shared LLM plumbing for aether garden + rival editor.
 
 Priority:
-  1. XAI_API_KEY → https://api.x.ai/v1 (OpenAI-compatible chat)
-  2. Local Ollama → http://127.0.0.1:11434
-  3. None → callers handle
+  1. ANTHROPIC_API_KEY (or ~/.config/anthropic/api_key) → Anthropic Messages API
+  2. XAI_API_KEY → https://api.x.ai/v1 (OpenAI-compatible chat)
+  3. Local Ollama → http://127.0.0.1:11434
+  4. None → callers handle
 
-Doctrine: no hidden DBs; keys only from env; stdlib only.
+Doctrine: no hidden DBs; keys only from env/files; stdlib only.
 Env:
-  XAI_API_KEY, AETHER_MODEL (default grok-4.5)
-  AETHER_OLLAMA_HOST (default http://127.0.0.1:11434)
-  AETHER_OLLAMA_MODEL (default aetherOS-custom, then first tag)
+  ANTHROPIC_API_KEY, ANTHROPIC_MODEL / AETHER_MODEL (default claude-sonnet-5)
+  XAI_API_KEY, AETHER_MODEL (default grok-4.5 when xai)
+  AETHER_OLLAMA_HOST, AETHER_OLLAMA_MODEL
   AETHER_LLM_TIMEOUT (seconds, default 120)
+  AETHER_LLM_PROVIDER=anthropic|xai|ollama  # force
 """
 from __future__ import annotations
 
@@ -20,12 +22,27 @@ import os
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
+
+
+# User-requested model set (aliases → API IDs)
+MODEL_ALIASES = {
+    "haiku": "claude-haiku-4-5",
+    "haiku-4.5": "claude-haiku-4-5",
+    "claude-haiku": "claude-haiku-4-5",
+    "sonnet-4.6": "claude-sonnet-4-6",
+    "sonnet4.6": "claude-sonnet-4-6",
+    "claude-sonnet-4.6": "claude-sonnet-4-6",
+    "sonnet-5": "claude-sonnet-5",
+    "sonnet5": "claude-sonnet-5",
+    "sonnet": "claude-sonnet-5",
+}
 
 
 @dataclass
 class LLMBackend:
-    name: str  # xai | ollama
+    name: str  # anthropic | xai | ollama
     model: str
     base: str
 
@@ -37,19 +54,60 @@ def timeout() -> float:
         return 120.0
 
 
-def resolve_backend() -> Optional[LLMBackend]:
-    key = os.environ.get("XAI_API_KEY", "").strip()
+def _anthropic_key() -> str:
+    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if key:
+        return key
+    path = Path.home() / ".config" / "anthropic" / "api_key"
+    if path.is_file():
+        return path.read_text().strip()
+    return ""
+
+
+def _resolve_model(default: str) -> str:
+    raw = (
+        os.environ.get("AETHER_MODEL")
+        or os.environ.get("ANTHROPIC_MODEL")
+        or default
+    ).strip()
+    return MODEL_ALIASES.get(raw.lower(), raw)
+
+
+def resolve_backend() -> Optional[LLMBackend]:
+    force = os.environ.get("AETHER_LLM_PROVIDER", "").strip().lower()
+
+    def anthropic() -> Optional[LLMBackend]:
+        if not _anthropic_key():
+            return None
+        model = _resolve_model("claude-sonnet-5")
+        return LLMBackend("anthropic", model, "https://api.anthropic.com")
+
+    def xai() -> Optional[LLMBackend]:
+        if not os.environ.get("XAI_API_KEY", "").strip():
+            return None
         model = os.environ.get("AETHER_MODEL", "grok-4.5").strip() or "grok-4.5"
+        # if model is a claude alias while on xai, fall back
+        if model.startswith("claude") or model in MODEL_ALIASES:
+            model = "grok-4.5"
         return LLMBackend("xai", model, "https://api.x.ai/v1")
 
-    host = os.environ.get("AETHER_OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
-    model = os.environ.get("AETHER_OLLAMA_MODEL", "").strip()
-    if not model:
-        model = _ollama_pick_model(host) or "aetherOS-custom"
-    if _ollama_up(host):
-        return LLMBackend("ollama", model, host)
-    return None
+    def ollama() -> Optional[LLMBackend]:
+        host = os.environ.get("AETHER_OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
+        model = os.environ.get("AETHER_OLLAMA_MODEL", "").strip()
+        if not model:
+            model = _ollama_pick_model(host) or "aetherOS-custom"
+        if _ollama_up(host):
+            return LLMBackend("ollama", model, host)
+        return None
+
+    if force == "anthropic":
+        return anthropic()
+    if force == "xai":
+        return xai()
+    if force == "ollama":
+        return ollama()
+
+    return anthropic() or xai() or ollama()
 
 
 def _ollama_up(host: str) -> bool:
@@ -82,9 +140,11 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
     backend = resolve_backend()
     if not backend:
         raise RuntimeError(
-            "no LLM backend: set XAI_API_KEY (https://console.x.ai) "
-            "or start Ollama (ollama serve) with a chat model"
+            "no LLM backend: set ANTHROPIC_API_KEY (or import via "
+            "~/exports/import-anthropic-key.sh), XAI_API_KEY, or start Ollama"
         )
+    if backend.name == "anthropic":
+        return _anthropic_chat(backend, messages, temperature)
     if backend.name == "xai":
         return _openai_chat(backend, messages, temperature)
     return _ollama_chat(backend, messages, temperature)
@@ -93,8 +153,54 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
 def describe_backend() -> str:
     b = resolve_backend()
     if not b:
-        return "none (set XAI_API_KEY or start ollama)"
+        return "none (ANTHROPIC_API_KEY / XAI_API_KEY / ollama)"
     return f"{b.name}:{b.model}"
+
+
+def _anthropic_chat(backend: LLMBackend, messages: list[dict[str, str]], temperature: float) -> str:
+    key = _anthropic_key()
+    system = ""
+    chat_msgs = []
+    for m in messages:
+        role = m.get("role", "user")
+        content = m.get("content", "")
+        if role == "system":
+            system = (system + "\n" + content).strip() if system else content
+        else:
+            chat_msgs.append({"role": role if role in ("user", "assistant") else "user", "content": content})
+    if not chat_msgs:
+        chat_msgs = [{"role": "user", "content": "ping"}]
+    body_obj: dict = {
+        "model": backend.model,
+        "max_tokens": 2048,
+        "temperature": temperature,
+        "messages": chat_msgs,
+    }
+    if system:
+        body_obj["system"] = system
+    body = json.dumps(body_obj).encode()
+    req = urllib.request.Request(
+        f"{backend.base}/v1/messages",
+        data=body,
+        headers={
+            "x-api-key": key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout()) as resp:
+            data = json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        err = e.read().decode(errors="replace")[:400]
+        raise RuntimeError(f"Anthropic HTTP {e.code}: {err}") from e
+    parts = data.get("content") or []
+    texts = [p.get("text", "") for p in parts if p.get("type") == "text"]
+    out = "\n".join(t for t in texts if t).strip()
+    if not out:
+        raise RuntimeError(f"Anthropic empty response: {str(data)[:300]}")
+    return out
 
 
 def _openai_chat(backend: LLMBackend, messages: list[dict[str, str]], temperature: float) -> str:
