@@ -17,6 +17,9 @@ These principles define awareness-agent and Mechanicall OS v0. They are non-nego
   Small, observable files and scripts (e.g. `.context.md`, `.awareness.json`, `.memory/`) live at the OS/workspace level alongside normal project files.
   These sidecars carry active state and are managed by scripts. They are first-class citizens in the filesystem.
 
+- **Capture is sacred; structure is deferred**  
+  Getting a thought into the filesystem must cost zero decisions and under two seconds. Filing, naming, linking, and sorting happen later — proposed by the gardener (distill), approved by the human — never at the moment of entry. Any feature that adds a decision to the capture path violates this principle. (Locked 2026-07-12, RHIZOME design session — see `docs/RHIZOME.md`.)
+
 - **Extremely low overhead and high inspectability**  
   The system must be:
   - Lightweight (minimal CPU/RAM, no unnecessary daemons or deps).
@@ -31,4 +34,3 @@ These principles define awareness-agent and Mechanicall OS v0. They are non-nego
 - Leverage existing tools: git, editors, ripgrep, find, etc. work out of the box.
 
 Violations of these principles require explicit justification and broad agreement.
-trigger line

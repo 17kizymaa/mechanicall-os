@@ -12,6 +12,12 @@
 #   aether watch --poll 3
 #   aether repair
 #
+# Rhizome commands (see docs/RHIZOME.md):
+#   aether seed "thought"     # capture to global inbox — zero decisions
+#   aether spark              # random line from the spark deck
+#   aether session "note"     # append to ./.session.md state ledger
+#   aether graph [path]       # wiki-link network as Mermaid
+#
 # See SPEC-v0.1.md
 
 set -e
@@ -342,6 +348,70 @@ cmd_repair() {
     cmd_distill "$@"
 }
 
+# --- rhizome: capture / spark / session / graph -----------------------
+# Doctrine: capture is sacred; structure is deferred. Seed never asks a
+# question, never fails on missing dirs, never files anything.
+
+cmd_seed() {
+    inbox="${AETHER_INBOX:-$HOME/inbox.md}"
+    if [ $# -gt 0 ]; then
+        text="$*"
+    else
+        text="$(cat | tr '\n' ' ')"
+    fi
+    # trim
+    text="$(printf '%s' "$text" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+    [ -n "$text" ] || die 'empty seed'
+    if [ ! -f "$inbox" ]; then
+        printf '# Inbox — seeds land here\n\nNever file at entry. distill sorts; you approve.\n\n' > "$inbox"
+    fi
+    printf -- '- %s %s\n' "$(now_iso)" "$text" >> "$inbox"
+    printf 'seed planted → %s\n' "$inbox"
+}
+
+cmd_spark() {
+    deck="${AETHER_SPARKS:-$HOME/prompts.md}"
+    [ -f "$deck" ] || die "no spark deck at $deck (create it: one oblique line per line)"
+    lines="$(grep -v '^#' "$deck" | grep -v '^[[:space:]]*$' | sed 's/^[-*] *//')"
+    [ -n "$lines" ] || die "spark deck is empty: $deck"
+    if command -v shuf >/dev/null 2>&1; then
+        printf '%s\n' "$lines" | shuf -n1
+    else
+        printf '%s\n' "$lines" | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
+    fi
+}
+
+cmd_session() {
+    root="$(pwd -P)"
+    ledger="$root/.session.md"
+    if [ $# -eq 0 ]; then
+        [ -f "$ledger" ] && tail -20 "$ledger" || printf 'no session ledger here yet: aether session "listening: <track>"\n'
+        return 0
+    fi
+    if [ ! -f "$ledger" ]; then
+        printf '# Session ledger — %s\n\nInputs (what was playing) and outputs (what got made).\nThe middle stays unmanaged.\n\n' "$(basename "$root")" > "$ledger"
+    fi
+    printf -- '- %s %s\n' "$(now_iso)" "$*" >> "$ledger"
+    printf 'logged → %s\n' "$ledger"
+}
+
+graph_id() { printf '%s' "$1" | tr -c 'A-Za-z0-9' '_'; }
+
+cmd_graph() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    printf 'graph LR\n'
+    collect_files "$root" | grep '\.md$' | while IFS= read -r f; do
+        src="$(basename "$f" .md)"
+        grep -o '\[\[[^]]*\]\]' "$f" 2>/dev/null | sed 's/^\[\[//;s/\]\]$//' | sort -u \
+        | while IFS= read -r tgt; do
+            [ -n "$tgt" ] || continue
+            printf '  %s["%s"] --> %s["%s"]\n' \
+                "$(graph_id "$src")" "$src" "$(graph_id "$tgt")" "$tgt"
+        done
+    done
+}
+
 cmd_poke() {
     p=$(get_path_arg "$@")
     root="$(project_root "$p")"
@@ -362,6 +432,13 @@ aether v0.1 (shell)
   repair [path]
   poke [path]
 
+  seed "thought"         capture to global inbox ($AETHER_INBOX or ~/inbox.md)
+                         zero decisions at entry; also reads stdin
+  spark                  one random line from the spark deck
+                         ($AETHER_SPARKS or ~/prompts.md)
+  session ["note"]       append to ./.session.md state ledger (no arg: show tail)
+  graph [path]           wiki-link [[network]] across scoped .md as Mermaid
+
 All truth is in the filesystem.
 U
 }
@@ -377,6 +454,10 @@ main() {
         watch)   cmd_watch "$@" ;;
         repair)  cmd_repair "$@" ;;
         poke)    cmd_poke "$@" ;;
+        seed)    cmd_seed "$@" ;;
+        spark)   cmd_spark "$@" ;;
+        session) cmd_session "$@" ;;
+        graph)   cmd_graph "$@" ;;
         *)       cmd_status "$cmd" ;;
     esac
 }
