@@ -68,7 +68,25 @@ prefer_headset() {
     if [ -z "$sink" ]; then
         sink=$(pactl list short sinks 2>/dev/null | cut -f2 | grep -vi hdmi | head -n1)
     fi
-    [ -n "$sink" ] && pactl set-default-sink "$sink" 2>/dev/null || true
+    if [ -n "$sink" ]; then
+        pactl set-default-sink "$sink" 2>/dev/null || true
+        # PipeWire often ignores pactl default when HDMI is "available" and
+        # headphones jack is not — force via wpctl node id when present.
+        if command -v wpctl >/dev/null 2>&1; then
+            nid=$(wpctl status 2>/dev/null | awk -v n="$sink" '
+                /Sinks:/ {s=1; next}
+                /Sources:/ {s=0}
+                s && $0 ~ /Analog Stereo/ && $0 !~ /HDMI/ {
+                    if (match($0, /[0-9]+/)) { print substr($0, RSTART, RLENGTH); exit }
+                }
+            ')
+            # fallback: numeric id next to analog description
+            if [ -z "$nid" ]; then
+                nid=$(wpctl status 2>/dev/null | sed -n 's/.*[^0-9]\([0-9]\+\)\..*Analog Stereo.*/\1/p' | head -1)
+            fi
+            [ -n "$nid" ] && wpctl set-default "$nid" 2>/dev/null || true
+        fi
+    fi
 
     # Source: analog mic (never monitor)
     src=$(pactl list short sources 2>/dev/null | cut -f2 | grep -i analog | grep -vi monitor | head -n1)
@@ -77,6 +95,16 @@ prefer_headset() {
     fi
     [ -n "$src" ] && pactl set-default-source "$src" 2>/dev/null || true
     [ -n "$src" ] && pactl set-source-mute "$src" 0 2>/dev/null || true
+    if command -v wpctl >/dev/null 2>&1; then
+        sid=$(wpctl status 2>/dev/null | awk '
+            /Sources:/ {s=1; next}
+            /Filters:/ {s=0}
+            s && /Analog Stereo/ && $0 !~ /monitor/ {
+                if (match($0, /[0-9]+/)) { print substr($0, RSTART, RLENGTH); exit }
+            }
+        ')
+        [ -n "$sid" ] && wpctl set-default "$sid" 2>/dev/null || true
+    fi
 
     printf 'prefer: sink=%s source=%s (plug headset jack if silent)\n' \
         "$(pactl get-default-sink 2>/dev/null)" \
