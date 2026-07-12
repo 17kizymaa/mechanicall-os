@@ -353,6 +353,10 @@ cmd_repair() {
 # question, never fails on missing dirs, never files anything.
 
 cmd_seed() {
+    # help flags must never land in the inbox
+    case "${1:-}" in
+        -h|--help|help) usage; return 0 ;;
+    esac
     inbox="${AETHER_INBOX:-$HOME/inbox.md}"
     if [ $# -gt 0 ]; then
         text="$*"
@@ -372,7 +376,13 @@ cmd_seed() {
 cmd_spark() {
     deck="${AETHER_SPARKS:-$HOME/prompts.md}"
     [ -f "$deck" ] || die "no spark deck at $deck (create it: one oblique line per line)"
-    lines="$(grep -v '^#' "$deck" | grep -v '^[[:space:]]*$' | sed 's/^[-*] *//')"
+    # Prefer bullet lines (- / *); else non-# non-empty lines. Never deal prose headers.
+    bullets="$(grep -E '^[[:space:]]*[-*][[:space:]]+' "$deck" 2>/dev/null | sed 's/^[[:space:]]*[-*][[:space:]]*//')"
+    if [ -n "$bullets" ]; then
+        lines="$bullets"
+    else
+        lines="$(grep -v '^#' "$deck" | grep -v '^[[:space:]]*$')"
+    fi
     [ -n "$lines" ] || die "spark deck is empty: $deck"
     if command -v shuf >/dev/null 2>&1; then
         printf '%s\n' "$lines" | shuf -n1
@@ -446,7 +456,7 @@ U
 main() {
     cmd=${1:-status}
     [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ] || [ "$cmd" = "help" ] && { usage; exit 0; }
-    shift || true
+    [ "$#" -gt 0 ] && shift
     case "$cmd" in
         init)    cmd_init "$@" ;;
         status)  cmd_status "$@" ;;
