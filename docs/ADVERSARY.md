@@ -1,6 +1,6 @@
 # ADVERSARY — the Rival Editor
 
-**Status:** v0 spec + prompt shipped 2026-07-12 · v1 spec'd · v2 **PARKED per income gate** · companion to [[RHIZOME]] and [[STATE-LEDGER]].
+**Status:** v0 **CLI shipped** 2026-07-12 (`aether rival`) · v1 spec'd · v2 **PARKED per income gate** · companion to [[RHIZOME]] and [[STATE-LEDGER]].
 
 ## What it is
 
@@ -8,14 +8,22 @@ Every other agent in this system lives backstage — scout, drafter, gardener op
 
 Deep function: a strong signature calcifies into ruts precisely because nothing pushes back. The adversary is the unit of chaos, institutionalised. Not an enemy — an **anti-convergence engine**. Its one law: never converge.
 
-## v0 — turn-based adversary (buildable in one evening, pennies per session)
+## v0 — turn-based adversary ✅ shipped
 
 Feed it the track (title, structure, narration from the listening experiment) plus the author's visual read. It must return the interpretation the author would *not* make: timestamped visual calls, a counter-treatment.
 
-- System prompt: `skills/rival-editor/PROMPT.md` (verbatim from the design session — do not soften it).
-- Runs on the author's own API key. No subscription dependency.
-- Session transcripts append to the project's `.session.md` ([[STATE-LEDGER]]), so the conditioning ledger and the sparring log are the same file.
-- Shares API-key plumbing with the RHIZOME gardener (layer 6) — build them together.
+```
+cd ~/reel
+aether rival --track "JRJRJR" --structure "cold/hook/breath/peak/out" \
+  --read "VHS grain, dark cold open on downbeat"
+# optional: --narration "…"  |  --no-log
+```
+
+- System prompt: `skills/rival-editor/PROMPT.md` (verbatim — do not soften).
+- CLI: `aether rival` → `python/aether_rival.py`.
+- Backend: `XAI_API_KEY` (SpaceXAI / api.x.ai) preferred; else Ollama (`AETHER_OLLAMA_MODEL`).
+- Session transcripts append to the project's `.session.md` ([[STATE-LEDGER]]).
+- Shares API-key plumbing with the RHIZOME gardener (`python/aether_llm.py`).
 
 ## v1 — session watcher
 

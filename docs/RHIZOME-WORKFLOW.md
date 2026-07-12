@@ -14,6 +14,8 @@
 | Start a creative session | Log what *conditioned* you | `cd ~/reel` → `aether session "listening: …"` |
 | After a cut / pass | Log what you *made* | `aether session "made: …"` |
 | Later / coffee | Browse seeds only — **do not file yet** | open `~/inbox.md` |
+| Morning sort | Propose then approve | `aether garden` → check `[x]` → `aether garden apply` |
+| At the desk | Counter-treatment | `aether rival --track "…" --read "…"` |
 | Want the map | Wiki-link network as Mermaid | `aether graph` |
 
 **Golden rule:** never decide *where* a thought goes at capture time. Filing is deferred (gardener, not you-at-the-desk).
@@ -41,7 +43,7 @@
 3. **voice** — ⏭ after 1–2 prove out in daily use (whisper.cpp, not installed)
 4. **graph** — ✅ ship. `[[wiki-links]]` → Mermaid, no DB
 5. **spark** — ✅ ship. random line from `~/prompts.md`
-6. **garden** — 📋 spec only. Nightly cluster → `~/inbox-proposals.md` yes/no. Needs LLM key (same plumbing as Rival Editor)
+6. **garden** — ✅ ship. `aether garden` → `~/inbox-proposals.md` → apply `[x]` only. LLM: `XAI_API_KEY` or Ollama.
 
 ---
 
@@ -54,8 +56,8 @@ Creativity here is **conditioning**, not retrieval. Log the river’s banks:
 Middle stays unmanaged. OS = banks, not river.
 
 ### Rival Editor (adversary)
-- **v0** — turn-based sparring; prompt in `skills/rival-editor/PROMPT.md`; API key; logs to `.session.md`
-- **v1** — export-folder watcher → one-line challenge
+- **v0** — ✅ `aether rival --track T --read "…"`; prompt verbatim; logs to `.session.md`
+- **v1** — export-folder watcher → one-line challenge (not built)
 - **v2 live mix** — **PARKED** (income gate). Future: stream identity merge note preserved
 
 ### Gates (unchanged)

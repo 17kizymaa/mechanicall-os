@@ -1,6 +1,6 @@
 # RHIZOME — the capture layer
 
-**Status:** design locked 2026-07-12 (Day 3) · layers 1, 2, 4, 5 shipped same day · provenance: design session with CC; this file is the repo-side record of that session. If the original chat draft of RHIZOME.md surfaces, diff it against this and merge.
+**Status:** design locked 2026-07-12 (Day 3) · layers 1, 2, 4, 5 shipped same day · layer 6 gardener + shared LLM plumbing shipped 2026-07-12 (evening) · layer 3 voice still gated · provenance: design session with CC.
 
 ## The one locked principle this adds
 
@@ -42,10 +42,18 @@ aether graph > graph.mmd     # or pipe into anything that renders Mermaid
 ### Layer 5 — spark deck (`prompts.md`) ✅ shipped
 One oblique line per line in `~/prompts.md` (`$AETHER_SPARKS`). `aether spark` deals one at random. Costs nothing; started 2026-07-12 with "cut to the part of the song that doesn't have lyrics" — the best sentence the old proposal ever produced.
 
-### Layer 6 — distill as gardener 📋 spec
-The crucial other half of the bargain. Nightly (or on demand), distill clusters the day's seeds from the inbox and **proposes** destinations — project, note file, spark deck, trash. Morning review is a two-minute yes/no pass over the proposals; nothing moves without approval. You never file a thought again; you only approve the sorting with coffee.
+### Layer 6 — distill as gardener ✅ shipped
+The crucial other half of the bargain. Nightly (or on demand), clusters seeds from the inbox and **proposes** destinations — project, note file, spark deck, trash, or hold. Morning review is a two-minute yes/no pass; nothing moves without approval.
 
-Implementation sketch: `aether garden` reads `~/inbox.md` entries since last run, clusters (LLM call — this is the one place a model enters the loop), writes `~/inbox-proposals.md` with one `- [ ] seed → destination` line per seed. Approval = check the box; a follow-up pass moves approved seeds and appends `[[links]]`. Rejected proposals stay in the inbox. All plain files, all diffable.
+```
+aether garden              # propose → ~/inbox-proposals.md
+# edit [ ] → [x] on lines you accept
+aether garden apply        # move only checked; rest stay in inbox
+aether garden status
+```
+
+Destinations: `spark` · `trash` · `hold` · `note:/path.md` · `project:/dir`.  
+LLM: shared plumbing (`python/aether_llm.py`) — `XAI_API_KEY` (api.x.ai) preferred, else local Ollama; heuristic fallback if neither. All plain files, all diffable.
 
 ## Build order (locked in the design session)
 
@@ -53,7 +61,7 @@ Implementation sketch: `aether garden` reads `~/inbox.md` entries since last run
 2. Layer 5 spark deck — free. ✅ done
 3. Layer 4 graph — cheap, doctrine-pure. ✅ done
 4. Layer 3 voice — only after 1–2 are proven in daily use.
-5. Layer 6 gardener — spec'd above; needs an LLM hook, so it lands with the API-key plumbing that [[ADVERSARY]] v0 also needs.
+5. Layer 6 gardener — ✅ shipped with [[ADVERSARY]] v0 shared LLM hook (`aether garden` + `aether rival`).
 
 ## Companion documents
 

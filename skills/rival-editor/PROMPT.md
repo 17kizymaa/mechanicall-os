@@ -15,12 +15,13 @@ One treatment per turn, under 200 words. No hedging.
 
 ## Usage (v0, turn-based)
 
+```
+aether rival --track "JRJRJR" --read "your visual read"
+aether rival -t "JRJRJR" -s "cold/hook/breath" -r "VHS grain cold open"
+```
+
 1. Input per turn: track title + structure (and listening-experiment narration if it exists) + your one-line visual read.
 2. Output per turn: one counter-treatment, timestamped visual calls, under 200 words.
-3. Append both sides of every turn to the project's `.session.md`:
+3. Both sides append to the project's `.session.md` automatically (`rival-in:` / `rival:`).
 
-```
-aether session "rival: <its counter-treatment, condensed>"
-```
-
-Runs on your own API key — any capable chat model. One law: never converge.
+Backend: `XAI_API_KEY` or local Ollama. One law: never converge.

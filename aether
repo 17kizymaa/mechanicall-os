@@ -17,6 +17,8 @@
 #   aether spark              # random line from the spark deck
 #   aether session "note"     # append to ./.session.md state ledger
 #   aether graph [path]       # wiki-link network as Mermaid
+#   aether garden [apply|status]  # propose/apply seed filing (LLM)
+#   aether rival --track T --read "…"  # Rival Editor v0
 #
 # See SPEC-v0.1.md
 
@@ -33,6 +35,14 @@ abspath() {
 
 AETHER_SELF="$(abspath "$0")"
 AETHER_ROOT="$(cd "$(dirname "$AETHER_SELF")" 2>/dev/null && pwd -P)"
+# Prefer source tree (python/, docs/) over a bare copy in ~/.local/bin
+if [ ! -d "$AETHER_ROOT/python" ] && [ ! -d "$AETHER_ROOT/docs" ]; then
+    if [ -n "${AETHER_HOME:-}" ] && [ -d "$AETHER_HOME" ]; then
+        AETHER_ROOT="$AETHER_HOME"
+    elif [ -d "$HOME/mechanicall-os/python" ] || [ -f "$HOME/mechanicall-os/aether" ]; then
+        AETHER_ROOT="$HOME/mechanicall-os"
+    fi
+fi
 
 project_root() {
     if [ -n "$1" ]; then abspath "$1"; else pwd -P; fi
@@ -82,7 +92,14 @@ collect_files() {
 
 file_count() { collect_files "$1" | wc -l | tr -d ' '; }
 tree_hash()  { collect_files "$1" | xargs cksum 2>/dev/null | cksum | awk '{print $1}'; }
-now_iso()    { date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date +%s; }
+# Prefer sub-second stamps so rapid seeds stay unique for the gardener.
+now_iso() {
+    if date -u +%Y-%m-%dT%H:%M:%S.%3NZ 2>/dev/null | grep -q '\.[0-9]'; then
+        date -u +%Y-%m-%dT%H:%M:%S.%3NZ
+    else
+        date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date +%s
+    fi
+}
 
 # --- paths ------------------------------------------------------------
 
@@ -430,6 +447,18 @@ cmd_poke() {
     printf 'poked\n'
 }
 
+cmd_garden() {
+    py="$AETHER_ROOT/python/aether_garden.py"
+    [ -f "$py" ] || die "garden missing: $py (is AETHER_HOME set?)"
+    exec python3 "$py" "$@"
+}
+
+cmd_rival() {
+    py="$AETHER_ROOT/python/aether_rival.py"
+    [ -f "$py" ] || die "rival missing: $py (is AETHER_HOME set?)"
+    exec python3 "$py" "$@"
+}
+
 usage() {
 cat <<'U'
 aether v0.1 (shell)
@@ -448,6 +477,11 @@ aether v0.1 (shell)
                          ($AETHER_SPARKS or ~/prompts.md)
   session ["note"]       append to ./.session.md state ledger (no arg: show tail)
   graph [path]           wiki-link [[network]] across scoped .md as Mermaid
+  garden [apply|status]  propose seed destinations (LLM); apply only [x]
+  rival --track T --read "…"
+                         Rival Editor v0 (logs to ./.session.md)
+
+LLM: XAI_API_KEY (api.x.ai) or local Ollama. See docs/RHIZOME.md + ADVERSARY.md.
 
 All truth is in the filesystem.
 U
@@ -468,6 +502,8 @@ main() {
         spark)   cmd_spark "$@" ;;
         session) cmd_session "$@" ;;
         graph)   cmd_graph "$@" ;;
+        garden)  cmd_garden "$@" ;;
+        rival)   cmd_rival "$@" ;;
         *)       cmd_status "$cmd" ;;
     esac
 }
