@@ -61,27 +61,19 @@ prefer_headset() {
             pactl set-card-profile "$card" "output:iec958-stereo+input:analog-stereo" 2>/dev/null || true
         fi
     done
-    sleep 0.3
+    sleep 0.4
 
-    # Sink: never HDMI for voice capture sessions
-    sink=$(pactl list short sinks 2>/dev/null | awk '
-        tolower($2) ~ /analog/ && tolower($2) !~ /hdmi/ {print $2; exit}
-    ')
+    # Sink: never HDMI — tab field 2 is name in `pactl list short`
+    sink=$(pactl list short sinks 2>/dev/null | cut -f2 | grep -i analog | grep -vi hdmi | head -n1)
     if [ -z "$sink" ]; then
-        sink=$(pactl list short sinks 2>/dev/null | awk '
-            tolower($2) !~ /hdmi/ {print $2; exit}
-        ')
+        sink=$(pactl list short sinks 2>/dev/null | cut -f2 | grep -vi hdmi | head -n1)
     fi
     [ -n "$sink" ] && pactl set-default-sink "$sink" 2>/dev/null || true
 
-    # Source: analog mic / headset (never *.monitor)
-    src=$(pactl list short sources 2>/dev/null | awk '
-        tolower($2) ~ /analog/ && tolower($2) !~ /monitor/ {print $2; exit}
-    ')
+    # Source: analog mic (never monitor)
+    src=$(pactl list short sources 2>/dev/null | cut -f2 | grep -i analog | grep -vi monitor | head -n1)
     if [ -z "$src" ]; then
-        src=$(pactl list short sources 2>/dev/null | awk '
-            tolower($2) !~ /monitor|hdmi/ {print $2; exit}
-        ')
+        src=$(pactl list short sources 2>/dev/null | cut -f2 | grep -vi monitor | grep -vi hdmi | head -n1)
     fi
     [ -n "$src" ] && pactl set-default-source "$src" 2>/dev/null || true
     [ -n "$src" ] && pactl set-source-mute "$src" 0 2>/dev/null || true
