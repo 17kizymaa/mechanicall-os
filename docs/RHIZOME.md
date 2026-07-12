@@ -29,8 +29,8 @@ echo "some thought" | aether seed
 ### Layer 2 — global hotkey ✅ shipped
 `scripts/seed-hotkey.sh` pops an input line over whatever you're doing and pipes it to `aether seed`. Thought → file in under two seconds. Prefers rofi/dmenu/zenity if installed; falls back to a small floating xfce4-terminal prompt (works with zero new deps). Bind it to a key in XFCE settings (see script header).
 
-### Layer 3 — voice capture (whisper.cpp) ⏭ next, only after 1–2 prove out
-Speaking is 3–4× faster than typing. Local whisper.cpp, hotkey-started recording, transcript piped straight to `aether seed`. Deliberately **not** built yet — build order below.
+### Layer 3 — voice capture ✅ shipped (mic gate accepted 2026-07-12)
+Speaking is 3–4× faster than typing. `scripts/seed-voice.sh` records N seconds (default 8), transcribes, pipes to `aether seed`. Bound **Super+V**. Prefers whisper.cpp when a model is present; falls back to `whisper` CLI (openai-whisper on this host). Mic: ALSA/`arecord` or ffmpeg pulse.
 
 ### Layer 4 — wiki-links + `aether graph` ✅ shipped
 `[[wiki-links]]` in any scoped markdown are the rhizome's connective tissue: greppable, git-diffable, no database. `aether graph` renders the link network as Mermaid to stdout:
@@ -60,7 +60,7 @@ LLM: shared plumbing (`python/aether_llm.py`) — `XAI_API_KEY` (api.x.ai) prefe
 1. Layers 1 + 2 — a single evening each; kill ~80 % of the friction on their own. **Ship before touching voice.** ✅ done
 2. Layer 5 spark deck — free. ✅ done
 3. Layer 4 graph — cheap, doctrine-pure. ✅ done
-4. Layer 3 voice — only after 1–2 are proven in daily use.
+4. Layer 3 voice — ✅ Super+V + `scripts/seed-voice.sh` (mic gate accepted).
 5. Layer 6 gardener — ✅ shipped with [[ADVERSARY]] v0 shared LLM hook (`aether garden` + `aether rival`).
 
 ## Companion documents

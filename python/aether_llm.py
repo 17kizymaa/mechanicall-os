@@ -173,9 +173,11 @@ def _anthropic_chat(backend: LLMBackend, messages: list[dict[str, str]], tempera
     body_obj: dict = {
         "model": backend.model,
         "max_tokens": 2048,
-        "temperature": temperature,
         "messages": chat_msgs,
     }
+    # Newer Claude models (Sonnet 5+) reject temperature; omit for all Anthropic.
+    # (temperature param kept in signature for xai/ollama callers.)
+    _ = temperature
     if system:
         body_obj["system"] = system
     body = json.dumps(body_obj).encode()
