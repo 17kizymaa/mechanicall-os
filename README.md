@@ -13,43 +13,55 @@ See [CORE_PRINCIPLES.md](./CORE_PRINCIPLES.md) for the non-negotiable rules:
 - Active, observable context sidecars
 - Extremely low overhead + maximum inspectability
 
-## Quick Start
+## Quick Start (canonical: POSIX `aether` shell CLI)
+
+Contract: **[SPEC-v0.1.md](./SPEC-v0.1.md)**. Implementation: repo-root `./aether` (also `bin/aether`).
 
 ```bash
+# Optional: install on PATH
+ln -sf "$(pwd)/aether" ~/.local/bin/aether
+
 # 1. Bootstrap sidecars in a project folder
 cd /path/to/your/project
-python3 /home/awareness-agent/aether/cli.py init
+aether init
 
 # 2. See what's there
-ls -a
-cat .context.md
-cat .awareness.json
+aether status
+cat .context.md          # human notes ABOVE generated markers survive distill
+cat .aether/state.json   # cache (gitignored)
 
-# 3. Manually refresh awareness
-python3 /home/awareness-agent/aether/cli.py update
+# 3. Manually refresh generated inventory (does not wipe human notes)
+aether distill
+aether distill --no-hooks   # skip project hooks
 
-# 4. Start watching (daemon-like)
-python3 /home/awareness-agent/aether/cli.py watch
+# 4. Allow hooks for this project (required after clone; init trusts by default)
+aether trust
+
+# 5. Watch (foreground; change-driven poll or entr)
+aether watch --poll 5
+# aether watch   # needs entr
 ```
 
-Later a proper `aether` executable will be provided via shell integration (see `scripts/`).
+**Trust:** hooks under `.aether/hooks/` run only for trusted projects (`aether trust`) unless disabled with `--no-hooks`. Do not run `aether distill` in untrusted checkouts without reading hooks.
 
 ## Architecture
 
-Three clean layers — see [ARCHITECTURE.md](./ARCHITECTURE.md):
+Three layers — see [ARCHITECTURE.md](./ARCHITECTURE.md) and SPEC-v0.1 (shell + `.aether/state.json` is current; legacy Python/` .awareness.json` paths are historical):
 
-1. **Filesystem Substrate** — normal folders + tiny sidecars (`.context.md`, `.awareness.json`, `.memory/`)
-2. **Awareness Layer** — `aether` Python watcher + CLI that observes, distills, updates
-3. **Interface Layer** — plain Markdown and Python scripts (edit files, run commands)
+1. **Filesystem Substrate** — normal folders + sidecars (`.context.md`, `.aether/`)
+2. **Awareness Layer** — `aether` shell CLI (optional Python for garden/rival)
+3. **Interface Layer** — plain Markdown and scripts
 
-## Sidecar Conventions (v0)
+## Sidecar Conventions (v0.1)
 
 | File / Dir           | Purpose                              | Format     | Managed by      |
 |----------------------|--------------------------------------|------------|-----------------|
-| `.context.md`        | Human + agent readable project understanding | Markdown   | aether distill  |
-| `.awareness.json`    | Freshness, stats, lightweight facts  | JSON       | aether          |
-| `.memory/`           | Small recall fragments, notes        | .md files  | user + scripts  |
-| `.aether/`           | Internal but still plain-text cache / logs (optional) | various | aether (minimal) |
+| `.context.md`        | Human notes + generated inventory between markers | Markdown | human + distill |
+| `.aether/state.json` | Freshness cache (safe to delete)     | JSON       | aether          |
+| `.aether/trusted`    | Local approval for hooks             | text       | `aether trust`  |
+| `.aether/hooks/`     | on-save / on-distill scripts         | shell      | project         |
+| `.aether/.scope`     | Paths to inventory                   | text lines | human           |
+| `.memory/`           | Optional recall fragments            | .md files  | user + scripts  |
 
 Everything is deliberately small and directly usable.
 

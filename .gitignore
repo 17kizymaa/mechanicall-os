@@ -1,3 +1,21 @@
+# Local / generated (SPEC-v0.1: state.json is cache)
+.aether/state.json
+.aether/trusted
+.aether/.tmp.*
+.aether/.poke
+.session.md
 
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+*~
+*.swp
+
+# Local inbox/sparks if stored in-tree by mistake
+/inbox.md

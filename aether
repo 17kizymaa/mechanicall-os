@@ -116,11 +116,29 @@ ensure_aether_dirs() {
 # --- state ------------------------------------------------------------
 
 write_state() {
-    sf="$(state_file "$1")"
-    ensure_aether_dirs "$1"
+    root="$(project_root "$1")"
+    sf="$(state_file "$root")"
+    ensure_aether_dirs "$root"
+    tmp="$(aether_tmpfile "$root" state)"
     {
         printf '{\n  "last_distill": "%s",\n  "file_count": %s,\n  "tree_hash": "%s"\n}\n' "$2" "$3" "$4"
-    } > "$sf"
+    } > "$tmp" || die "write_state: temp write failed"
+    mv -f "$tmp" "$sf"
+}
+
+# Secure temp under .aether/ (not predictable /tmp/aether.$$)
+aether_tmpfile() {
+    root="$(project_root "$1")"
+    ensure_aether_dirs "$root"
+    ad="$(aether_dir "$root")"
+    # mktemp preferred; fallback under .aether with umask
+    if tmp="$(mktemp "$ad/.tmp.XXXXXX" 2>/dev/null)"; then
+        printf '%s\n' "$tmp"
+        return 0
+    fi
+    tmp="$ad/.tmp.$$.$2.$$"
+    ( umask 077; : > "$tmp" ) || die "cannot create temp file in $ad"
+    printf '%s\n' "$tmp"
 }
 
 read_state_field() {
@@ -133,24 +151,50 @@ read_state_field() {
     esac
 }
 
-# --- embed machine state in markdown (no jq required) -----------------
+# --- human vs generated context ---------------------------------------
+# Human prose lives outside markers and survives distill.
+# Generated inventory lives strictly between markers.
 
-embed_state_comment() {
-    ctx="$(ctx_file "$1")"
-    block="<!--aether
-{\"last_distill\":\"$2\",\"file_count\":$3,\"tree_hash\":\"$4\"}
--->"
-    if [ -f "$ctx" ]; then
-        tmp="$(mktemp 2>/dev/null || printf '/tmp/aether.%s' $$)"
-        # crude but effective: strip old block then insert new one early
-        awk -v b="$block" '
+GEN_START='<!-- aether:generated:start -->'
+GEN_END='<!-- aether:generated:end -->'
+
+extract_human_context() {
+    ctx="$1"
+    [ -f "$ctx" ] || return 0
+    if grep -q 'aether:generated:start' "$ctx" 2>/dev/null; then
+        awk '
+            /<!-- aether:generated:start -->/ { skip=1; next }
+            /<!-- aether:generated:end -->/   { skip=0; next }
+            !skip { print }
+        ' "$ctx"
+    else
+        # Legacy full-file regenerate: keep body minus old <!--aether ... --> machine block
+        awk '
             /<!--aether[[:space:]]*/, /-->/ { next }
             { print }
-            NR==1 { print ""; print b; }
-        ' "$ctx" > "$tmp" && mv "$tmp" "$ctx" 2>/dev/null || printf '\n%s\n' "$block" >> "$ctx"
-    else
-        printf '# Context\n\n%s\n' "$block" > "$ctx"
+        ' "$ctx"
     fi
+}
+
+build_generated_body() {
+    root="$1"
+    cnt="$2"
+    hsh="$3"
+    ts="$4"
+    printf '%s\n' "$GEN_START"
+    printf '## Root\n%s\n\n' "$root"
+    printf '## Files (scoped)\n%d\n\n' "$cnt"
+    printf '## Sample\n'
+    collect_files "$root" | head -25 | sed "s|^$root/||;s|^| - \`|;s|$|\`|"
+    printf '\n'
+    if [ -f "$root/README.md" ]; then
+        printf '## README (head)\n\n```\n'
+        head -c 1600 "$root/README.md" | head -35
+        printf '\n```\n\n'
+    fi
+    printf '## State\n- last: %s\n- hash: %s\n\n' "$ts" "$hsh"
+    printf '<!--aether\n{"last_distill":"%s","file_count":%s,"tree_hash":"%s"}\n-->\n' "$ts" "$cnt" "$hsh"
+    printf '%s\n' "$GEN_END"
 }
 
 # --- distill (dumb shell version) -------------------------------------
@@ -161,26 +205,21 @@ dumb_distill() {
     cnt="$(file_count "$root")"
     hsh="$(tree_hash "$root")"
     ts="$(now_iso)"
+    tmp="$(aether_tmpfile "$root" ctx)"
 
     {
-        printf '# Context — %s\n\n' "$(basename "$root")"
-        printf '**aether v0.1 (shell).** Edit this file. It is the source of truth.\n\n'
-        printf '## Root\n%s\n\n' "$root"
-        printf '## Files (scoped)\n%d\n\n' "$cnt"
-        printf '## Sample\n'
-        collect_files "$root" | head -25 | sed "s|^$root/||;s|^| - \`|;s|$|\`|"
-        printf '\n'
-        if [ -f "$root/README.md" ]; then
-            printf '## README (head)\n\n```\n'
-            head -c 1600 "$root/README.md" | head -35
-            printf '\n```\n\n'
+        human="$(extract_human_context "$ctx" 2>/dev/null || true)"
+        if [ -n "$human" ]; then
+            printf '%s\n\n' "$human"
+        else
+            printf '# Context — %s\n\n' "$(basename "$root")"
+            printf 'Human notes go **above** the generated markers. They survive `aether distill`.\n\n'
         fi
-        printf '## State\n- last: %s\n- hash: %s\n\n' "$ts" "$hsh"
-        printf '<!--aether\n{"last_distill":"%s","file_count":%s,"tree_hash":"%s"}\n-->\n' "$ts" "$cnt" "$hsh"
-    } > "$ctx"
+        build_generated_body "$root" "$cnt" "$hsh" "$ts"
+    } > "$tmp" || die "dumb_distill: temp write failed"
 
+    mv -f "$tmp" "$ctx"
     write_state "$root" "$ts" "$cnt" "$hsh"
-    embed_state_comment "$root" "$ts" "$cnt" "$hsh"
 }
 
 # --- optional smart python distill ------------------------------------
@@ -195,16 +234,42 @@ python_distill() {
     fi
 }
 
-# --- hooks ------------------------------------------------------------
+# --- hooks + trust ----------------------------------------------------
+
+trusted_file() { printf '%s/.aether/trusted\n' "$(project_root "$1")"; }
+
+hooks_enabled() {
+    root="$(project_root "$1")"
+    [ "${AETHER_NO_HOOKS:-0}" = "1" ] && return 1
+    [ -f "$(trusted_file "$root")" ]
+}
 
 run_hook() {
     name="$1"; shift
     root="$(project_root "$1")"
     h="$(hooks_dir "$root")/$name"
-    [ -x "$h" ] && (cd "$root" && "$h") || true
-    [ -f "$h" ] && (cd "$root" && sh "$h") || true
+
+    if [ "${AETHER_NO_HOOKS:-0}" = "1" ]; then
+        return 0
+    fi
+    if [ ! -f "$h" ] && [ ! -x "$h" ]; then
+        return 0
+    fi
+    if ! hooks_enabled "$root"; then
+        printf 'aether: hooks skipped (project untrusted). Run: aether trust [%s]\n' "$root" >&2
+        printf 'aether: or pass --no-hooks to silence this for this run.\n' >&2
+        return 0
+    fi
+
+    # Mutually exclusive: executable OR sh - never both (review finding #2)
+    if [ -x "$h" ]; then
+        (cd "$root" && "$h") || printf 'aether: hook %s failed (exit %s)\n' "$name" "$?" >&2
+    elif [ -f "$h" ]; then
+        (cd "$root" && sh "$h") || printf 'aether: hook %s failed (exit %s)\n' "$name" "$?" >&2
+    fi
 }
 
+# --- commands ---------------------------------------------------------
 # --- commands ---------------------------------------------------------
 
 cmd_init() {
@@ -241,10 +306,13 @@ HOOKBODY
         chmod +x "$hd/$hook" 2>/dev/null || true
     done
 
+    # Init implies local trust for hooks this project created
+    printf 'trusted %s\n' "$(now_iso)" > "$(trusted_file "$root")"
+
     [ -f "$(ctx_file "$root")" ] || dumb_distill "$root"
 
     printf 'initialized: %s\n' "$root"
-    printf '  .context.md + .aether/{state.json,hooks/,.scope}\n'
+    printf '  .context.md + .aether/{state.json,hooks/,.scope,trusted}\n'
 }
 
 cmd_status() {
@@ -273,20 +341,25 @@ cmd_distill() {
     p=$(get_path_arg "$@")
     root="$(project_root "$p")"
     quiet=0
-    for a in "$@"; do [ "$a" = "--quiet" ] && quiet=1; done
+    for a in "$@"; do
+        case "$a" in
+            --quiet) quiet=1 ;;
+            --no-hooks) AETHER_NO_HOOKS=1; export AETHER_NO_HOOKS ;;
+        esac
+    done
 
     ensure_aether_dirs "$root"
-    cnt=$(file_count "$root")
-    hsh=$(tree_hash "$root")
-    ts=$(now_iso)
-
+    # dumb_distill/python_distill update .context.md (preserving human section) + state
     python_distill "$root"
 
-    write_state "$root" "$ts" "$cnt" "$hsh"
-    embed_state_comment "$root" "$ts" "$cnt" "$hsh"
+    cnt=$(file_count "$root")
+    hsh=$(tree_hash "$root")
     run_hook on-distill "$root"
 
-    [ "$quiet" = 0 ] && printf 'distilled (%s files, hash %s)\n' "$cnt" "$hsh"
+    if [ "$quiet" = 0 ]; then
+        printf 'distilled (%s files, hash %s)\n' "$cnt" "$hsh"
+    fi
+    return 0
 }
 
 cmd_watch() {
@@ -302,6 +375,10 @@ cmd_watch() {
             --poll)
                 poll="${2:-5}"
                 shift 2 || shift
+                ;;
+            --no-hooks)
+                AETHER_NO_HOOKS=1; export AETHER_NO_HOOKS
+                shift
                 ;;
             -*)
                 shift
@@ -319,11 +396,16 @@ cmd_watch() {
     root="$(project_root "$path_arg")"
 
     if [ -n "$poll" ]; then
-        printf 'watch (poll %ss). Ctrl-C stops.\n' "$poll"
+        printf 'watch (poll %ss, change-driven). Ctrl-C stops.\n' "$poll"
+        prev=""
         while true; do
             sleep "$poll"
-            cmd_distill "$root" --quiet
-            run_hook on-save "$root"
+            cur=$(tree_hash "$root")
+            if [ "$cur" != "$prev" ]; then
+                prev="$cur"
+                cmd_distill "$root" --quiet
+                run_hook on-save "$root"
+            fi
         done
         return
     fi
@@ -361,7 +443,22 @@ E
 }
 
 cmd_repair() {
-    printf 'repair + distill...\n'
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    ctx="$(ctx_file "$root")"
+    printf 'repair: inspecting %s\n' "$root"
+    if [ ! -d "$(aether_dir "$root")" ]; then
+        printf '  .aether/ missing — run: aether init\n'
+        return 1
+    fi
+    if [ ! -f "$ctx" ]; then
+        printf '  .context.md missing — distilling\n'
+    elif ! grep -q 'aether:generated:start' "$ctx" 2>/dev/null; then
+        printf '  .context.md has no generated markers — distill will preserve body as human section\n'
+    else
+        printf '  .context.md OK (human + generated regions)\n'
+    fi
+    printf 'repair: distill (human section preserved)...\n'
     cmd_distill "$@"
 }
 
@@ -447,6 +544,16 @@ cmd_poke() {
     printf 'poked\n'
 }
 
+
+cmd_trust() {
+    p=$(get_path_arg "$@")
+    root="$(project_root "$p")"
+    ensure_aether_dirs "$root"
+    printf 'trusted %s\n' "$(now_iso)" > "$(trusted_file "$root")"
+    printf 'trusted hooks for: %s\n' "$root"
+    printf '  wrote %s\n' "$(trusted_file "$root")"
+}
+
 cmd_garden() {
     py="$AETHER_ROOT/python/aether_garden.py"
     [ -f "$py" ] || die "garden missing: $py (is AETHER_HOME set?)"
@@ -465,11 +572,15 @@ aether v0.1 (shell)
 
   init [path]            bootstrap .aether/ + sidecars
   status [path]          inspect current state
-  distill [path]         rebuild .context.md + state
-  watch [path] [--poll N]
-                         live updates (entr or polling)
-  repair [path]
+  distill [path] [--quiet] [--no-hooks]
+                         rebuild generated section of .context.md (human notes preserved)
+  watch [path] [--poll N] [--no-hooks]
+                         live updates (entr or change-driven poll)
+  repair [path]          diagnose sidecars then distill safely
+  trust [path]           allow .aether/hooks for this project
   poke [path]
+
+  Flags: --no-hooks disables project hooks for this invocation.
 
   seed "thought"         capture to global inbox ($AETHER_INBOX or ~/inbox.md)
                          zero decisions at entry; also reads stdin
@@ -488,6 +599,17 @@ U
 }
 
 main() {
+    # Global flags before or after subcommand
+    filtered=""
+    for a in "$@"; do
+        case "$a" in
+            --no-hooks) AETHER_NO_HOOKS=1; export AETHER_NO_HOOKS ;;
+            *) filtered="$filtered $a" ;;
+        esac
+    done
+    # shellcheck disable=SC2086
+    set -- $filtered
+
     cmd=${1:-status}
     [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ] || [ "$cmd" = "help" ] && { usage; exit 0; }
     [ "$#" -gt 0 ] && shift
@@ -498,6 +620,7 @@ main() {
         watch)   cmd_watch "$@" ;;
         repair)  cmd_repair "$@" ;;
         poke)    cmd_poke "$@" ;;
+        trust)   cmd_trust "$@" ;;
         seed)    cmd_seed "$@" ;;
         spark)   cmd_spark "$@" ;;
         session) cmd_session "$@" ;;
