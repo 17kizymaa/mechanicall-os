@@ -91,7 +91,13 @@ collect_files() {
 }
 
 file_count() { collect_files "$1" | wc -l | tr -d ' '; }
-tree_hash()  { collect_files "$1" | xargs cksum 2>/dev/null | cksum | awk '{print $1}'; }
+# One path per line; never xargs (splits on spaces in filenames).
+tree_hash() {
+    collect_files "$1" | while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        cksum "$f" 2>/dev/null || true
+    done | cksum | awk '{print $1}'
+}
 # Prefer sub-second stamps so rapid seeds stay unique for the gardener.
 now_iso() {
     if date -u +%Y-%m-%dT%H:%M:%S.%3NZ 2>/dev/null | grep -q '\.[0-9]'; then
@@ -158,6 +164,28 @@ read_state_field() {
 GEN_START='<!-- aether:generated:start -->'
 GEN_END='<!-- aether:generated:end -->'
 
+# Return 0 if markers are absent (legacy) or form exactly one ordered pair.
+# Return 1 if corrupt (missing end, duplicate, or end before start).
+validate_context_markers() {
+    ctx="$1"
+    [ -f "$ctx" ] || return 0
+    starts=$(grep -c 'aether:generated:start' "$ctx" 2>/dev/null || true)
+    ends=$(grep -c 'aether:generated:end' "$ctx" 2>/dev/null || true)
+    starts=${starts:-0}
+    ends=${ends:-0}
+    if [ "$starts" -eq 0 ] && [ "$ends" -eq 0 ]; then
+        return 0
+    fi
+    if [ "$starts" -ne 1 ] || [ "$ends" -ne 1 ]; then
+        return 1
+    fi
+    awk '
+        /<!-- aether:generated:start -->/ { s=NR }
+        /<!-- aether:generated:end -->/   { e=NR }
+        END { exit (s && e && s < e) ? 0 : 1 }
+    ' "$ctx"
+}
+
 extract_human_context() {
     ctx="$1"
     [ -f "$ctx" ] || return 0
@@ -202,6 +230,9 @@ build_generated_body() {
 dumb_distill() {
     root="$(project_root "$1")"
     ctx="$(ctx_file "$root")"
+    if ! validate_context_markers "$ctx"; then
+        die "corrupt generated markers in $ctx — refuse automatic distill. Fix markers (exactly one start before one end) then retry."
+    fi
     cnt="$(file_count "$root")"
     hsh="$(tree_hash "$root")"
     ts="$(now_iso)"
@@ -270,7 +301,6 @@ run_hook() {
 }
 
 # --- commands ---------------------------------------------------------
-# --- commands ---------------------------------------------------------
 
 cmd_init() {
     p=$(get_path_arg "$@")
@@ -281,8 +311,14 @@ cmd_init() {
     [ -f "$sf" ] || printf '.\n' > "$sf"
 
     hd="$(hooks_dir "$root")"
+    # Auto-trust only when every default hook is created by this init.
+    # Pre-existing hooks (e.g. after clone) must not become trusted silently.
+    pre_existing_hooks=0
     for hook in on-save on-distill; do
-        [ -f "$hd/$hook" ] && continue
+        if [ -f "$hd/$hook" ]; then
+            pre_existing_hooks=1
+            continue
+        fi
         {
             printf '#!/bin/sh\n# %s hook\n' "$hook"
             cat <<'HOOKBODY'
@@ -306,13 +342,17 @@ HOOKBODY
         chmod +x "$hd/$hook" 2>/dev/null || true
     done
 
-    # Init implies local trust for hooks this project created
-    printf 'trusted %s\n' "$(now_iso)" > "$(trusted_file "$root")"
+    if [ "$pre_existing_hooks" -eq 0 ]; then
+        printf 'trusted %s\n' "$(now_iso)" > "$(trusted_file "$root")"
+        trust_note='trusted'
+    else
+        trust_note='untrusted (pre-existing hooks — run: aether trust)'
+    fi
 
     [ -f "$(ctx_file "$root")" ] || dumb_distill "$root"
 
     printf 'initialized: %s\n' "$root"
-    printf '  .context.md + .aether/{state.json,hooks/,.scope,trusted}\n'
+    printf '  .context.md + .aether/{state.json,hooks/,.scope} (%s)\n' "$trust_note"
 }
 
 cmd_status() {
@@ -427,7 +467,9 @@ E
     printf 'watch (entr) — modify files to trigger. Ctrl-C to stop.\n\n'
 
     cd "$root" || die "cd failed"
-    # Feed entr a live list of paths from scope
+    # Feed entr a live list of paths from scope.
+    # on-save MUST go through aether poke → run_hook (trust + --no-hooks),
+    # never direct sh of the hook file (P0: entr trust bypass).
     (
         scope_dirs "$root" | while read -r d; do [ -d "$d" ] && printf '%s\n' "$d"; done | head -30 \
         | xargs -I{} find {} -type f \( -name '*.md' -o -name '*.py' -o -name '*.txt' -o -name '*.sh' \) 2>/dev/null \
@@ -435,9 +477,7 @@ E
         | entr -d -r sh -c '
             echo "[aether] change"
             "'"$AETHER_SELF"'" distill "'"$root"'" --quiet || true
-            if [ -f "'"$root"'/.aether/hooks/on-save" ]; then
-                (cd "'"$root"'" && sh "'"$root"'/.aether/hooks/on-save" || true)
-            fi
+            "'"$AETHER_SELF"'" poke "'"$root"'" >/dev/null || true
         '
     )
 }
@@ -455,6 +495,10 @@ cmd_repair() {
         printf '  .context.md missing — distilling\n'
     elif ! grep -q 'aether:generated:start' "$ctx" 2>/dev/null; then
         printf '  .context.md has no generated markers — distill will preserve body as human section\n'
+    elif ! validate_context_markers "$ctx"; then
+        printf '  .context.md CORRUPT markers (need exactly one start before one end)\n'
+        printf '  refusing automatic distill — fix markers by hand, then: aether distill\n'
+        return 1
     else
         printf '  .context.md OK (human + generated regions)\n'
     fi
@@ -599,16 +643,22 @@ U
 }
 
 main() {
-    # Global flags before or after subcommand
-    filtered=""
-    for a in "$@"; do
-        case "$a" in
-            --no-hooks) AETHER_NO_HOOKS=1; export AETHER_NO_HOOKS ;;
-            *) filtered="$filtered $a" ;;
+    # Strip global flags while preserving original argument boundaries.
+    # Never rebuild $@ via unquoted string join (destroys paths/quotes).
+    set -- "$@" '::AETHER_END::'
+    while [ "$1" != '::AETHER_END::' ]; do
+        case "$1" in
+            --no-hooks)
+                AETHER_NO_HOOKS=1
+                export AETHER_NO_HOOKS
+                ;;
+            *)
+                set -- "$@" "$1"
+                ;;
         esac
+        shift
     done
-    # shellcheck disable=SC2086
-    set -- $filtered
+    shift # drop ::AETHER_END::
 
     cmd=${1:-status}
     [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ] || [ "$cmd" = "help" ] && { usage; exit 0; }
