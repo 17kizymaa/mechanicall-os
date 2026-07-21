@@ -19,3 +19,6 @@ venv/
 
 # Local inbox/sparks if stored in-tree by mistake
 /inbox.md
+
+# Optional local noise (events/artifacts are usually committed for inspectability)
+# .aether/events.jsonl

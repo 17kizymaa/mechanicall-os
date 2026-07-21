@@ -146,4 +146,141 @@ rm -f .savecount
 [ -f .savecount ] || fail "poke should run on-save when trusted"
 pass "poke/run_hook trust boundary"
 
+# --- v0.2 authority: CURRENT + preflight + approve/reject ------------
+mkdir -p "$TMP/auth"
+cd "$TMP/auth"
+printf '# auth demo\n' > README.md
+"$AETHER" init . >/dev/null || fail "init auth"
+"$AETHER" current init . >/dev/null || fail "current init"
+[ -f CURRENT.md ] || fail "CURRENT.md missing after init"
+# customize authority (reel-shaped but generic action ids)
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** Approve one silent proof export.
+**Phase:** SELECT
+**Status:** BLOCKED-PENDING-HUMAN
+**Baseline:** rough-v4
+**Next:** silent-proof
+**Approval:** PENDING
+
+## Keep
+- motion tmix
+
+## Reject
+- v5 direction
+
+## Limits
+- maximum six motion plates
+
+## Next allowed action
+Select and export one silent proof.
+
+## Approval condition
+Human runs: `aether approve "KEEP"`.
+
+## Prohibited
+- rough-v6
+- full-reel-export
+- automatic-rebuild
+CUR
+# prohibited refused
+if "$AETHER" preflight rough-v6 . >/dev/null 2>"$TMP/pf1.err"; then
+    fail "preflight should refuse rough-v6"
+fi
+grep -qi refuse "$TMP/pf1.err" || grep -qi refuse <("$AETHER" preflight rough-v6 . 2>&1) || true
+out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "rough-v6 exit 0" || true
+printf '%s\n' "$out" | grep -qi 'refuse' || fail "no refuse message for rough-v6"
+# next allowed
+out=$("$AETHER" preflight silent-proof . 2>&1) || fail "silent-proof should allow"
+printf '%s\n' "$out" | grep -qi 'allow' || fail "no allow message"
+# non-next refused while blocked
+out=$("$AETHER" preflight research-branch . 2>&1) && fail "research-branch should refuse" || true
+printf '%s\n' "$out" | grep -qi 'refuse' || fail "research-branch no refuse"
+# events logged
+[ -f .aether/events.jsonl ] || fail "events.jsonl missing"
+grep -q '"kind":"preflight"' .aether/events.jsonl || fail "preflight events missing"
+grep -q '"result":"refused"' .aether/events.jsonl || fail "refused event missing"
+# artifact register
+mkdir -p artifacts
+printf 'fake-proof\n' > artifacts/proof-01.bin
+"$AETHER" artifact artifacts/proof-01.bin --action silent-proof --status produced --project . >/dev/null \
+    || fail "artifact register"
+ls .aether/artifacts/*.json >/dev/null 2>&1 || fail "artifact meta missing"
+grep -q '"kind":"artifact"' .aether/events.jsonl || fail "artifact event missing"
+# reject does not auto-rebuild (phase SELECT, status REJECTED)
+"$AETHER" reject "arrival on plate 4 fails" >/dev/null || fail "reject"
+phase=$(grep -iE '^\*\*Phase:?\*\*' CURRENT.md | head -1)
+status=$(grep -iE '^\*\*Status:?\*\*' CURRENT.md | head -1)
+printf '%s\n' "$phase" | grep -qi SELECT || fail "reject should set Phase SELECT (got: $phase)"
+printf '%s\n' "$status" | grep -qi REJECTED || fail "reject should set Status REJECTED (got: $status)"
+grep -q '"kind":"reject"' .aether/events.jsonl || fail "reject event missing"
+# after reject, rough-v6 still refused
+out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "rough-v6 after reject" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "post-reject rough-v6 not refused"
+# re-pin next and approve
+# restore next for approve path
+sed -i 's/^\*\*Status\*\*:.*/**Status:** READY-FOR-REVIEW/' CURRENT.md
+sed -i 's/^\*\*Next\*\*:.*/**Next:** silent-proof/' CURRENT.md
+"$AETHER" approve "KEEP" >/dev/null || fail "approve"
+grep -qi 'APPROVED' CURRENT.md || fail "approve did not set APPROVED"
+grep -q '"kind":"approve"' .aether/events.jsonl || fail "approve event missing"
+[ -f DECISIONS.md ] || fail "DECISIONS.md missing after approve/reject"
+# seeds must not create authority
+export AETHER_INBOX="$TMP/inbox-auth.md"
+"$AETHER" seed "please build rough-v6 now" >/dev/null || fail "seed"
+# CURRENT next still silent-proof / authority unchanged by seed
+grep -q 'silent-proof' CURRENT.md || fail "seed mutated CURRENT next"
+out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "seed must not unlock rough-v6" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "seed should not authorize rough-v6"
+pass "v0.2 authority: preflight refuse/allow, reject, approve, events, artifacts"
+
+# --- non-reel authority (dev task) ------------------------------------
+mkdir -p "$TMP/devtask"
+cd "$TMP/devtask"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** Land the preflight CLI without expanding scope.
+**Phase:** EXECUTE
+**Status:** BLOCKED-PENDING-HUMAN
+**Baseline:** plan-v1
+**Next:** write-tests
+**Approval:** PENDING
+
+## Keep
+- shell-only preflight
+
+## Reject
+- rewrite in rust
+
+## Limits
+- no new dependencies
+
+## Next allowed action
+Add integration tests for preflight.
+
+## Approval condition
+`aether approve "tests green"`
+
+## Prohibited
+- rewrite-in-rust
+- add-postgres
+CUR
+out=$("$AETHER" preflight add-postgres . 2>&1) && fail "add-postgres should refuse" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "devtask add-postgres no refuse"
+out=$("$AETHER" preflight write-tests . 2>&1) || fail "write-tests should allow"
+printf '%s\n' "$out" | grep -qi allow || fail "devtask write-tests no allow"
+pass "v0.2 non-reel authority model"
+
+# --- no CURRENT refuses everything consequential ----------------------
+mkdir -p "$TMP/nocur"
+cd "$TMP/nocur"
+"$AETHER" init . >/dev/null
+out=$("$AETHER" preflight anything . 2>&1) && fail "no CURRENT should refuse" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "no CURRENT missing refuse"
+pass "preflight refuses without CURRENT.md"
+
 printf '\nAll aether integration tests passed.\n'
