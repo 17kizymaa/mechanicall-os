@@ -24,7 +24,7 @@
 ├── ARCHITECTURE.md             ← "Mechanicall OS v0"
 ├── CORE_PRINCIPLES.md
 ├── AGENTS.md
-├── aether                      ← current runtime: POSIX sh, reports "aether v0.1 (shell)"
+├── aether                      ← current runtime: POSIX sh, reports "aether v0.2 (shell)"
 ├── bin/aether -> ../aether
 ├── legacy/aether/              ← old Python package, __version__ = "0.0.1"
 ├── skills/codebase-review/
@@ -48,7 +48,7 @@ Related but separate: `/home/local-navigator/` (local agent/navigator tooling �
 |-------|------------|-----------------|
 | Product brand | Mechanicall OS **v0** | README, ARCHITECTURE, CORE_PRINCIPLES |
 | Spec revision | Mechanicall OS **v0.1** | `SPEC-v0.1.md` |
-| Current CLI | **aether v0.1 (shell)** | `./aether --help` / header comment in `aether` (~384 LOC sh) |
+| Current CLI | **aether v0.2 (shell)** | `./aether --help` / header comment in `aether` (~384 LOC sh) |
 | Legacy CLI | **aether 0.0.1** (Python) | `legacy/aether/__init__.py` — superseded by shell |
 | Sidecar conventions | **v0** | README table |
 | Distill snapshot | 2026-06-26 · 88 files | `.aether/state.json` |
@@ -68,7 +68,7 @@ Design of stages 05–06: *“Review / edit anything in output/ … Human edits 
 | **02** Code-review command | `dev/02_test-code-review-command/` | Outputs present (design, verification-summary, test-instructions). Reviewable. |
 | **03** Mechanical codebase-review | `dev/03_mechanical-codebase-review/` | Explicit: **“All artifacts ready for review/edit.”** Design + scripts + skill. Approve Level 2 / MCP next. |
 | **04** Swarm mimic | `dev/04_codebase-review-swarm-mimic/` | Notes only (`usage-and-mimic-notes.md`). Light review. |
-| **05** Grok USB bootstrap | `dev/05_grok-usb-bootstrap/` | **Stuck mid-pipeline:** `01_analyze` ✓ (2 files), `02_plan` empty, `03_implement` ✓ (make-portable-usb.py + execution-report), `04_verify` empty, **`05_review` empty**. USB portable Grok+aether installer — **needs your gate before plan/verify/final review**. |
+| **05** Grok USB bootstrap | `dev/05_grok-usb-bootstrap/` | **Stuck mid-pipeline:** `01_analyze` ✓ (2 files), `02_plan` has `output/plan.md` and `summary.md`, `03_implement` ✓ (make-portable-usb.py + execution-report), `04_verify` empty, **`05_review` empty**. USB portable Grok+aether installer — **needs your gate before plan/verify/final review**. |
 | **06** NixOS install | `dev/06_nixos-install/` | **Stopped after analyze:** `01_analyze` ✓ (7 files incl. configuration.nix, disk-analysis, bootstrap script), **`02_plan`→`05_review` all empty**. **Destructive intent** (repurpose ~300GB Alpine root for NixOS) — **do not proceed without explicit 17kizymaa approval**. |
 
 ### Highest-priority review packet (stage 03)

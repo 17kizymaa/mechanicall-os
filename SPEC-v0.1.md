@@ -52,7 +52,7 @@ project/
 
 Scripts prefer `.aether/state.json` when present. They fall back to parsing the `<!--aether ... -->` block with `sed`/`awk` if `jq` is missing.
 
-Users can delete `state.json` any time. It is cache.
+Users can delete `.aether/state.json` any time. It is cache.
 
 ### .aether/state.json (example)
 
@@ -98,7 +98,10 @@ Core subcommands (keep the surface tiny):
 aether watch
 
 # What it actually does when entr exists:
-find $(aether scope) -type f \( -name "*.md" -o -name "*.py" -o -name "*.txt" \) \
+# Scope dirs come from .aether/.scope via internal scope_dirs() — there is no `aether scope` subcommand.
+while IFS= read -r d; do
+  [ -d "$d" ] && find "$d" -type f \( -name "*.md" -o -name "*.py" -o -name "*.txt" \)
+done < .aether/.scope \
   | entr -d -r sh -c 'aether distill --quiet && .aether/hooks/on-save 2>/dev/null || true'
 ```
 
@@ -115,10 +118,10 @@ Zero Python in the watch hot loop.
 
 Implementation options (in priority):
 
-1. If `python3` and `python/aether_distill.py` (or equivalent) exist → call it.
-2. Else: dumb shell version that just lists files + appends README excerpt + updates timestamps.
+1. If `python3` and optional `python/aether_distill.py` exist → call it. (Not shipped in v0.1; only `aether_garden.py`, `aether_llm.py`, `aether_rival.py` under `python/`. Default is shell `dumb_distill`.)
+2. Else: dumb shell version (`dumb_distill`) that just lists files + appends README excerpt + updates timestamps.
 
-The Python distill should be **one small file**, not a package. Optional.
+The Python distill should be **one small file**, not a package. Optional / not shipped.
 
 ## Scope
 
@@ -168,7 +171,7 @@ Just copy `aether` (the sh script) into the project or put it on PATH from the a
 
 **B. System-wide**
 
-Put the `aether` shell script + optional `python/aether_distill.py` somewhere.
+Put the `aether` shell script + optional `python/aether_distill.py` (not shipped; shell `dumb_distill` is default) somewhere.
 
 `entr` is a separate static binary the user provides (or the distro does).
 
@@ -221,7 +224,7 @@ If this feels good and understandable in 5 seconds, we won.
 ## LOC Budget (v0.1)
 
 - `aether` (POSIX sh) target: ≤ 220 lines
-- Optional `python/aether_distill.py`: ≤ 80 lines
+- Optional `python/aether_distill.py` (not shipped; shell `dumb_distill` only): ≤ 80 lines if added
 - Supporting scripts + examples: as few as possible
 - **Everything the user must understand to be productive**: fits in one screen of `cat aether`
 

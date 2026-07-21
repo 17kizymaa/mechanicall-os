@@ -30,9 +30,9 @@
 | Seed inbox | `~/inbox.md` (`$AETHER_INBOX`) |
 | Spark deck | `~/prompts.md` (`$AETHER_SPARKS`) — one line per line |
 | Session ledger | `./.session.md` in the project cwd |
-| Hotkey script | `mechanicall-os/scripts/seed-hotkey.sh` |
+| Hotkey script | `scripts/seed-hotkey.sh` |
 | Super+S | XFCE custom shortcut → that script |
-| Design docs | `docs/RHIZOME.md` · `STATE-LEDGER.md` · `ADVERSARY.md` |
+| Design docs | `docs/RHIZOME.md` · `docs/STATE-LEDGER.md` · `docs/ADVERSARY.md` |
 
 ---
 
@@ -102,4 +102,4 @@ Empty `aether session` → tail of this project’s ledger.
 
 ---
 
-*Open this file on phone. Practice the daily loop. Follow up in Grok when you want the next layer or a bugfix.*
+*Open this file on phone. Practice the daily loop. Follow up in Grok when you want the next layer or a bug fix.*
