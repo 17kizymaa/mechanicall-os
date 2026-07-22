@@ -58,10 +58,20 @@ Example commands (to be implemented):
 
 The Interface Layer is where humans (and other agents) actually work. It is intentionally boring and transparent.
 
+### 3a. Optional Personal LLM (propose-only)
+
+A **local** Ollama (or similar) personal model may sit under the Interface Layer as a
+**propose substrate** for garden / rival / draft language. It is **not** an authority
+layer: it never runs `aether approve`, never advances CURRENT, and never owns tools.
+
+See **[docs/PERSONAL-LLM-LAYER.md](./docs/PERSONAL-LLM-LAYER.md)** and
+`references/personal-llm-system.txt`. Wiring: `python/aether_llm.py` prefers
+`personal-llm-*` tags when present; weights stay off-git.
+
 ## Layer Interactions
 
 ```
-User / Scripts (Interface)
+User / Scripts (Interface)  [+ optional personal-llm propose]
           ↕ reads + writes
 Sidecars (.md, .json, dirs)  (Filesystem Substrate)
           ↕ observed + updated
@@ -71,6 +81,7 @@ aether (Awareness Layer)
 - The Awareness Layer only ever reads and writes through the filesystem.
 - Sidecars are the contract between all layers.
 - The Filesystem Substrate is the durable truth.
+- Personal LLM (if any) only **drafts**; human + `aether approve` remain sole authority.
 
 ## Non-Goals (for v0)
 

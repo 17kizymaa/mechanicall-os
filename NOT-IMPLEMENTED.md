@@ -1,6 +1,6 @@
 # NOT IMPLEMENTED — Explicit Denial List
 
-**Last updated:** 2026-07-21 (v0.2 truth reset)
+**Last updated:** 2026-07-22 (personal-llm propose layer docs; weights still off-repo)
 
 This file exists so no operator, investor, agent, or README can honestly claim
 these components are part of Mechanicall OS today.
@@ -33,6 +33,8 @@ It is **not** an industrial autonomous agent platform.
 | “Cortex” central orchestrator | **Not implemented** |
 | “Ganglion” agent runtime | **Not implemented** |
 | Sandboxed tool execution platform | **Not implemented** |
+| Shipping personal-llm **weights** / GGUF / train JSONL in this repo | **Not in git** — optional local Ollama only; see `docs/PERSONAL-LLM-LAYER.md` |
+| Model self-approve / auto `aether approve` | **Prohibited forever** |
 | Mandatory Critic validation on every action | **Not implemented** |
 | Sliding-window anchor retrieval | **Not implemented** |
 | Holographic state | **Not implemented** |

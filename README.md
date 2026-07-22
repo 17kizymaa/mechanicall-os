@@ -81,7 +81,16 @@ Three layers — see [ARCHITECTURE.md](./ARCHITECTURE.md):
 
 1. **Filesystem Substrate** — normal folders + sidecars
 2. **Awareness / Control Layer** — `aether` shell CLI
-3. **Interface Layer** — plain Markdown and scripts
+3. **Interface Layer** — plain Markdown and scripts  
+   - Optional **personal LLM propose layer** (local Ollama): drafts only, never approves — see [docs/PERSONAL-LLM-LAYER.md](./docs/PERSONAL-LLM-LAYER.md)
+
+```bash
+# Prefer local personal model for garden/rival when installed
+export AETHER_LLM_PROVIDER=ollama
+export AETHER_OLLAMA_MODEL=personal-llm-full:v1   # or personal-llm-sft-v2 when available
+export AETHER_PERSONAL_LLM_SYSTEM=1               # inject Mechanicall doctrine SYSTEM
+aether garden status
+```
 
 ### Sidecars
 

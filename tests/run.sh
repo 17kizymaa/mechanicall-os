@@ -10,6 +10,10 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
+# --- personal-llm layer unit tests (stdlib only) ---
+python3 "$ROOT/tests/test_aether_llm_personal.py" || fail "personal-llm unit tests"
+pass "personal-llm unit tests"
+
 TMP="${TMPDIR:-/tmp}/aether-test.$$"
 mkdir -p "$TMP"
 trap 'rm -rf "$TMP"' EXIT INT HUP
