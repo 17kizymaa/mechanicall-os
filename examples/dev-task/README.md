@@ -8,4 +8,6 @@ cd examples/dev-task
 ../../aether preflight add-postgres     # Refused
 ../../aether preflight write-tests      # Allowed
 ../../aether approve "tests green"      # Human only
+# or day-to-day:
+#   ../../aether panel
 ```

@@ -10,6 +10,13 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
+# --- personal-llm layer unit tests (stdlib only) ---
+python3 "$ROOT/tests/test_aether_llm_personal.py" || fail "personal-llm unit tests"
+pass "personal-llm unit tests"
+
+python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
+pass "panel unit tests"
+
 TMP="${TMPDIR:-/tmp}/aether-test.$$"
 mkdir -p "$TMP"
 trap 'rm -rf "$TMP"' EXIT INT HUP
@@ -282,5 +289,87 @@ cd "$TMP/nocur"
 out=$("$AETHER" preflight anything . 2>&1) && fail "no CURRENT should refuse" || true
 printf '%s\n' "$out" | grep -qi refuse || fail "no CURRENT missing refuse"
 pass "preflight refuses without CURRENT.md"
+
+# --- first-run onboard + app register + deinit (alpha distribution) ---
+mkdir -p "$TMP/onboard"
+cd "$TMP/onboard"
+printf '# onboard demo\n' > README.md
+"$AETHER" onboard --yes . >/dev/null || fail "onboard --yes"
+[ -f CURRENT.md ] || fail "onboard missing CURRENT.md"
+[ -f .aether/COMMANDS.md ] || fail "onboard missing COMMANDS.md"
+[ -f .aether/PANEL.md ] || fail "onboard should write PANEL.md"
+[ -f .aether/panel.html ] || fail "onboard should write panel.html"
+[ -f .aether/events.jsonl ] || fail "onboard missing events"
+grep -q '"kind":"onboard_complete"' .aether/events.jsonl || fail "onboard_complete event missing"
+grep -q 'aether panel' .aether/COMMANDS.md || fail "cheatsheet should prefer panel"
+out=$("$AETHER" preflight deploy-production . 2>&1) && fail "onboard deploy-production should refuse" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "onboard refuse message missing"
+out=$("$AETHER" preflight write-tests . 2>&1) || fail "onboard write-tests should allow"
+printf '%s\n' "$out" | grep -qi allow || fail "onboard allow message missing"
+pass "onboard --yes"
+
+mkdir -p "$TMP/appreg"
+cd "$TMP/appreg"
+printf '# app\n' > README.md
+"$AETHER" app register my-dev-app . >/dev/null || fail "app register"
+[ -f .aether/app.json ] || fail "app.json missing"
+grep -q 'my-dev-app' .aether/app.json || fail "app name missing"
+[ -f CURRENT.md ] || fail "app register should create CURRENT when missing"
+[ -f .aether/COMMANDS.md ] || fail "app register cheatsheet"
+grep -q deploy-production CURRENT.md || fail "dev CURRENT missing prohibited deploy"
+out=$("$AETHER" app status . 2>&1) || fail "app status"
+printf '%s\n' "$out" | grep -q 'my-dev-app' || fail "app status content"
+pass "app register + status"
+
+mkdir -p "$TMP/deinit"
+cd "$TMP/deinit"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+"$AETHER" deinit --yes . >/dev/null || fail "deinit"
+[ ! -d .aether ] || fail "deinit left .aether"
+[ -f CURRENT.md ] || fail "deinit should keep CURRENT.md by default"
+"$AETHER" init . >/dev/null
+"$AETHER" deinit --yes --with-current . >/dev/null || fail "deinit with-current"
+[ ! -f CURRENT.md ] || fail "deinit --with-current left CURRENT.md"
+pass "deinit"
+
+# alpha demo script smoke
+sh "$ROOT/scripts/alpha-demo.sh" "$TMP/alpha-demo" >/dev/null || fail "alpha-demo.sh"
+[ -f "$TMP/alpha-demo/CURRENT.md" ] || fail "alpha-demo CURRENT"
+grep -q '"kind":"approve"' "$TMP/alpha-demo/.aether/events.jsonl" || fail "alpha-demo approve event"
+pass "alpha-demo.sh"
+
+# --- project panel projection (non-interactive) ---
+mkdir -p "$TMP/panel"
+cd "$TMP/panel"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** Panel test
+**Phase:** EXECUTE
+**Status:** READY
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Prohibited
+- deploy-production
+CUR
+out=$("$AETHER" panel . --dump 2>&1) || fail "panel --dump"
+printf '%s\n' "$out" | grep -q 'write-tests' || fail "panel dump missing Next"
+printf '%s\n' "$out" | grep -qi 'prohibited\|deploy-production' || fail "panel dump missing prohibited"
+"$AETHER" panel . --write >/dev/null || fail "panel --write"
+[ -f .aether/PANEL.md ] || fail "PANEL.md missing"
+[ -f .aether/panel.html ] || fail "panel.html missing"
+grep -q 'write-tests' .aether/PANEL.md || fail "PANEL.md content"
+# non-TTY interactive should fail closed with dump-like exit
+set +e
+"$AETHER" panel . </dev/null >/dev/null 2>"$TMP/panel-err.txt"
+prc=$?
+set -e
+[ "$prc" -ne 0 ] || fail "panel interactive on non-TTY should fail"
+pass "panel dump + write + non-TTY guard"
 
 printf '\nAll aether integration tests passed.\n'

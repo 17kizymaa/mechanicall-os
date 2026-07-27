@@ -92,14 +92,59 @@ Recommended path setup (current truth for v0.2):
 
 ```bash
 # From a mechanicall-os checkout:
-ln -sf "$(pwd)/aether" ~/.local/bin/aether
-export AETHER_HOME="$(pwd)"   # so python/ helpers resolve when aether is on PATH
+sh scripts/install-aether.sh
+# equivalent:
+#   ln -sf "$(pwd)/aether" ~/.local/bin/aether
+#   export AETHER_HOME="$(pwd)"   # so python/ helpers resolve when aether is on PATH
 aether --help
 ```
+
+### What `aether init` creates
+
+| Path | Purpose |
+|------|---------|
+| `.context.md` | Human notes + generated inventory |
+| `.aether/.scope` | Distill scope |
+| `.aether/hooks/on-save`, `on-distill` | Optional hooks (trusted only after `aether trust` if pre-existing) |
+| `.aether/trusted` | Created on fresh init when hooks are newly written |
+| `.aether/state.json` | Distill cache (safe to delete) |
+
+`aether current init` adds `CURRENT.md` (authority).  
+`aether onboard` runs init + current init, writes a command cheatsheet, and demos one refusal.
+
+Existing `.context.md` human notes are preserved across `distill` (machine section regenerates).
+
+### Uninstall / reverse
+
+| Goal | How |
+|------|-----|
+| Remove CLI from PATH | `sh scripts/uninstall-aether.sh` or `rm ~/.local/bin/aether` |
+| Remove Mechanicall from one project | `aether deinit` (drops `.aether/` only) |
+| Also drop authority file | `aether deinit --with-current` (explicit) |
+| Disable hooks this run | `aether --no-hooks …` |
+| Revoke trust | `rm .aether/trusted` |
+| Inspect hooks before trust | `ls .aether/hooks && cat .aether/hooks/*` |
 
 LLM keys (`XAI_API_KEY`, `ANTHROPIC_API_KEY`, or local Ollama) are **not**
 required for `init`, `status`, `distill`, `preflight`, `approve`, or `reject`.
 See [CONFIGURATION.md](./CONFIGURATION.md).
+
+### Project Panel (buttons, not ritual)
+
+```bash
+cd /path/to/your/project
+aether panel              # interactive TUI — select Preflight / Approve / …
+aether panel --write      # also write .aether/PANEL.md + panel.html
+aether panel --dump       # text overview, no TTY required
+aether panel --simple     # numbered menu if curses misbehaves
+```
+
+Panel only projects sidecars and runs `aether` for mutations. Open `PANEL.md` in
+an editor or `panel.html` in a browser when you want a static glance.
+
+**Supported OS:** Linux primary; macOS best-effort; Windows via WSL only.
+Alpha limitations: [ALPHA-LIMITATIONS.md](./ALPHA-LIMITATIONS.md).
+Agent recipe: [INTEGRATION-AGENTS.md](./INTEGRATION-AGENTS.md).
 
 ## Authority control (v0.2)
 

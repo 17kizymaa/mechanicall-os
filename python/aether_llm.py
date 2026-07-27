@@ -14,11 +14,13 @@ Env:
   AETHER_OLLAMA_HOST, AETHER_OLLAMA_MODEL
   AETHER_LLM_TIMEOUT (seconds, default 120)
   AETHER_LLM_PROVIDER=anthropic|xai|ollama  # force
+  AETHER_PERSONAL_LLM_SYSTEM=1  # prepend references/personal-llm-system.txt if no system msg
 """
 from __future__ import annotations
 
 import json
 import os
+import re
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -38,6 +40,30 @@ MODEL_ALIASES = {
     "sonnet5": "claude-sonnet-5",
     "sonnet": "claude-sonnet-5",
 }
+
+# Prefer personal Mechanicall propose layer when local Ollama has it.
+# Order = pick preference (first match wins).
+OLLAMA_PREFER = (
+    "personal-llm-sft-v2",
+    "personal-llm-full:v1",
+    "personal-llm-full",
+    "personal-llm-pilot:v0",
+    "personal-llm-pilot",
+    "aetherOS-custom",
+    "anti-clown",
+    "llama",
+    "mistral",
+    "qwen",
+)
+
+# Soft outer guard: substrings that must never be auto-executed by callers.
+# (Callers still own tool policy; this is a documentation helper + optional strip.)
+UNSAFE_CMD_RE = re.compile(
+    r"(?im)^\s*(?:aether\s+approve|cryptsetup\s+|sudo\s+cryptsetup)\b"
+)
+SECRET_LIKE_RE = re.compile(
+    r"(?i)\b(sk-[a-z0-9_-]{10,}|sk-proj-[a-z0-9_-]{8,}|BEGIN (?:RSA |OPENSSH )?PRIVATE KEY)\b"
+)
 
 
 @dataclass
@@ -125,14 +151,63 @@ def _ollama_pick_model(host: str) -> Optional[str]:
         with urllib.request.urlopen(req, timeout=2.0) as resp:
             data = json.loads(resp.read().decode())
         names = [m.get("name", "") for m in data.get("models", []) if m.get("name")]
-        prefer = ("aetherOS-custom", "anti-clown", "llama", "mistral", "qwen")
-        for p in prefer:
-            for n in names:
-                if p in n:
-                    return n
-        return names[0] if names else None
+        return pick_ollama_model(names)
     except Exception:
         return None
+
+
+def pick_ollama_model(names: list[str]) -> Optional[str]:
+    """Pure pick: prefer personal-llm tags, then legacy aether customs.
+
+    Exported for unit tests (no network).
+    """
+    if not names:
+        return None
+    lower_map = {n.lower(): n for n in names}
+    # exact / prefix prefer list
+    for p in OLLAMA_PREFER:
+        pl = p.lower()
+        for n in names:
+            nl = n.lower()
+            if nl == pl or nl.startswith(pl + ":") or pl in nl:
+                return n
+        # also try bare match against lower_map keys
+        if pl in lower_map:
+            return lower_map[pl]
+    return names[0]
+
+
+def personal_llm_system_text() -> str:
+    """Load repo doctrine SYSTEM for the personal propose layer."""
+    # aether_llm.py lives in python/ → repo root is parent
+    root = Path(__file__).resolve().parent.parent
+    path = root / "references" / "personal-llm-system.txt"
+    if path.is_file():
+        return path.read_text(encoding="utf-8").strip()
+    return (
+        "You propose only. Never run aether approve. Silence is never permission. "
+        "Filesystem is truth. CURRENT.md is authority."
+    )
+
+
+def maybe_inject_personal_system(messages: list[dict[str, str]]) -> list[dict[str, str]]:
+    """If AETHER_PERSONAL_LLM_SYSTEM is set and no system msg, prepend doctrine."""
+    flag = os.environ.get("AETHER_PERSONAL_LLM_SYSTEM", "").strip().lower()
+    if flag not in ("1", "true", "yes", "on"):
+        return messages
+    if any(m.get("role") == "system" for m in messages):
+        return messages
+    return [{"role": "system", "content": personal_llm_system_text()}, *messages]
+
+
+def flag_unsafe_model_output(text: str) -> list[str]:
+    """Return human-readable flags for outer tool policy (never auto-exec)."""
+    flags: list[str] = []
+    if UNSAFE_CMD_RE.search(text or ""):
+        flags.append("unsafe_cmd_suggest")
+    if SECRET_LIKE_RE.search(text or ""):
+        flags.append("secret_like")
+    return flags
 
 
 def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
@@ -143,6 +218,7 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
             "no LLM backend: set ANTHROPIC_API_KEY (or import via "
             "~/exports/import-anthropic-key.sh), XAI_API_KEY, or start Ollama"
         )
+    messages = maybe_inject_personal_system(messages)
     if backend.name == "anthropic":
         return _anthropic_chat(backend, messages, temperature)
     if backend.name == "xai":
