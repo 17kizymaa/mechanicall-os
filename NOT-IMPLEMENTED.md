@@ -1,11 +1,18 @@
 # NOT IMPLEMENTED — Explicit Denial List
 
-**Last updated:** 2026-07-22 (personal-llm propose layer docs; weights still off-repo)
+**Last updated:** 2026-07-25 (club-cortex direction docs; multi-user backend still not shipped)
 
 This file exists so no operator, investor, agent, or README can honestly claim
 these components are part of Mechanicall OS today.
 
 If you find a claim that contradicts this file, the claim is wrong.
+
+**Operator direction ≠ shipped product.** Product shape research (“club-cortex”,
+multi-LoRA club scale, desktop-as-backend) lives under
+`research/speculative/CLUB-CORTEX-SHAPE.md` and
+`MULTI-USER-LORA-CLUB-SCALE.md`. Those files define **where the project may go**;
+they do **not** authorize multi-tenant SaaS, multi-desktop virtualisation, or
+auto-train claims.
 
 ## Product positioning (what *is* real)
 
@@ -44,9 +51,15 @@ It is **not** an industrial autonomous agent platform.
 | Deterministic ACID workflow engine | **Not implemented** |
 | Industrial-grade fault tolerance claims | **Unsupported** |
 | Multi-user collaboration platform | **Not implemented** |
+| Club multi-user backend (queues, multi-adapter host, retainers) | **Not implemented** — direction only: `research/speculative/CLUB-CORTEX-SHAPE.md` |
+| Multi-tenant SaaS chat / infinite concurrent AI desktop | **Prohibited product claim** |
 | Web dashboard / microservices / event bus | **Not implemented** |
+| Branded “shell wizard” / product SaaS dashboard | **Not implemented** — optional local **Project Panel** TUI is `aether panel` (projects files + shells to aether only) |
+| Always-on multi-tenant web control plane | **Not implemented** |
 | General-purpose DAG editor | **Not implemented** |
 | “Hippocampus” summarisation subsystem | **Not implemented** |
+| Authenticated human identity for approve/reject | **Not implemented** (protocol rule only) |
+| Sandbox that blocks skip-preflight agents | **Not implemented** |
 
 ## Architecture non-goals (still locked)
 
