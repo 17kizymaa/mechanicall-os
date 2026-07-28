@@ -18,3 +18,10 @@ Same TTY is fine; not one fused product.
 - Brightness: MAX (confirmed).  
 - Phone on LAN: **192.168.1.151** (`Anthony-s-A33.lan`) — not SSH target; USB tether net not visible from operator PC.  
 - Product gut: **approve felt wrong** → logged as emotional-involuntary in `DEV-LOG-2026-07-28.md`. Bias: CURRENT.md as product, less tooling.
+
+## Pivot: Android TV default boot
+
+- OS **already on disk**; problem is **GRUB wins every boot**.
+- Playbook: `ANDROID-TV-BOOT-RECOVERY.md`
+- Next: `inventory-boot` (live USB inventory → EFI/BIOS order).
+- Quiet Alpine chat = experiment only; not permanent client OS.
