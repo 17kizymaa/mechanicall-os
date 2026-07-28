@@ -14,20 +14,38 @@
 | `emachine.apkovl.tar.gz` | Optional Alpine overlay bundle |
 | `README-WIFI.txt` | Same instructions on the stick |
 
-## On the eMachine (after you plug the stick back in)
+## On the eMachine (BusyBox — **no lsblk**, no `mount -L`)
 
-Boot Alpine (from this stick if it still boots, or another Alpine). As **root**:
+`Invalid argument` on mount usually means **fat/vfat modules not loaded**.  
+`No such file or directory` usually means **mount by label** (BusyBox) or missing mkdir.
+
+As **root**, after the stick is plugged in:
 
 ```sh
+modprobe fat
+modprobe vfat
+modprobe nls_cp437
+modprobe nls_iso8859-1
+mdev -s
 mkdir -p /media/ALPINECFG
-mount -L ALPINECFG /media/ALPINECFG
-# if label fails:
-# lsblk -f
-# mount /dev/sdX1 /media/ALPINECFG
-
+cat /proc/partitions
+blkid
+# find LABEL="ALPINECFG" (~1.5G) → e.g. /dev/sda1 or /dev/sdb1
+mount -t vfat /dev/XXXX /media/ALPINECFG
+ls /media/ALPINECFG/wifi
 sh /media/ALPINECFG/wifi/apply-wifi.sh
-ip -4 addr show wlan0
-ping -c 2 192.168.1.241
+```
+
+Same text lives on the stick: `EMACHINE-HANDCOPY.txt`.  
+Helper: `wifi/mount-this.sh` (once you can run anything from a mounted path — chicken/egg, so hand-copy first).
+
+## Operator debug (MBP)
+
+Stick may appear as `/dev/sdb` or `/dev/sdc`. Prefer:
+
+```sh
+findfs LABEL=ALPINECFG
+mount -t vfat /dev/sdX1 /media/ALPINECFG
 ```
 
 Then you can `apk add openssh` and `service sshd start` for LAN SSH.
