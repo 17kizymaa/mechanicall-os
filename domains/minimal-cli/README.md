@@ -1,9 +1,12 @@
-# Quiet chat
+# Minimal desk domain (operator host)
+
+## Next agent
+
+Read **[HANDOFF-NEXT-AGENT.md](./HANDOFF-NEXT-AGENT.md)** then **[CURRENT.md](./CURRENT.md)**.
 
 ```bash
-# keys: ~/Desktop/.env (raw sk-or-… line) or OPENROUTER_API_KEY
+cd /home/anphuni/mechanicall-os/domains/minimal-cli
 aether desk
 ```
 
-Privacy warning → Hello → type to talk → `bye` to leave.  
-No slash commands. Empty line is not yes.
+Chat only. Keys: `~/Desktop/.env`. eME640 hardware work is **parked**.

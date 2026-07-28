@@ -1,37 +1,38 @@
 # CURRENT
 
-**Objective:** Use terminal desk as chat + CURRENT surface (model proposes; file remains authority).
+**Objective:** Operator-host product desk: quiet propose-only chat over CURRENT.md; eME640 hardware work parked.
 **Phase:** EXECUTE
 **Status:** READY-FOR-REVIEW
-**Baseline:** session/client-one-delroy-reconfigure
-**Next:** run-aether-desk
+**Baseline:** fork-product-desk-operator-host
+**Next:** handoff-next-agent
 **Approval:** PENDING
 
 ## Keep
-- Project root = directory that holds this file (cwd)
-- Default desk = multi-turn terminal chat to free/frontier model
-- Slash commands for CURRENT / preflight (not buried in model tools)
-- Free frontier API for propose only (OpenRouter / Groq)
-- Human edits CURRENT by hand; approve optional
+- myarch as work host
+- `aether desk` quiet chat (privacy → hello → talk)
+- OpenRouter free path via `~/Desktop/.env` (raw sk-or- key)
+- CURRENT.md as sole authority; model proposes only
+- Handoff artifact: `HANDOFF-NEXT-AGENT.md` for the next agent
 
 ## Reject
-- Nested stage factory as the daily surface
-- Model auto-approve or silence-as-yes
-- New dependencies beyond stdlib + existing aether
-- Chat as second authority plane
+- Resuming eME640 GRUB/USB/eth/Android-boot multi-hour debug unless human explicitly reopens it
+- Slash commands / panel chrome as the default desk
+- Model approve or silence-as-permission
+- Heavy local inference on the eME640 (thermal)
 
 ## Limits
 - One Next at a time
-- Chat logs under .aether/chat.jsonl are evidence, not authority
-- Keys stay in env, never in git
+- Secrets never committed
+- Desk must stay low-noise
 
 ## Next allowed action
-From this directory: `aether desk` and talk; use `/e` to edit CURRENT. Action id: `run-aether-desk`.
+Next agent: read `HANDOFF-NEXT-AGENT.md`, then help with desk use or CURRENT edits on operator host only. Action id: `handoff-next-agent`.
 
 ## Approval condition
-Optional. Prefer living with the file over ceremony.
+Optional. Prefer the handoff file being accurate over ceremony.
 
 ## Prohibited
-- nag-approve
+- eme640-boot-sprint-without-ask
 - model-approve
 - secret-in-repo
+- nag-approve
