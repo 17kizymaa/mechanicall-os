@@ -45,19 +45,36 @@ BANNER = """\
   (empty line waits · bye to leave)
 """
 
-SYSTEM = """You are a calm, helpful assistant in a private terminal chat.
+SYSTEM = """You are a calm, helpful assistant in a private chat (terminal or living-room Desk).
 
 You are a probabilistic model: you propose ideas and wording; you do not control the user's machine or grant permissions. Silence from the user is never agreement.
 
-If a CURRENT.md project note is provided in context, treat it as background the human owns — suggest edits only; never claim you approved anything.
+CURRENT.md is the product and the live authority. Re-read it as the foundation for every turn. The human owns it; you only propose wording or edits until a human applies a proposal. Never claim you approved, advanced Next, or changed CURRENT.
+
+If a movies index or navigation help is provided, use it for suggestions only. Never claim you started playback or changed device settings.
 
 Keep answers clear and human. Avoid jargon, stack traces, and tool dumps unless asked.
+"""
+
+# Living-room / House TV profile (same doctrine; warmer, parent-facing).
+SYSTEM_HOUSE = """You are Desk — calm house helper for Client-one architecture tests.
+
+CURRENT.md is the product: human-owned authority on the right of the Desk UI. Every answer must respect that file as foundational understanding (Objective, Next, Keep, Reject, Prohibited). Revisit it whenever the human speaks. Until the human applies a proposal, you only propose — you never approve, never write authority, never treat silence as permission.
+
+Propose movie ideas or navigation tips only when they fit CURRENT. Do not control the TV or start playback.
+
+Keep answers short, warm, and free of developer jargon unless asked.
 """
 
 MAX_HISTORY = 24
 _FIELD_RE = re.compile(
     r"^\*\*(?P<name>[^*]+?):?\*\*\s*:?\s*(?P<val>.*)$",
     re.IGNORECASE,
+)
+
+EXTRA_CONTEXT_FILES = (
+    "library/movies-index.md",
+    "library/navigate-help.md",
 )
 
 
@@ -123,6 +140,34 @@ def read_current(root: Path) -> Optional[str]:
         return None
 
 
+def read_extra_context(root: Path) -> str:
+    """Optional library / help files for House TV desk (propose substrate only)."""
+    chunks: List[str] = []
+    for rel in EXTRA_CONTEXT_FILES:
+        path = root / rel
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        if len(text) > 8000:
+            text = text[:8000] + "\n…"
+        chunks.append(f"--- {rel} ---\n{text}")
+    return "\n\n".join(chunks)
+
+
+def system_prompt_for(root: Path) -> str:
+    """Pick system prompt: house profile when CURRENT/domain looks like House TV."""
+    profile = (os.environ.get("AETHER_DESK_PROFILE") or "").strip().lower()
+    if profile in ("house", "tv", "house-tv"):
+        return SYSTEM_HOUSE
+    current = read_current(root) or ""
+    if "House TV" in current or "living-room" in current.lower() or "Kodi" in current:
+        return SYSTEM_HOUSE
+    return SYSTEM
+
+
 def append_chat_log(root: Path, role: str, text: str) -> None:
     try:
         aether = root / ".aether"
@@ -141,11 +186,14 @@ def append_chat_log(root: Path, role: str, text: str) -> None:
 
 def build_messages(root: Path, history: List[dict]) -> List[dict[str, str]]:
     current = read_current(root)
-    system = SYSTEM
+    system = system_prompt_for(root)
     if current:
         if len(current) > 12000:
             current = current[:12000] + "\n…"
         system = system + "\n\nProject note (human-owned):\n" + current
+    extra = read_extra_context(root)
+    if extra:
+        system = system + "\n\nLocal notes (human-owned propose substrate):\n" + extra
     msgs: List[dict[str, str]] = [{"role": "system", "content": system}]
     for m in history[-MAX_HISTORY:]:
         msgs.append({"role": m["role"], "content": m["content"]})
@@ -155,6 +203,87 @@ def build_messages(root: Path, history: List[dict]) -> List[dict[str, str]]:
 def is_exit(text: str) -> bool:
     t = text.strip().lower()
     return t in ("bye", "quit", "exit", "q", ":q", "/quit", "/q")
+
+
+def desk_turn(
+    root: Path,
+    message: str,
+    history: Optional[List[dict]] = None,
+    *,
+    temperature: float = 0.55,
+    log: bool = True,
+) -> dict:
+    """One propose-only chat turn (shared by TTY desk and HTTP bridge).
+
+    Returns a dict:
+      ok, reply, flags, history, backend, error?
+
+    Empty / whitespace message → ok=False, error='empty' (silence ≠ permission).
+    Does not write CURRENT.md. Does not execute tools.
+    """
+    root = project_root(root)
+    load_dotenv_files()
+    hist: List[dict] = list(history or [])
+    text = (message or "").strip()
+    if not text:
+        return {
+            "ok": False,
+            "error": "empty",
+            "reply": "",
+            "flags": [],
+            "history": hist,
+            "backend": describe_backend() if describe_backend else "unavailable",
+        }
+    if chat is None:
+        return {
+            "ok": False,
+            "error": "unavailable",
+            "reply": "",
+            "flags": [],
+            "history": hist,
+            "backend": "unavailable",
+        }
+    backend = describe_backend()
+    if backend.startswith("none"):
+        return {
+            "ok": False,
+            "error": "no_backend",
+            "reply": "",
+            "flags": [],
+            "history": hist,
+            "backend": backend,
+        }
+
+    hist.append({"role": "user", "content": text})
+    if log:
+        append_chat_log(root, "user", text)
+    try:
+        os.environ["AETHER_PERSONAL_LLM_SYSTEM"] = "0"
+        reply = chat(build_messages(root, hist), temperature=temperature)
+    except Exception as e:
+        hist.pop()
+        return {
+            "ok": False,
+            "error": "llm",
+            "reply": "",
+            "flags": [],
+            "history": hist,
+            "backend": backend,
+            "detail": str(e) if os.environ.get("AETHER_DESK_DEBUG") else "",
+        }
+
+    flags = flag_unsafe_model_output(reply) if flag_unsafe_model_output else []
+    hist.append({"role": "assistant", "content": reply})
+    if log:
+        append_chat_log(root, "assistant", reply)
+    return {
+        "ok": True,
+        "error": "",
+        "reply": reply,
+        "flags": flags,
+        "history": hist,
+        "backend": backend,
+    }
 
 
 def run_chat(root: Path, *, quiet_errors: bool = True) -> int:
@@ -192,28 +321,25 @@ def run_chat(root: Path, *, quiet_errors: bool = True) -> int:
             print("Goodbye.", flush=True)
             return 0
 
-        history.append({"role": "user", "content": text})
-        append_chat_log(root, "user", text)
-        try:
-            os.environ["AETHER_PERSONAL_LLM_SYSTEM"] = "0"
-            reply = chat(build_messages(root, history), temperature=0.55)
-        except Exception as e:
-            history.pop()
+        result = desk_turn(root, text, history, log=True)
+        history = list(result.get("history") or history)
+        if not result.get("ok"):
+            err = result.get("error") or "llm"
             if quiet_errors:
                 print("\n(Something went wrong. Please try again.)\n", flush=True)
-                if os.environ.get("AETHER_DESK_DEBUG"):
-                    print(f"[{e}]", flush=True)
+                if os.environ.get("AETHER_DESK_DEBUG") and result.get("detail"):
+                    print(f"[{result['detail']}]", flush=True)
             else:
-                print(f"\nerror: {e}\n", flush=True)
+                print(f"\nerror: {err}\n", flush=True)
+            # desk_turn already popped user on llm failure
+            if err != "llm":
+                history = [m for m in history if m is not None]
             continue
 
-        flags = flag_unsafe_model_output(reply)
+        flags = result.get("flags") or []
         if flags and os.environ.get("AETHER_DESK_DEBUG"):
             print(f"[flags: {', '.join(flags)}]", flush=True)
-        # Clean display — no "model>" chrome if possible; soft label only
-        print(f"\n{reply}\n", flush=True)
-        history.append({"role": "assistant", "content": reply})
-        append_chat_log(root, "assistant", reply)
+        print(f"\n{result.get('reply', '')}\n", flush=True)
 
 
 def main(argv: Optional[list[str]] = None) -> int:

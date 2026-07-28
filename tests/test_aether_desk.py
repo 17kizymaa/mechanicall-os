@@ -16,6 +16,7 @@ from aether_desk import (  # noqa: E402
     BANNER,
     PRIVACY,
     build_messages,
+    desk_turn,
     is_exit,
     load_dotenv_files,
     project_root,
@@ -56,6 +57,11 @@ class TestDesk(unittest.TestCase):
 
     def test_project_root(self) -> None:
         self.assertEqual(project_root(self.root), self.root.resolve())
+
+    def test_desk_turn_empty(self) -> None:
+        r = desk_turn(self.root, "", [], log=False)
+        self.assertFalse(r["ok"])
+        self.assertEqual(r["error"], "empty")
 
     def test_raw_openrouter_env_line(self) -> None:
         envf = self.root / ".env"

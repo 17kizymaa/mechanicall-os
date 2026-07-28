@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'os.mechanicall.housedesk'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "os.mechanicall.housedesk"
+        minSdk 26
+        targetSdk 27
+        versionCode 1
+        versionName "0.1.0"
+        // eME640 / ATV8 32-bit
+        ndk {
+            abiFilters 'x86'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.leanback:leanback:1.0.0'
+}

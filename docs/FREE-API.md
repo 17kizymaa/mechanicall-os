@@ -17,7 +17,11 @@ export AETHER_MODEL="openrouter/free"
 export AETHER_LLM_PROVIDER=openrouter   # optional force
 
 aether desk
-# type to chat (default). /e edits CURRENT. /w saves last proposal.
+# type to chat (default). Privacy banner first; CURRENT is silent context.
+
+# House TV / couch HTML bridge (keys stay on this machine):
+aether desk-serve --lan --port 8788 domains/house-tv-desk
+# open http://<this-host>:8788/  — propose only; never approve
 ```
 
 ### 2. Groq (fast open weights)
