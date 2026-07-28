@@ -15,6 +15,7 @@ python3 "$ROOT/tests/test_aether_llm_personal.py" || fail "personal-llm unit tes
 pass "personal-llm unit tests"
 
 python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
+python3 "$ROOT/tests/test_aether_desk.py" || fail "desk unit tests"
 pass "panel unit tests"
 
 TMP="${TMPDIR:-/tmp}/aether-test.$$"

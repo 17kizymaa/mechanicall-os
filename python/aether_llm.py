@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-"""Shared LLM plumbing for aether garden + rival editor.
+"""Shared LLM plumbing for aether garden, rival, and desk.
 
-Priority:
-  1. ANTHROPIC_API_KEY (or ~/.config/anthropic/api_key) → Anthropic Messages API
-  2. XAI_API_KEY → https://api.x.ai/v1 (OpenAI-compatible chat)
-  3. Local Ollama → http://127.0.0.1:11434
-  4. None → callers handle
+Priority (first available wins unless AETHER_LLM_PROVIDER forces one):
+  1. OPENROUTER_API_KEY → free-tier multi-provider (no card for free models)
+  2. GROQ_API_KEY → free frontier-class open weights (fast)
+  3. ANTHROPIC_API_KEY (or ~/.config/anthropic/api_key)
+  4. XAI_API_KEY → api.x.ai
+  5. Local Ollama → http://127.0.0.1:11434
+  6. None → callers handle
 
 Doctrine: no hidden DBs; keys only from env/files; stdlib only.
 Env:
+  OPENROUTER_API_KEY, AETHER_MODEL (default: openrouter/free or meta free slug)
+  GROQ_API_KEY, AETHER_MODEL (default: llama-3.3-70b-versatile)
   ANTHROPIC_API_KEY, ANTHROPIC_MODEL / AETHER_MODEL (default claude-sonnet-5)
   XAI_API_KEY, AETHER_MODEL (default grok-4.5 when xai)
   AETHER_OLLAMA_HOST, AETHER_OLLAMA_MODEL
   AETHER_LLM_TIMEOUT (seconds, default 120)
-  AETHER_LLM_PROVIDER=anthropic|xai|ollama  # force
+  AETHER_LLM_PROVIDER=openrouter|groq|anthropic|xai|ollama
   AETHER_PERSONAL_LLM_SYSTEM=1  # prepend references/personal-llm-system.txt if no system msg
 """
 from __future__ import annotations
@@ -68,9 +72,10 @@ SECRET_LIKE_RE = re.compile(
 
 @dataclass
 class LLMBackend:
-    name: str  # anthropic | xai | ollama
+    name: str  # openrouter | groq | anthropic | xai | ollama
     model: str
     base: str
+    api_key_env: str = ""  # env var name for OpenAI-compatible auth
 
 
 def timeout() -> float:
@@ -90,6 +95,14 @@ def _anthropic_key() -> str:
     return ""
 
 
+def _env_key(*names: str) -> str:
+    for n in names:
+        v = os.environ.get(n, "").strip()
+        if v:
+            return v
+    return ""
+
+
 def _resolve_model(default: str) -> str:
     raw = (
         os.environ.get("AETHER_MODEL")
@@ -101,6 +114,28 @@ def _resolve_model(default: str) -> str:
 
 def resolve_backend() -> Optional[LLMBackend]:
     force = os.environ.get("AETHER_LLM_PROVIDER", "").strip().lower()
+
+    def openrouter() -> Optional[LLMBackend]:
+        key = _env_key("OPENROUTER_API_KEY")
+        if not key:
+            return None
+        # openrouter/free routes to a free model; or pin AETHER_MODEL
+        model = _resolve_model("openrouter/free")
+        return LLMBackend(
+            "openrouter",
+            model,
+            "https://openrouter.ai/api/v1",
+            api_key_env="OPENROUTER_API_KEY",
+        )
+
+    def groq() -> Optional[LLMBackend]:
+        key = _env_key("GROQ_API_KEY")
+        if not key:
+            return None
+        model = _resolve_model("llama-3.3-70b-versatile")
+        return LLMBackend(
+            "groq", model, "https://api.groq.com/openai/v1", api_key_env="GROQ_API_KEY"
+        )
 
     def anthropic() -> Optional[LLMBackend]:
         if not _anthropic_key():
@@ -115,7 +150,7 @@ def resolve_backend() -> Optional[LLMBackend]:
         # if model is a claude alias while on xai, fall back
         if model.startswith("claude") or model in MODEL_ALIASES:
             model = "grok-4.5"
-        return LLMBackend("xai", model, "https://api.x.ai/v1")
+        return LLMBackend("xai", model, "https://api.x.ai/v1", api_key_env="XAI_API_KEY")
 
     def ollama() -> Optional[LLMBackend]:
         host = os.environ.get("AETHER_OLLAMA_HOST", "http://127.0.0.1:11434").rstrip("/")
@@ -126,14 +161,18 @@ def resolve_backend() -> Optional[LLMBackend]:
             return LLMBackend("ollama", model, host)
         return None
 
-    if force == "anthropic":
-        return anthropic()
-    if force == "xai":
-        return xai()
-    if force == "ollama":
-        return ollama()
+    table = {
+        "openrouter": openrouter,
+        "groq": groq,
+        "anthropic": anthropic,
+        "xai": xai,
+        "ollama": ollama,
+    }
+    if force in table:
+        return table[force]()
 
-    return anthropic() or xai() or ollama()
+    # Free frontier first, then paid/local
+    return openrouter() or groq() or anthropic() or xai() or ollama()
 
 
 def _ollama_up(host: str) -> bool:
@@ -215,13 +254,13 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
     backend = resolve_backend()
     if not backend:
         raise RuntimeError(
-            "no LLM backend: set ANTHROPIC_API_KEY (or import via "
-            "~/exports/import-anthropic-key.sh), XAI_API_KEY, or start Ollama"
+            "no LLM backend: set OPENROUTER_API_KEY or GROQ_API_KEY (free), "
+            "or ANTHROPIC_API_KEY / XAI_API_KEY, or start Ollama — see docs/FREE-API.md"
         )
     messages = maybe_inject_personal_system(messages)
     if backend.name == "anthropic":
         return _anthropic_chat(backend, messages, temperature)
-    if backend.name == "xai":
+    if backend.name in ("xai", "openrouter", "groq"):
         return _openai_chat(backend, messages, temperature)
     return _ollama_chat(backend, messages, temperature)
 
@@ -229,7 +268,7 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
 def describe_backend() -> str:
     b = resolve_backend()
     if not b:
-        return "none (ANTHROPIC_API_KEY / XAI_API_KEY / ollama)"
+        return "none (OPENROUTER_API_KEY / GROQ_API_KEY / ANTHROPIC / XAI / ollama)"
     return f"{b.name}:{b.model}"
 
 
@@ -282,21 +321,32 @@ def _anthropic_chat(backend: LLMBackend, messages: list[dict[str, str]], tempera
 
 
 def _openai_chat(backend: LLMBackend, messages: list[dict[str, str]], temperature: float) -> str:
-    key = os.environ["XAI_API_KEY"].strip()
-    body = json.dumps(
-        {
-            "model": backend.model,
-            "messages": messages,
-            "temperature": temperature,
-        }
-    ).encode()
+    env_name = backend.api_key_env or "XAI_API_KEY"
+    key = os.environ.get(env_name, "").strip()
+    if not key and backend.name == "xai":
+        key = os.environ.get("XAI_API_KEY", "").strip()
+    if not key:
+        raise RuntimeError(f"missing API key env {env_name}")
+    body_obj: dict = {
+        "model": backend.model,
+        "messages": messages,
+        "temperature": temperature,
+    }
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+    }
+    # OpenRouter optional attribution headers (improves free-tier routing)
+    if backend.name == "openrouter":
+        headers["HTTP-Referer"] = os.environ.get(
+            "OPENROUTER_REFERER", "https://github.com/mechanicall-os"
+        )
+        headers["X-Title"] = os.environ.get("OPENROUTER_TITLE", "Mechanicall desk")
+    body = json.dumps(body_obj).encode()
     req = urllib.request.Request(
         f"{backend.base}/chat/completions",
         data=body,
-        headers={
-            "Authorization": f"Bearer {key}",
-            "Content-Type": "application/json",
-        },
+        headers=headers,
         method="POST",
     )
     try:
@@ -304,10 +354,10 @@ def _openai_chat(backend: LLMBackend, messages: list[dict[str, str]], temperatur
             data = json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
         err = e.read().decode(errors="replace")[:400]
-        raise RuntimeError(f"xAI HTTP {e.code}: {err}") from e
+        raise RuntimeError(f"{backend.name} HTTP {e.code}: {err}") from e
     choices = data.get("choices") or []
     if not choices:
-        raise RuntimeError(f"xAI empty response: {data!r}"[:300])
+        raise RuntimeError(f"{backend.name} empty response: {data!r}"[:300])
     return (choices[0].get("message") or {}).get("content", "").strip()
 
 
