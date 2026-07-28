@@ -1,6 +1,6 @@
 # CURRENT
 
-**Objective:** Use a minimal hotkey desk over CURRENT.md as the daily product surface.
+**Objective:** Use terminal desk as chat + CURRENT surface (model proposes; file remains authority).
 **Phase:** EXECUTE
 **Status:** READY-FOR-REVIEW
 **Baseline:** session/client-one-delroy-reconfigure
@@ -9,23 +9,24 @@
 
 ## Keep
 - Project root = directory that holds this file (cwd)
-- Hotkeys over chrome: show/edit CURRENT, preflight Next, optional free-model propose
+- Default desk = multi-turn terminal chat to free/frontier model
+- Slash commands for CURRENT / preflight (not buried in model tools)
 - Free frontier API for propose only (OpenRouter / Groq)
-- Human edits CURRENT by hand; approve is optional, not required for truth
+- Human edits CURRENT by hand; approve optional
 
 ## Reject
 - Nested stage factory as the daily surface
-- Chat-in-panel as product
-- Model auto-approve
+- Model auto-approve or silence-as-yes
 - New dependencies beyond stdlib + existing aether
+- Chat as second authority plane
 
 ## Limits
 - One Next at a time
-- Desk does not sandbox agents
+- Chat logs under .aether/chat.jsonl are evidence, not authority
 - Keys stay in env, never in git
 
 ## Next allowed action
-From this directory: `aether desk` (or `python3 ../../python/aether_desk.py .`) and use hotkeys. Action id: `run-aether-desk`.
+From this directory: `aether desk` and talk; use `/e` to edit CURRENT. Action id: `run-aether-desk`.
 
 ## Approval condition
 Optional. Prefer living with the file over ceremony.

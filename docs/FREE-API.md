@@ -17,7 +17,7 @@ export AETHER_MODEL="openrouter/free"
 export AETHER_LLM_PROVIDER=openrouter   # optional force
 
 aether desk
-# press g → ask for a CURRENT proposal
+# type to chat (default). /e edits CURRENT. /w saves last proposal.
 ```
 
 ### 2. Groq (fast open weights)

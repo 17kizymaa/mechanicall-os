@@ -1439,7 +1439,7 @@ aether v0.2 (shell) — Mechanicall OS
                          first-run setup: init + CURRENT + preflight demo
   panel [path] [--write] [--dump] [--simple]
                          Project Panel TUI (buttons) + optional PANEL.md/html
-  desk [path]            minimal CURRENT.md hotkey desk (product surface)
+  desk [path] [--keys]   terminal chat over CURRENT.md (default) + slash cmds
   app register <name> [path]
                          register development application (.aether/app.json)
   app status [path]      show registered app metadata
