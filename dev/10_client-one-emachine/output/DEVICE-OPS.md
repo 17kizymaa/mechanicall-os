@@ -33,4 +33,6 @@ Replace `9999` with the real max value from `max_brightness`.
 |-------|--------|
 | sysfs backlight | |
 | Fn keys | |
-| Other | |
+| Other | **2026-07-28: brightness successfully set to MAX** (operator confirmed). |
+
+See also `DEV-LOG-2026-07-28.md` for LAN/phone scan notes.

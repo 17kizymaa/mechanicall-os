@@ -32,7 +32,7 @@
 Ship plain-language panel labels (and short help) in `python/aether_panel.py`; keep internal action keys stable. Action id: `plain-panel-labels`.
 
 ## Approval condition
-Human reviews dump/TUI labels, then `aether approve "labels stick"` from this stage dir (or chat proceed).
+Optional. **Do not pressure.** 2026-07-28: operator recorded emotional-involuntary resistance to `aether approve` — signal that tooling outran CURRENT-as-product. Leaving Approval PENDING is valid. Prefer hand-edit of this file over ceremony. See `output/DEV-LOG-2026-07-28.md`.
 
 ## Prohibited
 - chat-facade-in-panel
@@ -40,3 +40,4 @@ Human reviews dump/TUI labels, then `aether approve "labels stick"` from this st
 - transfer-package-p0
 - wlan-first
 - wipe-disk
+- nag-approve
