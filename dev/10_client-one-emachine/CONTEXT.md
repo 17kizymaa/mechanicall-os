@@ -1,32 +1,32 @@
-# Stage: 10_client-one-emachine — session transfer + RECONFIGURE
+# Stage: 10_client-one-emachine
 
 ## Role
-Operator-side execution stage for **client one** (eMachine E640, Alpine USB live, thermal-limited).  
-Agent session remains on the mechanicall-os source host; product is a transfer package + network reconfigure runbook.
+Operator-side stage for **client one** (eMachine E640). Code and docs stay on this host.  
+Two tools for teaching: **aether panel** (plan + human yes/no) and **grok** (AI). Same TTY is ops only.
 
 ## Inputs
-- Layer 0: `AGENTS.md`, `CORE_PRINCIPLES.md`, meta-agent skill
-- Layer 1: this folder’s `CURRENT.md` (authority)
-- Layer 3: `SPEC-v0.2.md`, `docs/getting-started.md`, `examples/dev-task/CURRENT.md`
-- Layer 4: operator answers (Delroy home, INIT deferred, Next=RECONFIGURE, WLAN not tether)
+- Layer 0: `AGENTS.md`, `CORE_PRINCIPLES.md`
+- Layer 1: this folder’s `CURRENT.md`
+- Layer 3: `SPEC-v0.2.md`, approved plan (plain panel + tether + Grok install)
+- Layer 4: educational sprint notes (labels, tether first, no chat facade)
 
 ## Process
-1. Bind authority in `CURRENT.md` (Next: `reconfigure-wlan`).
-2. Produce transfer docs in `output/` (handoff, WLAN runbook, disk decision, proposed client CURRENT, manifest).
-3. Do **not** create `/home/Delroy` project or run client `aether init` until SSH + later auth.
-4. After human brings WLAN up (console on device), SSH from operator host and copy `output/` + selected repo paths.
-5. Halt for human review before INIT.
+1. Keep a normal single-**Next** CURRENT (no pending-until-STOP dual-agent mode).
+2. Plain-language panel labels + short help in `python/aether_panel.py`.
+3. Client-facing runbooks: tether SSH, brightness, Grok install, same-TTY layout.
+4. Optional panel action: open Grok in this folder (leave and return) — not a product merge.
+5. Halt for human review before client INIT under Delroy.
 
 ## Outputs
-- `output/SESSION-TRANSFER-2026-07-28.md`
-- `output/RECONFIGURE-WLAN-ALPINE.md`
-- `output/DISK-PARTITION-DECISION.md`
-- `output/PROPOSED-CLIENT-CURRENT.md`
-- `output/TRANSFER-MANIFEST.md`
-- `output/THERMAL-TUI-NOTES.md`
+- `output/SSH-TO-TETHERED.md`
+- `output/DEVICE-OPS.md`
+- `output/GROK-INSTALL.md`
+- `output/SAME-TTY.md`
 - `output/summary.md`
+- (older transfer/WLAN notes retained but demoted)
 
-## Deferred (not this stage)
-- `aether init` / `aether current init` under `/home/Delroy`
-- Permanent install off Alpine USB
-- GUI desktop
+## Deferred
+- `/home/Delroy` project INIT
+- WLAN-first
+- Package transfer P0
+- Chat facade inside panel

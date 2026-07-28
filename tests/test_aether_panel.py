@@ -60,7 +60,9 @@ class TestPanelProjection(unittest.TestCase):
         text = render_text(load_state(self.root))
         self.assertIn("write-tests", text)
         self.assertIn("deploy-production", text)
-        self.assertIn("does not sandbox", text)
+        self.assertIn("Allowed next step", text)
+        self.assertIn("Do not do", text)
+        self.assertIn("does not control the AI", text)
 
     def test_write_md_html(self) -> None:
         st = load_state(self.root)

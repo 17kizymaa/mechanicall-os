@@ -1,44 +1,42 @@
 # CURRENT
 
-**Objective:** Transfer this operator session to client-one (eMachine E640 / Alpine) and reconfigure host WLAN so the device is reachable on LAN without preferring USB tethering.
+**Objective:** Client-one usable path on operator host first: tether SSH runbook, plain-language panel, simple Grok install; two tools on one TTY without claiming a fused product.
 **Phase:** EXECUTE
 **Status:** READY-FOR-REVIEW
-**Baseline:** session/client-one-delroy-reconfigure@b7dc96d
-**Next:** reconfigure-wlan
+**Baseline:** session/client-one-delroy-reconfigure
+**Next:** plain-panel-labels
 **Approval:** PENDING
 
 ## Keep
-- Agent + git branch stay on operator Arch host (`myarch` / mechanicall-os source)
-- Plain Markdown transfer package under `dev/10_client-one-emachine/`
-- TTY / TUI-first on thermal-limited eMachine (no GUI required for alpha demo)
-- Future INIT target: `/home/Delroy` on the client (user name Delroy)
-- Prefer WLAN → LAN for client reachability
+- Artifacts and code on this operator machine (no transfer P0)
+- Plain language for panel and client-facing install sheets
+- Grok Build = AI chat/work; aether panel = plan + human yes/no
+- Same physical TTY for both (tmux or open-from-panel) as **ops convenience only**
+- Delroy / project INIT deferred until later Next
+- SSH over USB tether before another wlan0 attempt
 
 ## Reject
-- Preferring USB tethering as steady-state networking
-- Creating the client project folder or running `aether init` before SSH + WLAN work
-- Destructive repartition / wipe of Windows 7 archive or unknown AndroidOS without explicit later auth
-- Installing a full GUI on the eMachine as a prerequisite
-- Treating silence or chat as permission beyond this CURRENT
+- Realtime chat facade inside panel
+- Dual-agent / pending-until-STOP session mode
+- Marketing “one product UI” for Grok+panel
+- Package transfer as P0
+- WLAN-first networking
+- Wipe disks / GUI as install prerequisite
 
 ## Limits
-- This stage authorizes **RECONFIGURE** (network + session transfer prep) only
-- No project-root INIT on client until a later CURRENT Next unlocks it
-- No forced disk mount until a human picks a partition from the decision tree
-- Do not commit large binaries (qcow2, result links) into the session branch
+- Panel does not sandbox Grok
+- Models never approve; human only for approve/reject
+- Do not commit auth.json or secrets
 
 ## Next allowed action
-Reconfigure Alpine WLAN on the eMachine so `wlan0` associates and gets a LAN address; keep the operator-side transfer package ready for `scp`/`rsync` after SSH. Action id: `reconfigure-wlan`.
+Ship plain-language panel labels (and short help) in `python/aether_panel.py`; keep internal action keys stable. Action id: `plain-panel-labels`.
 
 ## Approval condition
-Human confirms WLAN is up (or accepts documented fallback), reviews `output/` package, then either:
-- `aether approve "wlan up; transfer ready"` from this stage directory, or
-- explicit chat: proceed to SSH transfer / INIT under `/home/Delroy`.
+Human reviews dump/TUI labels, then `aether approve "labels stick"` from this stage dir (or chat proceed).
 
 ## Prohibited
-- prefer-usb-tether
-- client-project-init-now
+- chat-facade-in-panel
+- dual-agent-mirror
+- transfer-package-p0
+- wlan-first
 - wipe-disk
-- install-gui-required
-- expand-to-club-cortex
-- autonomous-repartition
