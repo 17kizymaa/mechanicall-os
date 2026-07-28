@@ -1,20 +1,9 @@
 #!/usr/bin/env python3
-"""Terminal desk: chat-first surface over CURRENT.md + free/frontier model.
+"""Straight-to-chat terminal. No slash commands. No technical chrome.
 
-Default = multi-turn chat in the terminal (probabilistic propose layer).
-Project root = cwd (or path arg). Authority stays in CURRENT.md.
-
-Slash commands (not model tools):
-  /help /c /e /n /p /s /i /w /clear /reload /quit
-  (aliases: /current /edit /next /preflight /status /init /write /q)
-
-Legacy: --keys  single-key mode (optional)
-
-Doctrine (Mechanicall):
-  - Filesystem is truth; CURRENT.md is authority.
-  - Model proposes in chat; never approves; never advances phase.
-  - Silence is never permission — empty input does not mean yes.
-  - Chat transcript may log under .aether/chat.jsonl (inspectable, not authority).
+Loads keys from env or a .env file (KEY=value or raw sk-or- / gsk_ lines).
+CURRENT.md is silent context for the model when present — not shown as UI.
+Empty line is not yes. Type bye / quit / exit to leave (or Ctrl-D).
 """
 from __future__ import annotations
 
@@ -22,11 +11,7 @@ import argparse
 import json
 import os
 import re
-import shutil
-import subprocess
 import sys
-import termios
-import tty
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Optional
@@ -40,46 +25,40 @@ except ImportError:  # pragma: no cover
     flag_unsafe_model_output = lambda t: []  # type: ignore
 
 
-SYSTEM_DOCTRINE = """You are the chat surface of Mechanicall OS desk (aether desk).
+PRIVACY = """\
+────────────────────────────────────────
+  PRIVACY
 
-Architecture (non-negotiable):
-- CURRENT.md in the project root is the only authority. You do not own it.
-- You are a probabilistic propose layer: draft, explain, suggest Next wording.
-- You never approve. You never claim approval. You never say silence is permission.
-- You never invent that preflight passed unless the human pastes preflight output.
-- Prefer short, practical answers. When proposing CURRENT edits, use clear Markdown drafts.
+  This chat talks to a cloud model.
+  Do not paste passwords, bank details,
+  health records, or secrets you would
+  not put in an email.
 
-If CURRENT.md is present in context, treat it as ground truth for objective/next/limits.
-If the human asks you to "just do it" or "approve", remind them to edit CURRENT ( /e ) or run human approve outside chat.
+  What you type may leave this device.
+  Conversations are not a legal vault.
+────────────────────────────────────────"""
+
+BANNER = """\
+  Hello.
+
+  Type anything to begin.
+  (empty line waits · bye to leave)
 """
 
-HELP = """
-desk — chat is default. Type normally to talk to the model.
-Slash commands (mechanical; not model authority):
+SYSTEM = """You are a calm, helpful assistant in a private terminal chat.
 
-  /help          this text
-  /c  /current   print CURRENT.md
-  /e  /edit      $EDITOR CURRENT.md
-  /n  /next      show Next + preflight
-  /p  /preflight preflight Next only
-  /s  /status    aether status
-  /i  /init      aether current init
-  /w  /write     save last model reply → .aether/propose-CURRENT.md
-  /clear         clear chat memory (not CURRENT)
-  /reload        re-read CURRENT into context banner
-  /q  /quit      leave desk
+You are a probabilistic model: you propose ideas and wording; you do not control the user's machine or grant permissions. Silence from the user is never agreement.
 
-Empty line = wait (not yes). Model never approves.
-Product = CURRENT.md. Chat = propose only.
+If a CURRENT.md project note is provided in context, treat it as background the human owns — suggest edits only; never claim you approved anything.
+
+Keep answers clear and human. Avoid jargon, stack traces, and tool dumps unless asked.
 """
 
+MAX_HISTORY = 24
 _FIELD_RE = re.compile(
     r"^\*\*(?P<name>[^*]+?):?\*\*\s*:?\s*(?P<val>.*)$",
     re.IGNORECASE,
 )
-
-# Max prior turns kept in API context (user+assistant pairs roughly)
-MAX_HISTORY_MESSAGES = 24
 
 
 def project_root(path: str | Path | None = None) -> Path:
@@ -89,98 +68,64 @@ def project_root(path: str | Path | None = None) -> Path:
     return p
 
 
-def find_aether() -> str:
-    env = os.environ.get("AETHER_BIN")
-    if env and Path(env).is_file():
-        return env
-    home = os.environ.get("AETHER_HOME")
-    if home:
-        cand = Path(home) / "aether"
-        if cand.is_file():
-            return str(cand)
-    here = Path(__file__).resolve().parent.parent / "aether"
-    if here.is_file():
-        return str(here)
-    which = shutil.which("aether")
-    return which or "aether"
-
-
-def run_aether(args: list[str], root: Path, timeout: int = 120) -> tuple[int, str]:
-    cmd = [find_aether(), *args]
-    aether_bin = find_aether()
-    home = os.environ.get("AETHER_HOME")
-    if not home:
-        try:
-            home = str(Path(aether_bin).resolve().parent)
-        except OSError:
-            home = str(Path(__file__).resolve().parent.parent)
-    try:
-        proc = subprocess.run(
-            cmd,
-            cwd=str(root),
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            env={**os.environ, "AETHER_HOME": home},
-        )
-    except FileNotFoundError:
-        return 127, "aether not found"
-    except subprocess.TimeoutExpired:
-        return 124, "aether timed out"
-    out = (proc.stdout or "") + (proc.stderr or "")
-    return proc.returncode, out.strip()
-
-
-def parse_next(current_text: str) -> str:
-    for line in current_text.splitlines():
-        m = _FIELD_RE.match(line.strip())
-        if not m:
+def load_dotenv_files() -> None:
+    """Load keys without requiring python-dotenv. Never print values."""
+    candidates = [
+        Path.home() / "Desktop" / ".env",
+        Path.home() / ".env",
+        project_root() / ".env",
+        Path("/etc/chat.env"),
+        Path("/root/.chat.env"),
+    ]
+    for path in candidates:
+        if not path.is_file():
             continue
-        if m.group("name").rstrip(":").strip().lower() == "next":
-            return m.group("val").strip()
-    return ""
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for line in text.splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" in line and not line.startswith("sk-") and not line.startswith("gsk_"):
+                k, _, v = line.partition("=")
+                k, v = k.strip(), v.strip().strip('"').strip("'")
+                if k and v and k not in os.environ:
+                    os.environ[k] = v
+                continue
+            # raw key lines (Desktop .env style)
+            if line.startswith("sk-or-") and "OPENROUTER_API_KEY" not in os.environ:
+                os.environ["OPENROUTER_API_KEY"] = line
+            elif line.startswith("gsk_") and "GROQ_API_KEY" not in os.environ:
+                os.environ["GROQ_API_KEY"] = line
+            elif line.startswith("xai-") and "XAI_API_KEY" not in os.environ:
+                os.environ["XAI_API_KEY"] = line
+            elif line.startswith("sk-ant-") and "ANTHROPIC_API_KEY" not in os.environ:
+                os.environ["ANTHROPIC_API_KEY"] = line
+            # ghp_ and other tokens: leave as GITHUB_TOKEN if unset (not for chat)
+            elif line.startswith("ghp_") and "GITHUB_TOKEN" not in os.environ:
+                os.environ["GITHUB_TOKEN"] = line
+
+    # Prefer free OpenRouter when key present
+    if os.environ.get("OPENROUTER_API_KEY") and not os.environ.get("AETHER_LLM_PROVIDER"):
+        os.environ.setdefault("AETHER_LLM_PROVIDER", "openrouter")
+        os.environ.setdefault("AETHER_MODEL", "openrouter/free")
 
 
 def read_current(root: Path) -> Optional[str]:
     cf = root / "CURRENT.md"
     if not cf.is_file():
         return None
-    return cf.read_text(encoding="utf-8", errors="replace")
-
-
-def parse_fields(text: str) -> dict[str, str]:
-    fields: dict[str, str] = {}
-    for line in text.splitlines():
-        m = _FIELD_RE.match(line.strip())
-        if m:
-            fields[m.group("name").rstrip(":").strip().lower()] = m.group("val").strip()
-    return fields
-
-
-def banner(root: Path) -> str:
-    text = read_current(root)
-    lines = [
-        f"desk (chat) — {root}",
-        f"llm         — {describe_backend()}",
-        "",
-    ]
-    if not text:
-        lines.append("  (no CURRENT.md — /init or create one, then /e)")
-    else:
-        f = parse_fields(text)
-        lines.append(f"  What we're doing:  {f.get('objective', '(unset)')}")
-        lines.append(f"  Allowed next step: {f.get('next', '(unset)')}")
-        lines.append(f"  Phase / Status:    {f.get('phase', '?')} / {f.get('status', '?')}")
-        lines.append(f"  Human sign-off:    {f.get('approval', '?')}")
-    lines.append("")
-    lines.append("  Type to chat.  /help for commands.  Empty line is not yes.")
-    return "\n".join(lines)
+    try:
+        return cf.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
 
 
 def append_chat_log(root: Path, role: str, text: str) -> None:
-    """Inspectable transcript; never authority."""
-    aether = root / ".aether"
     try:
+        aether = root / ".aether"
         aether.mkdir(parents=True, exist_ok=True)
         path = aether / "chat.jsonl"
         rec = {
@@ -194,282 +139,120 @@ def append_chat_log(root: Path, role: str, text: str) -> None:
         pass
 
 
-def edit_current(root: Path) -> None:
-    cf = root / "CURRENT.md"
-    if not cf.is_file():
-        print("no CURRENT.md — /init first", flush=True)
-        return
-    editor = os.environ.get("EDITOR") or os.environ.get("VISUAL") or "vi"
-    subprocess.call(editor.split() + [str(cf)])
-
-
-def write_proposal(root: Path, last: list[str]) -> None:
-    if not last:
-        print("no model reply yet — chat first", flush=True)
-        return
-    aether = root / ".aether"
-    aether.mkdir(parents=True, exist_ok=True)
-    out = aether / "propose-CURRENT.md"
-    out.write_text(
-        "# Proposed CURRENT edits (not authority)\n\n"
-        "Human must copy into CURRENT.md. Model output is not approval.\n\n"
-        + last[0]
-        + "\n",
-        encoding="utf-8",
-    )
-    print(f"wrote {out}", flush=True)
-
-
-def preflight_next(root: Path, show_next: bool) -> None:
-    t = read_current(root)
-    if not t:
-        print("no CURRENT.md", flush=True)
-        return
-    nxt = parse_next(t)
-    if not nxt or nxt.lower() in ("unset", "(unset)"):
-        print("Next is unset — /e to edit CURRENT", flush=True)
-        return
-    if show_next:
-        print(f"Next: {nxt}", flush=True)
-    code, out = run_aether(["preflight", nxt, str(root)], root)
-    print(out or f"(exit {code})", flush=True)
-
-
-def handle_slash(cmd: str, root: Path, history: List[dict], last: list[str]) -> bool:
-    """Return True if desk should exit."""
-    raw = cmd.strip()
-    name = raw.split()[0].lower() if raw else ""
-    if name in ("/q", "/quit", "/exit"):
-        print("bye", flush=True)
-        return True
-    if name in ("/help", "/?", "/h"):
-        print(HELP, flush=True)
-        return False
-    if name in ("/c", "/current"):
-        print(read_current(root) or "(no CURRENT.md)", flush=True)
-        return False
-    if name in ("/e", "/edit"):
-        edit_current(root)
-        print(banner(root), flush=True)
-        return False
-    if name in ("/s", "/status"):
-        code, out = run_aether(["status", str(root)], root)
-        print(out or f"(exit {code})", flush=True)
-        return False
-    if name in ("/i", "/init"):
-        code, out = run_aether(["current", "init", str(root)], root)
-        print(out or f"(exit {code})", flush=True)
-        print(banner(root), flush=True)
-        return False
-    if name in ("/n", "/next"):
-        preflight_next(root, show_next=True)
-        return False
-    if name in ("/p", "/preflight"):
-        preflight_next(root, show_next=False)
-        return False
-    if name in ("/w", "/write"):
-        write_proposal(root, last)
-        return False
-    if name == "/clear":
-        history.clear()
-        last.clear()
-        print("chat memory cleared (CURRENT unchanged)", flush=True)
-        return False
-    if name == "/reload":
-        print(banner(root), flush=True)
-        return False
-    print(f"unknown command {name!r} — /help", flush=True)
-    return False
-
-
 def build_messages(root: Path, history: List[dict]) -> List[dict[str, str]]:
-    current = read_current(root) or "(no CURRENT.md in project root)"
-    # Cap CURRENT injection size
-    if len(current) > 12000:
-        current = current[:12000] + "\n…(truncated)"
-    system = (
-        SYSTEM_DOCTRINE
-        + "\n\n--- CURRENT.md (authority; propose only) ---\n"
-        + current
-        + "\n--- end CURRENT.md ---"
-    )
+    current = read_current(root)
+    system = SYSTEM
+    if current:
+        if len(current) > 12000:
+            current = current[:12000] + "\n…"
+        system = system + "\n\nProject note (human-owned):\n" + current
     msgs: List[dict[str, str]] = [{"role": "system", "content": system}]
-    # keep tail of history
-    tail = history[-MAX_HISTORY_MESSAGES:]
-    for m in tail:
+    for m in history[-MAX_HISTORY:]:
         msgs.append({"role": m["role"], "content": m["content"]})
     return msgs
 
 
-def model_reply(root: Path, history: List[dict], user_text: str, last: list[str]) -> None:
-    if chat is None:
-        print("aether_llm unavailable", flush=True)
-        return
-    history.append({"role": "user", "content": user_text})
-    append_chat_log(root, "user", user_text)
-    try:
-        os.environ.setdefault("AETHER_PERSONAL_LLM_SYSTEM", "0")  # we inject doctrine ourselves
-        reply = chat(build_messages(root, history), temperature=0.5)
-    except Exception as e:
-        history.pop()  # drop failed user turn from context? keep it for retry
-        print(f"model error: {e}", flush=True)
-        print("Set OPENROUTER_API_KEY or GROQ_API_KEY — docs/FREE-API.md", flush=True)
-        return
-    flags = flag_unsafe_model_output(reply)
-    if flags:
-        print(f"[flags: {', '.join(flags)}]", flush=True)
-    print(f"\nmodel> {reply}\n", flush=True)
-    history.append({"role": "assistant", "content": reply})
-    append_chat_log(root, "assistant", reply)
-    last.clear()
-    last.append(reply)
+def is_exit(text: str) -> bool:
+    t = text.strip().lower()
+    return t in ("bye", "quit", "exit", "q", ":q", "/quit", "/q")
 
 
-def run_chat(root: Path) -> int:
+def run_chat(root: Path, *, quiet_errors: bool = True) -> int:
     root = project_root(root)
+    load_dotenv_files()
     history: List[dict] = []
-    last: list[str] = []
-    print(banner(root), flush=True)
-    print(HELP if os.environ.get("AETHER_DESK_VERBOSE") else "", end="", flush=True)
+
+    print(PRIVACY, flush=True)
+    print(BANNER, flush=True)
+
+    if chat is None:
+        print("Chat is unavailable right now. Please try again later.", flush=True)
+        return 1
+    if describe_backend().startswith("none"):
+        print(
+            "Chat needs a connection key. Add it and try again.",
+            flush=True,
+        )
+        return 1
 
     while True:
         try:
             print("you> ", end="", flush=True)
             line = sys.stdin.readline()
         except KeyboardInterrupt:
-            print("\n(use /quit to exit)", flush=True)
+            print("\n", flush=True)
             continue
         if line == "":
-            # EOF
-            print("\nbye", flush=True)
+            print("\nGoodbye.", flush=True)
             return 0
         text = line.rstrip("\n")
-        # Silence is never permission: empty line does nothing
         if not text.strip():
-            continue
-        stripped = text.strip()
-        if stripped.startswith("/"):
-            if handle_slash(stripped, root, history, last):
-                return 0
-            continue
-        model_reply(root, history, text, last)
-
-
-# --- legacy single-key mode -------------------------------------------------
-
-
-def get_key() -> str:
-    if not sys.stdin.isatty():
-        line = sys.stdin.readline()
-        return (line or "q").strip()[:1].lower() or "q"
-    fd = sys.stdin.fileno()
-    old = termios.tcgetattr(fd)
-    try:
-        tty.setraw(fd)
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old)
-    if ch in ("\x03", "\x04"):
-        return "q"
-    if ch in ("\r", "\n"):
-        return ""
-    return ch.lower()
-
-
-def run_keys(root: Path) -> int:
-    """Optional legacy hotkey UI (--keys)."""
-    root = project_root(root)
-    last: list[str] = []
-    history: List[dict] = []
-    print(banner(root), flush=True)
-    print("(keys mode — prefer default chat; press ?)", flush=True)
-    while True:
-        print("\nkey> ", end="", flush=True)
-        k = get_key()
-        if not k:
-            continue
-        if sys.stdin.isatty():
-            print(k, flush=True)
-        if k in ("q", "x"):
-            print("bye", flush=True)
+            continue  # silence ≠ permission / not a prompt
+        if is_exit(text):
+            print("Goodbye.", flush=True)
             return 0
-        if k in ("?", "h"):
-            print(HELP, flush=True)
+
+        history.append({"role": "user", "content": text})
+        append_chat_log(root, "user", text)
+        try:
+            os.environ["AETHER_PERSONAL_LLM_SYSTEM"] = "0"
+            reply = chat(build_messages(root, history), temperature=0.55)
+        except Exception as e:
+            history.pop()
+            if quiet_errors:
+                print("\n(Something went wrong. Please try again.)\n", flush=True)
+                if os.environ.get("AETHER_DESK_DEBUG"):
+                    print(f"[{e}]", flush=True)
+            else:
+                print(f"\nerror: {e}\n", flush=True)
             continue
-        if k == "c":
-            print(read_current(root) or "(no CURRENT.md)", flush=True)
-            continue
-        if k == "e":
-            edit_current(root)
-            print(banner(root), flush=True)
-            continue
-        if k == "s":
-            code, out = run_aether(["status", str(root)], root)
-            print(out or f"(exit {code})", flush=True)
-            continue
-        if k == "i":
-            code, out = run_aether(["current", "init", str(root)], root)
-            print(out or f"(exit {code})", flush=True)
-            continue
-        if k in ("n", "p"):
-            preflight_next(root, show_next=(k == "n"))
-            continue
-        if k == "g":
-            print("type a message (chat mode is default without --keys): ", end="", flush=True)
-            q = sys.stdin.readline()
-            if q and q.strip():
-                model_reply(root, history, q.strip(), last)
-            continue
-        if k == "w":
-            write_proposal(root, last)
-            continue
-        print(f"unknown {k!r}", flush=True)
+
+        flags = flag_unsafe_model_output(reply)
+        if flags and os.environ.get("AETHER_DESK_DEBUG"):
+            print(f"[flags: {', '.join(flags)}]", flush=True)
+        # Clean display — no "model>" chrome if possible; soft label only
+        print(f"\n{reply}\n", flush=True)
+        history.append({"role": "assistant", "content": reply})
+        append_chat_log(root, "assistant", reply)
 
 
 def main(argv: Optional[list[str]] = None) -> int:
-    ap = argparse.ArgumentParser(
-        description="Mechanicall desk — terminal chat over CURRENT.md"
-    )
-    ap.add_argument("path", nargs="?", default=".", help="project root (default: cwd)")
-    ap.add_argument(
-        "--once",
-        metavar="KEY",
-        help="one-shot: b=banner c=current n=preflight-next",
-    )
-    ap.add_argument(
-        "--keys",
-        action="store_true",
-        help="legacy single-key mode instead of chat",
-    )
-    args = ap.parse_args(argv)
+    load_dotenv_files()
+    ap = argparse.ArgumentParser(add_help=False)
+    ap.add_argument("path", nargs="?", default=".")
+    ap.add_argument("--help", "-h", action="store_true")
+    ap.add_argument("--once", metavar="KEY")  # keep for tests: b|c
+    ap.add_argument("--debug", action="store_true")
+    args, _unknown = ap.parse_known_args(argv)
+
+    if args.help:
+        print("Chat. Type to talk. bye to leave.", flush=True)
+        return 0
+    if args.debug:
+        os.environ["AETHER_DESK_DEBUG"] = "1"
+
     root = project_root(args.path)
 
     if args.once:
-        if args.once == "c":
-            sys.stdout.write((read_current(root) or "(no CURRENT.md)") + "\n")
-            return 0
+        # silent test hooks only
         if args.once == "b":
-            sys.stdout.write(banner(root) + "\n")
+            print(PRIVACY)
+            print(BANNER)
             return 0
-        if args.once == "n":
-            t = read_current(root) or ""
-            nxt = parse_next(t)
-            if not nxt:
-                print("Next unset", flush=True)
-                return 1
-            code, out = run_aether(["preflight", nxt, str(root)], root)
-            print(out, flush=True)
-            return code
-        print(f"unsupported --once {args.once}", flush=True)
+        if args.once == "c":
+            t = read_current(root)
+            sys.stdout.write((t or "") + ("\n" if t else ""))
+            return 0
+        if args.once == "backend":
+            print(describe_backend())
+            return 0
         return 2
 
     if not sys.stdin.isatty():
-        print("aether desk: need a TTY (or use --once KEY)", file=sys.stderr)
-        print(banner(root))
+        print(PRIVACY)
+        print(BANNER)
         return 1
 
-    if args.keys:
-        return run_keys(root)
     return run_chat(root)
 
 
