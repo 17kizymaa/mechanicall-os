@@ -36,7 +36,9 @@ from aether_llm import describe_backend  # noqa: E402
 
 DEFAULT_PORT = 8788
 # Bump when localStorage schema or first-run popup copy changes
-UI_STORE_VERSION = "2"
+UI_STORE_VERSION = "3"
+# Max JSON body for POST /chat (bytes). Reject larger to limit abuse on --lan.
+MAX_CHAT_BODY = int(os.environ.get("AETHER_DESK_MAX_BODY", str(256 * 1024)))
 
 
 def _html_page() -> str:
@@ -401,16 +403,16 @@ button.send:active {{ transform: scale(.98); }}
 
 <div class="modal-root" id="hist-modal" hidden role="dialog" aria-modal="true" aria-labelledby="hist-title">
   <div class="modal">
-    <h3 id="hist-title">Your chat stays on this device</h3>
+    <h3 id="hist-title">How your chat is stored</h3>
     <p>
-      Conversation history is stored <strong>locally in this browser</strong>
-      (on the phone or TV you are using). It is not uploaded as a cloud archive
-      and is not written into the project’s authority file.
+      Your transcript is persisted in <strong>this browser</strong>.
+      When you send a message, recent conversation is transmitted to the
+      <strong>house computer</strong> and the <strong>model provider</strong> as context.
     </p>
     <p class="fine">
-      CURRENT.md on the right remains the human-owned control surface.
-      The model only proposes. Silence is never permission.
-      Cloud replies may still leave this device when you send a message — that is the chat path, not your history vault.
+      Desk does not save message bodies on the house computer unless the operator
+      enables transcript logging. CURRENT.md on the right is human authority — not chat history.
+      The model only proposes. Silence is never permission. This is not a legal vault.
     </p>
     <button type="button" id="hist-ok">Got it — continue</button>
   </div>
@@ -663,7 +665,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(data)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("Connection", "close")
-        self.send_header("Access-Control-Allow-Origin", "*")
+        # Same-origin UI only — no wildcard CORS (P0 LAN hardening)
         self.end_headers()
         self.wfile.write(data)
 
@@ -671,10 +673,8 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, json.dumps(obj, ensure_ascii=False), "application/json; charset=utf-8")
 
     def do_OPTIONS(self) -> None:
+        # Preflight not required for same-origin XHR; reject cross-origin expansion
         self.send_response(204)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Content-Length", "0")
         self.send_header("Connection", "close")
         self.end_headers()
@@ -692,11 +692,13 @@ class Handler(BaseHTTPRequestHandler):
                     {
                         "ok": True,
                         "backend": describe_backend(),
-                        "root": str(STATE.root),
+                        # basename only — no absolute host path leak (P0)
+                        "project": STATE.root.name,
                         "public_url": STATE.public_url,
                         "mode": "chat-only",
                         "ui": "maximalist-current-rail",
                         "store": UI_STORE_VERSION,
+                        "transcript_log": os.environ.get("AETHER_DESK_LOG_TRANSCRIPT") == "1",
                     },
                 )
             if u.path == "/privacy":
@@ -724,11 +726,31 @@ class Handler(BaseHTTPRequestHandler):
             n = int(self.headers.get("Content-Length") or "0")
         except ValueError:
             n = 0
+        if n < 0:
+            n = 0
+        if n > MAX_CHAT_BODY:
+            return self._json(
+                413,
+                {"ok": False, "error": "body_too_large", "reply": ""},
+            )
         raw = self.rfile.read(n) if n > 0 else b"{}"
+        if len(raw) > MAX_CHAT_BODY:
+            return self._json(
+                413,
+                {"ok": False, "error": "body_too_large", "reply": ""},
+            )
         try:
             body = json.loads(raw.decode("utf-8") or "{}")
         except json.JSONDecodeError:
             return self._json(400, {"ok": False, "error": "bad_json", "reply": ""})
+
+        # P0: ignore client-supplied root — Domain is fixed at desk-serve start
+        if body.get("root"):
+            sys.stderr.write(
+                "%s - POST /chat ignored client root=%r\n"
+                % (self.address_string(), str(body.get("root"))[:120])
+            )
+            sys.stderr.flush()
 
         message = body.get("message") or body.get("text") or ""
         history = body.get("history") or []
@@ -741,17 +763,16 @@ class Handler(BaseHTTPRequestHandler):
             role = m.get("role")
             content = m.get("content")
             if role in ("user", "assistant") and isinstance(content, str):
-                clean.append({"role": role, "content": content})
+                # cap each message to limit prompt injection size
+                clean.append({"role": role, "content": content[:20000]})
 
-        root = STATE.root
-        if body.get("root"):
-            root = project_root(str(body["root"]))
-
+        root = STATE.root  # never client-selected
         preview = str(message).strip().replace("\n", " ")[:80]
         sys.stderr.write("%s - POST /chat msg=%r\n" % (self.address_string(), preview))
         sys.stderr.flush()
 
-        result = desk_turn(root, str(message), clean, log=True)
+        log_bodies = os.environ.get("AETHER_DESK_LOG_TRANSCRIPT") == "1"
+        result = desk_turn(root, str(message), clean, log=log_bodies)
         code = 200 if result.get("ok") else (400 if result.get("error") == "empty" else 503)
         out = {
             "ok": bool(result.get("ok")),

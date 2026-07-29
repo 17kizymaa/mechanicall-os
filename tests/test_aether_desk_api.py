@@ -100,6 +100,9 @@ class TestDeskApiHttp(unittest.TestCase):
         self.assertEqual(resp.status, 200)
         self.assertTrue(body.get("ok"))
         self.assertEqual(body.get("mode"), "chat-only")
+        self.assertIn("project", body)
+        self.assertNotIn("root", body)  # no absolute path leak
+        self.assertFalse(body.get("transcript_log"))
 
         c.request(
             "POST",
@@ -136,6 +139,55 @@ class TestDeskApiHttp(unittest.TestCase):
         self.assertEqual(c.getresponse().status, 404)
         c.request("GET", "/open-on-tv")
         self.assertEqual(c.getresponse().status, 404)
+        c.close()
+
+    def test_client_root_ignored(self) -> None:
+        """P0: JSON root must not switch Domain."""
+        other = Path(self.tmp.name) / "other"
+        other.mkdir()
+        (other / "CURRENT.md").write_text("**Objective:** LEAKED\n", encoding="utf-8")
+        with mock.patch("aether_desk_api.desk_turn") as mturn:
+            mturn.return_value = {
+                "ok": True,
+                "error": "",
+                "reply": "hi",
+                "flags": [],
+                "history": [],
+                "backend": "test",
+            }
+            c = HTTPConnection("127.0.0.1", self.port, timeout=5)
+            c.request(
+                "POST",
+                "/chat",
+                body=json.dumps({"message": "hi", "root": str(other)}),
+                headers={"Content-Type": "application/json"},
+            )
+            resp = c.getresponse()
+            self.assertEqual(resp.status, 200)
+            resp.read()
+            c.close()
+            args, kwargs = mturn.call_args
+            used_root = Path(args[0]).resolve()
+            self.assertEqual(used_root, self.root.resolve())
+            self.assertNotEqual(used_root, other.resolve())
+
+    def test_body_too_large(self) -> None:
+        c = HTTPConnection("127.0.0.1", self.port, timeout=5)
+        big = "x" * (300 * 1024)
+        payload = json.dumps({"message": big})
+        c.request(
+            "POST",
+            "/chat",
+            body=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Content-Length": str(len(payload)),
+            },
+        )
+        resp = c.getresponse()
+        body = json.loads(resp.read().decode())
+        self.assertEqual(resp.status, 413)
+        self.assertEqual(body.get("error"), "body_too_large")
         c.close()
 
 
