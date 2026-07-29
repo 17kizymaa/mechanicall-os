@@ -22,3 +22,6 @@ venv/
 
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
+
+# desk transcripts
+**/.aether/chat.jsonl
