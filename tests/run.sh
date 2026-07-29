@@ -197,7 +197,7 @@ CUR
 if "$AETHER" preflight rough-v6 . >/dev/null 2>"$TMP/pf1.err"; then
     fail "preflight should refuse rough-v6"
 fi
-grep -qi refuse "$TMP/pf1.err" || grep -qi refuse <("$AETHER" preflight rough-v6 . 2>&1) || true
+grep -qi refuse "$TMP/pf1.err" || true
 out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "rough-v6 exit 0" || true
 printf '%s\n' "$out" | grep -qi 'refuse' || fail "no refuse message for rough-v6"
 # next allowed
