@@ -8,23 +8,30 @@
 | Role | Project CURRENT | Next (now) |
 |------|-----------------|------------|
 | **Human** | all | approve / reject / panel authority |
-| **Proposer** | `MODEL+RAG/personal-llm` | `spike-sample-quality-validation` (warm-up, not main) |
+| **Proposer** | `MODEL+RAG/personal-llm` | `retrain-sft-v3-data-freeze` (retrain authorized) |
 | **Executor / host panel** | `MODEL+RAG/rag-archive-manager` | **PARKED** (`none-parked`) — huge Domain program later: rebase projects + low-overhead **VM human UI** |
 | **Client surface** | `domains/house-tv-desk` | `desk-p0-verify-ci` / Desk product |
 
-## Pre-spike (Kingston) — main operator tooling path
+## rag-archive-manager — PARKED (2026-07-29)
 
-1. Investigate Kingston as **VM instance inside host OS**  
-2. Host = IDE + agents; guest/panel = bare Mechanicall  
-3. Build toward **hardcore TUI operator actually uses** (not final product)  
-4. Artifact: `rag-archive-manager/artifacts/PRESPIKE-KINGSTON-VM-HOST.md`  
+Human park: overhead clear for now.  
 
-## Warm-up spike (personal-llm) — not main run
+**When resumed, this is a large Domain project**, not a panel spike:
 
-- Sample train-data quality → `personal-llm/artifacts/SPIKE-SAMPLE-QUALITY.md`  
-- Model serve already proven; agents may run ollama without ceremony  
+1. **Rebase / realign** projects under the archive-host Domain story  
+2. Design **low-overhead human UI** that **launches inside a VM**  
+3. Host = agent IDE; VM = human Domain interface  
 
-## Authority files applied
-- `personal-llm/CURRENT.md`  
-- `rag-archive-manager/CURRENT.md`  
-- Matching `PROMPT.md` in each project  
+Pre-spike notes remain: `PRESPIKE-KINGSTON-VM-HOST.md`, `PANEL-V0-CHALLENGE.md`.  
+Do **not** continue `implement-operator-panel-v0` until CURRENT is unparked.
+
+## Active tracks while park holds
+
+- **personal-llm:** retrain path (`retrain-sft-v3-data-freeze` …)  
+- **house-tv-desk / Desk:** P0 verify CI + product honesty  
+- **Human:** approve / client sessions  
+
+## Authority files
+- `personal-llm/CURRENT.md` — active  
+- `rag-archive-manager/CURRENT.md` — **PARKED**  
+- `domains/house-tv-desk/CURRENT.md` — Desk product
