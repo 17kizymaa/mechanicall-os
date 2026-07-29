@@ -9,8 +9,9 @@ Day-1 MODEL+RAG work produced a local personal assistant (QLoRA → GGUF/Ollama)
 
 | Tag (local Ollama) | Role |
 |--------------------|------|
+| `personal-llm-sft-v4` | Full-sample freeze + S5 · **preferred default** (2026-07-29; taste green on GTX 1660 Q4) |
+| `personal-llm-sft-v2` | Filter-v2 clean corpus (prior preferred) |
 | `personal-llm-full:v1` | Full-corpus QLoRA (richer; use with outer guards) |
-| `personal-llm-sft-v2` | Filter-v2 clean corpus (preferred when import works) |
 | `personal-llm-pilot:v0` | SYSTEM-hardened Llama fallback |
 
 Weights and private train JSONL **do not live in this git repo**. This document + `python/aether_llm.py` wire **how Mechanicall uses** the layer when present.
@@ -35,16 +36,17 @@ This is **not** a fourth authority layer. It is a **propose-only interface plugi
 | Env | Effect |
 |-----|--------|
 | `AETHER_LLM_PROVIDER=ollama` | Force local Ollama |
-| `AETHER_OLLAMA_MODEL=personal-llm-full:v1` | Pin tag |
+| `AETHER_OLLAMA_MODEL=personal-llm-sft-v4` | Pin default technique tag |
 | `AETHER_OLLAMA_HOST` | Default `http://127.0.0.1:11434` |
 | `AETHER_PERSONAL_LLM_SYSTEM=1` | Prepend `references/personal-llm-system.txt` when no system message |
 
 `aether_llm._ollama_pick_model` prefers, in order:
 
-1. `personal-llm-sft-v2`  
-2. `personal-llm-full:v1`  
-3. `personal-llm-pilot:v0`  
-4. `aetherOS-custom` / `anti-clown` / other  
+1. `personal-llm-sft-v4`  
+2. `personal-llm-sft-v2`  
+3. `personal-llm-full:v1`  
+4. `personal-llm-pilot:v0`  
+5. `aetherOS-custom` / `anti-clown` / other  
 
 Consumers: `aether garden`, `aether rival` (via `python/aether_llm.py`).
 

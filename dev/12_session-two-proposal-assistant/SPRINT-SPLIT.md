@@ -35,3 +35,9 @@ Do **not** continue `implement-operator-panel-v0` until CURRENT is unparked.
 - `personal-llm/CURRENT.md` — active  
 - `rag-archive-manager/CURRENT.md` — **PARKED**  
 - `domains/house-tv-desk/CURRENT.md` — Desk product
+
+## Staged from personal-llm (not merged)
+
+- Deploy ops / session-boot **menu** (review only): `MODEL+RAG/personal-llm/ready-to-move_dev.md/`
+- Destination when human moves: this folder (`dev/12_session-two-proposal-assistant/`), branch `session/client-one-s2-proposal-assistant`
+- Exact session boot logic: **not decided** in that pack

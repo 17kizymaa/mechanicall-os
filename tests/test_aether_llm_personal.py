@@ -17,7 +17,17 @@ from aether_llm import (  # noqa: E402
 )
 
 
-def test_prefer_sft_v2():
+def test_prefer_sft_v4():
+    names = [
+        "llama3:latest",
+        "personal-llm-sft-v2:latest",
+        "personal-llm-sft-v4:latest",
+        "aetherOS-custom:latest",
+    ]
+    assert pick_ollama_model(names).startswith("personal-llm-sft-v4")
+
+
+def test_prefer_sft_v2_when_no_v4():
     names = ["llama3:latest", "personal-llm-sft-v2:latest", "aetherOS-custom:latest"]
     assert pick_ollama_model(names).startswith("personal-llm-sft-v2")
 
@@ -69,7 +79,8 @@ def test_flag_unsafe():
 
 def main() -> int:
     tests = [
-        test_prefer_sft_v2,
+        test_prefer_sft_v4,
+        test_prefer_sft_v2_when_no_v4,
         test_prefer_full_v1_over_custom,
         test_prefer_pilot_over_generic,
         test_fallback_first_name,

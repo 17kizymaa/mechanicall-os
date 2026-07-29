@@ -95,11 +95,12 @@ def load_dotenv_files() -> None:
         Path("/root/.chat.env"),
     ]
     for path in candidates:
-        if not path.is_file():
-            continue
         try:
+            if not path.is_file():
+                continue
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError:
+            # CI/sandbox may block /root/.chat.env etc. without denying other keys
             continue
         for line in text.splitlines():
             line = line.strip()

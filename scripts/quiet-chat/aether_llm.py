@@ -48,6 +48,7 @@ MODEL_ALIASES = {
 # Prefer personal Mechanicall propose layer when local Ollama has it.
 # Order = pick preference (first match wins).
 OLLAMA_PREFER = (
+    "personal-llm-sft-v4",
     "personal-llm-sft-v2",
     "personal-llm-full:v1",
     "personal-llm-full",
