@@ -9,8 +9,8 @@
 |------|-----------------|------------|
 | **Human** | all | approve / reject / panel authority |
 | **Proposer** | `MODEL+RAG/personal-llm` | `spike-sample-quality-validation` (warm-up, not main) |
-| **Executor / host panel** | `MODEL+RAG/rag-archive-manager` | `prespike-kingston-vm-host-investigation` |
-| **Client surface** | `domains/house-tv-desk` | unchanged until client Next |
+| **Executor / host panel** | `MODEL+RAG/rag-archive-manager` | **PARKED** (`none-parked`) — huge Domain program later: rebase projects + low-overhead **VM human UI** |
+| **Client surface** | `domains/house-tv-desk` | `desk-p0-verify-ci` / Desk product |
 
 ## Pre-spike (Kingston) — main operator tooling path
 
