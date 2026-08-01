@@ -43,12 +43,17 @@ Python helpers under [`python/`](../python/) read the same env vars.
 | `AETHER_RIVAL_TRACK` | Optional | `untitled` | Default track title for `aether rival` when `--track` is omitted. |
 | `ANTHROPIC_API_KEY` | Optional* | *(unset)*; also read from `~/.config/anthropic/api_key` | Anthropic Messages API key (highest-priority LLM backend). |
 | `ANTHROPIC_MODEL` | Optional | *(see `AETHER_MODEL`)* | Anthropic model id / alias when using Anthropic. |
-| `XAI_API_KEY` | Optional* | *(unset)* | xAI API key for `https://api.x.ai/v1` (OpenAI-compatible chat). |
-| `AETHER_MODEL` | Optional | Anthropic: `claude-sonnet-5`; xAI: `grok-4.5` | Model id or alias for garden/rival LLM calls. |
+| `XAI_API_KEY` | Optional* | *(unset)* | Raw xAI API key for `https://api.x.ai/v1` (ranked **below** Grok TUI). |
+| `AETHER_MODEL` | Optional | Anthropic: `claude-sonnet-5`; Grok: `grok-4.5` | Model id or alias for garden/rival/shell LLM calls. |
 | `AETHER_OLLAMA_HOST` | Optional | `http://127.0.0.1:11434` | Ollama base URL. |
 | `AETHER_OLLAMA_MODEL` | Optional | auto-pick from Ollama tags, else `aetherOS-custom` | Ollama model name. |
-| `AETHER_LLM_TIMEOUT` | Optional | `120` | LLM HTTP timeout in seconds. |
-| `AETHER_LLM_PROVIDER` | Optional | *(auto)* | Force backend: `anthropic`, `xai`, or `ollama`. |
+| `AETHER_LLM_TIMEOUT` | Optional | `120` (`300` default for grok_tui if unset at call site) | LLM timeout in seconds. |
+| `AETHER_LLM_PROVIDER` | Optional | *(auto)* | Force backend: `grok_tui`, `openrouter`, `groq`, `anthropic`, `xai`, `ollama`, `openai`. |
+| `GROK_BIN` | Optional | `grok` on `PATH` | Path to Grok Build CLI for `grok_tui` backend. |
+| `AETHER_GROK_TUI` | Optional | `1` | Set `0` to disable Grok TUI backend auto-detect. |
+| `AETHER_SHELL_PREFER_GROK_TUI` | Optional | `1` | Shell prefers `grok_tui` when logged in (`grok login`). |
+| `AETHER_LLM_PRESET` | Optional | *(unset)* | Named compute preset: `coding`, `free`, `sonnet35`, `ollama`, `grok_tui`, … (see `docs/FREE-API.md`). |
+| `OPENROUTER_API_KEY` | Optional* | *(unset)* | OpenRouter key for free/coding/sonnet35-via-OR presets. |
 | `AETHER_VOICE_SECS` | Optional | `8` | Voice seed recording length (seconds). |
 | `AETHER_VOICE_MODEL` | Optional | `$HOME/models/ggml-base.en.bin` | Whisper.cpp model path for `scripts/seed-voice.sh`. |
 | `AETHER_VOICE_NO_TOGGLE` | Optional | `0` | Set to `1` to skip headset audio toggle in voice capture. |
@@ -63,9 +68,12 @@ Python helpers under [`python/`](../python/) read the same env vars.
 Shared plumbing in [`python/aether_llm.py`](../python/aether_llm.py):
 
 1. If `AETHER_LLM_PROVIDER` is set → only that backend is tried.
-2. Else, first available in order: **Anthropic** → **xAI** → **Ollama**.
-3. If none are available, garden/rival fall back to heuristics or error with a
-   clear message — they never invent a database connection.
+2. Else, first available in order: **`grok_tui`** (`grok login` session) →
+   OpenRouter → Groq → Anthropic → **raw xAI API** (`XAI_API_KEY`) → Ollama.
+3. **API compute &lt; Grok TUI compute** — prefer `grok login` over `XAI_API_KEY`.
+4. If none are available, garden/rival/shell error clearly — no hidden DB.
+
+See also [`docs/AETHER-SHELL.md`](AETHER-SHELL.md).
 
 Anthropic model aliases (via `AETHER_MODEL` / `ANTHROPIC_MODEL`): `haiku`,
 `sonnet`, `sonnet-5`, `sonnet-4.6`, and related forms map to API model ids
