@@ -1,11 +1,11 @@
 # CURRENT
 
 **Objective:** Local-first project control layer is the daily seat: panel + shell honour CURRENT; personal-llm is peer technique only; TWS lives in another Domain.
-**Phase:** EXECUTE
-**Status:** ACTIVE
+**Phase:** APPROVE
+**Status:** APPROVED
 **Baseline:** 2026-07-31 · PR #2 · seats approved · CI gates
 **Next:** ci-control-layer-gates
-**Approval:** PENDING
+**Approval:** APPROVED
 
 ## Keep
 - CURRENT sole Domain authority (filesystem truth)
