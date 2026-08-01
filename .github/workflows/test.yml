@@ -5,9 +5,30 @@ on:
   pull_request:
 
 jobs:
-  aether:
+  # Full integration suite (sidecars, authority, onboard, panel dump)
+  aether-integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run integration tests
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: pip install pytest
+      - name: Integration tests
         run: sh tests/run.sh
+
+  # Control-layer seats gates (shell / panel / desk-gone / preflight)
+  control-layer-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: pip install pytest
+      - name: Control-layer gates
+        run: sh scripts/ci-control-layer-gates.sh

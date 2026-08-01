@@ -10,14 +10,22 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
-# --- personal-llm layer unit tests (stdlib only) ---
-python3 "$ROOT/tests/test_aether_llm_personal.py" || fail "personal-llm unit tests"
-pass "personal-llm unit tests"
-
-python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
-python3 "$ROOT/tests/test_aether_shell.py" || fail "shell unit tests"
-python3 "$ROOT/tests/test_aether_shell_agent.py" || fail "shell agent unit tests"
-pass "panel + shell unit tests"
+# --- control-layer unit tests ---
+if python3 -c "import pytest" 2>/dev/null; then
+  python3 -m pytest -q \
+    "$ROOT/tests/test_aether_llm_personal.py" \
+    "$ROOT/tests/test_aether_panel.py" \
+    "$ROOT/tests/test_aether_shell.py" \
+    "$ROOT/tests/test_aether_shell_agent.py" \
+    "$ROOT/tests/test_aether_llm_presets.py" \
+    "$ROOT/tests/test_aether_llm_grok_tui.py" \
+    || fail "control-layer unit tests"
+  pass "control-layer unit tests (pytest)"
+else
+  python3 "$ROOT/tests/test_aether_llm_personal.py" || fail "personal-llm unit tests"
+  python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
+  pass "unit tests (pytest missing; shell agent tests skipped — install pytest)"
+fi
 
 TMP="${TMPDIR:-/tmp}/aether-test.$$"
 mkdir -p "$TMP"
@@ -373,5 +381,9 @@ prc=$?
 set -e
 [ "$prc" -ne 0 ] || fail "panel interactive on non-TTY should fail"
 pass "panel dump + write + non-TTY guard"
+
+# --- control-layer seats gates (also run in CI job alone) ---
+sh "$ROOT/scripts/ci-control-layer-gates.sh" || fail "ci-control-layer-gates"
+pass "ci-control-layer-gates"
 
 printf '\nAll aether integration tests passed.\n'
