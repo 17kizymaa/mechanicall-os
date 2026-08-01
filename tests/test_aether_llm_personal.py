@@ -14,10 +14,21 @@ from aether_llm import (  # noqa: E402
     maybe_inject_personal_system,
     personal_llm_system_text,
     pick_ollama_model,
+    resolve_backend,
 )
 
 
-def test_prefer_sft_v2():
+def test_prefer_sft_v4():
+    names = [
+        "llama3:latest",
+        "personal-llm-sft-v2:latest",
+        "personal-llm-sft-v4:latest",
+        "aetherOS-custom:latest",
+    ]
+    assert pick_ollama_model(names).startswith("personal-llm-sft-v4")
+
+
+def test_prefer_sft_v2_when_no_v4():
     names = ["llama3:latest", "personal-llm-sft-v2:latest", "aetherOS-custom:latest"]
     assert pick_ollama_model(names).startswith("personal-llm-sft-v2")
 
@@ -67,9 +78,34 @@ def test_flag_unsafe():
     assert "secret_like" in flags2
 
 
+def test_openai_compat_from_base_url():
+    prev = {k: os.environ.get(k) for k in (
+        "AETHER_LLM_PROVIDER", "AETHER_OPENAI_BASE_URL", "AETHER_MODEL", "OPENAI_API_KEY",
+        "OPENROUTER_API_KEY", "GROQ_API_KEY", "ANTHROPIC_API_KEY", "XAI_API_KEY",
+    )}
+    try:
+        for k in prev:
+            os.environ.pop(k, None)
+        os.environ["AETHER_LLM_PROVIDER"] = "openai"
+        os.environ["AETHER_OPENAI_BASE_URL"] = "http://127.0.0.1:8000/v1"
+        os.environ["AETHER_MODEL"] = "moonshotai/Kimi-K2-Instruct-0905"
+        b = resolve_backend()
+        assert b is not None
+        assert b.name == "openai"
+        assert b.base.endswith("/v1")
+        assert "Kimi" in b.model
+    finally:
+        for k, v in prev.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+
 def main() -> int:
     tests = [
-        test_prefer_sft_v2,
+        test_prefer_sft_v4,
+        test_prefer_sft_v2_when_no_v4,
         test_prefer_full_v1_over_custom,
         test_prefer_pilot_over_generic,
         test_fallback_first_name,
@@ -77,6 +113,7 @@ def main() -> int:
         test_system_file_exists,
         test_inject_system,
         test_flag_unsafe,
+        test_openai_compat_from_base_url,
     ]
     for t in tests:
         t()
