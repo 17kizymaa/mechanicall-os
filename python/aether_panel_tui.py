@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Mechanicall seat TUI — one app, two pages (PANEL | SHELL), shared GOP header.
+"""Mechanicall seat TUI — PANEL | SHELL pages, Grok padding, sparse inbox.
 
-Pages share the same header chrome (like bootloader tabs):
-  F1 PANEL  — dual-pane Domain chat + CURRENT + human gates
-  F2 SHELL  — Domain shell transcript + slash/tools (same window)
+Grok Build padding (docs/user-guide theming):
+  outer_vpad=1  outer_hpad=3  block_pad=3  msg_gap=2  max_thoughts_width=72
 
-No process replace. No compositor kill. /panel on shell page = F1.
+Actions dock: hidden by default (F3 toggle), right-aligned when open.
+Shell default: personal-llm-sft-v4 peer via Ollama. Panel chat: Grok session.
 """
 from __future__ import annotations
 
@@ -20,6 +20,27 @@ from typing import List, Optional, Tuple
 
 Action = Tuple[str, str]
 
+
+class GrokPad:
+    outer_vpad: int = 1
+    outer_hpad_left: int = 3
+    outer_hpad_right: int = 3
+    block_pad_left: int = 3
+    block_pad_right: int = 3
+    msg_gap: int = 2
+    header_rows: int = 2
+    menu_rows: int = 1          # closed (status only)
+    menu_rows_open: int = 2     # open (actions strip + status)
+    input_rows: int = 2
+    max_thoughts_width: int = 72
+    max_history_turns: int = 10
+    max_thinking_chars: int = 220
+    min_cols: int = 56
+    min_rows: int = 16
+
+
+PAD = GrokPad()
+
 MAIN_ACTIONS: List[Action] = [
     ("APPROVE", "approve"),
     ("REJECT", "reject"),
@@ -33,18 +54,12 @@ MAIN_ACTIONS: List[Action] = [
 ADVANCED_ACTIONS: List[Action] = [
     ("Preflight Next", "preflight_next"),
     ("Preflight step…", "preflight"),
-    ("Demo refuse", "demo_refuse"),
     ("Switch project…", "switch_project"),
     ("Open PROPOSE…", "open_propose"),
-    ("Record artifact…", "artifact"),
     ("Events", "events"),
     ("Write PANEL files", "write"),
-    ("Init .aether", "init"),
     ("Create CURRENT", "current_init"),
-    ("LLM preset next", "llm_next"),
-    ("LLM preset pick…", "llm_pick"),
-    ("Grok fullscreen", "open_grok"),
-    ("Playbook / design", "help"),
+    ("Playbook", "help"),
     ("← Back", "advanced_back"),
 ]
 
@@ -56,6 +71,13 @@ SHELL_ACTIONS: List[Action] = [
     ("CLEAR", "shell_clear"),
     ("QUIT", "quit"),
 ]
+
+PLAYBOOK = """\
+AETHER SEAT
+F1 PANEL · F2 SHELL · F3 actions (toggle, right-aligned when open)
+Shell = personal-llm-sft-v4 peer (Ollama). Panel chat = Grok session.
+Human APPROVE only. docs/PANEL-GROK-SPLIT.md · docs/AETHER-SHELL.md
+"""
 
 
 def _wrap(text: str, width: int) -> List[str]:
@@ -91,44 +113,28 @@ def _backend_label() -> str:
         return f"backend: ? ({e.__class__.__name__})"
 
 
-PLAYBOOK = """\
-AETHER SEAT · PANEL + SHELL (same app / same TTY)
-=================================================
-docs/PANEL-GROK-SPLIT.md  ·  docs/AETHER-SHELL.md
-
-F1 PANEL  Domain chat + CURRENT + APPROVE/REJECT
-F2 SHELL  slash tools + Domain agent (same header)
-  In shell: /panel or F1 returns to PANEL page
-  Preflight: shell> /preflight <id>  or  menu PREFLIGHT NEXT
-
-Human only approves. Models never approve.
-"""
-
-
 class PanelApp:
     def __init__(self, root: Path, host_mod) -> None:
         self.root = root
         self.host = host_mod
         self.st = host_mod.load_state(root)
-        # page: panel | shell  (tabs under shared header)
         self.page = "panel"
         self.history: List[dict] = []
         self.shell_lines: List[str] = []
         self.shell_hist: List[dict] = []
-        self.focus = "chat"  # panel: chat|menu|current · shell: input|menu|log
+        self.focus = "chat"
         self.selected = 0
         self.input_buf = ""
         self.chat_scroll = 0
         self.current_scroll = 0
         self.shell_scroll = 0
-        self.status = "F1 panel · F2 shell · same header · Tab focus"
+        self.status = "F3 actions · F1/F2 pages · type to chat"
         self.advanced = False
+        self.show_actions = False
         self._colors = False
         self._inner_h = 10
         self._be_label = _backend_label()
         self._shell_booted = False
-
-    # --- colors / chrome -------------------------------------------------
 
     def _init_colors(self) -> None:
         if not curses.has_colors():
@@ -183,135 +189,132 @@ class PanelApp:
         except curses.error:
             pass
 
-    def draw_header(self, stdscr, w: int) -> None:
-        """Shared GOP header — same on every page."""
-        line0 = " MECHANICALL SEAT  ·  EFI/GOP chrome  ·  one app · two pages "
-        _safe_add(stdscr, 0, 0, line0.ljust(w)[: max(0, w - 1)], self.c(6) | curses.A_BOLD)
-
-        _safe_add(stdscr, 1, 0, " " * max(0, w - 1), self.c(8))
-        # Tabs: active page highlighted green
-        p_attr = self.c(9) | curses.A_BOLD if self.page == "panel" else self.c(8) | curses.A_BOLD
-        s_attr = self.c(9) | curses.A_BOLD if self.page == "shell" else self.c(8) | curses.A_BOLD
-        _safe_add(stdscr, 1, 1, " F1 PANEL ", p_attr)
-        _safe_add(stdscr, 1, 12, " F2 SHELL ", s_attr)
-        proj = (self.st.project_label or self.root.name)[:16]
-        nxt = (self.st.next_action or "—")[:24]
-        meta = f"  {proj}  ·  Next: {nxt}  ·  {self._be_label}"
-        _safe_add(stdscr, 1, 24, meta[: max(0, w - 25)], self.c(8))
-
     def menu(self) -> List[Action]:
         if self.page == "shell":
             return SHELL_ACTIONS
         return ADVANCED_ACTIONS if self.advanced else MAIN_ACTIONS
 
-    # --- panel page content ----------------------------------------------
+    def _bot_rows(self) -> int:
+        mr = PAD.menu_rows_open if self.show_actions else PAD.menu_rows
+        return mr + PAD.input_rows
+
+    def draw_header(self, stdscr, w: int) -> None:
+        L = PAD.outer_hpad_left
+        line0 = " MECHANICALL SEAT  ·  GOP  ·  F3 actions "
+        _safe_add(stdscr, 0, 0, line0.ljust(w)[: max(0, w - 1)], self.c(6) | curses.A_BOLD)
+        _safe_add(stdscr, 1, 0, " " * max(0, w - 1), self.c(8))
+        p_attr = self.c(9) | curses.A_BOLD if self.page == "panel" else self.c(8) | curses.A_BOLD
+        s_attr = self.c(9) | curses.A_BOLD if self.page == "shell" else self.c(8) | curses.A_BOLD
+        _safe_add(stdscr, 1, L, " F1 PANEL ", p_attr)
+        _safe_add(stdscr, 1, L + 11, " F2 SHELL ", s_attr)
+        proj = (self.st.project_label or self.root.name)[:14]
+        nxt = (self.st.next_action or "—")[:22]
+        meta = f"  {proj}  ·  {nxt}  ·  {self._be_label}"
+        _safe_add(stdscr, 1, L + 22, meta[: max(0, w - L - 22 - PAD.outer_hpad_right)], self.c(8))
 
     def chat_display(self, width: int) -> List[str]:
+        w = max(8, min(width, PAD.max_thoughts_width))
         if not self.history:
-            return _wrap(
-                "GROK CHAT (session compute)\n"
-                "──────────────────────────\n"
-                "Same stack as Grok Build TUI:\n"
-                "  thinking → answer (streaming-json)\n"
-                "CURRENT always on the right.\n"
-                "F2 SHELL · Enter send · Tab focus",
-                width,
-            )
-        lines: List[str] = []
-        for m in self.history[-50:]:
+            return ["", "", "  chat", "", "  type below", "  F3 · actions", ""]
+        lines: List[str] = [""]
+        gap = [""] * PAD.msg_gap
+
+        def emit(prefix: str, cont: str, body: str, max_lines: int) -> None:
+            body = (body or "").strip()
+            if not body:
+                return
+            wrapped = _wrap(body, max(8, w - len(prefix)))
+            if len(wrapped) > max_lines:
+                wrapped = wrapped[: max_lines - 1] + ["…"]
+            for i, wl in enumerate(wrapped):
+                lines.append((prefix if i == 0 else cont) + wl)
+
+        for m in self.history[-PAD.max_history_turns :]:
             role = m.get("role") or ""
             content = (m.get("content") or "").strip()
             thinking = (m.get("thinking") or "").strip()
             if role == "user":
-                prefix = "YOU │ "
-                for i, wl in enumerate(_wrap(content, max(8, width - len(prefix)))):
-                    lines.append((prefix if i == 0 else "    │ ") + wl)
+                emit("  you    ", "         ", content, 6)
             else:
                 if thinking:
-                    tprefix = "💭  │ "
-                    # collapse whitespace-heavy thought streams a bit for display
-                    tshow = thinking
-                    if len(tshow) > 1200:
-                        tshow = tshow[:600] + " … " + tshow[-400:]
-                    for i, wl in enumerate(_wrap(tshow, max(8, width - len(tprefix)))):
-                        lines.append((tprefix if i == 0 else "    │ ") + wl)
-                    lines.append("────┼" + "─" * max(4, width - 5))
-                prefix = "GROK│ "
-                for i, wl in enumerate(_wrap(content or "(empty)", max(8, width - len(prefix)))):
-                    lines.append((prefix if i == 0 else "    │ ") + wl)
-            lines.append("")
-        return lines
+                    tshow = thinking[: PAD.max_thinking_chars]
+                    if len(thinking) > PAD.max_thinking_chars:
+                        tshow += "…"
+                    emit("  think  ", "         ", tshow, 3)
+                emit("  grok   ", "         ", content or "(empty)", 8)
+            lines.extend(gap)
+        while lines and lines[-1] == "":
+            lines.pop()
+        return lines + [""]
 
     def current_text(self) -> str:
         cf = self.root / "CURRENT.md"
         if not cf.is_file():
-            return "(no CURRENT.md)\n\nAdvanced → Create CURRENT"
+            return "(no CURRENT.md)"
         try:
             body = cf.read_text(encoding="utf-8", errors="replace")
         except OSError as e:
             return f"(read error: {e})"
-        pin = (
-            f"NEXT  {self.st.next_action}\n"
-            f"PHASE {self.st.phase}  ·  {self.st.status}  ·  {self.st.approval}\n"
-            f"{'─' * 40}\n"
-        )
+        # compact pin + body (less dense)
+        pin = f"NEXT  {self.st.next_action}\n{self.st.phase} · {self.st.status}\n\n"
         return pin + body
 
     def draw_panel_page(self, stdscr, h: int, w: int, top: int) -> None:
-        bot_menu, bot_input = 2, 2
-        body_h = max(5, h - top - bot_menu - bot_input)
-        mid = max(20, int(w * 0.55))
-        if w - mid < 22:
-            mid = max(14, w - 22)
-        right_w = w - mid
+        L, R = PAD.outer_hpad_left, PAD.outer_hpad_right
+        BL, BR = PAD.block_pad_left, PAD.block_pad_right
+        bot = self._bot_rows()
+        x0 = L
+        usable_w = max(20, w - L - R)
+        body_h = max(6, h - top - bot - PAD.outer_vpad)
+        mid = max(16, int(usable_w * 0.58))  # chat gets more width
+        if usable_w - mid < 16:
+            mid = max(12, usable_w - 16)
+        right_w = usable_w - mid
         frame = self.c(1)
-        self._draw_box(stdscr, top, 0, body_h, mid, frame)
-        self._draw_box(stdscr, top, mid, body_h, right_w, frame)
+        self._draw_box(stdscr, top, x0, body_h, mid, frame)
+        self._draw_box(stdscr, top, x0 + mid, body_h, right_w, frame)
+        _safe_add(stdscr, top, x0 + BL, " chat ", self.c(1) | curses.A_BOLD)
+        _safe_add(stdscr, top, x0 + mid + BL, " CURRENT ", self.c(3) | curses.A_BOLD)
 
-        lh = "▌ CHAT" if self.focus == "chat" else "  CHAT"
-        rh = "▌ CURRENT" if self.focus == "current" else "  CURRENT"
-        _safe_add(stdscr, top, 2, f" {lh} ", self.c(1) | curses.A_BOLD)
-        _safe_add(stdscr, top, mid + 2, f" {rh} ", self.c(3) | curses.A_BOLD)
-
-        inner_h = max(1, body_h - 2)
-        inner_w_l = max(8, mid - 4)
-        inner_w_r = max(8, right_w - 4)
+        inner_h = max(1, body_h - 3)
+        inner_w_l = max(8, mid - BL - BR - 2)
+        inner_w_r = max(8, right_w - BL - BR - 2)
         self._inner_h = inner_h
+        cy = top + 2  # title row + air
 
         chat_lines = self.chat_display(inner_w_l)
         max_cs = max(0, len(chat_lines) - inner_h)
         self.chat_scroll = max(0, min(self.chat_scroll, max_cs))
+        # auto-stick to bottom when near end
         vis = chat_lines[self.chat_scroll : self.chat_scroll + inner_h]
+        cx = x0 + 1 + BL
         for i in range(inner_h):
-            row = top + 1 + i
-            _safe_add(stdscr, row, 2, " " * inner_w_l)
+            row = cy + i
+            _safe_add(stdscr, row, cx, " " * inner_w_l)
             if i < len(vis):
                 line = vis[i][:inner_w_l]
                 attr = 0
-                if line.startswith("YOU"):
+                if "you" in line[:8]:
                     attr = self.c(2)
-                elif line.startswith("GROK") or line.startswith("◆"):
+                elif "grok" in line[:8] or line.strip().startswith("◆"):
                     attr = self.c(1) | curses.A_BOLD
-                elif line.startswith("💭") or line.startswith("────"):
-                    attr = self.c(4)  # thinking = amber
+                elif "think" in line[:10]:
+                    attr = self.c(4)
+                _safe_add(stdscr, row, cx, line, attr)
 
-                _safe_add(stdscr, row, 2, line, attr)
-
-        cur_lines = _wrap(self.current_text(), inner_w_r)
+        cur_lines = _wrap(self.current_text(), min(inner_w_r, 56))
         max_rs = max(0, len(cur_lines) - inner_h)
         self.current_scroll = max(0, min(self.current_scroll, max_rs))
         vis_r = cur_lines[self.current_scroll : self.current_scroll + inner_h]
+        rx = x0 + mid + 1 + BL
         for i in range(inner_h):
-            row = top + 1 + i
-            _safe_add(stdscr, row, mid + 2, " " * inner_w_r)
+            row = cy + i
+            _safe_add(stdscr, row, rx, " " * inner_w_r)
             if i < len(vis_r):
-                line = vis_r[i][:inner_w_r]
-                attr = self.c(3) | curses.A_BOLD if i < 3 and self.current_scroll == 0 else 0
-                _safe_add(stdscr, row, mid + 2, line, attr)
+                attr = self.c(3) if i < 2 and self.current_scroll == 0 else 0
+                _safe_add(stdscr, row, rx, vis_r[i][:inner_w_r], attr)
 
         self._draw_menu_dock(stdscr, top + body_h, h, w)
-
-    # --- shell page content ----------------------------------------------
 
     def ensure_shell_boot(self) -> None:
         if self._shell_booted:
@@ -324,91 +327,92 @@ class PanelApp:
             from aether_shell_agent import set_agent_role
 
             load_dotenv_files()
-            lines = [
-                "aether shell page — Domain-bound · YOUR model (sft-v4 peer)",
-                status_line(self.root),
-            ]
             set_agent_role("peer")
-            lines.append(apply_peer_backend(self.root, model="personal-llm-sft-v4") or "peer backend")
-            try:
-                lines.append(f"backend: {describe_backend()}")
-            except Exception:
-                lines.append(f"backend: {_backend_label()}")
-            lines.append("slash: /help /preflight /run /panel  ·  F1 → PANEL page")
-            lines.append("─" * 48)
+            peer = apply_peer_backend(self.root, model="personal-llm-sft-v4:latest")
+            self.shell_lines = [
+                "",
+                "  shell  ·  peer sft-v4",
+                f"  {status_line(self.root)[:70]}",
+                f"  {peer}",
+                f"  {describe_backend()}",
+                "",
+                "  type to chat about CURRENT · drafts only",
+                "  F1 panel · F3 actions",
+                "",
+            ]
         except Exception as e:
-            lines = [f"(shell init: {e})", "type /help · F1 panel"]
-        self.shell_lines.extend(lines)
+            self.shell_lines = ["", f"  shell init: {e}", ""]
 
     def shell_display(self, width: int) -> List[str]:
+        w = max(8, min(width, PAD.max_thoughts_width))
         if not self.shell_lines:
-            return _wrap("SHELL page — F1 returns to PANEL", width)
+            return ["", "  shell", ""]
         out: List[str] = []
-        for line in self.shell_lines[-200:]:
-            out.extend(_wrap(line, width))
+        for line in self.shell_lines[-50:]:
+            out.extend(_wrap(line, w))
         return out
 
     def draw_shell_page(self, stdscr, h: int, w: int, top: int) -> None:
-        bot_menu, bot_input = 2, 2
-        body_h = max(5, h - top - bot_menu - bot_input)
+        L, R = PAD.outer_hpad_left, PAD.outer_hpad_right
+        BL, BR = PAD.block_pad_left, PAD.block_pad_right
+        bot = self._bot_rows()
+        x0 = L
+        usable_w = max(20, w - L - R)
+        body_h = max(6, h - top - bot - PAD.outer_vpad)
         frame = self.c(1)
-        self._draw_box(stdscr, top, 0, body_h, w, frame)
-        title = "▌ SHELL" if self.focus in ("input", "log") else "  SHELL"
-        _safe_add(stdscr, top, 2, f" {title} · Domain REPL ", self.c(1) | curses.A_BOLD)
-
-        inner_h = max(1, body_h - 2)
-        inner_w = max(8, w - 4)
+        self._draw_box(stdscr, top, x0, body_h, usable_w, frame)
+        _safe_add(stdscr, top, x0 + BL, " shell ", self.c(1) | curses.A_BOLD)
+        inner_h = max(1, body_h - 3)
+        inner_w = max(8, usable_w - BL - BR - 2)
         self._inner_h = inner_h
         lines = self.shell_display(inner_w)
         max_ss = max(0, len(lines) - inner_h)
         self.shell_scroll = max(0, min(self.shell_scroll, max_ss))
         vis = lines[self.shell_scroll : self.shell_scroll + inner_h]
+        cx = x0 + 1 + BL
+        cy = top + 2
         for i in range(inner_h):
-            row = top + 1 + i
-            _safe_add(stdscr, row, 2, " " * inner_w)
+            row = cy + i
+            _safe_add(stdscr, row, cx, " " * inner_w)
             if i < len(vis):
                 line = vis[i][:inner_w]
-                attr = 0
-                if line.startswith("shell>") or line.startswith("YOU"):
-                    attr = self.c(2)
-                elif line.startswith("◆") or line.startswith("agent"):
-                    attr = self.c(1)
-                _safe_add(stdscr, row, 2, line, attr)
-
+                attr = self.c(2) if "you" in line[:10] else (self.c(1) if "peer" in line[:10] else 0)
+                _safe_add(stdscr, row, cx, line, attr)
         self._draw_menu_dock(stdscr, top + body_h, h, w)
 
     def _draw_menu_dock(self, stdscr, menu_y: int, h: int, w: int) -> None:
-        _safe_add(stdscr, menu_y, 0, "═" * max(0, w - 1), self.c(1))
-        menu = self.menu()
-        x = 1
-        y = menu_y + 1
-        for i, (label, _k) in enumerate(menu):
-            pill = f"[{label}]"
-            if x + len(pill) >= w - 2:
-                break
-            sel = self.focus == "menu" and i == self.selected
-            attr = curses.A_REVERSE | self.c(7) if sel else self.c(1)
-            _safe_add(stdscr, y, x, pill, attr)
-            x += len(pill) + 1
-
+        L, R = PAD.outer_hpad_left, PAD.outer_hpad_right
+        usable = max(10, w - L - R)
         if self.page == "panel":
             mode = {"chat": "CHAT", "menu": "MENU", "current": "CURRENT"}.get(
-                self.focus, self.focus.upper()
+                self.focus, "?"
             )
         else:
-            mode = {"input": "SHELL", "menu": "MENU", "log": "LOG"}.get(
-                self.focus, self.focus.upper()
-            )
-        foot = f" {mode} │ F1 PANEL · F2 SHELL │ {self.status}"
-        _safe_add(
-            stdscr,
-            h - 2,
-            0,
-            foot[: max(0, w - 1)].ljust(max(0, w - 1))[: max(0, w - 1)],
-            self.c(4),
-        )
+            mode = {"input": "SHELL", "menu": "MENU", "log": "LOG"}.get(self.focus, "?")
+
+        if self.show_actions:
+            _safe_add(stdscr, menu_y, L, "─" * usable, self.c(1))
+            menu = self.menu()
+            # build strip then right-align
+            parts = []
+            for i, (label, _) in enumerate(menu):
+                parts.append((f"[{label}]", self.focus == "menu" and i == self.selected))
+            total = sum(len(t) + 1 for t, _ in parts) - (1 if parts else 0)
+            x = max(L, w - R - max(total, 1))
+            y = menu_y + 1
+            for text, sel in parts:
+                attr = (curses.A_REVERSE | self.c(7)) if sel else self.c(1)
+                if x + len(text) < w - R:
+                    _safe_add(stdscr, y, x, text, attr)
+                x += len(text) + 1
+            foot = f" {mode} │ F3 hide actions │ {self.status}"
+        else:
+            foot = f" {mode} │ F3 show actions │ F1/F2 │ {self.status}"
+
+        _safe_add(stdscr, h - 2, L, foot[:usable].ljust(usable)[:usable], self.c(4))
         prompt = " › " if self.page == "panel" else " shell> "
-        shown = (prompt + self.input_buf)[-max(10, w - 3) :]
+        lead = " " * (L + PAD.block_pad_left)
+        shown = (lead + prompt + self.input_buf)[-(w - R - 1) :]
         bold = self.focus in ("chat", "input")
         attr = (curses.A_BOLD | self.c(2)) if bold else 0
         _safe_add(stdscr, h - 1, 0, shown.ljust(max(0, w - 1))[: max(0, w - 1)], attr)
@@ -416,13 +420,13 @@ class PanelApp:
     def draw(self, stdscr) -> None:
         h, w = stdscr.getmaxyx()
         stdscr.erase()
-        if h < 16 or w < 56:
-            _safe_add(stdscr, 0, 0, "Seat needs ≥16×56 terminal")
+        if h < PAD.min_rows or w < PAD.min_cols:
+            _safe_add(stdscr, 0, 0, f"need ≥{PAD.min_rows}×{PAD.min_cols}")
             stdscr.noutrefresh()
             curses.doupdate()
             return
         self.draw_header(stdscr, w)
-        top = 2
+        top = PAD.header_rows + PAD.outer_vpad
         if self.page == "shell":
             self.ensure_shell_boot()
             self.draw_shell_page(stdscr, h, w, top)
@@ -431,8 +435,6 @@ class PanelApp:
         stdscr.noutrefresh()
         curses.doupdate()
 
-    # --- page switch -----------------------------------------------------
-
     def goto_panel(self) -> None:
         self.page = "panel"
         self.focus = "chat"
@@ -440,7 +442,7 @@ class PanelApp:
         self.advanced = False
         self.st = self.host.load_state(self.root)
         self._be_label = _backend_label()
-        self.status = "page: PANEL"
+        self.status = "panel"
 
     def goto_shell(self) -> None:
         self.page = "shell"
@@ -449,174 +451,140 @@ class PanelApp:
         self.ensure_shell_boot()
         self.st = self.host.load_state(self.root)
         self._be_label = _backend_label()
-        self.status = "page: SHELL · /panel or F1 back"
-
-    # --- chat / shell input ----------------------------------------------
+        self.status = "shell · peer sft-v4"
 
     def panel_chat(self, text: str) -> None:
         try:
-            from aether_fs import load_dotenv_files, read_current
-            from aether_llm import apply_peer_backend, chat
-            from aether_shell_agent import agent_chat_loop, resolve_agent_role, set_agent_role
-        except ImportError as e:
-            self.status = f"chat import error: {e}"
-            return
-        try:
-            load_dotenv_files()
-        except Exception:
-            pass
-        # Chatter = Grok session (TUI compute + thinking), not peer/ollama
-        try:
             import os as _os
-            _os.environ["AETHER_SHELL_AGENT_ROLE"] = "grok"
+            from aether_fs import load_dotenv_files, read_current
+            from aether_llm import chat, last_chat_meta
+            from aether_shell import build_messages
+            from aether_shell_agent import set_agent_role
+
+            load_dotenv_files()
+            # Force Grok session model — never leave peer/ollama model id (setdefault fails after F2)
             _os.environ["AETHER_LLM_PROVIDER"] = "grok_tui"
-            _os.environ.setdefault("AETHER_MODEL", "grok-4.5")
+            _os.environ["AETHER_SHELL_AGENT_ROLE"] = "grok"
+            _os.environ["AETHER_MODEL"] = "grok-4.5"
+            _os.environ.pop("AETHER_OLLAMA_MODEL", None)
             _os.environ.setdefault("AETHER_REASONING_EFFORT", "high")
+            _os.environ.setdefault("AETHER_GROK_OUTPUT_FORMAT", "streaming-json")
             set_agent_role("grok")
-        except Exception:
-            pass
+        except Exception as e:
+            self.status = f"init: {e}"
+            return
         self.history.append({"role": "user", "content": text})
         try:
-            from aether_llm import last_chat_meta
-            cur = read_current(self.root) or ""
-            # Prefer direct Grok chat (session + thoughts) over multi-tool peer loop
-            from aether_shell import build_messages
-            msgs = build_messages(self.root, self.history[-16:])
-            # Domain injection: CURRENT always in system via build_messages
+            msgs = build_messages(self.root, self.history[-12:])
             reply = chat(msgs, temperature=0.35)
             meta = {}
             try:
                 meta = last_chat_meta() or {}
             except Exception:
-                meta = {}
+                pass
             thinking = (meta.get("thinking") or "").strip()
             self.history.append(
-                {
-                    "role": "assistant",
-                    "content": reply or "",
-                    "thinking": thinking,
-                    "provider": meta.get("provider") or "grok_tui",
-                }
+                {"role": "assistant", "content": reply or "", "thinking": thinking}
             )
-            tools = meta.get("tools") or []
-            self.status = "grok ready" + (f" · tools={','.join(tools[:3])}" if tools else "")
+            self.status = "grok ready"
             self._be_label = _backend_label()
+            # stick scroll to end
+            self.chat_scroll = 10**9
         except Exception as e:
             self.history.pop()
-            self.status = f"grok: {e}"
+            self.status = f"grok: {e}"[:50]
         self.st = self.host.load_state(self.root)
 
     def shell_submit(self, text: str) -> None:
-        """Process one shell line (slash / tool / agent chat)."""
         text = (text or "").strip()
         if not text:
-            self.shell_lines.append("(waiting — silence is not permission)")
+            self.shell_lines.append("")
+            self.shell_lines.append("  (waiting)")
+            self.shell_lines.append("")
             return
-        self.shell_lines.append(f"shell> {text}")
+        self.shell_lines.append("")
+        self.shell_lines.append(f"  you    {text}")
+        self.shell_lines.append("")
 
-        # return to panel page
         if text.lower() in ("/panel", "/back", "/p", "panel"):
             self.goto_panel()
             return
         if text.lower() in ("bye", "quit", "exit", "q", "/quit", "/exit", "/q"):
-            # stay in seat — go panel rather than kill app
-            self.shell_lines.append("(use F1 / /panel for board · menu QUIT leaves seat)")
             self.goto_panel()
             return
 
         try:
-            from aether_fs import read_current
-            from aether_llm import chat
-            from aether_shell import append_log, handle_slash, run_allowlisted
-            from aether_shell_agent import agent_chat_loop, agent_mode_enabled
+            from aether_llm import apply_peer_backend, chat
+            from aether_shell import append_log, build_messages, handle_slash, run_allowlisted
+            from aether_shell_agent import set_agent_role
         except ImportError as e:
-            self.shell_lines.append(f"(import error: {e})")
+            self.shell_lines.append(f"  (import error: {e})")
             return
 
-        # bang tools
         if text.startswith("!") and not text.startswith("!="):
-            body = text[1:].lstrip()
             try:
-                argv = shlex.split(body) if body else []
+                argv = shlex.split(text[1:].lstrip()) if text[1:].strip() else []
             except ValueError as e:
-                self.shell_lines.append(f"parse error: {e}")
+                self.shell_lines.append(f"  parse: {e}")
                 return
             out = run_allowlisted(self.root, argv)
-            self.shell_lines.extend((out or "").splitlines() or [""])
+            for ln in (out or "").splitlines():
+                self.shell_lines.append(f"  {ln}")
+            self.shell_lines.append("")
             self.shell_scroll = 10**9
             return
 
         if text.startswith("/"):
             out = handle_slash(self.root, text, self.shell_hist)
             if out is None:
-                # /quit family in handle_slash — treat as panel return
                 self.goto_panel()
                 return
-            self.shell_lines.extend((out or "").splitlines() or [""])
+            for ln in (out or "").splitlines():
+                self.shell_lines.append(f"  {ln}")
+            self.shell_lines.append("")
             self.shell_scroll = 10**9
             self.st = self.host.load_state(self.root)
-            self._be_label = _backend_label()
             return
 
-        # Domain agent chat — default: personal-llm-sft-v4 (peer / Ollama on myarch)
         self.shell_hist.append({"role": "user", "content": text})
         try:
             append_log(self.root, "user", text)
         except Exception:
             pass
         try:
-            import os as _os
-            from aether_llm import apply_peer_backend, last_chat_meta
-            from aether_shell import build_messages
-            from aether_shell_agent import set_agent_role, agent_mode_enabled, agent_chat_loop
-
-            # Shell page = YOUR model (PEER). Panel page keeps Grok session chatter.
             set_agent_role("peer")
-            peer_line = apply_peer_backend(self.root, model="personal-llm-sft-v4")
-            _os.environ["AETHER_OLLAMA_MODEL"] = "personal-llm-sft-v4"
-            _os.environ["AETHER_MODEL"] = "personal-llm-sft-v4"
-            if peer_line and not any(peer_line in ln for ln in self.shell_lines[-5:]):
-                self.shell_lines.append(peer_line)
-
-            cur = read_current(self.root) or ""
-            if agent_mode_enabled():
-                reply = agent_chat_loop(
-                    self.root,
-                    self.shell_hist[-16:],
-                    chat_fn=chat,
-                    current=cur,
-                    temperature=0.35,
-                )
-            else:
-                msgs = build_messages(self.root, self.shell_hist)
-                reply = chat(msgs, temperature=0.45)
-            thinking = ""
-            try:
-                thinking = (last_chat_meta() or {}).get("thinking") or ""
-            except Exception:
-                pass
-            if thinking:
-                tshow = thinking if len(thinking) <= 600 else thinking[:300] + " … "
-                self.shell_lines.append("💭 " + tshow.replace("\n", " ")[:500])
-            self.shell_hist.append(
-                {"role": "assistant", "content": reply or "", "thinking": thinking}
-            )
+            # Free chat only — no agent_mode_enabled (lives in aether_shell, not shell_agent)
+            peer = apply_peer_backend(self.root, model="personal-llm-sft-v4:latest")
+            os.environ["AETHER_LLM_PROVIDER"] = "ollama"
+            os.environ["AETHER_OLLAMA_MODEL"] = "personal-llm-sft-v4:latest"
+            os.environ["AETHER_MODEL"] = "personal-llm-sft-v4:latest"
+            os.environ.setdefault("AETHER_OLLAMA_NUM_CTX", "8192")
+            os.environ.setdefault("OLLAMA_HOST", "http://192.168.1.241:11434")
+            msgs = build_messages(self.root, self.shell_hist)
+            reply = chat(msgs, temperature=0.35)
+            self.shell_hist.append({"role": "assistant", "content": reply or ""})
             try:
                 append_log(self.root, "assistant", reply or "")
             except Exception:
                 pass
+            self.shell_lines.append("")
             first = True
             for line in (reply or "(empty)").splitlines() or ["(empty)"]:
                 if first:
-                    self.shell_lines.append("◆ " + line)
+                    self.shell_lines.append(f"  peer   {line}")
                     first = False
                 else:
-                    self.shell_lines.append("  " + line)
+                    self.shell_lines.append(f"         {line}")
+            self.shell_lines.append("")
+            self.status = "peer ready"
         except Exception as e:
-            self.shell_hist.pop()
-            self.shell_lines.append(f"(llm error: {e})")
+            if self.shell_hist and self.shell_hist[-1].get("role") == "user":
+                self.shell_hist.pop()
+            self.shell_lines.append(f"  (llm error: {e})")
+            self.shell_lines.append("  tip: myarch ollama up?  OLLAMA_HOST=http://192.168.1.241:11434")
+            self.shell_lines.append("")
+            self.status = f"err: {e}"[:48]
         self.shell_scroll = 10**9
-        self.status = "shell ready"
         self._be_label = _backend_label()
 
     def run_menu_action(self, stdscr, key: str) -> bool:
@@ -630,29 +598,29 @@ class PanelApp:
             try:
                 from aether_shell import status_line
 
-                self.shell_lines.append(status_line(self.root))
+                self.shell_lines.append(f"  {status_line(self.root)}")
             except Exception as e:
-                self.shell_lines.append(str(e))
+                self.shell_lines.append(f"  {e}")
             self.shell_scroll = 10**9
             return False
         if key == "shell_help":
             try:
                 from aether_shell import HELP
 
-                self.shell_lines.extend(HELP.splitlines())
+                for ln in HELP.splitlines()[:30]:
+                    self.shell_lines.append(f"  {ln}")
             except Exception:
-                self.shell_lines.append("see docs/AETHER-SHELL.md")
+                self.shell_lines.append("  docs/AETHER-SHELL.md")
             self.shell_scroll = 10**9
             return False
         if key == "shell_clear":
-            self.shell_lines = ["(cleared)"]
+            self.shell_lines = ["", "  (cleared)", ""]
             self.shell_hist = []
-            self.shell_scroll = 0
             return False
         if key == "advanced":
             self.advanced = True
+            self.show_actions = True
             self.selected = 0
-            self.status = "Advanced"
             return False
         if key == "advanced_back":
             self.advanced = False
@@ -664,12 +632,9 @@ class PanelApp:
             self.st.detail = PLAYBOOK
             return False
         if key == "preflight_next" and self.page == "shell":
-            # run into shell transcript
             nxt = self.st.next_action or ""
             if nxt:
                 self.shell_submit(f"/preflight {nxt}")
-            else:
-                self.shell_lines.append("(no Next in CURRENT)")
             return False
 
         def prompt(p: str) -> Optional[str]:
@@ -681,23 +646,13 @@ class PanelApp:
         self.root = self.st.root
         return False
 
-    # --- main loop -------------------------------------------------------
-
     def loop(self, stdscr) -> None:
         try:
             curses.curs_set(1)
-        except curses.error:
-            pass
-        try:
             curses.raw()
         except curses.error:
             pass
         stdscr.keypad(True)
-        if hasattr(stdscr, "meta"):
-            try:
-                stdscr.meta(True)
-            except curses.error:
-                pass
         try:
             stdscr.clear()
             stdscr.refresh()
@@ -712,7 +667,7 @@ class PanelApp:
                 stdscr.erase()
                 for i, line in enumerate(self.st.detail.splitlines()[: h - 2]):
                     _safe_add(stdscr, i, 0, line)
-                _safe_add(stdscr, h - 1, 0, " any key → back ")
+                _safe_add(stdscr, h - 1, 0, " any key ")
                 stdscr.refresh()
                 stdscr.getch()
                 self.st.detail = ""
@@ -721,52 +676,59 @@ class PanelApp:
             self.draw(stdscr)
             ch = stdscr.getch()
 
-            # Global page tabs (work even while typing — F-keys only; digits only on menu)
             if ch == curses.KEY_F1:
                 self.goto_panel()
                 continue
             if ch == curses.KEY_F2:
                 self.goto_shell()
                 continue
-
-            # Tab focus
-            if ch == 9:
-                if self.page == "panel":
-                    order = ["chat", "menu", "current"]
+            if ch == curses.KEY_F3:
+                self.show_actions = not self.show_actions
+                if self.show_actions:
+                    self.focus = "menu"
+                    self.selected = 0
+                    self.status = "actions · arrows · Enter · F3 hide"
                 else:
-                    order = ["input", "menu", "log"]
+                    self.focus = "chat" if self.page == "panel" else "input"
+                    self.status = "actions hidden"
+                continue
+
+            if ch == 9:  # Tab
+                if self.page == "panel":
+                    order = (
+                        ["chat", "menu", "current"]
+                        if self.show_actions
+                        else ["chat", "current"]
+                    )
+                else:
+                    order = (
+                        ["input", "menu", "log"] if self.show_actions else ["input", "log"]
+                    )
                 try:
                     i = order.index(self.focus)
                 except ValueError:
                     i = 0
                 self.focus = order[(i + 1) % len(order)]
-                try:
-                    curses.curs_set(1 if self.focus in ("chat", "input") else 0)
-                except curses.error:
-                    pass
                 continue
 
-            if ch == 27:  # Esc
+            if ch == 27:
                 if self.advanced:
                     self.advanced = False
-                    self.selected = 0
+                elif self.show_actions:
+                    self.show_actions = False
+                    self.focus = "chat" if self.page == "panel" else "input"
                 elif self.page == "shell":
                     self.goto_panel()
                 continue
 
-            # --- shell page keys ---
             if self.page == "shell":
                 if self.focus == "log":
-                    if ch in (curses.KEY_UP, ord("k")):
+                    if ch in (curses.KEY_UP,):
                         self.shell_scroll = max(0, self.shell_scroll - 1)
-                    elif ch in (curses.KEY_DOWN, ord("j")):
+                    elif ch in (curses.KEY_DOWN,):
                         self.shell_scroll += 1
-                    elif ch == curses.KEY_PPAGE:
-                        self.shell_scroll = max(0, self.shell_scroll - 10)
-                    elif ch == curses.KEY_NPAGE:
-                        self.shell_scroll += 10
                     continue
-                if self.focus == "menu":
+                if self.focus == "menu" and self.show_actions:
                     menu = self.menu()
                     if ch in (curses.KEY_LEFT, curses.KEY_UP):
                         self.selected = (self.selected - 1) % len(menu)
@@ -778,13 +740,6 @@ class PanelApp:
                         if self.run_menu_action(stdscr, menu[self.selected][1]):
                             return
                     continue
-                # input focus
-                if ch == curses.KEY_UP:
-                    self.shell_scroll = max(0, self.shell_scroll - 1)
-                    continue
-                if ch == curses.KEY_DOWN:
-                    self.shell_scroll += 1
-                    continue
                 if ch in (curses.KEY_BACKSPACE, 127, 8):
                     self.input_buf = self.input_buf[:-1]
                     continue
@@ -795,23 +750,24 @@ class PanelApp:
                     self.draw(stdscr)
                     self.shell_submit(text)
                     continue
+                if ch == curses.KEY_UP:
+                    self.shell_scroll = max(0, self.shell_scroll - 1)
+                    continue
+                if ch == curses.KEY_DOWN:
+                    self.shell_scroll += 1
+                    continue
                 if 32 <= ch < 127:
                     self.input_buf += chr(ch)
                 continue
 
-            # --- panel page keys ---
+            # panel page
             if self.focus == "current":
-                if ch in (curses.KEY_UP, ord("k")):
+                if ch == curses.KEY_UP:
                     self.current_scroll = max(0, self.current_scroll - 1)
-                elif ch in (curses.KEY_DOWN, ord("j")):
+                elif ch == curses.KEY_DOWN:
                     self.current_scroll += 1
-                elif ch == curses.KEY_PPAGE:
-                    self.current_scroll = max(0, self.current_scroll - 10)
-                elif ch == curses.KEY_NPAGE:
-                    self.current_scroll += 10
                 continue
-
-            if self.focus == "menu":
+            if self.focus == "menu" and self.show_actions:
                 menu = self.menu()
                 if ch in (curses.KEY_LEFT, curses.KEY_UP):
                     self.selected = (self.selected - 1) % len(menu)
@@ -822,14 +778,7 @@ class PanelApp:
                 if ch in (curses.KEY_ENTER, 10, 13):
                     if self.run_menu_action(stdscr, menu[self.selected][1]):
                         return
-                # digit 1/2 as page switch only on menu focus
-                if ch == ord("1"):
-                    self.goto_panel()
-                elif ch == ord("2"):
-                    self.goto_shell()
                 continue
-
-            # chat focus
             if ch == curses.KEY_UP:
                 self.chat_scroll = max(0, self.chat_scroll - 1)
                 continue
@@ -844,13 +793,10 @@ class PanelApp:
                 self.input_buf = ""
                 if not text:
                     continue
-                if text in ("/shell", ":shell", "/s"):
+                if text in ("/shell", "/s"):
                     self.goto_shell()
                     continue
-                if text in ("/playbook", "/help", "?"):
-                    self.st.detail = PLAYBOOK
-                    continue
-                self.status = "thinking…"
+                self.status = "…"
                 self.draw(stdscr)
                 self.panel_chat(text)
                 continue
@@ -881,13 +827,12 @@ def run_tmux_grok_split(root: Path) -> int:
     import shlex
 
     if not shutil.which("tmux"):
-        sys.stderr.write("aether panel --grok-split needs tmux\n")
+        sys.stderr.write("needs tmux\n")
         return 1
     grok = os.environ.get("GROK_BIN") or shutil.which("grok") or "grok"
     right = f"watch -n 1 -c cat {shlex.quote(str(root / 'CURRENT.md'))}"
     session = f"mech-panel-{os.getpid()}"
     subprocess.call(["tmux", "new-session", "-d", "-s", session, "-c", str(root), grok])
     subprocess.call(["tmux", "split-window", "-h", "-t", session, right])
-    subprocess.call(["tmux", "select-pane", "-t", f"{session}.0"])
     os.execvp("tmux", ["tmux", "attach", "-t", session])
     return 0
