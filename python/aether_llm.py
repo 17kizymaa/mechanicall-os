@@ -222,6 +222,19 @@ def grok_tui_auth_path() -> Path:
     return home / "auth.json"
 
 
+
+# Last headless Grok turn meta (thinking, usage) — for panel display
+_LAST_CHAT_META: dict = {}
+
+
+def last_chat_meta() -> dict:
+    """Return meta from the most recent chat() call (thinking, model, usage)."""
+    return dict(_LAST_CHAT_META)
+
+
+def clear_chat_meta() -> None:
+    _LAST_CHAT_META.clear()
+
 def grok_tui_available() -> bool:
     """True when Grok CLI is installed and a TUI/session login is present.
 
@@ -651,7 +664,7 @@ def resolve_ollama_host(root: Optional[Path] = None) -> str:
     return host
 
 
-def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4") -> str:
+def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> str:
     """Wire shell for peer agent: ollama + sft-v4 + resolved local/remote host."""
     os.environ["AETHER_LLM_PROVIDER"] = "ollama"
     os.environ["AETHER_SHELL_PROVIDER_LOCK"] = "1"
@@ -817,6 +830,7 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
             "XAI_API_KEY, or start Ollama — see docs/FREE-API.md + docs/AETHER-SHELL.md"
         )
     messages = maybe_inject_personal_system(messages)
+    _LAST_CHAT_META.clear()
     if backend.name == "grok_tui":
         return _grok_tui_chat(backend, messages, temperature)
     if backend.name == "anthropic":
@@ -876,11 +890,12 @@ def _messages_to_prompt_parts(
 def _grok_tui_chat(
     backend: LLMBackend, messages: list[dict[str, str]], temperature: float
 ) -> str:
-    """Headless Grok Build CLI — uses `grok login` session (TUI compute), not raw API.
+    """Headless Grok Build CLI — same session compute as interactive Grok TUI.
 
-    Tools are denied so Domain shell stays propose-only (no agent edits).
+    Uses `grok login` auth (not raw XAI_API_KEY). Emits thinking + answer via
+    `--output-format streaming-json` (Grok session infrastructure).
     """
-    _ = temperature  # CLI sampling controlled by model defaults / config
+    _ = temperature
     binary = grok_tui_bin()
     if not binary:
         raise RuntimeError("grok CLI not found on PATH (set GROK_BIN)")
@@ -890,15 +905,23 @@ def _grok_tui_chat(
         t_out = float(os.environ.get("AETHER_LLM_TIMEOUT", "300"))
     except ValueError:
         t_out = 300.0
-
-    deny_tools = (
-        "Agent,run_terminal_cmd,run_terminal_command,search_replace,"
-        "Write,Edit,Bash,web_search,web_fetch"
-    )
+    try:
+        max_turns = int(os.environ.get("AETHER_GROK_MAX_TURNS", "4"))
+    except ValueError:
+        max_turns = 4
+    effort = (
+        os.environ.get("AETHER_REASONING_EFFORT")
+        or os.environ.get("GROK_REASONING_EFFORT")
+        or "high"
+    ).strip() or "high"
+    # Domain seat: no write/exec tools; allow research tools like Grok session
+    deny_tools = os.environ.get(
+        "AETHER_GROK_DENY_TOOLS",
+        "run_terminal_cmd,run_terminal_command,search_replace,Write,Edit,Bash,write",
+    ).strip()
 
     with tempfile.TemporaryDirectory(prefix="aether-grok-tui-") as td:
         td_path = Path(td)
-        # Always use --prompt-file to avoid ARG_MAX / quoting issues
         body = user_blob
         if system and len(system) >= 12000:
             body = system[:20000] + "\n\n---\n\n" + user_blob
@@ -909,29 +932,36 @@ def _grok_tui_chat(
         prompt_path = td_path / "prompt.txt"
         prompt_path.write_text(body, encoding="utf-8")
 
+        out_fmt = (
+            os.environ.get("AETHER_GROK_OUTPUT_FORMAT", "streaming-json").strip()
+            or "streaming-json"
+        )
         cmd = [
             binary,
             "--prompt-file",
             str(prompt_path),
             "--output-format",
-            "plain",
+            out_fmt,
             "--max-turns",
-            "1",
+            str(max(1, max_turns)),
             "-m",
             backend.model,
-            "--disallowed-tools",
-            deny_tools,
-            "--no-auto-update",
+            "--reasoning-effort",
+            effort,
         ]
+        if deny_tools:
+            cmd.extend(["--disallowed-tools", deny_tools])
         if system_for_flag:
             cmd.extend(["--system-prompt-override", system_for_flag])
 
-        # Prefer session token: strip raw API key so CLI does not fall through to API billing
         env = {**os.environ}
         keep_api = os.environ.get("AETHER_GROK_TUI_KEEP_API_KEY", "").strip().lower()
         if keep_api not in ("1", "true", "yes", "on"):
             env.pop("XAI_API_KEY", None)
             env.pop("GROK_CODE_XAI_API_KEY", None)
+        # ensure GROK_HOME points at session auth
+        if not env.get("GROK_HOME") and Path.home().joinpath(".grok").is_dir():
+            env["GROK_HOME"] = str(Path.home() / ".grok")
 
         try:
             proc = subprocess.run(
@@ -956,7 +986,96 @@ def _grok_tui_chat(
         raise RuntimeError(
             f"grok_tui empty response (exit {proc.returncode}): {(err or '')[:300]}"
         )
-    return out
+
+    thinking, text, meta = _parse_grok_stream(out)
+    _LAST_CHAT_META.clear()
+    _LAST_CHAT_META.update(
+        {
+            "provider": "grok_tui",
+            "model": backend.model,
+            "thinking": thinking,
+            "reasoning_effort": effort,
+            **meta,
+        }
+    )
+    # Prefer structured text; fall back to raw stdout if plain format
+    if text.strip():
+        return text.strip()
+    if out_fmt == "plain" or not thinking:
+        # strip accidental JSON lines if mixed
+        lines = []
+        for line in out.splitlines():
+            s = line.strip()
+            if s.startswith("{") and '"type"' in s:
+                continue
+            lines.append(line)
+        cleaned = "\n".join(lines).strip()
+        return cleaned or out
+    return thinking.strip() or out
+
+
+def _parse_grok_stream(raw: str) -> tuple[str, str, dict]:
+    """Parse Grok CLI streaming-json / json lines into thinking + answer text."""
+    import json
+
+    thoughts: list[str] = []
+    texts: list[str] = []
+    meta: dict = {}
+    for line in (raw or "").splitlines():
+        s = line.strip()
+        if not s.startswith("{"):
+            # plain leftover
+            if s:
+                texts.append(s)
+            continue
+        try:
+            ev = json.loads(s)
+        except json.JSONDecodeError:
+            texts.append(line)
+            continue
+        if not isinstance(ev, dict):
+            continue
+        typ = ev.get("type") or ""
+        if typ == "thought":
+            d = ev.get("data")
+            if d is None and "text" in ev:
+                d = ev.get("text")
+            if d is not None:
+                thoughts.append(str(d))
+        elif typ == "text":
+            d = ev.get("data")
+            if d is None and "text" in ev:
+                d = ev.get("text")
+            if d is not None:
+                texts.append(str(d))
+        elif typ in ("assistant", "message", "content"):
+            # alternate shapes
+            d = ev.get("data") or ev.get("content") or ev.get("text") or ""
+            if isinstance(d, list):
+                for part in d:
+                    if isinstance(part, dict) and part.get("type") == "text":
+                        texts.append(str(part.get("text") or part.get("data") or ""))
+                    elif isinstance(part, str):
+                        texts.append(part)
+            elif d:
+                texts.append(str(d))
+        elif typ == "end":
+            if "sessionId" in ev:
+                meta["session_id"] = ev.get("sessionId")
+            if "usage" in ev:
+                meta["usage"] = ev.get("usage")
+            if "modelUsage" in ev:
+                meta["model_usage"] = ev.get("modelUsage")
+        elif typ == "usage" and "usage" in ev:
+            meta["usage"] = ev.get("usage")
+        elif typ == "tool_call":
+            title = ev.get("title") or ev.get("toolName") or "tool"
+            meta.setdefault("tools", []).append(str(title))
+    thinking = "".join(thoughts).strip()
+    # If thought tokens are word-pieces, join without extra spaces when already spaced
+    text = "".join(texts).strip()
+    return thinking, text, meta
+
 
 
 
@@ -1052,12 +1171,34 @@ def _openai_chat(backend: LLMBackend, messages: list[dict[str, str]], temperatur
 
 
 def _ollama_chat(backend: LLMBackend, messages: list[dict[str, str]], temperature: float) -> str:
+    # personal-llm / Modelfile often ships with small n_ctx; raise for CURRENT inject
+    try:
+        num_ctx = int(os.environ.get("AETHER_OLLAMA_NUM_CTX", "8192"))
+    except ValueError:
+        num_ctx = 8192
+    model = backend.model
+    # Prefer :latest if bare name fails later — normalize sft tags
+    if model in ("personal-llm-sft-v4", "personal-llm-sft-v2", "personal-llm-full:v1"):
+        if ":" not in model.replace("personal-llm-full:v1", "x"):  # keep full:v1
+            pass
+    if model == "personal-llm-sft-v4":
+        model = "personal-llm-sft-v4:latest"
+    elif model == "personal-llm-sft-v2":
+        model = "personal-llm-sft-v2:latest"
+    # Truncate huge system messages to fit small local models if still oversized
+    safe_msgs = []
+    for m in messages:
+        role = m.get("role") or "user"
+        content = m.get("content") or ""
+        if role == "system" and len(content) > 6000:
+            content = content[:2500] + "\n\n…[truncated for n_ctx]…\n\n" + content[-2500:]
+        safe_msgs.append({"role": role, "content": content})
     body = json.dumps(
         {
-            "model": backend.model,
-            "messages": messages,
+            "model": model,
+            "messages": safe_msgs,
             "stream": False,
-            "options": {"temperature": temperature},
+            "options": {"temperature": temperature, "num_ctx": num_ctx},
         }
     ).encode()
     req = urllib.request.Request(

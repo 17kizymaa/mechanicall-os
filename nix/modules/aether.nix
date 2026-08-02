@@ -35,7 +35,8 @@ in
     environment.etc."mechanicall/README-vault.txt".text = ''
       Vault: vault on | vault off | vault status
       Chat:  ollama run personal-llm-full:v1  (or: chat)
-      aether approve is human-only.
+      Seat:  seat-menu | aether panel | aether shell
+      aether approve is human-only. PEER profile = personal-llm-sft-v4 only.
     '';
   };
 }

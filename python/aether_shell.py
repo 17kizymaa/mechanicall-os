@@ -287,7 +287,8 @@ slash commands (local — no model):
   /peer-serve        peer REPL on THIS host + LAN/Tailscale URLs
   /ollama-host [url] show / pin Ollama (local or remote Tailscale); saved in .aether/
   /clear             clear chat history (not CURRENT)
-  /quit  /exit  bye  leave shell
+  /panel /back /p     return to aether panel (same seat / TTY)
+  /quit  /exit  bye  leave shell (returns to panel when launched from it)
 empty line waits (never yes). models never approve.
 default agent: peer (personal-llm-sft-v4). /agent grok for real tools.
 remote: /ollama-host http://100.x.y.z:11434  then chat as peer.
@@ -491,7 +492,8 @@ def handle_slash(root: Path, line: str, history: List[dict]) -> Optional[str]:
     cmd = parts[0].lower()
     args = parts[1:]
 
-    if cmd in ("/quit", "/exit", "/q"):
+    if cmd in ("/quit", "/exit", "/q", "/panel", "/back", "/p"):
+        # /panel /back = return to panel when embedded in same seat session
         return None
     if cmd in ("/help", "/h", "/?"):
         return HELP
@@ -649,7 +651,7 @@ def repl(root: Path) -> int:
         )
     else:
         print("agent: OFF (chat-only)")
-    print("type /help · /run · /peer-serve · empty line waits · bye to leave")
+    print("type /help · /panel (back to board) · /run · empty line waits · bye leaves shell")
     print()
 
     history: List[dict] = []
@@ -657,7 +659,7 @@ def repl(root: Path) -> int:
         try:
             line = input("shell> ").rstrip("\n")
         except EOFError:
-            print()
+            print("\n(eof — returning to panel if seated)")
             break
         except KeyboardInterrupt:
             print("\n(interrupt — type bye to leave)")

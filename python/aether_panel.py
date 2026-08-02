@@ -459,6 +459,250 @@ def run_aether(args: Sequence[str], root: Path, timeout: int = 120) -> Tuple[int
     return proc.returncode, out.strip()
 
 
+
+def _run_action(
+    st: ProjectState,
+    key: str,
+    prompt_fn: Callable[[str], Optional[str]],
+    *,
+    stdscr: Any = None,
+) -> ProjectState:
+    root = st.root
+    prev_result = st.result
+
+    def done(new: ProjectState, result: str = "", detail: str = "", write: bool = False) -> ProjectState:
+        new.result = result
+        new.detail = detail
+        if write:
+            _quiet_write(new)
+        return new
+
+    if key == "refresh":
+        st = load_state(root)
+        return done(st, "refreshed")
+    if key == "quit":
+        return done(st, "quit")
+    if key == "write":
+        st = load_state(root)
+        md_p, html_p = write_projections(st)
+        return done(st, f"wrote {md_p.name} + {html_p.name}")
+    if key == "init":
+        code, out = run_aether(["init", str(root)], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "current_init":
+        code, out = run_aether(["current", "init", str(root)], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "help":
+        lines = [
+            "Operator Board v0 — action help",
+            "(Board = Domain viewport. Grok = AI chat. Human only for approve.)",
+            "",
+        ]
+        for label, akey, hot in ACTIONS:
+            if akey == "help":
+                continue
+            tip = ACTION_HELP.get(akey, "")
+            hot_s = f"[{hot}] " if hot else ""
+            lines.append(f"{hot_s}{label}")
+            if tip:
+                lines.append(f"    {tip}")
+        lines.append("")
+        lines.append("Known projects for [s]:")
+        for i, (pid, label, path) in enumerate(known_projects(), 1):
+            lines.append(f"  {i}) {pid:5} {label}  {path}")
+        return done(st, "help", "\n".join(lines))
+    if key == "switch_project":
+        projects = known_projects()
+        if not projects:
+            return done(st, "no known projects on disk")
+        lines = ["Switch project — enter number:", ""]
+        for i, (pid, label, path) in enumerate(projects, 1):
+            mark = " *" if path.resolve() == root.resolve() else ""
+            lines.append(f"  {i}) [{pid}] {label}{mark}")
+            lines.append(f"      {path}")
+        # if we can use prompt, do interactive pick; else show list
+        choice = prompt_fn("Project number (empty=cancel): ")
+        if not choice:
+            return done(st, "switch cancelled", "\n".join(lines))
+        if not choice.isdigit() or not (1 <= int(choice) <= len(projects)):
+            return done(st, "invalid project number", "\n".join(lines))
+        _pid, label, path = projects[int(choice) - 1]
+        st = load_state(path)
+        return done(st, f"switched → {label}", write=True)
+    if key == "open_propose":
+        st = load_state(root)
+        if not st.proposes:
+            return done(st, "no PROPOSE/SPIKE files found")
+        lines = ["Open PROPOSE/SPIKE — enter number:", ""]
+        for i, p in enumerate(st.proposes, 1):
+            lines.append(f"  {i}) {_rel(root, p)}")
+        choice = prompt_fn("Propose # (empty=list only): ")
+        if not choice:
+            return done(st, f"{len(st.proposes)} propose/spike file(s)", "\n".join(lines))
+        if not choice.isdigit() or not (1 <= int(choice) <= len(st.proposes)):
+            return done(st, "invalid number", "\n".join(lines))
+        target = st.proposes[int(choice) - 1]
+        editor = os.environ.get("EDITOR") or os.environ.get("VISUAL") or "vi"
+        cmd = shlex.split(editor) + [str(target)]
+        suspended = False
+        if stdscr is not None:
+            import curses
+
+            try:
+                curses.def_prog_mode()
+                curses.endwin()
+                suspended = True
+            except curses.error:
+                suspended = False
+        try:
+            code = subprocess.call(cmd)
+        except OSError as e:
+            return done(st, f"editor failed: {e}")
+        finally:
+            if suspended and stdscr is not None:
+                import curses
+
+                try:
+                    curses.reset_prog_mode()
+                    stdscr.clear()
+                    stdscr.refresh()
+                except curses.error:
+                    pass
+        st = load_state(root)
+        return done(st, f"opened {target.name} (exit {code})")
+    if key == "show_current":
+        cf = root / "CURRENT.md"
+        if not cf.is_file():
+            return done(st, "no CURRENT.md — use Create CURRENT [n]")
+        return done(st, "showing CURRENT.md", cf.read_text(encoding="utf-8", errors="replace")[:6000])
+    if key == "events":
+        ef = root / ".aether" / "events.jsonl"
+        if not ef.is_file():
+            return done(st, "no history yet")
+        lines = ef.read_text(encoding="utf-8", errors="replace").splitlines()[-24:]
+        return done(st, f"{len(lines)} recent events", "\n".join(lines))
+    if key == "open_grok":
+        grok = shutil.which("grok") or os.environ.get("GROK_BIN", "grok")
+        cmd = [grok]
+        suspended = False
+        if stdscr is not None:
+            import curses
+
+            try:
+                curses.def_prog_mode()
+                curses.endwin()
+                suspended = True
+            except curses.error:
+                suspended = False
+        try:
+            code = subprocess.call(cmd, cwd=str(root))
+        except OSError as e:
+            return done(st, f"could not start Grok: {e}")
+        finally:
+            if suspended and stdscr is not None:
+                import curses
+
+                try:
+                    curses.reset_prog_mode()
+                    stdscr.clear()
+                    stdscr.refresh()
+                except curses.error:
+                    pass
+        st = load_state(root)
+        return done(st, f"Back from Grok (exit {code})")
+    if key == "edit_current":
+        cf = root / "CURRENT.md"
+        if not cf.is_file():
+            return done(st, "no CURRENT.md — use Create CURRENT [n]")
+        editor = os.environ.get("EDITOR") or os.environ.get("VISUAL") or "vi"
+        cmd = shlex.split(editor) + [str(cf)]
+        suspended = False
+        if stdscr is not None:
+            import curses
+
+            try:
+                curses.def_prog_mode()
+                curses.endwin()
+                suspended = True
+            except curses.error:
+                suspended = False
+        try:
+            code = subprocess.call(cmd)
+        except OSError as e:
+            return done(st, f"editor failed: {e} ({editor!r})")
+        finally:
+            if suspended and stdscr is not None:
+                import curses
+
+                try:
+                    curses.reset_prog_mode()
+                    stdscr.clear()
+                    stdscr.refresh()
+                except curses.error:
+                    pass
+        st = load_state(root)
+        if code != 0:
+            return done(st, f"editor exit {code} ({editor})", write=True)
+        return done(st, f"edited via {editor}", write=True)
+    if key == "preflight_next":
+        action = st.next_action
+        if not action or action in ("(unset)", "unset", ""):
+            return done(st, "Next empty — Edit CURRENT [o] or Check step [f]")
+        code, out = run_aether(["preflight", action, str(root)], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "demo_refuse":
+        action = st.prohibited[0] if st.prohibited else "deploy-production"
+        code, out = run_aether(["preflight", action, str(root)], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "preflight":
+        action = prompt_fn("Step name to check: ")
+        if not action:
+            st.result = prev_result
+            return done(st, "check cancelled")
+        code, out = run_aether(["preflight", action, str(root)], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "approve":
+        reason = prompt_fn("Approve reason (human only): ")
+        if reason is None:
+            return done(st, "approve cancelled")
+        if reason == "":
+            reason = "approved from operator board"
+        code, out = run_aether(["approve", reason], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "reject":
+        reason = prompt_fn("Reject reason (human only): ")
+        if reason is None:
+            return done(st, "reject cancelled")
+        if reason == "":
+            reason = "rejected from operator board"
+        code, out = run_aether(["reject", reason], root)
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    if key == "artifact":
+        path = prompt_fn("Path of finished file: ")
+        if not path:
+            return done(st, "record cancelled")
+        action = prompt_fn("Step name (empty = Next): ")
+        if action is None:
+            return done(st, "record cancelled")
+        if not action:
+            action = st.next_action if st.next_action not in ("(unset)", "unset") else "manual"
+        code, out = run_aether(
+            ["artifact", path, "--action", action, "--status", "produced", "--project", str(root)],
+            root,
+        )
+        st = load_state(root)
+        return done(st, _summarize_result(code, out), write=True)
+    return done(st, f"unknown action {key}")
+
+
+
 # --- TUI ---------------------------------------------------------------------
 
 Action = Tuple[str, str, str]
