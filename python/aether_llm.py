@@ -675,6 +675,32 @@ def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-ll
     return f"peer backend: ollama:{model} @ {host}  ({'up' if up else 'DOWN'})"
 
 
+def peer_is_up(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> tuple[bool, str]:
+    """Return (up, status_line) after applying peer env. Fail-fast probe for seat shell."""
+    status = apply_peer_backend(root, model=model)
+    return status.endswith("(up)"), status
+
+
+def peer_down_recovery(root: Optional[Path] = None) -> str:
+    """Short operator recovery when peer Ollama is unreachable (seat comfort)."""
+    host = resolve_ollama_host(root)
+    pin = read_project_ollama_host(root) or "(none)"
+    lines = [
+        "PEER Ollama is DOWN - no chat until host is up.",
+        f"  resolved host: {host}",
+        f"  project pin (.aether/ollama-host): {pin}",
+        "  recovery:",
+        "    1) on myarch desktop: ollama serve  (bind 0.0.0.0 if remote)",
+        "       OLLAMA_HOST=0.0.0.0:11434 ollama serve",
+        "    2) confirm model: ollama list | grep personal-llm-sft-v4",
+        "    3) from seat: curl -m3 <host>/api/tags",
+        "    4) re-pin: /ollama-host http://192.168.1.241:11434",
+        "       or /ollama-host http://<tailscale-ip>:11434",
+        "    5) check LAN/WiFi: ping desktop; ethernet preferred on MBP seat",
+    ]
+    return "\n".join(lines)
+
+
 def personal_llm_serve_hints() -> str:
     """How to run peer REPL on THIS hardware + how remotes reach it (LAN/Tailscale)."""
     lines = [
@@ -906,18 +932,41 @@ def _grok_tui_chat(
     except ValueError:
         t_out = 300.0
     try:
-        max_turns = int(os.environ.get("AETHER_GROK_MAX_TURNS", "4"))
+        # Agent-style multi-tool turns need headroom (was 4 → empty max_turns_reached)
+        max_turns = int(os.environ.get("AETHER_GROK_MAX_TURNS", "32"))
     except ValueError:
-        max_turns = 4
+        max_turns = 32
     effort = (
         os.environ.get("AETHER_REASONING_EFFORT")
         or os.environ.get("GROK_REASONING_EFFORT")
         or "high"
     ).strip() or "high"
-    # Domain seat: no write/exec tools; allow research tools like Grok session
+    # Domain seat: deny write/exec by default; panel agent keeps read/search tools
     deny_tools = os.environ.get(
         "AETHER_GROK_DENY_TOOLS",
-        "run_terminal_cmd,run_terminal_command,search_replace,Write,Edit,Bash,write",
+        "search_replace,Write,Edit,write,run_terminal_command,run_terminal_cmd,todo_write",
+    ).strip()
+    tools_allow = os.environ.get("AETHER_GROK_TOOLS", "").strip()
+    no_tools = os.environ.get("AETHER_GROK_NO_TOOLS", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    ) or tools_allow.lower() in ("none", "off", "0", "false")
+    # Full Grok-agent headless: auto-approve tools (no interactive permission UI)
+    # Note: empty string should NOT count as true — only explicit on/1/true/yes or unset default
+    _aa = os.environ.get("AETHER_GROK_ALWAYS_APPROVE", "1").strip().lower()
+    always_approve = _aa in ("1", "true", "yes", "on")
+    perm_mode = (
+        os.environ.get("AETHER_GROK_PERMISSION_MODE", "auto").strip() or "auto"
+    )
+    agent_name = os.environ.get("AETHER_GROK_AGENT", "").strip()
+    # cwd for tools = project root when set
+    cwd = (
+        os.environ.get("AETHER_GROK_CWD")
+        or os.environ.get("MECH_PROJECT")
+        or os.environ.get("AETHER_HOME")
+        or ""
     ).strip()
 
     with tempfile.TemporaryDirectory(prefix="aether-grok-tui-") as td:
@@ -949,8 +998,21 @@ def _grok_tui_chat(
             "--reasoning-effort",
             effort,
         ]
-        if deny_tools:
-            cmd.extend(["--disallowed-tools", deny_tools])
+        if cwd and Path(cwd).is_dir():
+            cmd.extend(["--cwd", cwd])
+        if agent_name:
+            cmd.extend(["--agent", agent_name])
+        if always_approve and not no_tools:
+            cmd.append("--always-approve")
+            if perm_mode:
+                cmd.extend(["--permission-mode", perm_mode])
+        if no_tools:
+            cmd.extend(["--tools", "none"])
+        else:
+            if tools_allow:
+                cmd.extend(["--tools", tools_allow])
+            if deny_tools:
+                cmd.extend(["--disallowed-tools", deny_tools])
         if system_for_flag:
             cmd.extend(["--system-prompt-override", system_for_flag])
 
@@ -970,6 +1032,7 @@ def _grok_tui_chat(
                 text=True,
                 timeout=t_out,
                 env=env,
+                cwd=cwd if cwd and Path(cwd).is_dir() else None,
             )
         except subprocess.TimeoutExpired as e:
             raise RuntimeError(f"grok_tui timed out after {t_out}s") from e
@@ -1001,6 +1064,24 @@ def _grok_tui_chat(
     # Prefer structured text; fall back to raw stdout if plain format
     if text.strip():
         return text.strip()
+
+    # Tool loop burned turns with no final answer (panel used to hit this at max=4)
+    stop = str(meta.get("stop_reason") or meta.get("stopReason") or "")
+    tools = meta.get("tools") or []
+    if "max_turn" in stop.lower() or meta.get("max_turns_reached"):
+        raise RuntimeError(
+            "grok_tui: max turns reached with no answer"
+            + (f" (tools={','.join(tools[:6])})" if tools else "")
+            + " — raise AETHER_GROK_MAX_TURNS (agent default 32) or narrow the task"
+        )
+    if tools and not text.strip():
+        raise RuntimeError(
+            "grok_tui: tool calls produced no final text"
+            + f" (tools={','.join(str(t) for t in tools[:8])})"
+            + f" stop={stop or '?'}"
+            + " — ensure --always-approve / AETHER_GROK_ALWAYS_APPROVE=1 for headless"
+        )
+
     if out_fmt == "plain" or not thinking:
         # strip accidental JSON lines if mixed
         lines = []
@@ -1015,12 +1096,32 @@ def _grok_tui_chat(
 
 
 def _parse_grok_stream(raw: str) -> tuple[str, str, dict]:
-    """Parse Grok CLI streaming-json / json lines into thinking + answer text."""
+    """Parse Grok CLI streaming-json / json lines into thinking + answer + tool_trace.
+
+    tool_trace feeds the seat chatbox (▸ tool rows) so operators see the same
+    activity language as Grok Build without embedding the real TUI binary.
+    """
     import json
 
     thoughts: list[str] = []
     texts: list[str] = []
     meta: dict = {}
+    tool_trace: list[dict] = []
+
+    def _tool_name(ev: dict) -> str:
+        data = ev.get("data")
+        from_data = ""
+        if isinstance(data, dict):
+            from_data = data.get("name") or data.get("toolName") or data.get("title") or ""
+        return str(
+            ev.get("title")
+            or ev.get("toolName")
+            or ev.get("name")
+            or ev.get("tool")
+            or from_data
+            or "tool"
+        )
+
     for line in (raw or "").splitlines():
         s = line.strip()
         if not s.startswith("{"):
@@ -1035,7 +1136,7 @@ def _parse_grok_stream(raw: str) -> tuple[str, str, dict]:
             continue
         if not isinstance(ev, dict):
             continue
-        typ = ev.get("type") or ""
+        typ = str(ev.get("type") or "")
         if typ == "thought":
             d = ev.get("data")
             if d is None and "text" in ev:
@@ -1066,15 +1167,76 @@ def _parse_grok_stream(raw: str) -> tuple[str, str, dict]:
                 meta["usage"] = ev.get("usage")
             if "modelUsage" in ev:
                 meta["model_usage"] = ev.get("modelUsage")
+            sr = ev.get("stopReason") or ev.get("stop_reason") or ""
+            if sr:
+                meta["stop_reason"] = sr
+                if "maxturn" in str(sr).lower().replace("_", "") or str(sr) in (
+                    "MaxTurns",
+                    "max_turns_reached",
+                ):
+                    meta["max_turns_reached"] = True
         elif typ == "usage" and "usage" in ev:
             meta["usage"] = ev.get("usage")
-        elif typ == "tool_call":
-            title = ev.get("title") or ev.get("toolName") or "tool"
+        elif typ in ("tool_call", "tool_use", "function_call", "tool"):
+            title = _tool_name(ev)
             meta.setdefault("tools", []).append(str(title))
+            detail = ""
+            args = ev.get("arguments") or ev.get("args") or ev.get("input")
+            if args is not None:
+                detail = str(args)[:100]
+            tool_trace.append(
+                {"name": str(title), "phase": "call", "detail": detail}
+            )
+        elif typ == "tool_result":
+            title = _tool_name(ev)
+            msg = ev.get("message") or ev.get("data") or ev.get("result") or ""
+            if isinstance(msg, (dict, list)):
+                msg = str(msg)[:120]
+            else:
+                msg = str(msg)[:120]
+            tool_trace.append(
+                {"name": str(title), "phase": "result", "detail": msg}
+            )
+        elif typ in ("tool_error", "error"):
+            msg = ev.get("message") or ev.get("data") or ev.get("error") or typ
+            meta.setdefault("tool_errors", []).append(str(msg)[:200])
+            tool_trace.append(
+                {
+                    "name": _tool_name(ev) if typ == "tool_error" else "error",
+                    "phase": "error",
+                    "detail": str(msg)[:120],
+                }
+            )
+        elif typ in ("subagent", "agent", "agent_start", "task"):
+            title = (
+                ev.get("title")
+                or ev.get("name")
+                or ev.get("agent")
+                or ev.get("description")
+                or "subagent"
+            )
+            tool_trace.append(
+                {
+                    "name": str(title),
+                    "phase": "subagent",
+                    "detail": str(ev.get("message") or ev.get("data") or "")[:100],
+                }
+            )
+            meta.setdefault("tools", []).append(f"sub:{title}")
+        elif typ in ("web_search", "web_fetch", "search"):
+            # surface search/fetch as first-class tool rows (seat has these unless denied)
+            q = ev.get("query") or ev.get("url") or ev.get("data") or ""
+            name = typ if typ != "search" else "web_search"
+            meta.setdefault("tools", []).append(name)
+            tool_trace.append(
+                {"name": name, "phase": "call", "detail": str(q)[:100]}
+            )
+    if tool_trace:
+        meta["tool_trace"] = tool_trace
     thinking = "".join(thoughts).strip()
     # If thought tokens are word-pieces, join without extra spaces when already spaced
-    text = "".join(texts).strip()
-    return thinking, text, meta
+    text_out = "".join(texts).strip()
+    return thinking, text_out, meta
 
 
 

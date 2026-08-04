@@ -64,7 +64,7 @@ cd mechanicall-os
 
 ```bash
 nix develop
-# Prints: awareness-agent (Mechanicall OS) — Nix dev shell active
+# Prints: mechanicall-os (Mechanicall OS) — Nix dev shell active
 # PATH includes: entr, python3
 ```
 

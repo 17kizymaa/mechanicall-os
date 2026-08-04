@@ -713,15 +713,15 @@ Action = Tuple[str, str, str]
 
 Action = Tuple[str, str, str]  # label, key, hotkey (hotkey unused on main)
 
-# Main board: sexy dual-pane. No preflight. No letter hotkeys.
+# Main board: dual-pane. No preflight. No letter hotkeys. Dock labels stay short.
 MAIN_ACTIONS: List[Action] = [
     ("Refresh", "refresh", ""),
-    (">>> APPROVE (human only)", "approve", ""),
-    (">>> REJECT (human only)", "reject", ""),
-    ("Advanced…", "advanced", ""),
-    ("Fullscreen Domain shell", "open_shell", ""),
-    ("Fullscreen Grok TUI", "open_grok", ""),
-    ("Edit CURRENT", "edit_current", ""),
+    ("Approve", "approve", ""),
+    ("Reject", "reject", ""),
+    ("Advanced", "advanced", ""),
+    ("Shell", "open_shell", ""),
+    ("Grok", "open_grok", ""),
+    ("Edit law", "edit_current", ""),
     ("Quit", "quit", ""),
 ]
 
@@ -863,11 +863,131 @@ def _wrap(text: str, width: int) -> List[str]:
     return lines
 
 
+# Chat display row: (kind, text)
+# kind = user|agent|meta|gap|label|rule
+ChatDisp = Tuple[str, str]
+
+
+def _safe(stdscr, y: int, x: int, s: str, n: int, attr: int = 0) -> None:
+    """Write clipped string; never raise on edge cells."""
+    import curses
+
+    if n <= 0 or y < 0 or x < 0:
+        return
+    try:
+        h, w = stdscr.getmaxyx()
+        if y >= h or x >= w:
+            return
+        n = min(n, w - x)
+        if n <= 0:
+            return
+        stdscr.addnstr(y, x, (s or "")[:n], n, attr)
+    except curses.error:
+        pass
+
+
+def _fill(stdscr, y: int, x: int, n: int, attr: int = 0) -> None:
+    _safe(stdscr, y, x, " " * max(0, n), n, attr)
+
+
+def _init_theme(stdscr) -> dict:
+    """Professional GrokNight-class palette (256-color when available)."""
+    import curses
+
+    theme = {
+        "ok": False,
+        "fg": 0,
+        "muted": 0,
+        "dim": 0,
+        "accent": 0,
+        "accent_inv": 0,
+        "success": 0,
+        "warn": 0,
+        "danger": 0,
+        "current": 0,
+        "bar": 0,
+        "chip": 0,
+        "user": 0,
+        "agent": 0,
+        "border": 0,
+        "input_bg": 0,
+        "title_bg": 0,
+    }
+    try:
+        if not curses.has_colors():
+            return theme
+        curses.start_color()
+        curses.use_default_colors()
+        if curses.COLORS >= 256:
+            # Editorial dark: soft neutrals + one magenta accent (GrokNight spirit)
+            curses.init_pair(1, 252, -1)       # primary fg
+            curses.init_pair(2, 245, -1)       # muted
+            curses.init_pair(3, 238, -1)       # dim / border-ish
+            curses.init_pair(4, 176, -1)       # accent mauve
+            curses.init_pair(5, 232, 176)      # accent inverse (selected)
+            curses.init_pair(6, 114, -1)       # success
+            curses.init_pair(7, 179, -1)       # warm warn
+            curses.init_pair(8, 203, -1)       # danger soft
+            curses.init_pair(9, 111, -1)       # current / cool
+            curses.init_pair(10, 250, 236)     # soft bar
+            curses.init_pair(11, 236, 236)     # chip track
+            curses.init_pair(12, 187, -1)      # user soft gold
+            curses.init_pair(13, 176, -1)      # agent
+            curses.init_pair(14, 240, -1)      # border line
+            curses.init_pair(15, 252, 235)     # input field
+            curses.init_pair(16, 255, 236)     # title strip
+        else:
+            curses.init_pair(1, curses.COLOR_WHITE, -1)
+            curses.init_pair(2, curses.COLOR_WHITE, -1)
+            curses.init_pair(3, curses.COLOR_BLACK, -1)
+            curses.init_pair(4, curses.COLOR_MAGENTA, -1)
+            curses.init_pair(5, curses.COLOR_BLACK, curses.COLOR_MAGENTA)
+            curses.init_pair(6, curses.COLOR_GREEN, -1)
+            curses.init_pair(7, curses.COLOR_YELLOW, -1)
+            curses.init_pair(8, curses.COLOR_RED, -1)
+            curses.init_pair(9, curses.COLOR_CYAN, -1)
+            curses.init_pair(10, curses.COLOR_WHITE, curses.COLOR_BLUE)
+            curses.init_pair(11, curses.COLOR_BLACK, curses.COLOR_WHITE)
+            curses.init_pair(12, curses.COLOR_YELLOW, -1)
+            curses.init_pair(13, curses.COLOR_MAGENTA, -1)
+            curses.init_pair(14, curses.COLOR_WHITE, -1)
+            curses.init_pair(15, curses.COLOR_WHITE, curses.COLOR_BLACK)
+            curses.init_pair(16, curses.COLOR_WHITE, curses.COLOR_MAGENTA)
+        theme.update(
+            {
+                "ok": True,
+                "fg": curses.color_pair(1),
+                "muted": curses.color_pair(2),
+                "dim": curses.color_pair(3),
+                "accent": curses.color_pair(4),
+                "accent_inv": curses.color_pair(5),
+                "success": curses.color_pair(6),
+                "warn": curses.color_pair(7),
+                "danger": curses.color_pair(8),
+                "current": curses.color_pair(9),
+                "bar": curses.color_pair(10),
+                "chip": curses.color_pair(11),
+                "user": curses.color_pair(12),
+                "agent": curses.color_pair(13),
+                "border": curses.color_pair(14),
+                "input_bg": curses.color_pair(15),
+                "title_bg": curses.color_pair(16),
+            }
+        )
+    except curses.error:
+        pass
+    return theme
+
+
+def _chip(label: str) -> str:
+    return f" {label} "
+
+
 def _draw_split(
     stdscr,
     st: ProjectState,
     *,
-    chat_lines: List[str],
+    chat_lines: List[ChatDisp],
     chat_scroll: int,
     current_scroll: int,
     menu: List[Action],
@@ -876,99 +996,147 @@ def _draw_split(
     input_buf: str,
     status: str,
 ) -> None:
-    """Sexy dual pane: left chat (Grok-like), right CURRENT always."""
+    """Professional dual-pane seat: editorial chrome, CURRENT sacred, chat calm."""
     import curses
 
-    if not hasattr(_draw_split, "_color"):
-        _draw_split._color = False  # type: ignore[attr-defined]
-        try:
-            if curses.has_colors():
-                curses.start_color()
-                curses.use_default_colors()
-                curses.init_pair(1, curses.COLOR_CYAN, -1)
-                curses.init_pair(2, curses.COLOR_GREEN, -1)
-                curses.init_pair(3, curses.COLOR_MAGENTA, -1)
-                curses.init_pair(4, curses.COLOR_YELLOW, -1)
-                curses.init_pair(5, curses.COLOR_RED, -1)
-                curses.init_pair(6, curses.COLOR_BLACK, curses.COLOR_CYAN)
-                curses.init_pair(7, curses.COLOR_WHITE, curses.COLOR_BLUE)
-                _draw_split._color = True  # type: ignore[attr-defined]
-        except curses.error:
-            pass
+    if not hasattr(_draw_split, "_theme") or not getattr(_draw_split, "_theme", {}).get("ok"):
+        _draw_split._theme = _init_theme(stdscr)  # type: ignore[attr-defined]
+    T: dict = getattr(_draw_split, "_theme")  # type: ignore[attr-defined]
 
-    def c(n: int) -> int:
-        if not getattr(_draw_split, "_color", False):
-            return 0
-        try:
-            return curses.color_pair(n)
-        except curses.error:
-            return 0
+    def a(*parts: int) -> int:
+        out = 0
+        for p in parts:
+            out |= p
+        return out
 
     h, w = stdscr.getmaxyx()
     stdscr.erase()
-    if h < 12 or w < 40:
-        try:
-            stdscr.addstr(0, 0, "resize terminal (min ~12x40)")
-        except curses.error:
-            pass
+    if h < 14 or w < 48:
+        _safe(stdscr, 0, 0, "  Mechanicall needs a larger terminal  ·  min ~14×48", w - 1, T["muted"])
         stdscr.refresh()
         return
 
-    # geometry: left chat ~58%, right CURRENT ~42%, bottom menu+input
-    menu_h = 3
-    input_h = 2
-    top_h = 1
-    body_h = h - menu_h - input_h - top_h - 1
-    if body_h < 4:
-        body_h = 4
-    left_w = max(20, int(w * 0.58))
-    right_w = w - left_w - 1
-    if right_w < 16:
-        right_w = 16
-        left_w = w - right_w - 1
+    # --- geometry (generous dock, balanced panes) ---
+    top_h = 2
+    dock_h = 4  # separator + actions + hint + input
+    body_h = max(5, h - top_h - dock_h)
+    gap = 1
+    left_w = max(28, int(w * 0.60))
+    right_w = w - left_w - gap
+    if right_w < 22:
+        right_w = 22
+        left_w = w - right_w - gap
 
-    # top bar
-    title = f"  MECHANICALL  ·  Grok-left  ·  CURRENT-right  ·  {st.project_label or st.root.name}"
-    try:
-        stdscr.attron(c(6) | curses.A_BOLD)
-        stdscr.addnstr(0, 0, title.ljust(w)[: w - 1], w - 1)
-        stdscr.attroff(c(6) | curses.A_BOLD)
-    except curses.error:
-        pass
+    # --- top brand strip ---
+    proj = st.project_label or st.root.name
+    phase = (st.phase or "—")[:14]
+    status_s = (st.status or "—")[:16]
+    approval = (st.approval or "—")[:12]
+    _fill(stdscr, 0, 0, w - 1, T["title_bg"])
+    brand = " MECHANICALL "
+    _safe(stdscr, 0, 0, brand, len(brand), a(T["title_bg"], curses.A_BOLD))
+    rest = f"  seat  ·  {proj}"
+    _safe(stdscr, 0, len(brand), rest, w - 1 - len(brand), T["title_bg"])
+    # chips row
+    _fill(stdscr, 1, 0, w - 1, T["bar"])
+    chips = [
+        (_chip(f"PHASE {phase}"), T["current"]),
+        (_chip(f"STATUS {status_s}"), T["muted"]),
+        (_chip(f"NEXT {st.next_action}"[:28]), a(T["accent"], curses.A_BOLD)),
+        (_chip(f"APPROVAL {approval}"), T["warn"] if "PEND" in approval.upper() else T["success"]),
+    ]
+    cx = 1
+    for text, attr in chips:
+        if cx + len(text) >= w - 2:
+            break
+        _safe(stdscr, 1, cx, text, len(text), attr)
+        cx += len(text) + 1
 
-    # headers
-    try:
-        lf = "▌ CHAT" if focus == "chat" else "  CHAT"
-        rf = "▌ CURRENT" if focus == "current" else "  CURRENT"
-        stdscr.attron(c(1) | (curses.A_BOLD if focus == "chat" else 0))
-        stdscr.addnstr(1, 0, lf.ljust(left_w)[:left_w], left_w)
-        stdscr.attroff(c(1) | curses.A_BOLD)
-        stdscr.addnstr(1, left_w, "│", 1)
-        stdscr.attron(c(3) | (curses.A_BOLD if focus == "current" else 0))
-        stdscr.addnstr(1, left_w + 1, rf.ljust(right_w)[:right_w], right_w)
-        stdscr.attroff(c(3) | curses.A_BOLD)
-    except curses.error:
-        pass
+    # --- pane headers ---
+    head_y = top_h
+    left_focus = focus == "chat"
+    right_focus = focus == "current"
+    lh = "  CONVERSATION"
+    rh = "  DOMAIN  ·  CURRENT"
+    if left_focus:
+        lh = "▌ CONVERSATION"
+    if right_focus:
+        rh = "▌ DOMAIN  ·  CURRENT"
+    _fill(stdscr, head_y, 0, left_w, T["bar"] if left_focus else 0)
+    _safe(
+        stdscr,
+        head_y,
+        0,
+        lh.ljust(left_w)[:left_w],
+        left_w,
+        a(T["accent"] if left_focus else T["muted"], curses.A_BOLD if left_focus else 0),
+    )
+    _fill(stdscr, head_y, left_w + gap, right_w - 1, T["bar"] if right_focus else 0)
+    _safe(
+        stdscr,
+        head_y,
+        left_w + gap,
+        rh.ljust(right_w - 1)[: right_w - 1],
+        right_w - 1,
+        a(T["current"] if right_focus else T["muted"], curses.A_BOLD if right_focus else 0),
+    )
 
-    # left chat body
-    view_h = body_h - 1
+    # vertical rule
+    for yy in range(head_y, head_y + body_h):
+        _safe(stdscr, yy, left_w, "│", 1, T["border"])
+
+    # hairline under headers
+    _safe(stdscr, head_y + 1, 0, "─" * left_w, left_w, T["border"])
+    _safe(stdscr, head_y + 1, left_w + gap, "─" * max(0, right_w - 1), right_w - 1, T["border"])
+
+    content_top = head_y + 2
+    view_h = body_h - 2
+    if view_h < 1:
+        view_h = 1
+
+    # --- left: conversation ---
+    pad_x = 2
+    text_w = max(8, left_w - pad_x - 2)
     vis = chat_lines[chat_scroll : chat_scroll + view_h]
     for i in range(view_h):
-        row = 2 + i
-        try:
-            if i < len(vis):
-                line = vis[i][: left_w - 1]
-                attr = c(2) if line.startswith("you ") or line.startswith("you│") else 0
-                if line.startswith("agent") or line.startswith("◆"):
-                    attr = c(1)
-                stdscr.addnstr(row, 0, line.ljust(left_w - 1)[: left_w - 1], left_w - 1, attr)
-            else:
-                stdscr.addnstr(row, 0, " " * (left_w - 1), left_w - 1)
-            stdscr.addnstr(row, left_w, "│", 1, c(1))
-        except curses.error:
-            pass
+        row = content_top + i
+        _fill(stdscr, row, 0, left_w - 1, 0)
+        if i >= len(vis):
+            continue
+        kind, text = vis[i]
+        if kind == "gap":
+            continue
+        if kind == "rule":
+            _safe(stdscr, row, pad_x, "·" * min(text_w, 24), text_w, T["dim"])
+            continue
+        if kind == "label":
+            _safe(stdscr, row, pad_x, text[:text_w], text_w, a(T["muted"], curses.A_BOLD))
+            continue
+        if kind == "meta":
+            _safe(stdscr, row, pad_x, text[:text_w], text_w, T["muted"])
+            continue
+        if kind == "user":
+            # soft “you” bubble line
+            prefix = "you  "
+            _safe(stdscr, row, pad_x, prefix, len(prefix), a(T["user"], curses.A_BOLD))
+            _safe(stdscr, row, pad_x + len(prefix), text[: text_w - len(prefix)], text_w - len(prefix), T["fg"])
+            continue
+        if kind == "user_cont":
+            _safe(stdscr, row, pad_x + 5, text[: text_w - 5], text_w - 5, T["fg"])
+            continue
+        if kind == "agent":
+            prefix = "mech "
+            _safe(stdscr, row, pad_x, prefix, len(prefix), a(T["agent"], curses.A_BOLD))
+            _safe(stdscr, row, pad_x + len(prefix), text[: text_w - len(prefix)], text_w - len(prefix), T["fg"])
+            continue
+        if kind == "agent_cont":
+            _safe(stdscr, row, pad_x + 5, text[: text_w - 5], text_w - 5, T["fg"])
+            continue
+        _safe(stdscr, row, pad_x, text[:text_w], text_w, T["fg"])
 
-    # right CURRENT body
+    # --- right: CURRENT ---
+    rx = left_w + gap + 1
+    rw = max(8, right_w - 2)
     cur_text = ""
     cf = st.root / "CURRENT.md"
     if cf.is_file():
@@ -978,106 +1146,118 @@ def _draw_split(
             cur_text = "(unreadable CURRENT.md)"
     else:
         cur_text = "(no CURRENT.md — Advanced → Create CURRENT)"
-    # pin strip
-    pin = f"Next: {st.next_action}  ·  {st.phase}/{st.status}"
-    cur_lines = _wrap(pin + "\n" + "─" * max(8, right_w - 2) + "\n" + cur_text, right_w - 2)
-    vis_c = cur_lines[current_scroll : current_scroll + view_h]
+
+    # structured pin block (not raw dump first line only)
+    pin_lines: List[ChatDisp] = [
+        ("label", "AUTHORITY"),
+        ("meta", f"Objective  {(st.objective or '—')[: rw - 12]}"),
+        ("meta", f"Next       {st.next_action}"),
+        ("meta", f"Phase      {st.phase}  ·  {st.status}"),
+        ("meta", f"Approval   {st.approval}"),
+        ("rule", ""),
+        ("label", "FILE"),
+    ]
+    for wl in _wrap(cur_text, rw):
+        pin_lines.append(("meta", wl))
+    # flatten for scroll as plain rows with kinds
+    right_rows: List[ChatDisp] = pin_lines
+    vis_c = right_rows[current_scroll : current_scroll + view_h]
     for i in range(view_h):
-        row = 2 + i
-        try:
-            if i < len(vis_c):
-                stdscr.addnstr(
-                    row,
-                    left_w + 1,
-                    vis_c[i].ljust(right_w - 1)[: right_w - 1],
-                    right_w - 1,
-                    c(3) if i == 0 else 0,
-                )
-            else:
-                stdscr.addnstr(row, left_w + 1, " " * (right_w - 1), right_w - 1)
-        except curses.error:
-            pass
+        row = content_top + i
+        _fill(stdscr, row, rx, rw, 0)
+        if i >= len(vis_c):
+            continue
+        kind, text = vis_c[i]
+        if kind == "label":
+            _safe(stdscr, row, rx, text[:rw], rw, a(T["current"], curses.A_BOLD))
+        elif kind == "rule":
+            _safe(stdscr, row, rx, "─" * min(rw, 28), rw, T["border"])
+        elif kind == "meta" and text.startswith("Next"):
+            _safe(stdscr, row, rx, text[:rw], rw, a(T["accent"], curses.A_BOLD))
+        else:
+            _safe(stdscr, row, rx, text[:rw], rw, T["muted"])
 
-    # menu bar
-    menu_row = 2 + view_h
-    try:
-        stdscr.attron(c(7) if focus == "menu" else c(1))
-        stdscr.addnstr(menu_row, 0, " ACTIONS ".center(w - 1, "─")[: w - 1], w - 1)
-        stdscr.attroff(c(7) if focus == "menu" else c(1))
-    except curses.error:
-        pass
-    # menu items as pills on one/two lines
+    # --- dock ---
+    dock_top = top_h + body_h
+    # hairline
+    _safe(stdscr, dock_top, 0, "─" * (w - 1), w - 1, T["border"])
+
+    # action pills
+    act_y = dock_top + 1
+    _fill(stdscr, act_y, 0, w - 1, 0)
     x = 1
-    row = menu_row + 1
     for i, (label, _k, _h) in enumerate(menu):
-        pill = f" {label} "
+        pill = f"  {label}  "
         if x + len(pill) >= w - 1:
-            row += 1
-            x = 1
-            if row >= h - input_h:
-                break
-        attr = curses.A_REVERSE | c(6) if (focus == "menu" and i == selected) else c(1)
-        try:
-            stdscr.addnstr(row, x, pill[: w - x - 1], w - x - 1, attr)
-        except curses.error:
-            pass
+            break
+        if focus == "menu" and i == selected:
+            attr = a(T["accent_inv"], curses.A_BOLD)
+        else:
+            attr = T["muted"]
+        _safe(stdscr, act_y, x, pill, len(pill), attr)
         x += len(pill) + 1
+    # trailing label
+    if x + 12 < w - 1:
+        _safe(stdscr, act_y, w - 14, "ACTIONS", 12, T["dim"])
 
-    # input
-    in_row = h - 2
-    try:
-        hint = {
-            "chat": "type · Enter send · Tab focus",
-            "menu": "←→/↑↓ select · Enter run · Tab",
-            "current": "↑↓ scroll CURRENT · Tab",
-        }.get(focus, "")
-        bar = f" {focus.upper()} │ {hint}"
-        stdscr.attron(c(4))
-        stdscr.addnstr(in_row, 0, bar.ljust(w - 1)[: w - 1], w - 1)
-        stdscr.attroff(c(4))
-        prompt = "› "
-        shown = (prompt + input_buf)[: w - 2]
-        if focus == "chat":
-            stdscr.attron(curses.A_BOLD)
-        stdscr.addnstr(h - 1, 0, shown.ljust(w - 1)[: w - 1], w - 1)
-        if focus == "chat":
-            stdscr.attroff(curses.A_BOLD)
-    except curses.error:
-        pass
+    # status / flash
+    flash_y = dock_top + 2
+    _fill(stdscr, flash_y, 0, w - 1, T["bar"])
+    hint = {
+        "chat": "Enter send  ·  Tab focus  ·  ↑↓ scroll",
+        "menu": "←→ select  ·  Enter run  ·  Tab",
+        "current": "↑↓ scroll law  ·  Tab return",
+    }.get(focus, "")
+    left_status = (status or "ready").strip()
+    if len(left_status) > w // 2:
+        left_status = left_status[: w // 2 - 1] + "…"
+    _safe(stdscr, flash_y, 1, left_status, w // 2, T["warn"] if status else T["muted"])
+    _safe(stdscr, flash_y, max(w // 2, w - len(hint) - 2), hint, len(hint) + 1, T["dim"])
 
-    # status flash
-    if status:
-        try:
-            stdscr.addnstr(h - 3, 0, status[: w - 1].ljust(w - 1)[: w - 1], w - 1, c(4))
-        except curses.error:
-            pass
+    # input field
+    in_y = h - 1
+    _fill(stdscr, in_y, 0, w - 1, T["input_bg"] if focus == "chat" else T["bar"])
+    prompt = "  →  " if focus == "chat" else "  ·  "
+    shown = (prompt + input_buf)[: w - 2]
+    attr = a(T["input_bg"] if focus == "chat" else T["bar"], curses.A_BOLD if focus == "chat" else 0)
+    _safe(stdscr, in_y, 0, shown.ljust(w - 1)[: w - 1], w - 1, attr)
 
     stdscr.refresh()
 
 
-def _build_chat_display(history: List[dict], width: int) -> List[str]:
-    lines: List[str] = []
+def _build_chat_display(history: List[dict], width: int) -> List[ChatDisp]:
+    """Structured conversation rows for the left pane."""
+    lines: List[ChatDisp] = []
+    inner = max(12, width - 6)
     if not history:
         lines.extend(
-            _wrap(
-                "◆ Domain chat (Grok-shaped left pane)\n"
-                "CURRENT always on the right.\n"
-                "Preflight lives in Domain shell — Advanced if you must.\n"
-                "Tab cycles focus · type to talk.",
-                width,
-            )
+            [
+                ("label", "Welcome"),
+                ("gap", ""),
+                ("meta", "This is the seat — one surface for human + agent work."),
+                ("meta", "Domain law stays on the right. You approve; models never do."),
+                ("gap", ""),
+                ("meta", "Type below to talk. Tab moves focus. Actions live in the dock."),
+                ("rule", ""),
+                ("meta", "Silence is never permission."),
+            ]
         )
         return lines
     for m in history[-40:]:
         role = m.get("role") or ""
         content = (m.get("content") or "").strip()
+        if not content:
+            continue
+        wrapped = _wrap(content, inner)
         if role == "user":
-            prefix = "you │ "
+            lines.append(("label", "You"))
+            for i, wl in enumerate(wrapped):
+                lines.append(("user" if i == 0 else "user_cont", wl))
         else:
-            prefix = "◆   │ "
-        for i, wl in enumerate(_wrap(content, max(8, width - len(prefix)))):
-            lines.append((prefix if i == 0 else "    │ ") + wl)
-        lines.append("")
+            lines.append(("label", "Mechanicall"))
+            for i, wl in enumerate(wrapped):
+                lines.append(("agent" if i == 0 else "agent_cont", wl))
+        lines.append(("gap", ""))
     return lines
 
 
@@ -1091,7 +1271,7 @@ def run_tui_curses(root: Path) -> int:
     input_buf = ""
     chat_scroll = 0
     current_scroll = 0
-    status = f"Next={st.next_action}  ·  preflight → shell  ·  docs/PANEL-GROK-SPLIT.md"
+    status = f"Next · {st.next_action}  ·  human approve only"
     advanced_mode = False
 
     def main(stdscr) -> None:

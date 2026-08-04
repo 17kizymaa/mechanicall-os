@@ -13,14 +13,14 @@ Grok Build TUI is a **chat-first** operator surface: transcript up, input down, 
 
 | Grok TUI | Mechanicall panel v1 |
 |----------|----------------------|
-| Full-width chat | **Left pane** — Domain chat (peer agent by default; Grok-shaped loop) |
+| Full-width chat | **Left pane** — CURRENT-visible cooperative chat (peer agent by default; Grok-shaped loop) |
 | Project context implicit | **Right pane** — **CURRENT.md always visible** |
-| Slash/tools in session | Full shell agent via “Fullscreen Domain shell” |
-| Preflight N/A | **Not on main panel** — shell `/preflight` / agent |
+| Slash/tools in session | Full cooperative agent shell via “Fullscreen shell” (not a forced sandbox) |
+| Preflight N/A | **Not on main panel** — shell `/preflight` / agent (cooperative: only when consulted) |
 
 ### Why not embed raw `grok` binary in the left half
 
-Embedding an interactive full-screen TUI inside a curses child window is fragile (PTY, alt-screen, resize). v1 **steals the UX**: left is chat-driven Domain agent (same tools/protocol as `aether shell`); right is always CURRENT. Advanced → “Fullscreen Grok TUI” still launches real `grok` when you want the full product.
+Embedding an interactive full-screen TUI inside a curses child window is fragile (PTY, alt-screen, resize). v1 **steals the UX**: left is chat-driven **cooperative** agent (same tools/protocol as `aether shell`); right is always CURRENT. Advanced → “Fullscreen Grok TUI” still launches real `grok` when you want the full product. Do not call this an enforced “Domain shell” unless every tool path mandatorily preflights (it does not today).
 
 ### Why preflight left main board
 
