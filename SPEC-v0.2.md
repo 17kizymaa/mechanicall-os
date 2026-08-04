@@ -1,9 +1,14 @@
 # Mechanicall OS v0.2 — Authority & Approval Layer
 
+**Doc status:** **NORMATIVE** — protocol contract for live `aether` v0.2.  
+**Conflict winner:** over SPEC-v0.1 and all NON-NORMATIVE docs; loses only to live project `CURRENT.md`.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 **Name:** Mechanicall OS (product) · `mechanicall-os` (repository)  
-**Builds on:** SPEC-v0.1 (awareness sidecars + `aether` shell CLI)  
+**Builds on:** SPEC-v0.1 (awareness sidecars + `aether` shell CLI) — historical  
 **Mission (authorized):** filesystem-native authority and approval for human–agent projects.  
-**Not authorized:** PostgreSQL / pgvector / LangGraph / autonomous multi-agent studio.
+**Not authorized:** PostgreSQL / pgvector / LangGraph / autonomous multi-agent studio.  
+**Tool alignment:** repo-root `./aether` POSIX CLI (header v0.2).
 
 ## Goal
 
@@ -112,14 +117,49 @@ CAPTURE → SELECT → COMMIT → EXECUTE → REVIEW → APPROVE/REJECT
 |---------|---------|
 | `aether current [path]` | Show parsed authority summary |
 | `aether current init [path]` | Create template `CURRENT.md` if missing |
-| `aether preflight <action> [path]` | Allow (exit 0) or refuse (exit 1) with reason |
+| `aether preflight <action> [path]` | Allow (exit 0) or refuse (exit **3**) with reason |
 | `aether approve [reason] [path]` | Record human APPROVED; update Status/Approval |
 | `aether reject [reason] [path]` | Record human REJECTED; return Phase to SELECT |
+| `aether next <action-id> [path]` | After APPROVED: re-SELECT (refuse exit **3** if not approved / unchanged) |
+| `aether probe <action-id> [path]` | Read-only would-preflight (exit 0 allow / **3** refuse) |
 | `aether event <msg> [path]` | Append freeform transition to events.jsonl |
 | `aether artifact <path> [--action A] [--status S]` | Register an artifact metadata record |
 
 Existing v0.1 commands (`init`, `status`, `distill`, `watch`, `seed`, …) remain.
 `status` also surfaces CURRENT summary when present.
+
+### Exit codes (normative)
+
+| Code | Meaning | Examples |
+|------|---------|----------|
+| **0** | Success / allowed | `preflight` allow, `approve`, `demo` OK |
+| **1** | Internal error **or** report signal | Write failure; `aether drift` when dirty (not a crash) |
+| **2** | Usage error | Unknown verb, missing required args, invalid flags/ids |
+| **3** | Protocol refusal | `preflight` / `probe` refuse; `next` not approved or unchanged |
+
+Wrappers and agent harnesses **must not** treat all non-zero as equal: **3** is a correct closed gate; **2** is a typo/bad invocation; **1** needs investigation (except documented `drift`).
+
+### CLI size doctrine (normative, v0.2)
+
+**Decision (2026-08-04 · `next-05-loc-decision`):** Retire SPEC-v0.1’s ≤220-line /
+“one screen of `cat aether`” success criteria. **Do not** split the CLI solely
+to chase a line-count myth this sprint.
+
+| Keep | Meaning |
+|------|---------|
+| **Single file** | Core CLI remains one POSIX `#!/bin/sh` script at repo root (`aether`) — no build step to run authority verbs |
+| **No hidden runtime** | Authority still `cat`/`grep`/`git diff`-able; no second opaque binary as law |
+| **Readable by verb** | Prefer section comments + `cmd_*` naming so a verb can be found without reading the whole file |
+| **Inspectable helpers** | Optional Python (panel, llm, shell) stays *beside* the shell core, not a replacement authority store |
+
+| Retire | Why |
+|--------|-----|
+| ≤220 lines total | Authority surface alone exceeded that; keeping the number was false doctrine |
+| “Fits in one screen of `cat aether`” | False for a working protocol CLI; peers correctly called the contradiction |
+
+**Budget (soft, not a hard CI fail):** Prefer not to grow `aether` without a verb-level reason. Large growth → consider extracting *non-authority* helpers first; authority verbs stay in the single file until a future explicit split decision.
+
+Measured ~2026-08-04: `wc -l aether` ≈ **1900** lines (v0.2 + peer exit-code work).
 
 ## Preflight rules
 
@@ -135,8 +175,17 @@ Before a consequential action id is considered allowed:
    action (if any) may pass; everything else is refused.
 5. Status `REJECTED` refuses execute-class actions until human re-selects
    (Phase back to SELECT; Next may be updated by human).
-6. Failed preflight prints a readable refusal and exits **1**. Never infers
-   approval from silence or sentiment.
+6. Failed preflight prints a readable refusal and exits **3** (protocol
+   refuse). Never infers approval from silence or sentiment. Usage mistakes
+   (missing action id) exit **2**.
+7. **Preflight leaves a receipt** (`.aether/preflight-last` + append-only
+   `.aether/preflight.jsonl`): timestamp, action, result, exit code, tree
+   fingerprint (`git:HEAD:d0|d1` or `tree:<hash>`).  
+   **`aether approve` prints** one unmissable line (never blocks):
+   - `preflight: PASS @ <fp> (current) …` — last check matches current tree  
+   - `preflight: STALE (checked <fp>, now <fp2>) …` — tree changed since check  
+   - `preflight: ABSENT` — no receipt  
+   Rule: **the gate may be human, but the gate must leave a trace.**
 
 ## Events (`.aether/events.jsonl`)
 

@@ -10,6 +10,36 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
+# --- version + verb list (Opus next-09) ---
+ver_out=$("$AETHER" --version 2>&1) || fail "aether --version failed"
+printf '%s\n' "$ver_out" | grep -qE '^aether [0-9]' || fail "version format: $ver_out"
+ver2=$("$AETHER" version 2>&1) || fail "aether version failed"
+[ "$ver_out" = "$ver2" ] || fail "version vs --version mismatch"
+verbs=$("$AETHER" verbs 2>&1) || fail "aether verbs failed"
+# every listed verb must not be "unknown command" when invoked alone
+for v in $verbs; do
+    set +e
+    out=$("$AETHER" "$v" 2>&1)
+    ec=$?
+    set -e
+    printf '%s\n' "$out" | grep -qi 'unknown command' \
+        && fail "verb '$v' reported unknown command (not in dispatch?)" || true
+done
+# help lists AETHER_VERBS
+help_out=$("$AETHER" help 2>&1) || fail "help failed"
+printf '%s\n' "$help_out" | grep -q 'AETHER_VERBS' || fail "help missing AETHER_VERBS line"
+printf '%s\n' "$help_out" | grep -q 'preflight' || fail "help missing preflight"
+pass "version + verb list (next-09)"
+
+# --- shellcheck (Opus next-07 / 🟠-4) — fatal when shellcheck is installed ---
+# Install: nix-env -iA nixpkgs.shellcheck  |  apt install shellcheck
+if command -v shellcheck >/dev/null 2>&1; then
+  shellcheck -s sh "$AETHER" || fail "shellcheck -s sh aether"
+  pass "shellcheck aether (POSIX sh)"
+else
+  fail "shellcheck not found on PATH (required for next-07 gate). Install shellcheck and re-run."
+fi
+
 # --- control-layer unit tests ---
 if python3 -c "import pytest" 2>/dev/null; then
   python3 -m pytest -q \
@@ -252,6 +282,115 @@ out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "seed must not unlock rough-v
 printf '%s\n' "$out" | grep -qi refuse || fail "seed should not authorize rough-v6"
 pass "v0.2 authority: preflight refuse/allow, reject, approve, events, artifacts"
 
+# --- preflight receipt (next-06 / Opus) ---
+mkdir -p "$TMP/pfr"
+cd "$TMP/pfr"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+# ABSENT before any preflight
+out=$("$AETHER" approve "absent-check" . 2>&1) || fail "approve ABSENT path failed"
+printf '%s\n' "$out" | grep -q 'preflight: ABSENT' || fail "want preflight: ABSENT: $out"
+# reset fields for next approve
+sed -i 's/\*\*Status:\*\*.*/**Status:** ACTIVE/' CURRENT.md 2>/dev/null || true
+# portable reset via aether fields — use current_set through re-write
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+"$AETHER" preflight do-thing . >/dev/null || fail "preflight allow for receipt"
+[ -f .aether/preflight-last ] || fail "preflight-last missing"
+grep -q 'result=allowed' .aether/preflight-last || fail "receipt not allowed"
+out=$("$AETHER" approve "pass-check" . 2>&1) || fail "approve PASS failed"
+printf '%s\n' "$out" | grep -q 'preflight: PASS' || fail "want preflight: PASS: $out"
+# STALE: change tree after preflight
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+"$AETHER" preflight do-thing . >/dev/null || fail "preflight before stale"
+printf 'stale-touch\n' > extra-file.txt
+out=$("$AETHER" approve "stale-check" . 2>&1) || fail "approve STALE path failed"
+printf '%s\n' "$out" | grep -q 'preflight: STALE' || fail "want preflight: STALE: $out"
+# approve must still succeed (non-blocking)
+printf '%s\n' "$out" | grep -q 'APPROVED' || fail "STALE must not block approve"
+pass "preflight receipt PASS/STALE/ABSENT"
+
 # --- current validate + next (re-SELECT after APPROVED) ---------------
 mkdir -p "$TMP/nextcycle"
 cd "$TMP/nextcycle"
@@ -297,7 +436,7 @@ set +e
 out=$("$AETHER" next demo-two . 2>&1)
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "next before approve exit=$ec want 2"
+[ "$ec" = "3" ] || fail "next before approve exit=$ec want 3"
 printf '%s\n' "$out" | grep -qi 'not approved' || fail "next before approve wrong message"
 grep -q 'demo-one' CURRENT.md || fail "next mutated CURRENT before approve"
 # approve then next
@@ -312,7 +451,7 @@ set +e
 out=$("$AETHER" next demo-two . 2>&1)
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "next unchanged exit=$ec want 2"
+[ "$ec" = "3" ] || fail "next unchanged exit=$ec want 3"
 printf '%s\n' "$out" | grep -qi 'unchanged' || fail "next unchanged wrong message"
 "$AETHER" current validate . >/dev/null || fail "validate after next"
 pass "v0.2 current validate + next re-SELECT"
@@ -364,9 +503,14 @@ set +e
 "$AETHER" probe automatic-approve . >/dev/null 2>&1
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "probe refuse exit=$ec want 2"
+[ "$ec" = "3" ] || fail "probe refuse exit=$ec want 3"
 "$AETHER" brief . >/dev/null || fail "brief"
 pass "aether probe + brief"
+
+# --- negative paths (Opus NEXT-02 / next-02-negative-tests) ---
+# Dedicated suite: unknown verbs, authority near-misses, missing args, no CURRENT.
+sh "$ROOT/tests/negative.sh" || fail "tests/negative.sh"
+pass "negative path suite (tests/negative.sh)"
 
 # drift: only if git available in temp (may not be a repo)
 cd "$ROOT"

@@ -1,5 +1,9 @@
 # AGENTS.md — Live authority first, then ICM
 
+**Doc status:** **NORMATIVE** — agent operating rules (CURRENT-first; models never approve).  
+**Conflict:** yields to live `CURRENT.md`; aligns with SPEC-v0.2 / PRODUCT.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 ## Live authority — read first (non-negotiable)
 
 Before ICM stages, tools, or model taste:

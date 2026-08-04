@@ -59,3 +59,37 @@ Append-only human decisions. Authority remains CURRENT.md.
 - 2026-08-04T16:58:33.143Z NEXT_SELECTED: human-reselect -> commit-hygiene
 - 2026-08-04T16:58:49.056Z APPROVED: commit-hygiene
 - 2026-08-04T17:23:30.398Z APPROVED: commit-A-then-B (.gitignore CURRENT.md & .aether/events.jsonl)
+- 2026-08-04T18:01:18.561Z NEXT_SELECTED: commit-hygiene -> next-01-unknown-cmd
+- 2026-08-04T18:01:51.144Z APPROVED: next-01-unknown-cmd
+- 2026-08-04T18:05:12.676Z NEXT_SELECTED: next-01-unknown-cmd -> next-02-negative-tests
+- 2026-08-04T18:05:59.473Z APPROVED: next-02-negative-tests
+- 2026-08-04T18:06:40.084Z APPROVED: APPROVED
+- 2026-08-04T18:09:26.818Z NEXT_SELECTED: next-02-negative-tests -> next-03-license
+- 2026-08-04T18:12:22.738Z APPROVED: next-03-license
+- 2026-08-04T18:24:35.176Z NEXT_SELECTED: next-03-license -> next-04-exit-codes
+- 2026-08-04T18:24:45.877Z APPROVED: next-04-exit-codes
+- 2026-08-04T18:28:05.083Z NEXT_SELECTED: next-04-exit-codes -> next-05-loc-decision
+- 2026-08-04T18:28:22.241Z APPROVED: next-05-loc-decision
+- 2026-08-04T18:29:58.106Z NEXT_SELECTED: next-05-loc-decision -> next-06-preflight-receipt
+- 2026-08-04T18:35:24.779Z APPROVED: next-06-preflight-receipt
+- 2026-08-04T18:37:50.159Z APPROVED: abs /tmp/tmp.kBvJYkZSsY
+- 2026-08-04T18:37:50.351Z APPROVED: pass /tmp/tmp.kBvJYkZSsY
+- 2026-08-04T18:37:50.546Z APPROVED: stale /tmp/tmp.kBvJYkZSsY
+- 2026-08-04T18:51:30.511Z NEXT_SELECTED: next-06-preflight-receipt -> next-07-shellcheck
+- 2026-08-04T18:51:40.229Z APPROVED: next-07-shellcheck
+- 2026-08-04T18:55:01.625Z NEXT_SELECTED: next-07-shellcheck -> next-08-normative-docs
+- 2026-08-04T18:55:14.075Z APPROVED: next-08-normative-docs
+- 2026-08-04T19:01:55.326Z NEXT_SELECTED: next-08-normative-docs -> next-09-verb-list
+- 2026-08-04T19:02:08.674Z APPROVED: next-09-verb-list
+- 2026-08-04T19:04:07.635Z APPROVED: APPROVED
+- 2026-08-04T19:04:07.732Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-04T19:30:20.372Z APPROVED: next-09-verb-list
+- 2026-08-04T19:30:20.524Z NEXT_SELECTED: next-09-verb-list -> next-10-lab-status
+- 2026-08-04T19:30:39.865Z APPROVED: next-10-lab-status
+- 2026-08-04T19:32:10.447Z NEXT_SELECTED: next-10-lab-status -> park-protocol-alpha
+- 2026-08-04T19:32:27.073Z APPROVED: park-protocol-alpha
+- 2026-08-04T19:32:49.548Z APPROVED: APPROVED
+- 2026-08-04T19:32:49.646Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-04T19:39:56.641Z APPROVED: park-protocol-alpha
+- 2026-08-04T19:39:56.795Z NEXT_SELECTED: park-protocol-alpha -> commit-peer-waves
+- 2026-08-04T19:40:49.767Z APPROVED: commit-peer-waves

@@ -1,5 +1,9 @@
 # Alpha limitations — Mechanicall OS v0.2
 
+**Doc status:** **NORMATIVE** (limits honesty) — what core does **not** force.  
+**Conflict:** wins over README marketing when README overclaims enforcement; yields to SPEC-v0.2 for mechanics.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 This file is part of the public alpha contract. If a README claim contradicts
 it, **this file wins**.
 

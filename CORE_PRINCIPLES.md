@@ -1,5 +1,9 @@
 # Core Principles (Locked In)
 
+**Doc status:** **NORMATIVE** — locked core principles.  
+**Conflict:** yields to live `CURRENT.md` and SPEC-v0.2 for operational gates; wins over casual docs on filesystem/cooperative authority.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 These principles define Mechanicall OS. They are non-negotiable for **core** product truth.
 
 ## Locked Principles
@@ -19,7 +23,8 @@ These principles define Mechanicall OS. They are non-negotiable for **core** pro
   Getting a thought into the filesystem must cost zero decisions and under two seconds. Filing and sorting happen later — proposed, then human-approved — never at the moment of entry. (See `docs/RHIZOME.md`.)
 
 - **Extremely low overhead and high inspectability**  
-  Lightweight; no unnecessary daemons. You can `cat`, `ls`, `grep`, `tail`, `diff` everything that matters. Debuggable with standard tools.
+  Lightweight; no unnecessary daemons. You can `cat`, `ls`, `grep`, `tail`, `diff` everything that matters. Debuggable with standard tools.  
+  **Not** “the whole CLI fits on one terminal screen” — that was a v0.1 sketch target, **retired** in SPEC-v0.2 (single-file POSIX `aether` remains; size doctrine is honesty, not a LOC myth).
 
 - **Cooperative authority, not a universal sandbox**  
   Preflight refuses when *consulted*. It does not currently force every external agent or shell to comply. See `docs/ALPHA-LIMITATIONS.md` and `NOT-IMPLEMENTED.md`.

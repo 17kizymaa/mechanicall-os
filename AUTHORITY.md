@@ -1,12 +1,15 @@
 # AUTHORITY
 
+**Doc status:** **NON-NORMATIVE** — durable doctrine essay.  
+**Does not replace** live `CURRENT.md` or **SPEC-v0.2.md**. Defer conflicts to `docs/DOC-AUTHORITY.md`.
+
 **Product:** Mechanicall OS  
 **Repo:** mechanicall-os  
 **Version:** v1.2b  
 **Status:** stable  
 **Date:** 2026-08-01  
 
-This file is **durable doctrine**. It does not replace `CURRENT.md`.  
+This file is durable doctrine narrative. It does not replace `CURRENT.md`.  
 `CURRENT.md` is the only live gate for Next / Prohibited / Approval.  
 Personal LLM may propose under Domain; it never owns this file or CURRENT.
 

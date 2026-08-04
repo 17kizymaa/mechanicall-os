@@ -1,5 +1,7 @@
 # Protocol-first test surface (design)
 
+**Doc status:** **NON-NORMATIVE** — sprint design + claim→command map.  
+**Map:** `docs/DOC-AUTHORITY.md`  
 **Status:** active sprint design · 2026-08-04  
 **Product under test:** Mechanicall **local authority protocol** (CURRENT + preflight + human yes)  
 **Not under test as core product:** multi-seat hosted SaaS narrative  
@@ -57,7 +59,8 @@ No dependency on them using the site this sprint. When they return, lab should t
 | One-command literacy | `aether demo` → `DEMO OK` (temp root) |
 | External TUI paste | `aether brief` |
 | Out-of-band edit report | `aether drift` (exit 1 if dirty) |
-| Read-only gate check | `aether probe <action-id>` |
+| Read-only gate check | `aether probe <action-id>` (exit 0 allow / **3** refuse) |
+| Usage vs protocol | exit **2** usage · **3** refuse · **0** allow (SPEC-v0.2) |
 | Inspect ledger | `cat .aether/events.jsonl` |
 
 ## Success criteria

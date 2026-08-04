@@ -4,7 +4,7 @@
 **Phase:** APPROVE
 **Status:** APPROVED
 **Baseline:** 2026-08-04 · peer CONDITIONAL absorbed · Client One no sustained Session use · original protocol direction retained
-**Next:** commit-hygiene
+**Next:** commit-peer-waves
 **Approval:** APPROVED
 **Host:** myarch (desktop)
 
