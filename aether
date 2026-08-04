@@ -264,6 +264,87 @@ TMPL
     printf 'wrote %s\n' "$cf"
 }
 
+# SPEC-v0.2 schema check — protocol product surface (exit 0 ok, 1 fail)
+cmd_current_validate() {
+    path_arg=$(get_path_arg "$@")
+    root="$(project_root "$path_arg")"
+    cf="$(current_file "$root")"
+    fail=0
+    warn=0
+
+    if [ ! -f "$cf" ]; then
+        printf 'VALIDATE FAIL: CURRENT.md missing at %s\n' "$cf"
+        printf '  create with: aether current init\n'
+        return 1
+    fi
+
+    # Title
+    if ! grep -qE '^#[[:space:]]*CURRENT' "$cf"; then
+        printf 'FAIL: missing title line "# CURRENT"\n'
+        fail=1
+    fi
+
+    for field in Objective Phase Status Next Approval; do
+        val=$(current_field "$root" "$field" 2>/dev/null || true)
+        if [ -z "$val" ]; then
+            printf 'FAIL: missing or empty **%s:**\n' "$field"
+            fail=1
+        elif printf '%s' "$val" | grep -qE '^\(one sentence|^unset$|^\(label|^\(unset' ; then
+            # placeholders ok for template but warn
+            if [ "$field" = "Next" ] && [ "$val" = "unset" ]; then
+                printf 'WARN: **Next:** is unset (set before EXECUTE)\n'
+                warn=1
+            elif [ "$field" != "Next" ]; then
+                printf 'WARN: **%s:** looks like template placeholder: %s\n' "$field" "$val"
+                warn=1
+            fi
+        fi
+    done
+
+    # Required sections
+    for sec in Keep Reject Limits Prohibited; do
+        if ! grep -qE "^##[[:space:]]+${sec}" "$cf"; then
+            printf 'FAIL: missing section ## %s\n' "$sec"
+            fail=1
+        fi
+    done
+    if ! grep -qE '^##[[:space:]]+Next allowed action' "$cf"; then
+        printf 'FAIL: missing section ## Next allowed action\n'
+        fail=1
+    fi
+    if ! grep -qE '^##[[:space:]]+Approval condition' "$cf"; then
+        printf 'FAIL: missing section ## Approval condition\n'
+        fail=1
+    fi
+
+    # Lifecycle consistency: if Approval APPROVED and Status APPROVED, Next should not still be pending execute unless human re-set
+    appr=$(current_field "$root" Approval 2>/dev/null || true)
+    status=$(current_field "$root" Status 2>/dev/null || true)
+    phase=$(current_field "$root" Phase 2>/dev/null || true)
+    if printf '%s' "$appr" | grep -qi 'APPROVED' \
+        && printf '%s' "$status" | grep -qi 'APPROVED' \
+        && printf '%s' "$phase" | grep -qi 'APPROVE'; then
+        printf 'WARN: Phase/Status/Approval all APPROVE(D) — prefer new Next after approve or set Phase EXECUTE/INTEGRATE\n'
+        warn=1
+    fi
+
+    # Dual Next smell: two **Next:** lines
+    ncount=$(grep -ciE '^\*\*Next:?\*\*' "$cf" 2>/dev/null || echo 0)
+    if [ "${ncount:-0}" -gt 1 ] 2>/dev/null; then
+        printf 'FAIL: multiple **Next:** field lines (one Next only)\n'
+        fail=1
+    fi
+
+    if [ "$fail" -ne 0 ]; then
+        printf '\nVALIDATE: FAIL (%s)\n' "$cf"
+        return 1
+    fi
+    printf 'VALIDATE: OK%s\n' "$([ "$warn" -ne 0 ] && echo ' (with warnings)' || true)"
+    printf '  root: %s\n' "$root"
+    printf '  Next: %s\n' "$(current_field "$root" Next 2>/dev/null || echo unset)"
+    return 0
+}
+
 cmd_current() {
     if [ "${1:-}" = "init" ]; then
         shift
@@ -271,6 +352,11 @@ cmd_current() {
         root="$(project_root "$path_arg")"
         write_current_template "$root"
         return 0
+    fi
+    if [ "${1:-}" = "validate" ]; then
+        shift
+        cmd_current_validate "$@"
+        return $?
     fi
     path_arg=$(get_path_arg "$@")
     root="$(project_root "$path_arg")"
@@ -305,6 +391,7 @@ cmd_current() {
     fi
     printf '\nInspect: cat %s\n' "$cf"
     printf 'Events:  cat %s\n' "$(events_file "$root")"
+    printf 'Schema:  aether current validate\n'
 }
 
 # Case-insensitive exact match helper (returns 0 if equal)
@@ -500,6 +587,222 @@ cmd_reject() {
         "$(now_iso)" "$reason" >> "$root/DECISIONS.md"
     printf 'REJECTED: %s\n' "$reason"
     printf '  Phase → SELECT. No automatic rebuild. Events: %s\n' "$(events_file "$root")"
+}
+
+# Re-SELECT after APPROVED: set a new Next without hand-editing CURRENT.
+# Usage: aether next <action-id> [path] [--reason TEXT]
+# Exit 2 on refuse (not approved / unchanged / missing id).
+cmd_next() {
+    root="$(pwd -P)"
+    action=""
+    reason=""
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --reason)
+                shift
+                reason="${1:-}"
+                [ -n "$reason" ] || die 'usage: aether next <action-id> [path] [--reason TEXT]'
+                shift
+                ;;
+            --reason=*)
+                reason="${1#--reason=}"
+                shift
+                ;;
+            -*)
+                die "unknown flag: $1"
+                ;;
+            *)
+                if [ -z "$action" ]; then
+                    action="$1"
+                elif [ -d "$1" ]; then
+                    root="$(project_root "$1")"
+                else
+                    die "usage: aether next <action-id> [path] [--reason TEXT]"
+                fi
+                shift
+                ;;
+        esac
+    done
+    [ -n "$action" ] || die 'usage: aether next <action-id> [path] [--reason TEXT]'
+    # action-id: no spaces
+    case "$action" in
+        *[!A-Za-z0-9._-]*) die "invalid action-id: $action (use letters, digits, ._- )" ;;
+    esac
+
+    cf="$(current_file "$root")"
+    [ -f "$cf" ] || die "no CURRENT.md — run: aether current init"
+
+    appr=$(current_field "$root" Approval 2>/dev/null || true)
+    status=$(current_field "$root" Status 2>/dev/null || true)
+    old=$(current_field "$root" Next 2>/dev/null || true)
+
+    # Unchanged check first (clearer than "not approved" when already on this Next)
+    if [ -n "$old" ] && str_eq_ci "$old" "$action"; then
+        printf 'refuse: next unchanged (%s)\n' "$action" >&2
+        return 2
+    fi
+
+    appr_u=$(printf '%s' "$appr" | tr '[:lower:]' '[:upper:]')
+    status_u=$(printf '%s' "$status" | tr '[:lower:]' '[:upper:]')
+    case "$appr_u" in
+        *APPROVED*) ;;
+        *)
+            printf 'refuse: current action not approved; approve or reject first\n' >&2
+            printf '  Approval=%s Status=%s Next=%s\n' "${appr:-(unset)}" "${status:-(unset)}" "${old:-(unset)}" >&2
+            return 2
+            ;;
+    esac
+    # Prefer Status also APPROVED, but Approval APPROVED is the gate
+    if ! printf '%s' "$status_u" | grep -q 'APPROVED'; then
+        printf 'refuse: current action not approved; approve or reject first\n' >&2
+        printf '  Status=%s (want APPROVED) Approval=%s\n' "${status:-(unset)}" "${appr:-(unset)}" >&2
+        return 2
+    fi
+
+    current_set_field "$root" Next "$action"
+    current_set_field "$root" Phase SELECT
+    current_set_field "$root" Status ACTIVE
+    current_set_field "$root" Approval PENDING
+
+    append_event "$root" next_selected \
+        "$(printf '"from":"%s","to":"%s","by":"human","reason":"%s"' \
+            "$(json_escape "$old")" "$(json_escape "$action")" "$(json_escape "${reason:-}")")"
+
+    if [ ! -f "$root/DECISIONS.md" ]; then
+        printf '# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n' \
+            > "$root/DECISIONS.md"
+    fi
+    printf -- '- %s NEXT_SELECTED: %s -> %s%s\n' \
+        "$(now_iso)" "${old:-(unset)}" "$action" \
+        "${reason:+ ($reason)}" >> "$root/DECISIONS.md"
+
+    printf 'NEXT_SELECTED: %s -> %s\n' "${old:-(unset)}" "$action"
+    printf '  Phase=SELECT Status=ACTIVE Approval=PENDING\n'
+    printf '  Events: %s\n' "$(events_file "$root")"
+    return 0
+}
+
+# One-command protocol demo (sandbox; never uses caller's cwd CURRENT unless AETHER_DEMO_ROOT set)
+cmd_demo() {
+    script="$AETHER_ROOT/scripts/protocol-demo.sh"
+    [ -f "$script" ] || die "missing $script"
+    sh "$script" "$@"
+}
+
+# Short paste-at-start brief for external TUIs (Grok Build). Always exit 0.
+cmd_brief() {
+    path_arg=$(get_path_arg "$@")
+    root="$(project_root "$path_arg")"
+    cf="$(current_file "$root")"
+    printf '=== aether brief ===\n'
+    printf 'root: %s\n' "$root"
+    if [ ! -f "$cf" ]; then
+        printf 'CURRENT: MISSING — run aether current init\n'
+        printf 'preflight: n/a\n'
+        printf 'note: external TUI does not auto-preflight\n'
+        printf '===================\n'
+        return 0
+    fi
+    next=$(current_field "$root" Next 2>/dev/null || true)
+    phase=$(current_field "$root" Phase 2>/dev/null || true)
+    status=$(current_field "$root" Status 2>/dev/null || true)
+    appr=$(current_field "$root" Approval 2>/dev/null || true)
+    printf 'Next: %s\n' "${next:-(unset)}"
+    printf 'Phase/Status/Approval: %s / %s / %s\n' \
+        "${phase:-(unset)}" "${status:-(unset)}" "${appr:-(unset)}"
+    if [ -n "$next" ] && [ "$next" != "unset" ]; then
+        set +e
+        pf_out="$(cmd_preflight "$next" "$root" 2>&1)"
+        pf_ec=$?
+        set -e
+        if [ "$pf_ec" -eq 0 ]; then
+            printf 'preflight(%s): would ALLOW\n' "$next"
+        else
+            printf 'preflight(%s): would REFUSE\n' "$next"
+            printf '%s\n' "$pf_out" | head -2 | sed 's/^/  /'
+        fi
+    else
+        printf 'preflight: Next unset\n'
+    fi
+    ef="$(events_file "$root")"
+    if [ -f "$ef" ]; then
+        printf 'events (last 3):\n'
+        tail -n 3 "$ef" | sed 's/^/  /'
+    else
+        printf 'events: (none)\n'
+    fi
+    # light drift summary without failing
+    if command -v git >/dev/null 2>&1 && [ -d "$root/.git" ] || git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        dirty=$(git -C "$root" status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+        if [ "${dirty:-0}" -gt 0 ]; then
+            printf 'drift: %s dirty path(s) — run: aether drift\n' "$dirty"
+        else
+            printf 'drift: clean\n'
+        fi
+    else
+        printf 'drift: n/a (not a git work tree)\n'
+    fi
+    printf 'note: Grok/external TUI does not auto-preflight; human is the gate\n'
+    printf '===================\n'
+    return 0
+}
+
+# Git-based out-of-band edit report. Exit 0 clean, 1 drift. Never writes CURRENT.
+cmd_drift() {
+    path_arg=$(get_path_arg "$@")
+    root="$(project_root "$path_arg")"
+    if ! command -v git >/dev/null 2>&1; then
+        printf 'drift: git not available\n' >&2
+        return 0
+    fi
+    if ! git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        printf 'drift: not a git work tree (%s)\n' "$root"
+        return 0
+    fi
+    # porcelain: path status
+    dirty=0
+    while IFS= read -r line || [ -n "$line" ]; do
+        [ -n "$line" ] || continue
+        # format: XY PATH or XY ORIG -> PATH
+        path=$(printf '%s\n' "$line" | sed 's/^.. //; s/.* -> //')
+        [ -n "$path" ] || continue
+        printf 'DRIFT: %s edited outside protocol\n' "$path"
+        dirty=1
+    done <<EOF
+$(git -C "$root" status --porcelain 2>/dev/null)
+EOF
+    if [ "$dirty" = "1" ]; then
+        return 1
+    fi
+    printf 'drift: clean\n'
+    return 0
+}
+
+# Read-only: would preflight allow this action right now?
+# Exit 0 allow, 2 refuse (matches next refuse code family for "not now")
+cmd_probe() {
+    [ $# -ge 1 ] || die 'usage: aether probe <action-id> [path]'
+    action="$1"
+    shift
+    path_arg=$(get_path_arg "$@")
+    root="$(project_root "$path_arg")"
+    cf="$(current_file "$root")"
+    if [ ! -f "$cf" ]; then
+        printf 'probe: REFUSE (no CURRENT.md)\n'
+        return 2
+    fi
+    set +e
+    out="$(cmd_preflight "$action" "$root" 2>&1)"
+    ec=$?
+    set -e
+    if [ "$ec" -eq 0 ]; then
+        printf 'probe: ALLOW %s\n' "$action"
+        printf '%s\n' "$out" | head -1 | sed 's/^/  /'
+        return 0
+    fi
+    printf 'probe: REFUSE %s\n' "$action"
+    printf '%s\n' "$out" | head -2 | sed 's/^/  /'
+    return 2
 }
 
 cmd_event() {
@@ -1438,6 +1741,19 @@ cmd_deinit() {
     fi
 }
 
+
+cmd_try() {
+    # Casual durable first project — delegates to scripts/try.sh
+    dest="${1:-}"
+    script="$AETHER_ROOT/scripts/try.sh"
+    [ -f "$script" ] || die "try: missing $script"
+    if [ -n "$dest" ]; then
+        sh "$script" "$dest"
+    else
+        sh "$script"
+    fi
+}
+
 usage() {
 cat <<'U'
 aether v0.2 (shell) — Mechanicall OS
@@ -1445,6 +1761,7 @@ aether v0.2 (shell) — Mechanicall OS
   init [path]            bootstrap .aether/ + sidecars
   onboard [path] [--yes] [--objective TEXT]
                          first-run setup: init + CURRENT + preflight demo
+  try [dir]             casual first project (~/mechanicall-try) — START HERE
   panel [path] [--write] [--dump] [--simple] [--grok-split]
                          Fullscreen TUI (Grok-left · CURRENT-right); --grok-split = real Grok+tmux
   shell [path]           Domain-bound operator REPL (CURRENT sacred; peer default)
@@ -1467,10 +1784,19 @@ aether v0.2 (shell) — Mechanicall OS
   Authority (SPEC-v0.2 — silence is never permission):
   current [path]         show parsed CURRENT.md authority
   current init [path]    write CURRENT.md template
+  current validate [path]
+                         SPEC-v0.2 schema check (protocol product)
   preflight <action> [path]
                          allow (0) or refuse (1) with reason + event log
   approve [reason]       human APPROVED event; updates CURRENT
   reject [reason]        human REJECTED → Phase SELECT; no auto-rebuild
+  next <action-id> [path] [--reason TEXT]
+                         after APPROVED: re-SELECT with new Next (refuse if unapproved/unchanged)
+  demo [--quiet]         one-command protocol demo in temp root (never live CURRENT)
+  brief [path]           short Next/gate/events/drift paste for external TUIs
+  drift [path]           git dirty report (exit 1 if drift; never writes CURRENT)
+  probe <action-id> [path]
+                         read-only would-preflight allow/refuse (exit 0/2)
   event <message> [path] append freeform note to .aether/events.jsonl
   artifact <file> [--action A] [--status S] [--project DIR]
                          register artifact metadata + event
@@ -1516,6 +1842,7 @@ main() {
     case "$cmd" in
         init)      cmd_init "$@" ;;
         onboard)   cmd_onboard "$@" ;;
+        try)       cmd_try "$@" ;;
         panel)     cmd_panel "$@" ;;
         shell)     cmd_shell "$@" ;;
         desk|desk-serve)
@@ -1533,6 +1860,11 @@ main() {
         preflight) cmd_preflight "$@" ;;
         approve)   cmd_approve "$@" ;;
         reject)    cmd_reject "$@" ;;
+        next)      cmd_next "$@" ;;
+        demo)      cmd_demo "$@" ;;
+        brief)     cmd_brief "$@" ;;
+        drift)     cmd_drift "$@" ;;
+        probe)     cmd_probe "$@" ;;
         event)     cmd_event "$@" ;;
         artifact)  cmd_artifact "$@" ;;
         seed)      cmd_seed "$@" ;;

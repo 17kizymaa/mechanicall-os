@@ -1,0 +1,61 @@
+# DECISIONS
+
+Append-only human decisions. Authority remains CURRENT.md.
+
+- 2026-08-01T10:16:57.198Z APPROVED: harden-control-layer-seats
+- 2026-08-01T10:27:54.307Z APPROVED: ci-control-layer-gates
+- 2026-08-02T11:34:55.210Z APPROVED: seat-nixos-efi-foundation
+- 2026-08-03 operator: PARK MBP Alpine seat lab (UNSTABLE); primary host = myarch desktop Grok + PEER; CURRENT Next set to desktop-domain-seat (seat-chat-comfort-loop superseded/parked, not auto-approved)
+- 2026-08-03 operator: ACCEPT proposal — bummed because effort/reality mismatched (dead MBP Next + chrome thrash vs quiet Domain value); continue PEER-only translation dialogue experiment on desktop
+- 2026-08-03 operator: session data for this PEER dialogue stream → Kingston stick `/mnt/kingston-nixos/opt/mechanicall-os` (live sdc2 mount)
+- 2026-08-03T14:53:38.302Z APPROVED: Looks good — go ahead
+- 2026-08-03T14:53:42.526Z REJECTED: Not yet — hold off (returned to SELECT; no automatic rebuild)
+- 2026-08-03T14:57:27.801Z REJECTED: Not yet — hold off (returned to SELECT; no automatic rebuild)
+- 2026-08-03T14:57:30.363Z REJECTED: want to sort my emails out. Where to start? (returned to SELECT; no automatic rebuild)
+- 2026-08-03T14:57:34.515Z APPROVED: want to sort my emails out. Where to start?
+- 2026-08-03T15:17:48.915Z APPROVED: Yes — go ahead
+- 2026-08-03T15:44:40.822Z APPROVED: Yes — go ahead
+- 2026-08-04 human: contact Next closed (email live anphuni@tutamail.com / 8748a92); APPROVED plan draft 1.1 with amendment — website primary interface, openrouter/pareto-code, device FS grant + clean perms, scoped tool sync; Next set to c1s3-web-device-session-negotiate
+- 2026-08-04T09:38:13.682Z APPROVED: c1s3-web-device-session-negotiate .
+- 2026-08-04T09:38:13.770Z APPROVED: c1s3-web-device-session-negotiate dev/17_client-one-session-three
+- 2026-08-04 human: APPROVE continue after negotiation; Next advanced to c1s3-web-session-mvp-implement (implement website session MVP)
+- 2026-08-04T09:46:03.433Z APPROVED: c1s3-web-session-mvp-implement .
+- 2026-08-04T09:46:03.517Z APPROVED: c1s3-web-session-mvp-implement dev/17_client-one-session-three
+- 2026-08-04: Session coding-agent seats (max 5) shipped in anphuni.com e565936; Next anphuni-session-deploy-verify-or-idle
+- 2026-08-04: scrap email-draft transfer; CURRENT-format + Outlook research seed in Session (4th-wall Yes)
+- 2026-08-04: peer-review handoff + empty response on phone /sdcard/mechanicall/sessions/06* (docs review while client idle on Session)
+- 2026-08-04: protocol-first re-centre — CURRENT schema tool + docs; website Session demoted to lab; Client One web idle
+- 2026-08-04: peer CONDITIONAL absorb — protocol-first sprint; PRODUCT boundary; aether current validate; Session=lab not core
+- 2026-08-04T14:54:31.116Z APPROVED: protocol-first-core-and-lab .
+- 2026-08-04 APPROVED: protocol-first-core-and-lab — comments: Protocol Lab must consider Grok Build TUI as primary seat; auto-detect external-TUI interference; operator overwhelmed by CURRENT sprawl; pause redesign of CURRENT type until new peer; hold on Protocol Lab merge under Grok
+- 2026-08-04: correction note vs stale cli.py critique; clean awareness-agent paths in nix docs/flake hook
+- 2026-08-04T15:33:19.590Z APPROVED: t /tmp/tmp.i0gIH12Cau
+- 2026-08-04: OpenRouter line-2 key works for anthropic/claude-opus-5; Opus lead WAVE-LEAD written; Wave 0 aether next implemented; tests green
+- 2026-08-04T15:38:20.803Z NEXT_SELECTED: protocol-first-core-and-lab -> proto-lifecycle-reselect
+- 2026-08-04T15:41:33.174Z APPROVED: proto-lifecycle-reselect
+- 2026-08-04T15:41:33.324Z NEXT_SELECTED: proto-lifecycle-reselect -> proto-demo-onecmd
+- 2026-08-04T15:46:41.886Z APPROVED: proto-demo-onecmd
+- 2026-08-04T15:47:45.141Z NEXT_SELECTED: proto-demo-onecmd -> proto-grok-observability
+- 2026-08-04T15:49:04.661Z APPROVED: e2e
+- 2026-08-04T15:49:43.803Z APPROVED: proto-grok-observability
+- 2026-08-04T15:50:24.535Z NEXT_SELECTED: proto-grok-observability -> proto-lab-design
+- 2026-08-04T15:51:29.764Z APPROVED: proto-lab-design
+- 2026-08-04T15:51:58.019Z NEXT_SELECTED: proto-lab-design -> proto-honesty-release-draft
+- 2026-08-04T15:52:37.288Z APPROVED: proto-honesty-release-draft
+- 2026-08-04T15:52:57.167Z NEXT_SELECTED: proto-honesty-release-draft -> proto-alpha-freeze
+- 2026-08-04T15:55:00.392Z APPROVED: proto-alpha-freeze
+- 2026-08-04T15:56:08.549Z APPROVED: implement-remaining-waves
+- 2026-08-04T16:12:54.542Z NEXT_SELECTED: proto-alpha-freeze -> implement-remaining-waves
+- 2026-08-04T16:12:54.648Z APPROVED: implement-remaining-waves
+- 2026-08-04 NEXT_SELECTED implement-remaining-waves + APPROVED; shipped demo/brief/drift/probe + GROK-SEAT + PROTOCOL-LAB + RELEASE-NOTES-ALPHA draft
+- 2026-08-04: Grok hooks for aether brief — project .grok/hooks + global ~/.grok/hooks/aether-mechanicall-session.json; scripts/grok-aether-brief.sh
+- 2026-08-04T16:44:10.665Z APPROVED: smoke-verify
+- 2026-08-04T16:44:36.612Z NEXT_SELECTED: implement-remaining-waves -> smoke-verify
+- 2026-08-04T16:45:00.510Z APPROVED: smoke-verify
+- 2026-08-04T16:45:26.525Z APPROVED: smoke-verify
+- 2026-08-04T16:47:33.664Z APPROVED: smoke-verify
+- 2026-08-04T16:56:30.664Z NEXT_SELECTED: smoke-verify -> human-reselect
+- 2026-08-04T16:57:40.703Z APPROVED: human-reselect
+- 2026-08-04T16:58:33.143Z NEXT_SELECTED: human-reselect -> commit-hygiene
+- 2026-08-04T16:58:49.056Z APPROVED: commit-hygiene
+- 2026-08-04T17:23:30.398Z APPROVED: commit-A-then-B (.gitignore CURRENT.md & .aether/events.jsonl)

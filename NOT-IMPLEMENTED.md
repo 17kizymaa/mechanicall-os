@@ -1,23 +1,30 @@
 # NOT IMPLEMENTED — Explicit Denial List
 
-**Last updated:** 2026-07-30 (operator-TUI sovereignty gap; sft-v4 fidelity review)
+**Last updated:** 2026-08-04 (peer-review absorb: scope to **Mechanicall core**)
 
 This file exists so no operator, investor, agent, or README can honestly claim
-these components are part of Mechanicall OS today.
+these components are part of **Mechanicall core** today.
 
 If you find a claim that contradicts this file, the claim is wrong.
 
-**Operator direction ≠ shipped product.** Product shape research (“club-cortex”,
-multi-LoRA club scale, desktop-as-backend) lives under
-`research/speculative/CLUB-CORTEX-SHAPE.md` and
-`MULTI-USER-LORA-CLUB-SCALE.md`. Those files define **where the project may go**;
-they do **not** authorize multi-tenant SaaS, multi-desktop virtualisation, or
-auto-train claims.
+**Scope:** Unless a row says otherwise, denials apply to **Mechanicall repository
+core** (local `aether` + CURRENT protocol). Adjacent surfaces must be labeled
+explicitly in `PRODUCT.md`:
+
+| Surface | How to talk about multi-user |
+|---------|------------------------------|
+| Mechanicall core | Not a multi-user collaboration platform |
+| anphuni.com Session | Separate **capped hosted alpha** (≤5 seats) — **is** multi-seat hosted; **not** open SaaS |
+| Club-cortex | Research only |
+
+**Operator direction ≠ shipped core.** Product shape research (“club-cortex”,
+multi-LoRA club scale) lives under `research/speculative/`. Those files do
+**not** authorize open multi-tenant SaaS or auto-train claims.
 
 ## Product positioning (what *is* real)
 
-**Mechanicall OS** (repo: `mechanicall-os`) is a **local-first project control
-layer** for human–agent work:
+**Mechanicall OS** (repo: `mechanicall-os`) is a **local-first authority
+protocol** for human–agent work:
 
 - filesystem substrate (plain folders + Markdown/JSON sidecars);
 - POSIX `aether` shell CLI;
@@ -50,12 +57,13 @@ It is **not** an industrial autonomous agent platform.
 | Autonomous video-editing agent | **Not implemented** |
 | Deterministic ACID workflow engine | **Not implemented** |
 | Industrial-grade fault tolerance claims | **Unsupported** |
-| Multi-user collaboration platform | **Not implemented** |
+| Multi-user collaboration platform **as Mechanicall core** | **Not implemented** |
 | Club multi-user backend (queues, multi-adapter host, retainers) | **Not implemented** — direction only: `research/speculative/CLUB-CORTEX-SHAPE.md` |
-| Multi-tenant SaaS chat / infinite concurrent AI desktop | **Prohibited product claim** |
-| Web dashboard / microservices / event bus | **Not implemented** |
-| Branded “shell wizard” / product SaaS dashboard | **Not implemented** — optional local **Project Panel** TUI is `aether panel` (projects files + shells to aether only) |
-| Always-on multi-tenant web control plane | **Not implemented** |
+| Multi-tenant SaaS chat / infinite concurrent AI desktop | **Prohibited product claim** for core |
+| anphuni Session (≤5 hosted seats + agent) | **Adjacent alpha lab** — not core release; document as hosted multi-seat, not “no multi-user at all” |
+| Web dashboard / microservices / event bus **as core** | **Not implemented** |
+| Branded product SaaS dashboard | **Not implemented** — optional local **Project Panel** TUI is `aether panel` |
+| Always-on multi-tenant web control plane | **Not implemented** (Session is capped alpha, not a general control plane) |
 | General-purpose DAG editor | **Not implemented** |
 | “Hippocampus” summarisation subsystem | **Not implemented** |
 | Authenticated human identity for approve/reject | **Not implemented** (protocol rule only) |
@@ -63,7 +71,9 @@ It is **not** an industrial autonomous agent platform.
 | **Sovereign operator TUI bound to Domain** | **Not implemented** — see below |
 | Grok CLI (or any external AI TUI) as Domain-gated shell | **Not implemented** — third-party product |
 | Force Grok / Cursor / etc. to preflight before edits | **Not implemented** |
-| Single integrated “live in panel, talk to model” product surface | **Not implemented** (panel + grok remain two tools by design today) |
+| Single integrated “live in panel, talk to model” product surface | **Partial** — Panel/Session are cooperative CURRENT-visible UIs; not forced Domain enforcement |
+| Enforced “Domain shell” that cannot skip preflight | **Not implemented** — use “CURRENT-visible cooperative agent shell” |
+| **Single-app appliance distro default** (boot → only seat UX) | **Scaffold only** — `seat-kiosk` module + `docs/SINGLE-APP-DISTRIBUTION.md`; not default on Kingston |
 
 ## Operator TUI is not sovereign (logical gap)
 

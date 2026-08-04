@@ -252,6 +252,132 @@ out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "seed must not unlock rough-v
 printf '%s\n' "$out" | grep -qi refuse || fail "seed should not authorize rough-v6"
 pass "v0.2 authority: preflight refuse/allow, reject, approve, events, artifacts"
 
+# --- current validate + next (re-SELECT after APPROVED) ---------------
+mkdir -p "$TMP/nextcycle"
+cd "$TMP/nextcycle"
+"$AETHER" init . >/dev/null || fail "init nextcycle"
+"$AETHER" current init . >/dev/null || fail "current init nextcycle"
+# good file after filling fields
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** Cycle Next after approve.
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** wave0
+**Next:** demo-one
+**Approval:** PENDING
+
+## Keep
+- one next
+
+## Reject
+- dual next
+
+## Limits
+- sandbox only
+
+## Next allowed action
+Run demo-one.
+
+## Approval condition
+Human approve.
+
+## Prohibited
+- automatic-approve
+CUR
+"$AETHER" current validate . >/dev/null || fail "validate good CURRENT"
+# missing Next fails validate
+cp CURRENT.md CURRENT.bak
+sed -i '/^\*\*Next:\*\*/d' CURRENT.md
+if "$AETHER" current validate . >/dev/null 2>&1; then fail "validate should fail missing Next"; fi
+mv CURRENT.bak CURRENT.md
+# next before approve must refuse (exit 2)
+set +e
+out=$("$AETHER" next demo-two . 2>&1)
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "next before approve exit=$ec want 2"
+printf '%s\n' "$out" | grep -qi 'not approved' || fail "next before approve wrong message"
+grep -q 'demo-one' CURRENT.md || fail "next mutated CURRENT before approve"
+# approve then next
+"$AETHER" approve "wave0" . >/dev/null || fail "approve for next"
+"$AETHER" next demo-two . >/dev/null || fail "next after approve"
+grep -q 'demo-two' CURRENT.md || fail "next did not set demo-two"
+grep -qi 'PENDING' CURRENT.md || fail "next should reset Approval PENDING"
+grep -qi 'SELECT' CURRENT.md || fail "next should set Phase SELECT"
+grep -q '"kind":"next_selected"' .aether/events.jsonl || fail "next_selected event missing"
+# unchanged next refuses
+set +e
+out=$("$AETHER" next demo-two . 2>&1)
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "next unchanged exit=$ec want 2"
+printf '%s\n' "$out" | grep -qi 'unchanged' || fail "next unchanged wrong message"
+"$AETHER" current validate . >/dev/null || fail "validate after next"
+pass "v0.2 current validate + next re-SELECT"
+
+# --- protocol demo + probe + brief + drift ----------------------------
+cd "$ROOT"
+out=$("$AETHER" demo --quiet 2>&1) || fail "aether demo failed: $out"
+printf '%s\n' "$out" | grep -q 'DEMO OK' || fail "demo missing DEMO OK"
+pass "aether demo"
+
+mkdir -p "$TMP/probe"
+cd "$TMP/probe"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** probe test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+write-tests
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+set +e
+"$AETHER" probe write-tests . >/dev/null 2>&1
+ec=$?
+set -e
+[ "$ec" = "0" ] || fail "probe allow exit=$ec"
+set +e
+"$AETHER" probe automatic-approve . >/dev/null 2>&1
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "probe refuse exit=$ec want 2"
+"$AETHER" brief . >/dev/null || fail "brief"
+pass "aether probe + brief"
+
+# drift: only if git available in temp (may not be a repo)
+cd "$ROOT"
+set +e
+"$AETHER" drift . >/dev/null 2>&1
+dec=$?
+set -e
+# exit 0 or 1 both ok (clean or dirty working tree)
+[ "$dec" = "0" ] || [ "$dec" = "1" ] || fail "drift exit=$dec"
+pass "aether drift (exit 0|1)"
+
 # --- non-reel authority (dev task) ------------------------------------
 mkdir -p "$TMP/devtask"
 cd "$TMP/devtask"

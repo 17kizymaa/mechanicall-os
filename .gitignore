@@ -22,3 +22,22 @@ venv/
 
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
+
+# Tauri seat
+seat/node_modules/
+seat/dist/
+seat/src-tauri/target/
+
+# Nix build outputs (store symlinks)
+/result
+/result-vm
+
+# Local VM images / backups (never commit)
+*.qcow2
+*.qcow2.*
+*.bak
+*.bak-*
+python/*.bak*
+
+# Grok session brief cache (regenerable via aether brief)
+.aether/last-grok-brief.txt

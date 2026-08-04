@@ -14,12 +14,12 @@ Three layers. Strictly following the Core Principles.
 - All sidecars are:
   - Small by design
   - Observable and editable with normal tools
-  - Managed exclusively by Python scripts (never mutated magically)
+  - Managed by inspectable shell/Python tools (never mutated magically)
   - Safe to `git add` / commit / share (or `.gitignore` selectively)
 
 ## 2. Awareness Layer (the daemon / agent)
 
-A simple Python watcher + CLI called `aether`.
+A POSIX shell CLI called `aether` (optional Python helpers for panel/LLM).
 
 Responsibilities:
 - Observes file changes (within a project and optionally across projects)
@@ -45,27 +45,22 @@ Example commands (to be implemented):
 
 ## 3. Interface Layer
 
-- **Plain Markdown files** + **simple Python scripts**.
-- No product GUI / web dashboard for v0.2 (see `NOT-IMPLEMENTED.md`).
-- Primary interaction:
-  - Read/edit sidecar `.md` files directly in your editor.
-  - Run `aether` commands from shell.
-  - Write small `.py` scripts that consume or produce sidecars (these become reusable "awareness tools").
-- Optional first-run helpers (plain CLI):
+- **Authority substrate:** plain Markdown / JSON files + `aether` (POSIX shell).
+- **Helpers:** Python for panel/shell-agent/LLM propose layers; never a second authority DB.
+- **Not core product:** multi-tenant web SaaS dashboard (see `NOT-IMPLEMENTED.md`, `PRODUCT.md` boundary map).
+- Primary self-hosted interaction:
+  - Read/edit `CURRENT.md` and sidecars in your editor.
+  - Run `aether` from shell (`current`, `preflight`, `approve`, `reject`).
+  - Optional small `.py` scripts that consume/produce sidecars.
+- Optional first-run helpers:
   - `aether onboard` — init + CURRENT + short preflight literacy
-  - `aether app register` — mark a project as a development application (`.aether/app.json`)
-- Optional **Project Panel** (`aether panel`, `python/aether_panel.py`):
-  - Low-overhead TUI with selectable actions (the boring fix for “no buttons”)
-  - Same projection layer can emit `.aether/PANEL.md` and `.aether/panel.html` for later editor/browser surfaces
-  - Mutations only via `aether` subprocess; no second authority store
-- Examples of interface artifacts:
-  - `docs/context-summary.md` (generated or curated)
-  - `.aether/COMMANDS.md` (generated cheatsheet)
-  - `.aether/PANEL.md` / `.aether/panel.html` (generated panel projections)
-  - `scripts/aether_*.py` (project-specific awareness scripts)
-  - Shell aliases / functions that wrap `aether`
+  - `aether app register` — mark a project as a development application
+- Optional **Project Panel** (`aether panel`):
+  - Cooperative TUI: CURRENT visible + chat/actions; mutations via `aether`
+  - Not a sandbox that forces all tools through preflight (see ALPHA-LIMITATIONS)
+- **Adjacent (not core):** anphuni.com Session = capped hosted alpha lab; separate privacy surface.
 
-The Interface Layer is where humans (and other agents) actually work. It is intentionally boring and transparent.
+The Interface Layer is where humans and agents meet the protocol. Prefer boring and transparent over chrome that hides CURRENT.
 
 ### 3a. Optional Personal LLM (propose-only)
 
