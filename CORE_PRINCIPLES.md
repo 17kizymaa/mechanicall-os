@@ -1,36 +1,34 @@
 # Core Principles (Locked In)
 
-These principles define awareness-agent and Mechanicall OS v0. They are non-negotiable.
+These principles define Mechanicall OS. They are non-negotiable for **core** product truth.
 
 ## Locked Principles
 
 - **Filesystem is the single source of truth**  
-  No hidden databases. All state, context, memory, and configuration live in the filesystem as plain files. Everything is directly readable, editable, grep-able, and version-controllable with git.
+  No hidden databases for authority. All state, context, memory, and configuration that *bind* a project live as plain files. Everything that matters is readable, editable, grep-able, and version-controllable with git.
 
-- **Markdown + Python as the only "userland"**  
-  User-facing and extension content is either:
-  - Markdown (`.md`) for docs, context, memory, interfaces, and knowledge.
-  - Python (`.py`) for all logic, agents, scripts, and automation.
-  No other languages, heavy frameworks, or opaque formats in the user layer.
+- **Durable authority stays plain text**  
+  User-owned authority and durable project state are **Markdown and JSON** (e.g. `CURRENT.md`, `.aether/events.jsonl`, sidecars).  
+  **Core automation** uses inspectable **POSIX shell** and/or **Python**.  
+  **Distribution interfaces** (Panel TUI, browser Session, future desktop shells) may use other languages, but **must not** become a second authority store — they call or project the same files.
 
 - **Active context sidecars**  
-  Small, observable files and scripts (e.g. `.context.md`, `.awareness.json`, `.memory/`) live at the OS/workspace level alongside normal project files.
-  These sidecars carry active state and are managed by scripts. They are first-class citizens in the filesystem.
+  Small, observable files and scripts (e.g. `.context.md`, `.awareness.json`, `.memory/`, `.aether/`) live beside normal project files. They are first-class and manageable with normal tools.
 
 - **Capture is sacred; structure is deferred**  
-  Getting a thought into the filesystem must cost zero decisions and under two seconds. Filing, naming, linking, and sorting happen later — proposed by the gardener (distill), approved by the human — never at the moment of entry. Any feature that adds a decision to the capture path violates this principle. (Locked 2026-07-12, RHIZOME design session — see `docs/RHIZOME.md`.)
+  Getting a thought into the filesystem must cost zero decisions and under two seconds. Filing and sorting happen later — proposed, then human-approved — never at the moment of entry. (See `docs/RHIZOME.md`.)
 
 - **Extremely low overhead and high inspectability**  
-  The system must be:
-  - Lightweight (minimal CPU/RAM, no unnecessary daemons or deps).
-  - Fully inspectable (you can `cat`, `ls`, `grep`, `tail`, `diff` everything that matters).
-  - Debuggable with standard tools.
+  Lightweight; no unnecessary daemons. You can `cat`, `ls`, `grep`, `tail`, `diff` everything that matters. Debuggable with standard tools.
+
+- **Cooperative authority, not a universal sandbox**  
+  Preflight refuses when *consulted*. It does not currently force every external agent or shell to comply. See `docs/ALPHA-LIMITATIONS.md` and `NOT-IMPLEMENTED.md`.
 
 ## Why These Principles
 
-- Transparency and ownership: you always know exactly what the system knows and can change it directly.
-- Portability and durability: plain files survive tool changes, LLM changes, and platform migrations.
-- Simplicity and reliability: fewer moving parts means fewer surprises.
-- Leverage existing tools: git, editors, ripgrep, find, etc. work out of the box.
+- Transparency and ownership: you know what the system knows and can change it.  
+- Portability: plain files survive tool and model churn.  
+- Simplicity: fewer moving parts.  
+- Leverage: git, editors, ripgrep work out of the box.
 
-Violations of these principles require explicit justification and broad agreement.
+Violations require explicit justification and broad agreement. Hosted alpha labs (e.g. anphuni Session) must not redefine core principles by implication — document them as **separate surfaces** in `PRODUCT.md`.

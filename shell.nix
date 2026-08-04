@@ -8,6 +8,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    echo "awareness-agent dev shell (via shell.nix)"
+    echo "mechanicall-os dev shell (via shell.nix)"
   '';
 }

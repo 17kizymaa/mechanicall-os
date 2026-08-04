@@ -222,6 +222,19 @@ def grok_tui_auth_path() -> Path:
     return home / "auth.json"
 
 
+
+# Last headless Grok turn meta (thinking, usage) — for panel display
+_LAST_CHAT_META: dict = {}
+
+
+def last_chat_meta() -> dict:
+    """Return meta from the most recent chat() call (thinking, model, usage)."""
+    return dict(_LAST_CHAT_META)
+
+
+def clear_chat_meta() -> None:
+    _LAST_CHAT_META.clear()
+
 def grok_tui_available() -> bool:
     """True when Grok CLI is installed and a TUI/session login is present.
 
@@ -651,7 +664,7 @@ def resolve_ollama_host(root: Optional[Path] = None) -> str:
     return host
 
 
-def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4") -> str:
+def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> str:
     """Wire shell for peer agent: ollama + sft-v4 + resolved local/remote host."""
     os.environ["AETHER_LLM_PROVIDER"] = "ollama"
     os.environ["AETHER_SHELL_PROVIDER_LOCK"] = "1"
@@ -660,6 +673,32 @@ def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-ll
     host = resolve_ollama_host(root)
     up = _ollama_up(host)
     return f"peer backend: ollama:{model} @ {host}  ({'up' if up else 'DOWN'})"
+
+
+def peer_is_up(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> tuple[bool, str]:
+    """Return (up, status_line) after applying peer env. Fail-fast probe for seat shell."""
+    status = apply_peer_backend(root, model=model)
+    return status.endswith("(up)"), status
+
+
+def peer_down_recovery(root: Optional[Path] = None) -> str:
+    """Short operator recovery when peer Ollama is unreachable (seat comfort)."""
+    host = resolve_ollama_host(root)
+    pin = read_project_ollama_host(root) or "(none)"
+    lines = [
+        "PEER Ollama is DOWN - no chat until host is up.",
+        f"  resolved host: {host}",
+        f"  project pin (.aether/ollama-host): {pin}",
+        "  recovery:",
+        "    1) on myarch desktop: ollama serve  (bind 0.0.0.0 if remote)",
+        "       OLLAMA_HOST=0.0.0.0:11434 ollama serve",
+        "    2) confirm model: ollama list | grep personal-llm-sft-v4",
+        "    3) from seat: curl -m3 <host>/api/tags",
+        "    4) re-pin: /ollama-host http://192.168.1.241:11434",
+        "       or /ollama-host http://<tailscale-ip>:11434",
+        "    5) check LAN/WiFi: ping desktop; ethernet preferred on MBP seat",
+    ]
+    return "\n".join(lines)
 
 
 def personal_llm_serve_hints() -> str:
@@ -817,6 +856,7 @@ def chat(messages: list[dict[str, str]], *, temperature: float = 0.7) -> str:
             "XAI_API_KEY, or start Ollama — see docs/FREE-API.md + docs/AETHER-SHELL.md"
         )
     messages = maybe_inject_personal_system(messages)
+    _LAST_CHAT_META.clear()
     if backend.name == "grok_tui":
         return _grok_tui_chat(backend, messages, temperature)
     if backend.name == "anthropic":
@@ -876,11 +916,12 @@ def _messages_to_prompt_parts(
 def _grok_tui_chat(
     backend: LLMBackend, messages: list[dict[str, str]], temperature: float
 ) -> str:
-    """Headless Grok Build CLI — uses `grok login` session (TUI compute), not raw API.
+    """Headless Grok Build CLI — same session compute as interactive Grok TUI.
 
-    Tools are denied so Domain shell stays propose-only (no agent edits).
+    Uses `grok login` auth (not raw XAI_API_KEY). Emits thinking + answer via
+    `--output-format streaming-json` (Grok session infrastructure).
     """
-    _ = temperature  # CLI sampling controlled by model defaults / config
+    _ = temperature
     binary = grok_tui_bin()
     if not binary:
         raise RuntimeError("grok CLI not found on PATH (set GROK_BIN)")
@@ -890,15 +931,46 @@ def _grok_tui_chat(
         t_out = float(os.environ.get("AETHER_LLM_TIMEOUT", "300"))
     except ValueError:
         t_out = 300.0
-
-    deny_tools = (
-        "Agent,run_terminal_cmd,run_terminal_command,search_replace,"
-        "Write,Edit,Bash,web_search,web_fetch"
+    try:
+        # Agent-style multi-tool turns need headroom (was 4 → empty max_turns_reached)
+        max_turns = int(os.environ.get("AETHER_GROK_MAX_TURNS", "32"))
+    except ValueError:
+        max_turns = 32
+    effort = (
+        os.environ.get("AETHER_REASONING_EFFORT")
+        or os.environ.get("GROK_REASONING_EFFORT")
+        or "high"
+    ).strip() or "high"
+    # Domain seat: deny write/exec by default; panel agent keeps read/search tools
+    deny_tools = os.environ.get(
+        "AETHER_GROK_DENY_TOOLS",
+        "search_replace,Write,Edit,write,run_terminal_command,run_terminal_cmd,todo_write",
+    ).strip()
+    tools_allow = os.environ.get("AETHER_GROK_TOOLS", "").strip()
+    no_tools = os.environ.get("AETHER_GROK_NO_TOOLS", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    ) or tools_allow.lower() in ("none", "off", "0", "false")
+    # Full Grok-agent headless: auto-approve tools (no interactive permission UI)
+    # Note: empty string should NOT count as true — only explicit on/1/true/yes or unset default
+    _aa = os.environ.get("AETHER_GROK_ALWAYS_APPROVE", "1").strip().lower()
+    always_approve = _aa in ("1", "true", "yes", "on")
+    perm_mode = (
+        os.environ.get("AETHER_GROK_PERMISSION_MODE", "auto").strip() or "auto"
     )
+    agent_name = os.environ.get("AETHER_GROK_AGENT", "").strip()
+    # cwd for tools = project root when set
+    cwd = (
+        os.environ.get("AETHER_GROK_CWD")
+        or os.environ.get("MECH_PROJECT")
+        or os.environ.get("AETHER_HOME")
+        or ""
+    ).strip()
 
     with tempfile.TemporaryDirectory(prefix="aether-grok-tui-") as td:
         td_path = Path(td)
-        # Always use --prompt-file to avoid ARG_MAX / quoting issues
         body = user_blob
         if system and len(system) >= 12000:
             body = system[:20000] + "\n\n---\n\n" + user_blob
@@ -909,29 +981,49 @@ def _grok_tui_chat(
         prompt_path = td_path / "prompt.txt"
         prompt_path.write_text(body, encoding="utf-8")
 
+        out_fmt = (
+            os.environ.get("AETHER_GROK_OUTPUT_FORMAT", "streaming-json").strip()
+            or "streaming-json"
+        )
         cmd = [
             binary,
             "--prompt-file",
             str(prompt_path),
             "--output-format",
-            "plain",
+            out_fmt,
             "--max-turns",
-            "1",
+            str(max(1, max_turns)),
             "-m",
             backend.model,
-            "--disallowed-tools",
-            deny_tools,
-            "--no-auto-update",
+            "--reasoning-effort",
+            effort,
         ]
+        if cwd and Path(cwd).is_dir():
+            cmd.extend(["--cwd", cwd])
+        if agent_name:
+            cmd.extend(["--agent", agent_name])
+        if always_approve and not no_tools:
+            cmd.append("--always-approve")
+            if perm_mode:
+                cmd.extend(["--permission-mode", perm_mode])
+        if no_tools:
+            cmd.extend(["--tools", "none"])
+        else:
+            if tools_allow:
+                cmd.extend(["--tools", tools_allow])
+            if deny_tools:
+                cmd.extend(["--disallowed-tools", deny_tools])
         if system_for_flag:
             cmd.extend(["--system-prompt-override", system_for_flag])
 
-        # Prefer session token: strip raw API key so CLI does not fall through to API billing
         env = {**os.environ}
         keep_api = os.environ.get("AETHER_GROK_TUI_KEEP_API_KEY", "").strip().lower()
         if keep_api not in ("1", "true", "yes", "on"):
             env.pop("XAI_API_KEY", None)
             env.pop("GROK_CODE_XAI_API_KEY", None)
+        # ensure GROK_HOME points at session auth
+        if not env.get("GROK_HOME") and Path.home().joinpath(".grok").is_dir():
+            env["GROK_HOME"] = str(Path.home() / ".grok")
 
         try:
             proc = subprocess.run(
@@ -940,6 +1032,7 @@ def _grok_tui_chat(
                 text=True,
                 timeout=t_out,
                 env=env,
+                cwd=cwd if cwd and Path(cwd).is_dir() else None,
             )
         except subprocess.TimeoutExpired as e:
             raise RuntimeError(f"grok_tui timed out after {t_out}s") from e
@@ -956,7 +1049,195 @@ def _grok_tui_chat(
         raise RuntimeError(
             f"grok_tui empty response (exit {proc.returncode}): {(err or '')[:300]}"
         )
-    return out
+
+    thinking, text, meta = _parse_grok_stream(out)
+    _LAST_CHAT_META.clear()
+    _LAST_CHAT_META.update(
+        {
+            "provider": "grok_tui",
+            "model": backend.model,
+            "thinking": thinking,
+            "reasoning_effort": effort,
+            **meta,
+        }
+    )
+    # Prefer structured text; fall back to raw stdout if plain format
+    if text.strip():
+        return text.strip()
+
+    # Tool loop burned turns with no final answer (panel used to hit this at max=4)
+    stop = str(meta.get("stop_reason") or meta.get("stopReason") or "")
+    tools = meta.get("tools") or []
+    if "max_turn" in stop.lower() or meta.get("max_turns_reached"):
+        raise RuntimeError(
+            "grok_tui: max turns reached with no answer"
+            + (f" (tools={','.join(tools[:6])})" if tools else "")
+            + " — raise AETHER_GROK_MAX_TURNS (agent default 32) or narrow the task"
+        )
+    if tools and not text.strip():
+        raise RuntimeError(
+            "grok_tui: tool calls produced no final text"
+            + f" (tools={','.join(str(t) for t in tools[:8])})"
+            + f" stop={stop or '?'}"
+            + " — ensure --always-approve / AETHER_GROK_ALWAYS_APPROVE=1 for headless"
+        )
+
+    if out_fmt == "plain" or not thinking:
+        # strip accidental JSON lines if mixed
+        lines = []
+        for line in out.splitlines():
+            s = line.strip()
+            if s.startswith("{") and '"type"' in s:
+                continue
+            lines.append(line)
+        cleaned = "\n".join(lines).strip()
+        return cleaned or out
+    return thinking.strip() or out
+
+
+def _parse_grok_stream(raw: str) -> tuple[str, str, dict]:
+    """Parse Grok CLI streaming-json / json lines into thinking + answer + tool_trace.
+
+    tool_trace feeds the seat chatbox (▸ tool rows) so operators see the same
+    activity language as Grok Build without embedding the real TUI binary.
+    """
+    import json
+
+    thoughts: list[str] = []
+    texts: list[str] = []
+    meta: dict = {}
+    tool_trace: list[dict] = []
+
+    def _tool_name(ev: dict) -> str:
+        data = ev.get("data")
+        from_data = ""
+        if isinstance(data, dict):
+            from_data = data.get("name") or data.get("toolName") or data.get("title") or ""
+        return str(
+            ev.get("title")
+            or ev.get("toolName")
+            or ev.get("name")
+            or ev.get("tool")
+            or from_data
+            or "tool"
+        )
+
+    for line in (raw or "").splitlines():
+        s = line.strip()
+        if not s.startswith("{"):
+            # plain leftover
+            if s:
+                texts.append(s)
+            continue
+        try:
+            ev = json.loads(s)
+        except json.JSONDecodeError:
+            texts.append(line)
+            continue
+        if not isinstance(ev, dict):
+            continue
+        typ = str(ev.get("type") or "")
+        if typ == "thought":
+            d = ev.get("data")
+            if d is None and "text" in ev:
+                d = ev.get("text")
+            if d is not None:
+                thoughts.append(str(d))
+        elif typ == "text":
+            d = ev.get("data")
+            if d is None and "text" in ev:
+                d = ev.get("text")
+            if d is not None:
+                texts.append(str(d))
+        elif typ in ("assistant", "message", "content"):
+            # alternate shapes
+            d = ev.get("data") or ev.get("content") or ev.get("text") or ""
+            if isinstance(d, list):
+                for part in d:
+                    if isinstance(part, dict) and part.get("type") == "text":
+                        texts.append(str(part.get("text") or part.get("data") or ""))
+                    elif isinstance(part, str):
+                        texts.append(part)
+            elif d:
+                texts.append(str(d))
+        elif typ == "end":
+            if "sessionId" in ev:
+                meta["session_id"] = ev.get("sessionId")
+            if "usage" in ev:
+                meta["usage"] = ev.get("usage")
+            if "modelUsage" in ev:
+                meta["model_usage"] = ev.get("modelUsage")
+            sr = ev.get("stopReason") or ev.get("stop_reason") or ""
+            if sr:
+                meta["stop_reason"] = sr
+                if "maxturn" in str(sr).lower().replace("_", "") or str(sr) in (
+                    "MaxTurns",
+                    "max_turns_reached",
+                ):
+                    meta["max_turns_reached"] = True
+        elif typ == "usage" and "usage" in ev:
+            meta["usage"] = ev.get("usage")
+        elif typ in ("tool_call", "tool_use", "function_call", "tool"):
+            title = _tool_name(ev)
+            meta.setdefault("tools", []).append(str(title))
+            detail = ""
+            args = ev.get("arguments") or ev.get("args") or ev.get("input")
+            if args is not None:
+                detail = str(args)[:100]
+            tool_trace.append(
+                {"name": str(title), "phase": "call", "detail": detail}
+            )
+        elif typ == "tool_result":
+            title = _tool_name(ev)
+            msg = ev.get("message") or ev.get("data") or ev.get("result") or ""
+            if isinstance(msg, (dict, list)):
+                msg = str(msg)[:120]
+            else:
+                msg = str(msg)[:120]
+            tool_trace.append(
+                {"name": str(title), "phase": "result", "detail": msg}
+            )
+        elif typ in ("tool_error", "error"):
+            msg = ev.get("message") or ev.get("data") or ev.get("error") or typ
+            meta.setdefault("tool_errors", []).append(str(msg)[:200])
+            tool_trace.append(
+                {
+                    "name": _tool_name(ev) if typ == "tool_error" else "error",
+                    "phase": "error",
+                    "detail": str(msg)[:120],
+                }
+            )
+        elif typ in ("subagent", "agent", "agent_start", "task"):
+            title = (
+                ev.get("title")
+                or ev.get("name")
+                or ev.get("agent")
+                or ev.get("description")
+                or "subagent"
+            )
+            tool_trace.append(
+                {
+                    "name": str(title),
+                    "phase": "subagent",
+                    "detail": str(ev.get("message") or ev.get("data") or "")[:100],
+                }
+            )
+            meta.setdefault("tools", []).append(f"sub:{title}")
+        elif typ in ("web_search", "web_fetch", "search"):
+            # surface search/fetch as first-class tool rows (seat has these unless denied)
+            q = ev.get("query") or ev.get("url") or ev.get("data") or ""
+            name = typ if typ != "search" else "web_search"
+            meta.setdefault("tools", []).append(name)
+            tool_trace.append(
+                {"name": name, "phase": "call", "detail": str(q)[:100]}
+            )
+    if tool_trace:
+        meta["tool_trace"] = tool_trace
+    thinking = "".join(thoughts).strip()
+    # If thought tokens are word-pieces, join without extra spaces when already spaced
+    text_out = "".join(texts).strip()
+    return thinking, text_out, meta
+
 
 
 
@@ -1052,12 +1333,34 @@ def _openai_chat(backend: LLMBackend, messages: list[dict[str, str]], temperatur
 
 
 def _ollama_chat(backend: LLMBackend, messages: list[dict[str, str]], temperature: float) -> str:
+    # personal-llm / Modelfile often ships with small n_ctx; raise for CURRENT inject
+    try:
+        num_ctx = int(os.environ.get("AETHER_OLLAMA_NUM_CTX", "8192"))
+    except ValueError:
+        num_ctx = 8192
+    model = backend.model
+    # Prefer :latest if bare name fails later — normalize sft tags
+    if model in ("personal-llm-sft-v4", "personal-llm-sft-v2", "personal-llm-full:v1"):
+        if ":" not in model.replace("personal-llm-full:v1", "x"):  # keep full:v1
+            pass
+    if model == "personal-llm-sft-v4":
+        model = "personal-llm-sft-v4:latest"
+    elif model == "personal-llm-sft-v2":
+        model = "personal-llm-sft-v2:latest"
+    # Truncate huge system messages to fit small local models if still oversized
+    safe_msgs = []
+    for m in messages:
+        role = m.get("role") or "user"
+        content = m.get("content") or ""
+        if role == "system" and len(content) > 6000:
+            content = content[:2500] + "\n\n…[truncated for n_ctx]…\n\n" + content[-2500:]
+        safe_msgs.append({"role": role, "content": content})
     body = json.dumps(
         {
-            "model": backend.model,
-            "messages": messages,
+            "model": model,
+            "messages": safe_msgs,
             "stream": False,
-            "options": {"temperature": temperature},
+            "options": {"temperature": temperature, "num_ctx": num_ctx},
         }
     ).encode()
     req = urllib.request.Request(

@@ -1,46 +1,63 @@
 # CURRENT
 
-**Objective:** Local-first project control layer is the daily seat: panel + shell honour CURRENT; personal-llm is peer technique only; TWS lives in another Domain.
+**Objective:** Re-centre Mechanicall on the **local authority protocol** (CURRENT schema + preflight + human yes): absorb peer-review wording, ship `aether current validate`, and design the website only as a **protocol-first understanding lab** — not Session-as-core-product.
 **Phase:** APPROVE
 **Status:** APPROVED
-**Baseline:** 2026-07-31 · PR #2 · seats approved · CI gates
-**Next:** ci-control-layer-gates
+**Baseline:** 2026-08-04 · peer CONDITIONAL absorbed · Client One no sustained Session use · original protocol direction retained
+**Next:** commit-hygiene
 **Approval:** APPROVED
+**Host:** myarch (desktop)
+
+## Product (non-negotiable identity)
+- **Is:** local-first **authority protocol** — `CURRENT.md` + cooperative preflight + human approve.
+- **Pitch:** You decide. AI does the point-and-clicking — under a plan you can read and a yes only you give.
+- **Not core:** multi-seat hosted SaaS; Session = adjacent capped **lab** only.
+- Law: **`PRODUCT.md`** boundary map.
+
+## Done (this cycle)
+- Peer response absorbed (phone `06b` → host mirrors)
+- PRODUCT / AGENTS / CORE / ARCH / NOT-IMPLEMENTED / START-HERE / PANEL wording / OUTLOOK boundary / PROTOCOL-TEST-SURFACE
+- `aether current validate` (schema check)
+- Scrapped: treating hosted seats + Outlook as primary product story this sprint
 
 ## Keep
-- CURRENT sole Domain authority (filesystem truth)
-- Seats: `aether panel` + `aether shell` (peer default / grok real)
-- personal-llm proposes only — never co-author of CURRENT
-- CI proves seats + preflight (not K8s/REST/WebSocket product)
-- TWS / trading = separate CURRENT root
-- Silence is never permission
+- CURRENT as product (schema + prose + code)
+- One Next; silence ≠ permission; models never approve
+- Cooperative language (not false Domain-jail)
+- Session lab ≤5 seats if used; label honestly multi-seat hosted alpha
+- Protocol test surface: action + bind + probe (see docs/PROTOCOL-TEST-SURFACE.md)
 
 ## Reject
-- Cloud EDA / managed K8s as core product this Next
-- AUTHORITY.md or personal-llm as co-truth
-- Desk soft-chat revival
-- Dual concurrent Next
+- Defining Mechanicall as multi-tenant host because Session exists
+- Boring-protocol-only UX with no agency
+- Action-facade chat with no CURRENT bind
+- dual concurrent Next
+- Live Outlook OAuth/SMTP
 
 ## Limits
-- One Next at a time
-- Full-build CI = control-layer gates + integration tests
-- Collaborator fork after green CI / mergeable slate
+- Hosted Session traffic is optional this sprint (client idle)
+- Privacy page rewrite may ship with next site deploy
+- No secrets in git
 
 ## Next allowed action
-Land and keep green: `sh scripts/ci-control-layer-gates.sh` + GitHub Actions `control-layer-gates` job. Action id: `ci-control-layer-gates`.
+**Action id:** `implement-remaining-waves`
+
+Ship Opus waves still open: `aether demo`, `brief`/`drift` + GROK-SEAT, PROTOCOL-LAB + `probe`, honesty greps + RELEASE-NOTES-ALPHA draft. Tests green; no publish/tag without human.
 
 ## Approval condition
-Human: `aether approve "ci-control-layer-gates"` when CI green on PR/main. Silence is never permission.
+Human: `aether approve "implement-remaining-waves"` when remaining waves are done or explicitly parked.
+
+Silence is never permission.
 
 ## Prohibited
 - automatic-approve
 - commit-secrets
-- tws-in-this-domain
-- personal-llm-as-authority
-- invent-authority-md
 - dual-concurrent-next
-- kingston-vault-unlock
-- train-on-vault-raw
-- execute-live-trades
-- peer-write-tools
-- k8s-as-product-core
+- model-auto-approve-session
+- model-auto-write-current
+- uncapped-registration
+- send-email-for-real
+- host-smtp
+- live-graph-oauth
+- reopen-public-pipeline-register
+- claim-session-is-core-product

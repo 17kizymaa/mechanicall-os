@@ -2,6 +2,14 @@
 
 **Local-first project control layer for human–agent work.**
 
+### Product shape (casual)
+
+**Custom distribution · one application only** (seat UX — incomplete).  
+Not “learn the CLI to manage files.” See **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)** · **[START-HERE.md](./START-HERE.md)**.
+
+Service/dev sample Domain folder: `sh scripts/try.sh` (not the casual front door).
+
+
 Repo: `mechanicall-os` · Product name: **Mechanicall OS**
 
 Core idea: keep AI-assisted projects aligned with the **latest human decision**,
@@ -31,17 +39,17 @@ database, daemon, or cloud service.
 
 ## What it is not
 
-See **[NOT-IMPLEMENTED.md](./NOT-IMPLEMENTED.md)**. In particular: no PostgreSQL,
-no pgvector, no LangGraph “Cortex,” no sandboxed multi-agent studio, no
-industrial autonomous OS claim, no multi-tenant SaaS.
+See **[NOT-IMPLEMENTED.md](./NOT-IMPLEMENTED.md)** (scoped to **Mechanicall core**).
+In particular: no PostgreSQL, no LangGraph “Cortex,” no sandbox that forces every
+agent, no industrial autonomous OS claim, no open multi-tenant SaaS **as core**.
 
-**Product direction (research, not shipped):** anti-SaaS **club-cortex** shape —
-GUI at the edge, desktop as backend, personal LoRAs from journals under Domain —
-is frozen in
-[`research/speculative/CLUB-CORTEX-SHAPE.md`](./research/speculative/CLUB-CORTEX-SHAPE.md).
-Scaling analysis:
-[`research/speculative/MULTI-USER-LORA-CLUB-SCALE.md`](./research/speculative/MULTI-USER-LORA-CLUB-SCALE.md).
-Other speculative material lives under `research/speculative/` only.
+**Boundary map:** **[PRODUCT.md](./PRODUCT.md)** — core protocol vs optional
+interfaces vs adjacent hosted Session lab vs research.
+
+## Research directions (not shipped)
+
+Speculative material (club-cortex, multi-LoRA scale, etc.) lives only under
+[`research/speculative/`](./research/speculative/). Do not read those as product claims.
 
 ## Locked Core Principles
 
@@ -86,12 +94,17 @@ aether distill
 aether trust          # allow hooks after clone — inspect hooks first
 aether watch --poll 5
 
-# Authority (v0.2)
-aether current        # show parsed authority
-aether preflight rough-v6          # refuse if prohibited
-aether preflight silent-proof      # allow if it is Next
+# Authority (v0.2) — this is the product
+aether current                 # show parsed authority
+aether current validate        # SPEC schema check
+aether preflight rough-v6      # refuse if prohibited
+aether preflight silent-proof  # allow if it is Next
 aether artifact artifacts/proof.mp4 --action silent-proof --status produced
 aether approve "KEEP"              # human only
+aether next other-action           # after APPROVED: re-SELECT
+aether demo                        # refuse→allow→approve→next in temp root
+aether brief                       # paste for Grok/external TUI
+aether probe other-action          # read-only would-preflight?
 # or: aether reject "plate 4 fails"
 cat .aether/events.jsonl
 ```
