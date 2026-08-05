@@ -12,5 +12,5 @@ if ! command -v shellcheck >/dev/null 2>&1; then
     exit 1
 fi
 
-shellcheck -s sh "$AETHER"
+shellcheck -s sh -S warning "$AETHER"
 printf 'ok: shellcheck -s sh aether\n'

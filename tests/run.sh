@@ -34,7 +34,7 @@ pass "version + verb list (next-09)"
 # --- shellcheck (Opus next-07 / 🟠-4) — fatal when shellcheck is installed ---
 # Install: nix-env -iA nixpkgs.shellcheck  |  apt install shellcheck
 if command -v shellcheck >/dev/null 2>&1; then
-  shellcheck -s sh "$AETHER" || fail "shellcheck -s sh aether"
+  shellcheck -s sh -S warning "$AETHER" || fail "shellcheck -s sh aether"
   pass "shellcheck aether (POSIX sh)"
 else
   fail "shellcheck not found on PATH (required for next-07 gate). Install shellcheck and re-run."

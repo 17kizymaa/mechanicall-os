@@ -425,7 +425,11 @@ cmd_current_validate() {
         printf '\nVALIDATE: FAIL (%s)\n' "$cf"
         return 1
     fi
-    printf 'VALIDATE: OK%s\n' "$([ "$warn" -ne 0 ] && echo ' (with warnings)' || true)"
+    if [ "$warn" -ne 0 ]; then
+        printf 'VALIDATE: OK (with warnings)\n'
+    else
+        printf 'VALIDATE: OK\n'
+    fi
     printf '  root: %s\n' "$root"
     printf '  Next: %s\n' "$(current_field "$root" Next 2>/dev/null || echo unset)"
     return 0
