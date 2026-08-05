@@ -38,6 +38,11 @@
 **Local authority protocol:** `CURRENT.md` + `aether preflight` + human yes.  
 Hosted Session = optional capped **lab**, not the definition of Mechanicall.
 
+## First project (casual / pilot)
+
+**[docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md)** — install → demo → project → refuse → resume → uninstall.  
+Release notes draft: **[docs/RELEASE-NOTES-ALPHA-2.md](./docs/RELEASE-NOTES-ALPHA-2.md)**.
+
 ## Developer path (core)
 
 ```bash

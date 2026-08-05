@@ -24,6 +24,10 @@ authority contract and a deterministic preflight gate for project actions. It
 does **not** sandbox arbitrary shell access. See
 [docs/ALPHA-LIMITATIONS.md](./docs/ALPHA-LIMITATIONS.md).
 
+**First project (5 minutes):** [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) ·  
+**Alpha-2 notes (draft):** [docs/RELEASE-NOTES-ALPHA-2.md](./docs/RELEASE-NOTES-ALPHA-2.md) ·  
+**Not yet:** finished casual single-app consumer packaging (see SINGLE-APP-DISTRIBUTION).
+
 ## What it is (v0.2)
 
 Aether answers five questions reliably:

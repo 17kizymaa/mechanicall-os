@@ -6,6 +6,15 @@
 All notable changes to Mechanicall OS / `aether` are recorded here.
 Format: newest first. Authority remains `CURRENT.md` + SPECs; this file is narrative.
 
+## 2026-08-05
+
+### Package alpha-2 prep (`package-alpha-2`)
+
+- CURRENT rewritten: one Next `package-alpha-2`; Sept-9 casual-proof objective; 06c alignment.
+- `docs/FIRST-PROJECT.md` — install → demo → refuse → resume → uninstall.
+- `docs/RELEASE-NOTES-ALPHA-2.md` — prerelease draft (no tag until human + clean-machine).
+- START-HERE / README / install-aether pointers.
+
 ## 2026-08-04
 
 ### Park — protocol alpha (`park-protocol-alpha`)

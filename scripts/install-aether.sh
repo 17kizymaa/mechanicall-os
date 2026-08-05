@@ -14,7 +14,8 @@ printf '\nAdd to your shell profile if needed:\n'
 printf '  export PATH="%s:$PATH"\n' "$BIN_DIR"
 printf '  export AETHER_HOME="%s"\n' "$ROOT"
 printf '\nFirst project:\n'
+printf '  See: %s/docs/FIRST-PROJECT.md\n' "$ROOT"
 printf '  cd /path/to/project && aether onboard --yes\n'
-printf '  aether panel          # daily surface (buttons)\n'
-printf '  # or: aether init && aether current init\n'
+printf '  aether demo           # sandbox literacy (never your live CURRENT)\n'
+printf '  aether panel          # optional daily surface\n'
 printf '\nRemove CLI: %s/scripts/uninstall-aether.sh\n' "$ROOT"
