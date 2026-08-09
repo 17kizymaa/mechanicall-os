@@ -29,7 +29,6 @@ Append-only human decisions. Authority remains CURRENT.md.
 - 2026-08-04T14:54:31.116Z APPROVED: protocol-first-core-and-lab .
 - 2026-08-04 APPROVED: protocol-first-core-and-lab — comments: Protocol Lab must consider Grok Build TUI as primary seat; auto-detect external-TUI interference; operator overwhelmed by CURRENT sprawl; pause redesign of CURRENT type until new peer; hold on Protocol Lab merge under Grok
 - 2026-08-04: correction note vs stale cli.py critique; clean awareness-agent paths in nix docs/flake hook
-- 2026-08-04T15:33:19.590Z APPROVED: t /tmp/tmp.i0gIH12Cau
 - 2026-08-04: OpenRouter line-2 key works for anthropic/claude-opus-5; Opus lead WAVE-LEAD written; Wave 0 aether next implemented; tests green
 - 2026-08-04T15:38:20.803Z NEXT_SELECTED: protocol-first-core-and-lab -> proto-lifecycle-reselect
 - 2026-08-04T15:41:33.174Z APPROVED: proto-lifecycle-reselect
@@ -63,7 +62,6 @@ Append-only human decisions. Authority remains CURRENT.md.
 - 2026-08-04T18:01:51.144Z APPROVED: next-01-unknown-cmd
 - 2026-08-04T18:05:12.676Z NEXT_SELECTED: next-01-unknown-cmd -> next-02-negative-tests
 - 2026-08-04T18:05:59.473Z APPROVED: next-02-negative-tests
-- 2026-08-04T18:06:40.084Z APPROVED: APPROVED
 - 2026-08-04T18:09:26.818Z NEXT_SELECTED: next-02-negative-tests -> next-03-license
 - 2026-08-04T18:12:22.738Z APPROVED: next-03-license
 - 2026-08-04T18:24:35.176Z NEXT_SELECTED: next-03-license -> next-04-exit-codes
@@ -72,24 +70,30 @@ Append-only human decisions. Authority remains CURRENT.md.
 - 2026-08-04T18:28:22.241Z APPROVED: next-05-loc-decision
 - 2026-08-04T18:29:58.106Z NEXT_SELECTED: next-05-loc-decision -> next-06-preflight-receipt
 - 2026-08-04T18:35:24.779Z APPROVED: next-06-preflight-receipt
-- 2026-08-04T18:37:50.159Z APPROVED: abs /tmp/tmp.kBvJYkZSsY
-- 2026-08-04T18:37:50.351Z APPROVED: pass /tmp/tmp.kBvJYkZSsY
-- 2026-08-04T18:37:50.546Z APPROVED: stale /tmp/tmp.kBvJYkZSsY
 - 2026-08-04T18:51:30.511Z NEXT_SELECTED: next-06-preflight-receipt -> next-07-shellcheck
 - 2026-08-04T18:51:40.229Z APPROVED: next-07-shellcheck
 - 2026-08-04T18:55:01.625Z NEXT_SELECTED: next-07-shellcheck -> next-08-normative-docs
 - 2026-08-04T18:55:14.075Z APPROVED: next-08-normative-docs
 - 2026-08-04T19:01:55.326Z NEXT_SELECTED: next-08-normative-docs -> next-09-verb-list
 - 2026-08-04T19:02:08.674Z APPROVED: next-09-verb-list
-- 2026-08-04T19:04:07.635Z APPROVED: APPROVED
-- 2026-08-04T19:04:07.732Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
 - 2026-08-04T19:30:20.372Z APPROVED: next-09-verb-list
 - 2026-08-04T19:30:20.524Z NEXT_SELECTED: next-09-verb-list -> next-10-lab-status
 - 2026-08-04T19:30:39.865Z APPROVED: next-10-lab-status
 - 2026-08-04T19:32:10.447Z NEXT_SELECTED: next-10-lab-status -> park-protocol-alpha
 - 2026-08-04T19:32:27.073Z APPROVED: park-protocol-alpha
-- 2026-08-04T19:32:49.548Z APPROVED: APPROVED
-- 2026-08-04T19:32:49.646Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
 - 2026-08-04T19:39:56.641Z APPROVED: park-protocol-alpha
 - 2026-08-04T19:39:56.795Z NEXT_SELECTED: park-protocol-alpha -> commit-peer-waves
 - 2026-08-04T19:40:49.767Z APPROVED: commit-peer-waves
+- 2026-08-05T09:21:53.620Z NEXT_SELECTED: commit-peer-waves -> package-alpha-2
+- 2026-08-05T09:21:59.363Z APPROVED: package-alpha-2
+- 2026-08-05T10:59:36.639Z NEXT_SELECTED: package-alpha-2 -> defer-package-alpha-for-server-ops (utility: playground distro Domain outside protocol packaging; server_ops owns eMachine+Geobook)
+- 2026-08-05T11:23:33.139Z APPROVED: defer-package-alpha-for-server-ops
+- 2026-08-05T11:31:24.007Z APPROVED: --help
+- 2026-08-08T18:31:34.637Z NEXT_SELECTED: defer-package-alpha-for-server-ops -> recommended-git-path (Human 2026-08-08: Option B peer-waves onto master via open PR; no auto-merge; then polish-product-reciept-layer)
+- 2026-08-08T19:02:57.276Z APPROVED: recommended-git-path: PR #4 human-merged / accepted
+- 2026-08-08T19:02:57.427Z NEXT_SELECTED: recommended-git-path -> polish-product-reciept-layer
+- 2026-08-08T19:25:11.768Z REJECTED: merge peer-reviewed: narrative inconsistency with major coding bugs! (returned to SELECT; no automatic rebuild)
+- 2026-08-08T19:29:13.439Z APPROVED: listen-to-peer-review
+- 2026-08-08T19:32:02.229Z REJECTED: listen-to-peer-review (returned to SELECT; no automatic rebuild)
+- 2026-08-08T19:33:35.566Z APPROVED: scaffold-encouraging-changes-with-valid-execution!
+- 2026-08-08T19:34:53.607Z NEXT_SELECTED: polish-product-reciept-layer -> scaffold-encouraging-changes-with-valid-execution (Human accepted before polish-product-reciept-layer; polish PR #4 using GPT56 phone-pack sessions digest + executive redraft)

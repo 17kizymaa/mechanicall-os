@@ -10,8 +10,26 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
-# Snapshot source checkout so tests cannot silently rewrite live authority (GPT-5.6 10_ review).
+# Snapshot source checkout so tests cannot silently rewrite live authority
+# (GPT-5.6 10_ + second PR review: porcelain alone is insufficient).
 SRC_PORCELAIN=""
+src_authority_snap() {
+  # prints hash lines for authority-relevant root files (tracked or not)
+  for f in \
+    "$ROOT/CURRENT.md" \
+    "$ROOT/DECISIONS.md" \
+    "$ROOT/.aether/events.jsonl" \
+    "$ROOT/.aether/preflight-last" \
+    "$ROOT/.aether/preflight.jsonl"
+  do
+    if [ -f "$f" ]; then
+      cksum "$f" 2>/dev/null || true
+    else
+      printf 'MISSING %s\n' "$f"
+    fi
+  done
+}
+SRC_AUTH_SNAP=$(src_authority_snap)
 if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   SRC_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
 fi
@@ -40,21 +58,12 @@ for v in $verbs; do
     printf '%s\n' "$help_out" | grep -qw "$v" \
         || fail "verb '$v' missing from help text"
     case "$v" in
-        # Skip verbs that require args or always mutate even in a sandbox when
-        # we only need dispatch coverage — still ensure not "unknown command"
-        # via a controlled call where safe.
-        approve|reject|next|preflight|probe|artifact|event|seed|rival)
-            set +e
-            out=$("$AETHER" "$v" 2>&1)
-            ec=$?
-            set -e
-            printf '%s\n' "$out" | grep -qi 'unknown command' \
-                && fail "verb '$v' reported unknown command" || true
-            # usage/refuse/error are fine; unknown is not
-            ;;
-        deinit)
-            # never auto-deinit even in sandbox here
-            printf '%s\n' "$help_out" | grep -qw deinit || fail "deinit missing from help"
+        # Never invoke interactive / long-running / mutating verbs bare.
+        # Help-only coverage is enough for dispatch (second PR review).
+        approve|reject|next|preflight|probe|artifact|event|seed|rival|\
+        shell|panel|watch|onboard|garden|try|demo|deinit|app)
+            printf '%s\n' "$help_out" | grep -qw "$v" \
+                || fail "verb '$v' missing from help (safe list)"
             ;;
         *)
             set +e
@@ -728,7 +737,69 @@ set -e
 [ -s .aether/events.jsonl ] || fail "preflight should write events"
 pass "probe/brief non-mutating; preflight still records"
 
-# --- source checkout unchanged by the suite (except expected noise) ---
+# --- artifact --project DIR from other cwd (second PR review bug #1) ---
+mkdir -p "$TMP/art-proj" "$TMP/art-cwd"
+cd "$TMP/art-proj"
+"$AETHER" init . >/dev/null
+printf 'blob\n' > proof.txt
+cd "$TMP/art-cwd"
+"$AETHER" artifact "$TMP/art-proj/proof.txt" --project "$TMP/art-proj" --action proof --status produced \
+  >/dev/null || fail "artifact --project from other cwd"
+ls "$TMP/art-proj/.aether/artifacts/"*.json >/dev/null 2>&1 \
+  || fail "artifact meta not under --project root"
+[ ! -d "$TMP/art-cwd/.aether" ] || fail "artifact leaked into cwd project"
+pass "artifact --project DIR from foreign cwd"
+
+# --- git dirty STALE: further edits while dirty must change fp (second PR review bug #2) ---
+mkdir -p "$TMP/git-stale"
+cd "$TMP/git-stale"
+git init -q
+git config user.email "test@example.com"
+git config user.name "test"
+printf '# t\n' > README.md
+git add README.md
+git commit -q -m init
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** stale git
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Prohibited
+- deploy-production
+CUR
+printf 'x\n' >> README.md
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight dirty1"
+fp1=$(grep '^ts=' .aether/preflight-last | sed 's/.*|fp=//')
+printf 'y\n' >> README.md
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight dirty2"
+fp2=$(grep '^ts=' .aether/preflight-last | sed 's/.*|fp=//')
+[ -n "$fp1" ] && [ -n "$fp2" ] || fail "missing fps"
+[ "$fp1" != "$fp2" ] || fail "authority_fp unchanged after further dirty edit ($fp1)"
+# receipt status should not stay PASS after mutate-without-new-preflight wait:
+# print_preflight_receipt_status compares live fp to last — force re-read via approve trace
+printf 'z\n' >> README.md
+out=$("$AETHER" approve "check-stale" . 2>&1) || true
+printf '%s\n' "$out" | grep -qi 'STALE\|preflight:' || true
+# stronger: call internal path via second preflight would update; check print by comparing
+# live fp vs stored without re-preflight — use probe/approve output
+printf '%s\n' "$out" | grep -qi STALE || fail "expected STALE after dirty edit without new preflight: $out"
+pass "git dirty authority_fp content-sensitive + STALE"
+
+# --- source checkout unchanged by the suite (porcelain + authority hashes) ---
+AFTER_AUTH_SNAP=$(src_authority_snap)
+if [ "$SRC_AUTH_SNAP" != "$AFTER_AUTH_SNAP" ]; then
+  printf 'FAIL: tests mutated root authority files (second PR review)\n' >&2
+  printf 'before:\n%s\n--- after:\n%s\n' "$SRC_AUTH_SNAP" "$AFTER_AUTH_SNAP" >&2
+  exit 1
+fi
+pass "source authority file hashes unchanged"
 if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   AFTER_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
   if [ "$SRC_PORCELAIN" != "$AFTER_PORCELAIN" ]; then

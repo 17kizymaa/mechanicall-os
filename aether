@@ -147,17 +147,26 @@ ensure_aether_dirs() {
     ensure_dir "$(artifacts_dir "$1")"
 }
 
-# Fingerprint for preflight receipt (git HEAD+dirty, else full tree of project files).
+# Fingerprint for preflight receipt (git HEAD+dirty content, else full tree of project files).
+# Dirty trees include a content-sensitive digest so further edits while dirty still STALE.
 authority_fp() {
     root="$(project_root "$1")"
     if git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
         h="$(git -C "$root" rev-parse HEAD 2>/dev/null || printf 'unknown')"
-        if [ -n "$(git -C "$root" status --porcelain 2>/dev/null)" ]; then
-            d=1
+        porc="$(git -C "$root" status --porcelain 2>/dev/null || true)"
+        if [ -z "$porc" ]; then
+            printf 'git:%s:d0' "$h"
         else
-            d=0
+            # Content-sensitive: porcelain paths + worktree + index diffs (not only d0/d1).
+            dhash=$(
+                {
+                    printf '%s\n' "$porc"
+                    git -C "$root" diff HEAD 2>/dev/null || true
+                    git -C "$root" diff --cached 2>/dev/null || true
+                } | cksum | awk '{print $1}'
+            )
+            printf 'git:%s:d1:%s' "$h" "${dhash:-0}"
         fi
-        printf 'git:%s:d%s' "$h" "$d"
     else
         # Broader than distill tree_hash: any non-.aether file change should STALE the receipt.
         fp=$(
@@ -167,6 +176,40 @@ authority_fp() {
         )
         printf 'tree:%s' "${fp:-na}"
     fi
+}
+
+# Shared path peel: reason words + optional trailing project directory.
+# Sets shell vars: _peel_root, _peel_reason
+peel_reason_and_path() {
+    _peel_root="$(pwd -P)"
+    _peel_reason=""
+    if [ $# -eq 0 ]; then
+        return 0
+    fi
+    if [ $# -eq 1 ] && [ -d "$1" ]; then
+        _peel_root="$(project_root "$1")"
+        _peel_reason=""
+        return 0
+    fi
+    if [ $# -gt 1 ]; then
+        last=$(eval "printf '%s' \"\${$#}\"")
+        if [ -d "$last" ]; then
+            _peel_root="$(project_root "$last")"
+            i=1
+            n=$#
+            while [ "$i" -lt "$n" ]; do
+                eval "a=\${$i}"
+                if [ -n "$_peel_reason" ]; then
+                    _peel_reason="$_peel_reason $a"
+                else
+                    _peel_reason="$a"
+                fi
+                i=$((i + 1))
+            done
+            return 0
+        fi
+    fi
+    _peel_reason="$*"
 }
 
 # Append-only + last-receipt (Opus next-06). Never blocks approve.
@@ -632,36 +675,10 @@ cmd_preflight() {
 
 cmd_approve() {
     # aether approve [reason...] [path]
-    # Path: sole arg if it is a directory, or trailing directory arg peeled off reason.
-    root="$(pwd -P)"
-    reason=""
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
-        root="$(project_root "$1")"
-        reason=""
-    elif [ $# -gt 1 ]; then
-        # peel last arg if it is a directory
-        last=$(eval "printf '%s' \"\${$#}\"")
-        if [ -d "$last" ]; then
-            root="$(project_root "$last")"
-            # rebuild reason without last
-            i=1
-            n=$#
-            while [ "$i" -lt "$n" ]; do
-                eval "a=\${$i}"
-                if [ -n "$reason" ]; then
-                    reason="$reason $a"
-                else
-                    reason="$a"
-                fi
-                i=$((i + 1))
-            done
-        else
-            reason="$*"
-        fi
-    else
-        reason="$*"
-    fi
-    reason=${reason:-APPROVED}
+    # Path: sole arg if directory, or trailing directory after multi-word reason.
+    peel_reason_and_path "$@"
+    root="$_peel_root"
+    reason="${_peel_reason:-APPROVED}"
     cf="$(current_file "$root")"
     [ -f "$cf" ] || die "no CURRENT.md — run: aether current init"
 
@@ -679,25 +696,20 @@ cmd_approve() {
     append_event "$root" approve \
         "$(printf '"reason":"%s","by":"human"' "$(json_escape "$reason")")"
     # Durable human-readable trail
-    if [ -f "$root/DECISIONS.md" ] || true; then
-        if [ ! -f "$root/DECISIONS.md" ]; then
-            printf '# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n' \
-                > "$root/DECISIONS.md"
-        fi
-        printf -- '- %s APPROVED: %s\n' "$(now_iso)" "$reason" >> "$root/DECISIONS.md"
+    if [ ! -f "$root/DECISIONS.md" ]; then
+        printf '# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n' \
+            > "$root/DECISIONS.md"
     fi
+    printf -- '- %s APPROVED: %s\n' "$(now_iso)" "$reason" >> "$root/DECISIONS.md"
     printf 'APPROVED: %s\n' "$reason"
     printf '  CURRENT Status/Approval updated. Events: %s\n' "$(events_file "$root")"
 }
 
 cmd_reject() {
-    root="$(pwd -P)"
-    reason="$*"
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
-        root="$(project_root "$1")"
-        reason=""
-    fi
-    reason=${reason:-REJECTED}
+    # aether reject [reason...] [path] — same trailing-dir peel as approve
+    peel_reason_and_path "$@"
+    root="$_peel_root"
+    reason="${_peel_reason:-REJECTED}"
     cf="$(current_file "$root")"
     [ -f "$cf" ] || die "no CURRENT.md — run: aether current init"
 
@@ -981,7 +993,8 @@ cmd_artifact() {
                 ;;
         esac
     done
-    [ -n "$art" ] || die_usage 'artifact path required'    root="$(project_root "$proj")"
+    [ -n "$art" ] || die_usage 'artifact path required'
+    root="$(project_root "$proj")"
     ensure_aether_dirs "$root"
     # resolve art path for display
     case "$art" in
