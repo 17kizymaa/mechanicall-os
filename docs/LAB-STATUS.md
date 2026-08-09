@@ -2,7 +2,7 @@
 
 **Doc status:** **NON-NORMATIVE** catalog (labels for humans/agents).  
 **Does not** replace PRODUCT.md boundary or SPEC-v0.2.  
-**Date:** 2026-08-04 · `next-10-lab-status`  
+**Date:** 2026-08-09 · `polish-product-reciept-layer`  
 **Map:** `docs/DOC-AUTHORITY.md`
 
 ## Purpose
@@ -41,12 +41,14 @@ Vendoring a lab tree as “Mechanicall core” is a claim error.
 | `research/` | **LAB** | Speculative + personal-llm proposals — **not product claims** |
 | `research/speculative/` | **LAB** | Club-cortex / vault / multi-LoRA sketches — research only |
 | `domains/` | **LAB** | Sample Domain folders (house-tv-desk, minimal-cli) — not the product |
-| `seat/` | **LAB** | Tauri/Vite seat shell — incomplete single-app experiment |
+| `seat/` | **LAB** | Tauri/Vite seat shell — incomplete single-app experiment (**not** the product front door) |
+| `docs/SINGLE-APP-DISTRIBUTION.md` | **LAB** narrative | Casual packaging dream — incomplete; do not lead README with this. **Note:** body may still say “CLI is not the product” (older face) — follow-up rewrite; LAB-STATUS + PRODUCT win on conflict |
 | `android/` | **LAB** | Android/boot experiments — not core protocol |
 | `nix/` · `flake.nix` · `shell.nix` | **LAB** / host tooling | Portable Kingston / NixOS seating — distribution lab |
 | `legacy/` | **ARCHIVE** | Old Python package path — not the one-true CLI |
 | `dev/` | **ARCHIVE** / **LAB** | ICM stages, peer packs, client work — Layer-4 receipts |
 | `dev/18_opus5-protocol-completion/` | **ARCHIVE** | Opus peer sprint workspace (receipts) |
+| `dev/19_product-receipt-layer/` | **ARCHIVE** | Product face polish synthesis + PR receipts |
 | `.planning/` | **LOCAL** / tooling | GSD planning noise — not product |
 | `.aether/` | **INSTANCE** | Project sidecars / events (per machine) |
 | `result` · `result-vm` · `*.qcow2` | **LOCAL** | Nix/build/VM outputs — never product |
