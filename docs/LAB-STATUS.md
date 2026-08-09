@@ -42,7 +42,7 @@ Vendoring a lab tree as “Mechanicall core” is a claim error.
 | `research/speculative/` | **LAB** | Club-cortex / vault / multi-LoRA sketches — research only |
 | `domains/` | **LAB** | Sample Domain folders (house-tv-desk, minimal-cli) — not the product |
 | `seat/` | **LAB** | Tauri/Vite seat shell — incomplete single-app experiment (**not** the product front door) |
-| `docs/SINGLE-APP-DISTRIBUTION.md` | **LAB** narrative | Casual packaging dream — incomplete; do not lead README with this |
+| `docs/SINGLE-APP-DISTRIBUTION.md` | **LAB** narrative | Casual packaging dream — incomplete; do not lead README with this. **Note:** body may still say “CLI is not the product” (older face) — follow-up rewrite; LAB-STATUS + PRODUCT win on conflict |
 | `android/` | **LAB** | Android/boot experiments — not core protocol |
 | `nix/` · `flake.nix` · `shell.nix` | **LAB** / host tooling | Portable Kingston / NixOS seating — distribution lab |
 | `legacy/` | **ARCHIVE** | Old Python package path — not the one-true CLI |

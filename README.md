@@ -10,18 +10,18 @@ leaves a receipt you can inspect later — plain files, no hidden database.
 
 | Piece | Role |
 |-------|------|
-| `CURRENT.md` | Live authority (**one** Next) — versions *what is allowed* |
+| `CURRENT.md` | Live authority (**one** Next) — *what is allowed right now* |
 | `aether preflight` | Deterministic refuse / allow |
 | Human `approve` / `reject` | Only actualisation of consequential change |
 | `.aether/events.jsonl` | Append-only conversation-with-authority |
 
 **Pitch:** Real AI-assisted project work without losing control of the plan.  
-**Not only an auditor:** receipts prove the gate; CURRENT + Next + events are the living **project control / versioning** surface across agent sessions.  
+**Not only an auditor:** receipts prove the gate; CURRENT + Next + events are the living **project control surface** (binding state you can resume across agent sessions — not a git/VCS claim).  
 **Not:** multi-tenant SaaS, auto-synced chat-as-plan, or a finished casual single-app product.
 
 Start: [START-HERE.md](./START-HERE.md) · First project: [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) · Boundary: [PRODUCT.md](./PRODUCT.md) · Contract: [SPEC-v0.2.md](./SPEC-v0.2.md)
 
-Repo: `mechanicall-os` · Product name: **Mechanicall** (repo/dir may still say “OS”)
+Repo: `mechanicall-os` · Product name: **Mechanicall OS**
 
 **Honest alpha claim:** inspectable authority contract + deterministic preflight for declared actions. It does **not** sandbox arbitrary shell access. See [docs/ALPHA-LIMITATIONS.md](./docs/ALPHA-LIMITATIONS.md).
 

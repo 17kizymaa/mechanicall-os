@@ -35,8 +35,9 @@
 
 ## What the product is (one line)
 
-**Human–agent control + project versioning:** `CURRENT.md` + `aether preflight` + human yes + receipts.  
-Hosted Session = optional capped **lab**, not the definition of Mechanicall.  
+**Human–agent project control layer:** `CURRENT.md` + `aether preflight` + human yes + receipts.  
+**Protocol literacy still is the product** — not “learn the CLI to manage files,” and not a finished casual single-app.  
+Hosted Session = optional capped **lab**, not the definition of Mechanicall OS.  
 Single-app seat packaging = **incomplete lab** — not the front door.
 
 ## First project (casual / pilot)
