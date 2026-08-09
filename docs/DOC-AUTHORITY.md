@@ -52,6 +52,7 @@ If SPEC-v0.1 conflicts with SPEC-v0.2, **SPEC-v0.2 wins** (v0.1 is historical).
 | `docs/OUTLOOK-RESEARCH-BOUNDARY.md` | **NON-NORMATIVE** | Research bound |
 | `dev/**` | **NON-NORMATIVE** | ICM stages, peer reviews, receipts |
 | `research/**` | **NON-NORMATIVE** | Speculative only |
+| `docs/AGENT-AGNOSTIC-COLD-START.md` | **NON-NORMATIVE** | Any agent/IDE cold-start checklist (no TUI required) |
 | `docs/LAB-STATUS.md` | **NON-NORMATIVE** | Lab vs shipped directory tags (`next-10`) |
 
 Directory lab tags (LAB / SHIPPED / ARCHIVE): **`docs/LAB-STATUS.md`**.

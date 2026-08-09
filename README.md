@@ -19,7 +19,7 @@ leaves a receipt you can inspect later — plain files, no hidden database.
 **Not only an auditor:** receipts prove the gate; CURRENT + Next + events are the living **project control surface** (binding state you can resume across agent sessions — not a git/VCS claim).  
 **Not:** multi-tenant SaaS, auto-synced chat-as-plan, or a finished casual single-app product.
 
-Start: [START-HERE.md](./START-HERE.md) · First project: [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) · Boundary: [PRODUCT.md](./PRODUCT.md) · Contract: [SPEC-v0.2.md](./SPEC-v0.2.md)
+Start: [START-HERE.md](./START-HERE.md) · Agents: [docs/AGENT-AGNOSTIC-COLD-START.md](./docs/AGENT-AGNOSTIC-COLD-START.md) · First project: [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) · Boundary: [PRODUCT.md](./PRODUCT.md) · Contract: [SPEC-v0.2.md](./SPEC-v0.2.md)
 
 Repo: `mechanicall-os` · Product name: **Mechanicall OS**
 
