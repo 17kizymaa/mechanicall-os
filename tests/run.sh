@@ -10,26 +10,64 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
+# Snapshot source checkout so tests cannot silently rewrite live authority (GPT-5.6 10_ review).
+SRC_PORCELAIN=""
+if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  SRC_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
+fi
+
+TMP="${TMPDIR:-/tmp}/aether-test.$$"
+mkdir -p "$TMP"
+trap 'rm -rf "$TMP"' EXIT INT HUP
+
 # --- version + verb list (Opus next-09) ---
+# Dispatch checks run only inside a disposable project — never against $ROOT.
 ver_out=$("$AETHER" --version 2>&1) || fail "aether --version failed"
 printf '%s\n' "$ver_out" | grep -qE '^aether [0-9]' || fail "version format: $ver_out"
 ver2=$("$AETHER" version 2>&1) || fail "aether version failed"
 [ "$ver_out" = "$ver2" ] || fail "version vs --version mismatch"
 verbs=$("$AETHER" verbs 2>&1) || fail "aether verbs failed"
-# every listed verb must not be "unknown command" when invoked alone
-for v in $verbs; do
-    set +e
-    out=$("$AETHER" "$v" 2>&1)
-    ec=$?
-    set -e
-    printf '%s\n' "$out" | grep -qi 'unknown command' \
-        && fail "verb '$v' reported unknown command (not in dispatch?)" || true
-done
-# help lists AETHER_VERBS
 help_out=$("$AETHER" help 2>&1) || fail "help failed"
 printf '%s\n' "$help_out" | grep -q 'AETHER_VERBS' || fail "help missing AETHER_VERBS line"
 printf '%s\n' "$help_out" | grep -q 'preflight' || fail "help missing preflight"
-pass "version + verb list (next-09)"
+# Each verb name must appear in help and must not be "unknown command" when
+# invoked in a temp project. Never run approve/reject/deinit/next against the
+# real checkout (those mutate CURRENT / events).
+mkdir -p "$TMP/dispatch"
+cd "$TMP/dispatch"
+"$AETHER" init . >/dev/null || fail "dispatch sandbox init"
+for v in $verbs; do
+    printf '%s\n' "$help_out" | grep -qw "$v" \
+        || fail "verb '$v' missing from help text"
+    case "$v" in
+        # Skip verbs that require args or always mutate even in a sandbox when
+        # we only need dispatch coverage — still ensure not "unknown command"
+        # via a controlled call where safe.
+        approve|reject|next|preflight|probe|artifact|event|seed|rival)
+            set +e
+            out=$("$AETHER" "$v" 2>&1)
+            ec=$?
+            set -e
+            printf '%s\n' "$out" | grep -qi 'unknown command' \
+                && fail "verb '$v' reported unknown command" || true
+            # usage/refuse/error are fine; unknown is not
+            ;;
+        deinit)
+            # never auto-deinit even in sandbox here
+            printf '%s\n' "$help_out" | grep -qw deinit || fail "deinit missing from help"
+            ;;
+        *)
+            set +e
+            out=$("$AETHER" "$v" 2>&1)
+            ec=$?
+            set -e
+            printf '%s\n' "$out" | grep -qi 'unknown command' \
+                && fail "verb '$v' reported unknown command" || true
+            ;;
+    esac
+done
+cd "$ROOT"
+pass "version + verb list (next-09, sandboxed)"
 
 # --- shellcheck (Opus next-07 / 🟠-4) — fatal when shellcheck is installed ---
 # Install: nix-env -iA nixpkgs.shellcheck  |  apt install shellcheck
@@ -56,10 +94,6 @@ else
   python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
   pass "unit tests (pytest missing; shell agent tests skipped — install pytest)"
 fi
-
-TMP="${TMPDIR:-/tmp}/aether-test.$$"
-mkdir -p "$TMP"
-trap 'rm -rf "$TMP"' EXIT INT HUP
 
 # --- init ---
 mkdir -p "$TMP/proj"
@@ -655,5 +689,54 @@ pass "panel dump + write + non-TTY guard"
 # --- control-layer seats gates (also run in CI job alone) ---
 sh "$ROOT/scripts/ci-control-layer-gates.sh" || fail "ci-control-layer-gates"
 pass "ci-control-layer-gates"
+
+# --- probe/brief are non-mutating (GPT-5.6 10_ review) ---
+mkdir -p "$TMP/probe-dry"
+cd "$TMP/probe-dry"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** probe dry
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Prohibited
+- deploy-production
+CUR
+: > .aether/events.jsonl
+rm -f .aether/preflight-last .aether/preflight.jsonl
+"$AETHER" probe write-tests . >/dev/null || fail "probe allow"
+"$AETHER" probe deploy-production . >/dev/null 2>&1 || true
+# expect refuse exit 3
+set +e
+"$AETHER" probe deploy-production .
+pec=$?
+set -e
+[ "$pec" = "3" ] || fail "probe refuse exit want 3 got $pec"
+[ ! -s .aether/events.jsonl ] || fail "probe wrote events"
+[ ! -f .aether/preflight-last ] || fail "probe wrote preflight-last"
+"$AETHER" brief . >/dev/null || fail "brief"
+[ ! -s .aether/events.jsonl ] || fail "brief wrote events"
+[ ! -f .aether/preflight-last ] || fail "brief wrote preflight-last"
+# real preflight still writes
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight allow"
+[ -s .aether/events.jsonl ] || fail "preflight should write events"
+pass "probe/brief non-mutating; preflight still records"
+
+# --- source checkout unchanged by the suite (except expected noise) ---
+if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  AFTER_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
+  if [ "$SRC_PORCELAIN" != "$AFTER_PORCELAIN" ]; then
+    printf 'FAIL: tests dirtied source checkout (GPT-5.6 10_ safety)\n' >&2
+    printf 'before:\n%s\n--- after:\n%s\n' "$SRC_PORCELAIN" "$AFTER_PORCELAIN" >&2
+    exit 1
+  fi
+  pass "source checkout porcelain unchanged"
+fi
 
 printf '\nAll aether integration tests passed.\n'

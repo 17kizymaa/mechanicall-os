@@ -14,8 +14,8 @@
 3. **Probe** whether preflight would allow it **right now** (read-only).
 
 ```bash
-./aether probe <action-id>          # exit 0 allow, 2 refuse — never mutates CURRENT
-./aether preflight <action-id>      # same gate, writes an event
+./aether probe <action-id>          # exit 0 allow, 3 refuse — never mutates CURRENT / events
+./aether preflight <action-id>      # same gate, writes an event + receipt
 ./aether approve "…"                # human only
 ./aether next <new-id>              # after APPROVED
 ./aether demo                       # full refuse→allow→approve→next in temp root

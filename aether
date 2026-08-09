@@ -520,6 +520,21 @@ EOF
     [ "$hit" = 1 ]
 }
 
+# Record preflight allow/refuse unless AETHER_PREFLIGHT_DRY=1 (probe/brief).
+preflight_record() {
+    # preflight_record <root> <action> <result> <ec> <json_fields>
+    root="$1"
+    action="$2"
+    result="$3"
+    ec="$4"
+    fields="$5"
+    if [ "${AETHER_PREFLIGHT_DRY:-0}" = "1" ]; then
+        return 0
+    fi
+    append_event "$root" preflight "$fields"
+    write_preflight_receipt "$root" "$action" "$result" "$ec"
+}
+
 cmd_preflight() {
     action=""
     path_arg=""
@@ -542,10 +557,9 @@ cmd_preflight() {
     if [ ! -f "$cf" ]; then
         reason="no CURRENT.md — refuse all consequential actions (run: aether current init)"
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")")"
-        write_preflight_receipt "$root" "$action" refused 3
         return 3
     fi
 
@@ -561,11 +575,10 @@ cmd_preflight() {
         reason=$(printf '%s is prohibited while phase is %s. Next allowed action is %s.' \
             "$action" "$phase" "${next:-"(unset)"}")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s","phase":"%s","status":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")" \
                 "$(json_escape "$phase")" "$(json_escape "$status")")"
-        write_preflight_receipt "$root" "$action" refused 3
         return 3
     fi
 
@@ -581,21 +594,19 @@ cmd_preflight() {
         if str_eq_ci "$action" "$next"; then
             printf 'Allowed: %s matches Next (%s). Phase=%s Status=%s\n' \
                 "$action" "$next" "$phase" "$status"
-            append_event "$root" preflight \
+            preflight_record "$root" "$action" allowed 0 \
                 "$(printf '"action":"%s","result":"allowed","phase":"%s","status":"%s"' \
                     "$(json_escape "$action")" "$(json_escape "$phase")" \
                     "$(json_escape "$status")")"
-            write_preflight_receipt "$root" "$action" allowed 0
             return 0
         fi
         reason=$(printf '%s is not the next allowed action (%s). Phase=%s Status=%s.' \
             "$action" "$next" "$phase" "$status")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s","phase":"%s","status":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")" \
                 "$(json_escape "$phase")" "$(json_escape "$status")")"
-        write_preflight_receipt "$root" "$action" refused 3
         return 3
     fi
 
@@ -604,20 +615,18 @@ cmd_preflight() {
         reason=$(printf 'Status is %s and Next is unset — refuse %s (human must set Next in CURRENT.md).' \
             "$status" "$action")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")")"
-        write_preflight_receipt "$root" "$action" refused 3
         return 3
     fi
 
     # Status open and no Next: allow with warning (human should set Next)
     printf 'Allowed: %s (no Next pin; Status=%s). Prefer setting **Next:** in CURRENT.md.\n' \
         "$action" "$status"
-    append_event "$root" preflight \
+    preflight_record "$root" "$action" allowed 0 \
         "$(printf '"action":"%s","result":"allowed","warn":"no_next_pin","status":"%s"' \
             "$(json_escape "$action")" "$(json_escape "$status")")"
-    write_preflight_receipt "$root" "$action" allowed 0
     return 0
 }
 
@@ -831,8 +840,9 @@ cmd_brief() {
     printf 'Phase/Status/Approval: %s / %s / %s\n' \
         "${phase:-(unset)}" "${status:-(unset)}" "${appr:-(unset)}"
     if [ -n "$next" ] && [ "$next" != "unset" ]; then
+        # brief must not write events/receipts (GPT-5.6 10_ review)
         set +e
-        pf_out="$(cmd_preflight "$next" "$root" 2>&1)"
+        pf_out="$(AETHER_PREFLIGHT_DRY=1 cmd_preflight "$next" "$root" 2>&1)"
         pf_ec=$?
         set -e
         if [ "$pf_ec" -eq 0 ]; then
@@ -899,7 +909,8 @@ EOF
 }
 
 # Read-only: would preflight allow this action right now?
-# Exit 0 allow, 3 protocol refuse (matches preflight/next refuse)
+# Exit 0 allow, 3 protocol refuse (matches preflight/next refuse).
+# Never writes events or preflight receipts (AETHER_PREFLIGHT_DRY=1).
 cmd_probe() {
     [ $# -ge 1 ] || die_usage 'usage: aether probe <action-id> [path]'
     action="$1"
@@ -912,7 +923,7 @@ cmd_probe() {
         return 3
     fi
     set +e
-    out="$(cmd_preflight "$action" "$root" 2>&1)"
+    out="$(AETHER_PREFLIGHT_DRY=1 cmd_preflight "$action" "$root" 2>&1)"
     ec=$?
     set -e
     if [ "$ec" -eq 0 ]; then
