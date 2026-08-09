@@ -43,11 +43,14 @@ cd /path/to/project    # the tree that owns CURRENT.md
 
 Optional: `aether current` · `aether current validate` · `aether brief` (paste for external TUIs).
 
+**Which Next is binding?** Preflight/probe pin the header field `**Next:**` (same pin as `aether current`). The body line `**Action id:**` under `## Next allowed action` should match; if header and body disagree, **stop and ask the human** — do not guess. See [FIRST-PROJECT.md](./FIRST-PROJECT.md) (header Next and body Action id must match).
+
 ### 3. Work only under Next
 
-- Do the **Next** action (or propose file edits the **human** accepts).  
+- Do the action-id from header `**Next:**` / `aether current` (or propose file edits the **human** accepts).  
 - Do **not** invent a parallel plan.  
-- Do **not** treat long chat as authority — **CURRENT** wins.
+- Do **not** treat long chat as authority — **CURRENT** wins.  
+- If `**Next:**` and body `**Action id:**` differ → stop; human fixes CURRENT (or re-SELECTs).
 
 ### 4. Before consequential work — preflight
 

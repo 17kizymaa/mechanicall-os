@@ -8,10 +8,11 @@
 
 Before ICM stages, tools, or model taste:
 
+**Any agent cold start (no TUI):** [docs/AGENT-AGNOSTIC-COLD-START.md](./docs/AGENT-AGNOSTIC-COLD-START.md)
+
 1. **Read root `CURRENT.md`** (or the project CURRENT that binds this work).  
 2. **CURRENT outranks** chat, stages, sessions, skills, and model output.  
 
-**Any agent cold start (no TUI):** [docs/AGENT-AGNOSTIC-COLD-START.md](./docs/AGENT-AGNOSTIC-COLD-START.md)
 3. Perform **only** the declared **Next** (one action-id at a time).  
 4. Run **`aether preflight <action>`** before consequential work.  
 5. **Stop on refusal.**  
