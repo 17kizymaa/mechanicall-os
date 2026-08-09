@@ -1,7 +1,8 @@
 # Mechanicall OS — alpha release notes
 
 **STATUS: DRAFT — not published**  
-**Do not tag or announce until human says so.**
+**Do not tag or announce until human says so.**  
+**Superseded for packaging path by:** [RELEASE-NOTES-ALPHA-2.md](./RELEASE-NOTES-ALPHA-2.md) (package-alpha-2).
 
 ## What alpha *is*
 

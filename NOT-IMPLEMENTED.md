@@ -1,5 +1,8 @@
 # NOT IMPLEMENTED — Explicit Denial List
 
+**Doc status:** **NORMATIVE** — explicit denials for **Mechanicall core** claims.  
+**Conflict:** wins over README/marketing when a claim says something is shipped that is listed here.  
+**Map:** `docs/DOC-AUTHORITY.md`  
 **Last updated:** 2026-08-04 (peer-review absorb: scope to **Mechanicall core**)
 
 This file exists so no operator, investor, agent, or README can honestly claim

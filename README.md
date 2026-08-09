@@ -1,5 +1,8 @@
 # Mechanicall OS
 
+**Doc status:** **NON-NORMATIVE** — entry narrative. Defer conflicts to SPEC-v0.2, PRODUCT, NOT-IMPLEMENTED.  
+**Map:** [docs/DOC-AUTHORITY.md](./docs/DOC-AUTHORITY.md)
+
 **Local-first project control layer for human–agent work.**
 
 ### Product shape (casual)
@@ -21,6 +24,10 @@ authority contract and a deterministic preflight gate for project actions. It
 does **not** sandbox arbitrary shell access. See
 [docs/ALPHA-LIMITATIONS.md](./docs/ALPHA-LIMITATIONS.md).
 
+**First project (5 minutes):** [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) ·  
+**Alpha-2 notes (draft):** [docs/RELEASE-NOTES-ALPHA-2.md](./docs/RELEASE-NOTES-ALPHA-2.md) ·  
+**Not yet:** finished casual single-app consumer packaging (see SINGLE-APP-DISTRIBUTION).
+
 ## What it is (v0.2)
 
 Aether answers five questions reliably:
@@ -35,8 +42,8 @@ It builds on filesystem sidecars + a single POSIX shell CLI. Optional tiny
 Python helpers exist for garden/rival LLM workflows. There is **no** required
 database, daemon, or cloud service.
 
-**License:** [Apache License 2.0](./LICENSE).
-
+**License:** [Apache License 2.0](./LICENSE) — copyright 2026 anphuni / Mechanicall OS contributors.  
+Core protocol and in-tree tools may be vendored under Apache-2.0. **anphuni.com Session** is a separate hosted lab (use terms / privacy on the site); it is not a multi-tenant “open SaaS” license. Boundary map: [PRODUCT.md](./PRODUCT.md#license).
 ## What it is not
 
 See **[NOT-IMPLEMENTED.md](./NOT-IMPLEMENTED.md)** (scoped to **Mechanicall core**).

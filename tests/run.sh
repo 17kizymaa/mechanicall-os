@@ -10,6 +10,83 @@ export PATH="$ROOT:$PATH"
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok: %s\n' "$*"; }
 
+# Snapshot source checkout so tests cannot silently rewrite live authority
+# (GPT-5.6 10_ + second PR review: porcelain alone is insufficient).
+SRC_PORCELAIN=""
+src_authority_snap() {
+  # prints hash lines for authority-relevant root files (tracked or not)
+  for f in \
+    "$ROOT/CURRENT.md" \
+    "$ROOT/DECISIONS.md" \
+    "$ROOT/.aether/events.jsonl" \
+    "$ROOT/.aether/preflight-last" \
+    "$ROOT/.aether/preflight.jsonl"
+  do
+    if [ -f "$f" ]; then
+      cksum "$f" 2>/dev/null || true
+    else
+      printf 'MISSING %s\n' "$f"
+    fi
+  done
+}
+SRC_AUTH_SNAP=$(src_authority_snap)
+if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  SRC_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
+fi
+
+TMP="${TMPDIR:-/tmp}/aether-test.$$"
+mkdir -p "$TMP"
+trap 'rm -rf "$TMP"' EXIT INT HUP
+
+# --- version + verb list (Opus next-09) ---
+# Dispatch checks run only inside a disposable project — never against $ROOT.
+ver_out=$("$AETHER" --version 2>&1) || fail "aether --version failed"
+printf '%s\n' "$ver_out" | grep -qE '^aether [0-9]' || fail "version format: $ver_out"
+ver2=$("$AETHER" version 2>&1) || fail "aether version failed"
+[ "$ver_out" = "$ver2" ] || fail "version vs --version mismatch"
+verbs=$("$AETHER" verbs 2>&1) || fail "aether verbs failed"
+help_out=$("$AETHER" help 2>&1) || fail "help failed"
+printf '%s\n' "$help_out" | grep -q 'AETHER_VERBS' || fail "help missing AETHER_VERBS line"
+printf '%s\n' "$help_out" | grep -q 'preflight' || fail "help missing preflight"
+# Each verb name must appear in help and must not be "unknown command" when
+# invoked in a temp project. Never run approve/reject/deinit/next against the
+# real checkout (those mutate CURRENT / events).
+mkdir -p "$TMP/dispatch"
+cd "$TMP/dispatch"
+"$AETHER" init . >/dev/null || fail "dispatch sandbox init"
+for v in $verbs; do
+    printf '%s\n' "$help_out" | grep -qw "$v" \
+        || fail "verb '$v' missing from help text"
+    case "$v" in
+        # Never invoke interactive / long-running / mutating verbs bare.
+        # Help-only coverage is enough for dispatch (second PR review).
+        approve|reject|next|preflight|probe|artifact|event|seed|rival|\
+        shell|panel|watch|onboard|garden|try|demo|deinit|app)
+            printf '%s\n' "$help_out" | grep -qw "$v" \
+                || fail "verb '$v' missing from help (safe list)"
+            ;;
+        *)
+            set +e
+            out=$("$AETHER" "$v" 2>&1)
+            ec=$?
+            set -e
+            printf '%s\n' "$out" | grep -qi 'unknown command' \
+                && fail "verb '$v' reported unknown command" || true
+            ;;
+    esac
+done
+cd "$ROOT"
+pass "version + verb list (next-09, sandboxed)"
+
+# --- shellcheck (Opus next-07 / 🟠-4) — fatal when shellcheck is installed ---
+# Install: nix-env -iA nixpkgs.shellcheck  |  apt install shellcheck
+if command -v shellcheck >/dev/null 2>&1; then
+  shellcheck -s sh -S warning "$AETHER" || fail "shellcheck -s sh aether"
+  pass "shellcheck aether (POSIX sh)"
+else
+  fail "shellcheck not found on PATH (required for next-07 gate). Install shellcheck and re-run."
+fi
+
 # --- control-layer unit tests ---
 if python3 -c "import pytest" 2>/dev/null; then
   python3 -m pytest -q \
@@ -26,10 +103,6 @@ else
   python3 "$ROOT/tests/test_aether_panel.py" || fail "panel unit tests"
   pass "unit tests (pytest missing; shell agent tests skipped — install pytest)"
 fi
-
-TMP="${TMPDIR:-/tmp}/aether-test.$$"
-mkdir -p "$TMP"
-trap 'rm -rf "$TMP"' EXIT INT HUP
 
 # --- init ---
 mkdir -p "$TMP/proj"
@@ -252,6 +325,115 @@ out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "seed must not unlock rough-v
 printf '%s\n' "$out" | grep -qi refuse || fail "seed should not authorize rough-v6"
 pass "v0.2 authority: preflight refuse/allow, reject, approve, events, artifacts"
 
+# --- preflight receipt (next-06 / Opus) ---
+mkdir -p "$TMP/pfr"
+cd "$TMP/pfr"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+# ABSENT before any preflight
+out=$("$AETHER" approve "absent-check" . 2>&1) || fail "approve ABSENT path failed"
+printf '%s\n' "$out" | grep -q 'preflight: ABSENT' || fail "want preflight: ABSENT: $out"
+# reset fields for next approve
+sed -i 's/\*\*Status:\*\*.*/**Status:** ACTIVE/' CURRENT.md 2>/dev/null || true
+# portable reset via aether fields — use current_set through re-write
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+"$AETHER" preflight do-thing . >/dev/null || fail "preflight allow for receipt"
+[ -f .aether/preflight-last ] || fail "preflight-last missing"
+grep -q 'result=allowed' .aether/preflight-last || fail "receipt not allowed"
+out=$("$AETHER" approve "pass-check" . 2>&1) || fail "approve PASS failed"
+printf '%s\n' "$out" | grep -q 'preflight: PASS' || fail "want preflight: PASS: $out"
+# STALE: change tree after preflight
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** receipt test
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** do-thing
+**Approval:** PENDING
+
+## Keep
+- x
+
+## Reject
+- y
+
+## Limits
+- z
+
+## Next allowed action
+do-thing
+
+## Approval condition
+human
+
+## Prohibited
+- automatic-approve
+CUR
+"$AETHER" preflight do-thing . >/dev/null || fail "preflight before stale"
+printf 'stale-touch\n' > extra-file.txt
+out=$("$AETHER" approve "stale-check" . 2>&1) || fail "approve STALE path failed"
+printf '%s\n' "$out" | grep -q 'preflight: STALE' || fail "want preflight: STALE: $out"
+# approve must still succeed (non-blocking)
+printf '%s\n' "$out" | grep -q 'APPROVED' || fail "STALE must not block approve"
+pass "preflight receipt PASS/STALE/ABSENT"
+
 # --- current validate + next (re-SELECT after APPROVED) ---------------
 mkdir -p "$TMP/nextcycle"
 cd "$TMP/nextcycle"
@@ -297,7 +479,7 @@ set +e
 out=$("$AETHER" next demo-two . 2>&1)
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "next before approve exit=$ec want 2"
+[ "$ec" = "3" ] || fail "next before approve exit=$ec want 3"
 printf '%s\n' "$out" | grep -qi 'not approved' || fail "next before approve wrong message"
 grep -q 'demo-one' CURRENT.md || fail "next mutated CURRENT before approve"
 # approve then next
@@ -312,7 +494,7 @@ set +e
 out=$("$AETHER" next demo-two . 2>&1)
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "next unchanged exit=$ec want 2"
+[ "$ec" = "3" ] || fail "next unchanged exit=$ec want 3"
 printf '%s\n' "$out" | grep -qi 'unchanged' || fail "next unchanged wrong message"
 "$AETHER" current validate . >/dev/null || fail "validate after next"
 pass "v0.2 current validate + next re-SELECT"
@@ -364,9 +546,14 @@ set +e
 "$AETHER" probe automatic-approve . >/dev/null 2>&1
 ec=$?
 set -e
-[ "$ec" = "2" ] || fail "probe refuse exit=$ec want 2"
+[ "$ec" = "3" ] || fail "probe refuse exit=$ec want 3"
 "$AETHER" brief . >/dev/null || fail "brief"
 pass "aether probe + brief"
+
+# --- negative paths (Opus NEXT-02 / next-02-negative-tests) ---
+# Dedicated suite: unknown verbs, authority near-misses, missing args, no CURRENT.
+sh "$ROOT/tests/negative.sh" || fail "tests/negative.sh"
+pass "negative path suite (tests/negative.sh)"
 
 # drift: only if git available in temp (may not be a repo)
 cd "$ROOT"
@@ -511,5 +698,116 @@ pass "panel dump + write + non-TTY guard"
 # --- control-layer seats gates (also run in CI job alone) ---
 sh "$ROOT/scripts/ci-control-layer-gates.sh" || fail "ci-control-layer-gates"
 pass "ci-control-layer-gates"
+
+# --- probe/brief are non-mutating (GPT-5.6 10_ review) ---
+mkdir -p "$TMP/probe-dry"
+cd "$TMP/probe-dry"
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** probe dry
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Prohibited
+- deploy-production
+CUR
+: > .aether/events.jsonl
+rm -f .aether/preflight-last .aether/preflight.jsonl
+"$AETHER" probe write-tests . >/dev/null || fail "probe allow"
+"$AETHER" probe deploy-production . >/dev/null 2>&1 || true
+# expect refuse exit 3
+set +e
+"$AETHER" probe deploy-production .
+pec=$?
+set -e
+[ "$pec" = "3" ] || fail "probe refuse exit want 3 got $pec"
+[ ! -s .aether/events.jsonl ] || fail "probe wrote events"
+[ ! -f .aether/preflight-last ] || fail "probe wrote preflight-last"
+"$AETHER" brief . >/dev/null || fail "brief"
+[ ! -s .aether/events.jsonl ] || fail "brief wrote events"
+[ ! -f .aether/preflight-last ] || fail "brief wrote preflight-last"
+# real preflight still writes
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight allow"
+[ -s .aether/events.jsonl ] || fail "preflight should write events"
+pass "probe/brief non-mutating; preflight still records"
+
+# --- artifact --project DIR from other cwd (second PR review bug #1) ---
+mkdir -p "$TMP/art-proj" "$TMP/art-cwd"
+cd "$TMP/art-proj"
+"$AETHER" init . >/dev/null
+printf 'blob\n' > proof.txt
+cd "$TMP/art-cwd"
+"$AETHER" artifact "$TMP/art-proj/proof.txt" --project "$TMP/art-proj" --action proof --status produced \
+  >/dev/null || fail "artifact --project from other cwd"
+ls "$TMP/art-proj/.aether/artifacts/"*.json >/dev/null 2>&1 \
+  || fail "artifact meta not under --project root"
+[ ! -d "$TMP/art-cwd/.aether" ] || fail "artifact leaked into cwd project"
+pass "artifact --project DIR from foreign cwd"
+
+# --- git dirty STALE: further edits while dirty must change fp (second PR review bug #2) ---
+mkdir -p "$TMP/git-stale"
+cd "$TMP/git-stale"
+git init -q
+git config user.email "test@example.com"
+git config user.name "test"
+printf '# t\n' > README.md
+git add README.md
+git commit -q -m init
+"$AETHER" init . >/dev/null
+"$AETHER" current init . >/dev/null
+cat > CURRENT.md <<'CUR'
+# CURRENT
+
+**Objective:** stale git
+**Phase:** EXECUTE
+**Status:** ACTIVE
+**Baseline:** t
+**Next:** write-tests
+**Approval:** PENDING
+
+## Prohibited
+- deploy-production
+CUR
+printf 'x\n' >> README.md
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight dirty1"
+fp1=$(grep '^ts=' .aether/preflight-last | sed 's/.*|fp=//')
+printf 'y\n' >> README.md
+"$AETHER" preflight write-tests . >/dev/null || fail "preflight dirty2"
+fp2=$(grep '^ts=' .aether/preflight-last | sed 's/.*|fp=//')
+[ -n "$fp1" ] && [ -n "$fp2" ] || fail "missing fps"
+[ "$fp1" != "$fp2" ] || fail "authority_fp unchanged after further dirty edit ($fp1)"
+# receipt status should not stay PASS after mutate-without-new-preflight wait:
+# print_preflight_receipt_status compares live fp to last — force re-read via approve trace
+printf 'z\n' >> README.md
+out=$("$AETHER" approve "check-stale" . 2>&1) || true
+printf '%s\n' "$out" | grep -qi 'STALE\|preflight:' || true
+# stronger: call internal path via second preflight would update; check print by comparing
+# live fp vs stored without re-preflight — use probe/approve output
+printf '%s\n' "$out" | grep -qi STALE || fail "expected STALE after dirty edit without new preflight: $out"
+pass "git dirty authority_fp content-sensitive + STALE"
+
+# --- source checkout unchanged by the suite (porcelain + authority hashes) ---
+AFTER_AUTH_SNAP=$(src_authority_snap)
+if [ "$SRC_AUTH_SNAP" != "$AFTER_AUTH_SNAP" ]; then
+  printf 'FAIL: tests mutated root authority files (second PR review)\n' >&2
+  printf 'before:\n%s\n--- after:\n%s\n' "$SRC_AUTH_SNAP" "$AFTER_AUTH_SNAP" >&2
+  exit 1
+fi
+pass "source authority file hashes unchanged"
+if command -v git >/dev/null 2>&1 && git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  AFTER_PORCELAIN=$(git -C "$ROOT" status --porcelain 2>/dev/null || true)
+  if [ "$SRC_PORCELAIN" != "$AFTER_PORCELAIN" ]; then
+    printf 'FAIL: tests dirtied source checkout (GPT-5.6 10_ safety)\n' >&2
+    printf 'before:\n%s\n--- after:\n%s\n' "$SRC_PORCELAIN" "$AFTER_PORCELAIN" >&2
+    exit 1
+  fi
+  pass "source checkout porcelain unchanged"
+fi
 
 printf '\nAll aether integration tests passed.\n'

@@ -1,5 +1,8 @@
 # Initial Architecture Sketch — Mechanicall OS v0
 
+**Doc status:** **NON-NORMATIVE** — architecture sketch. Defer to SPEC-v0.2 / PRODUCT / CORE_PRINCIPLES.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 Three layers. Strictly following the Core Principles.
 
 ## 1. Filesystem Substrate

@@ -1,5 +1,9 @@
 # Mechanicall OS v0.1 — Brutalist Minimal Spec
 
+**Doc status:** **NON-NORMATIVE (historical)** — awareness-sidecar contract.  
+**Do not cite as live protocol law.** Prefer **SPEC-v0.2.md** + live `aether` v0.2.  
+**Map:** `docs/DOC-AUTHORITY.md`
+
 **Goal**: Make the infrastructure disappear. The folders should just feel alive.
 
 ## Non-negotiable Principles (still locked)
@@ -221,12 +225,18 @@ After `aether init`, the generated hooks contain a robust resolver for `$AETHER_
 
 If this feels good and understandable in 5 seconds, we won.
 
-## LOC Budget (v0.1)
+## LOC Budget (v0.1) — **HISTORICAL / SUPERSEDED**
 
-- `aether` (POSIX sh) target: ≤ 220 lines
-- Optional `python/aether_distill.py` (not shipped; shell `dumb_distill` only): ≤ 80 lines if added
-- Supporting scripts + examples: as few as possible
-- **Everything the user must understand to be productive**: fits in one screen of `cat aether`
+> **2026-08-04 decision (`next-05-loc-decision`):** The ≤220-line / “one screen of
+> `cat aether`” success criteria are **retired**. They described the v0.1 sidecar
+> sketch. v0.2 authority verbs (`current` / `preflight` / `approve` / `next` / …)
+> live in the same POSIX file (~1.9k lines). Normative size doctrine is in
+> **SPEC-v0.2.md → “CLI size doctrine”**. Do not cite this section as live law.
+
+- ~~`aether` (POSIX sh) target: ≤ 220 lines~~ — **superseded**
+- ~~fits in one screen of `cat aether`~~ — **superseded**
+- Optional `python/aether_distill.py` (not shipped; shell `dumb_distill` only): still optional ≤ 80 lines *if* added
+- Supporting scripts + examples: as few as possible *(still good taste)*
 
 ## What we are deleting / not carrying forward
 
@@ -239,5 +249,5 @@ If this feels good and understandable in 5 seconds, we won.
 We keep .memory/ as a user-friendly convention but it is not part of the official sidecar contract.
 
 This is the version where the OS starts to vanish.
----edit---
-===edit marker===
+
+<!-- end SPEC-v0.1 — historical awareness-sidecar contract; authority: SPEC-v0.2 -->

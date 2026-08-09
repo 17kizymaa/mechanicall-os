@@ -22,7 +22,30 @@
 
 set -e
 
+# Single version string (Opus next-09) — usage, --version, and tests share this.
+AETHER_VERSION="0.2"
+
+# Single verb list (Opus next-09) — help summary + known-command checks + completion.
+# Keep in sync with main() case arms (except removed desk|desk-serve aliases).
+# shellcheck disable=SC2034 # consumed via $AETHER_VERBS word-split loops
+AETHER_VERBS="init onboard try panel shell app deinit status distill watch repair poke trust current preflight approve reject next demo brief drift probe event artifact seed spark session graph garden rival help version verbs"
+
+# Exit codes (SPEC-v0.2 / Opus NEXT-04):
+#   0  success / allowed
+#   1  internal error (also: aether drift when dirty — report, not crash)
+#   2  usage error (unknown verb, bad args, invalid flags/ids)
+#   3  protocol refusal (preflight/probe refuse; next refuse)
 die() { printf 'aether: %s\n' "$*" >&2; exit 1; }
+die_usage() { printf 'aether: %s\n' "$*" >&2; exit 2; }
+
+aether_is_verb() {
+    # aether_is_verb <name> — 0 if in AETHER_VERBS
+    _v="$1"
+    for _x in $AETHER_VERBS; do
+        [ "$_x" = "$_v" ] && return 0
+    done
+    return 1
+}
 
 abspath() {
     case "$1" in
@@ -115,11 +138,117 @@ hooks_dir()  { printf '%s/.aether/hooks\n' "$(project_root "$1")"; }
 current_file() { printf '%s/CURRENT.md\n' "$(project_root "$1")"; }
 events_file()  { printf '%s/.aether/events.jsonl\n' "$(project_root "$1")"; }
 artifacts_dir() { printf '%s/.aether/artifacts\n' "$(project_root "$1")"; }
+preflight_last_file() { printf '%s/.aether/preflight-last\n' "$(project_root "$1")"; }
+preflight_log_file()  { printf '%s/.aether/preflight.jsonl\n' "$(project_root "$1")"; }
 
 ensure_aether_dirs() {
     ensure_dir "$(aether_dir "$1")"
     ensure_dir "$(hooks_dir "$1")"
     ensure_dir "$(artifacts_dir "$1")"
+}
+
+# Fingerprint for preflight receipt (git HEAD+dirty content, else full tree of project files).
+# Dirty trees include a content-sensitive digest so further edits while dirty still STALE.
+authority_fp() {
+    root="$(project_root "$1")"
+    if git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        h="$(git -C "$root" rev-parse HEAD 2>/dev/null || printf 'unknown')"
+        porc="$(git -C "$root" status --porcelain 2>/dev/null || true)"
+        if [ -z "$porc" ]; then
+            printf 'git:%s:d0' "$h"
+        else
+            # Content-sensitive: porcelain paths + worktree + index diffs (not only d0/d1).
+            dhash=$(
+                {
+                    printf '%s\n' "$porc"
+                    git -C "$root" diff HEAD 2>/dev/null || true
+                    git -C "$root" diff --cached 2>/dev/null || true
+                } | cksum | awk '{print $1}'
+            )
+            printf 'git:%s:d1:%s' "$h" "${dhash:-0}"
+        fi
+    else
+        # Broader than distill tree_hash: any non-.aether file change should STALE the receipt.
+        fp=$(
+            (cd "$root" && find . -type f ! -path './.aether/*' 2>/dev/null | sort | while IFS= read -r f; do
+                cksum "$f" 2>/dev/null || true
+            done | cksum | awk '{print $1}')
+        )
+        printf 'tree:%s' "${fp:-na}"
+    fi
+}
+
+# Shared path peel: reason words + optional trailing project directory.
+# Sets shell vars: _peel_root, _peel_reason
+peel_reason_and_path() {
+    _peel_root="$(pwd -P)"
+    _peel_reason=""
+    if [ $# -eq 0 ]; then
+        return 0
+    fi
+    if [ $# -eq 1 ] && [ -d "$1" ]; then
+        _peel_root="$(project_root "$1")"
+        _peel_reason=""
+        return 0
+    fi
+    if [ $# -gt 1 ]; then
+        last=$(eval "printf '%s' \"\${$#}\"")
+        if [ -d "$last" ]; then
+            _peel_root="$(project_root "$last")"
+            i=1
+            n=$#
+            while [ "$i" -lt "$n" ]; do
+                eval "a=\${$i}"
+                if [ -n "$_peel_reason" ]; then
+                    _peel_reason="$_peel_reason $a"
+                else
+                    _peel_reason="$a"
+                fi
+                i=$((i + 1))
+            done
+            return 0
+        fi
+    fi
+    _peel_reason="$*"
+}
+
+# Append-only + last-receipt (Opus next-06). Never blocks approve.
+write_preflight_receipt() {
+    # write_preflight_receipt <root> <action> <result> <ec>
+    root="$(project_root "$1")"
+    action="$2"
+    result="$3"
+    ec="$4"
+    ensure_aether_dirs "$root"
+    ts="$(now_iso)"
+    fp="$(authority_fp "$root")"
+    line=$(printf 'ts=%s|action=%s|result=%s|ec=%s|fp=%s' \
+        "$ts" "$action" "$result" "$ec" "$fp")
+    printf '%s\n' "$line" > "$(preflight_last_file "$root")"
+    printf '%s\n' "$line" >> "$(preflight_log_file "$root")"
+}
+
+# Human-visible trace on approve: PASS / STALE / ABSENT (non-blocking).
+print_preflight_receipt_status() {
+    root="$(project_root "$1")"
+    rf="$(preflight_last_file "$root")"
+    if [ ! -f "$rf" ]; then
+        printf 'preflight: ABSENT\n'
+        return 0
+    fi
+    line=$(cat "$rf" 2>/dev/null || true)
+    [ -n "$line" ] || { printf 'preflight: ABSENT\n'; return 0; }
+    action=$(printf '%s' "$line" | sed -n 's/.*|action=\([^|]*\).*/\1/p')
+    result=$(printf '%s' "$line" | sed -n 's/.*|result=\([^|]*\).*/\1/p')
+    fp=$(printf '%s' "$line" | sed -n 's/.*|fp=\(.*\)$/\1/p')
+    now="$(authority_fp "$root")"
+    if [ -n "$fp" ] && [ "$fp" = "$now" ]; then
+        printf 'preflight: PASS @ %s (current) action=%s result=%s\n' \
+            "$fp" "${action:--}" "${result:--}"
+    else
+        printf 'preflight: STALE (checked %s, now %s) action=%s result=%s\n' \
+            "${fp:--}" "$now" "${action:--}" "${result:--}"
+    fi
 }
 
 # --- v0.2 authority: CURRENT.md + events + preflight ------------------
@@ -339,7 +468,11 @@ cmd_current_validate() {
         printf '\nVALIDATE: FAIL (%s)\n' "$cf"
         return 1
     fi
-    printf 'VALIDATE: OK%s\n' "$([ "$warn" -ne 0 ] && echo ' (with warnings)' || true)"
+    if [ "$warn" -ne 0 ]; then
+        printf 'VALIDATE: OK (with warnings)\n'
+    else
+        printf 'VALIDATE: OK\n'
+    fi
     printf '  root: %s\n' "$root"
     printf '  Next: %s\n' "$(current_field "$root" Next 2>/dev/null || echo unset)"
     return 0
@@ -430,6 +563,21 @@ EOF
     [ "$hit" = 1 ]
 }
 
+# Record preflight allow/refuse unless AETHER_PREFLIGHT_DRY=1 (probe/brief).
+preflight_record() {
+    # preflight_record <root> <action> <result> <ec> <json_fields>
+    root="$1"
+    action="$2"
+    result="$3"
+    ec="$4"
+    fields="$5"
+    if [ "${AETHER_PREFLIGHT_DRY:-0}" = "1" ]; then
+        return 0
+    fi
+    append_event "$root" preflight "$fields"
+    write_preflight_receipt "$root" "$action" "$result" "$ec"
+}
+
 cmd_preflight() {
     action=""
     path_arg=""
@@ -445,17 +593,17 @@ cmd_preflight() {
                 ;;
         esac
     done
-    [ -n "$action" ] || die 'usage: aether preflight <action> [path]'
+    [ -n "$action" ] || die_usage 'usage: aether preflight <action> [path]'
     root="$(project_root "$path_arg")"
     cf="$(current_file "$root")"
 
     if [ ! -f "$cf" ]; then
         reason="no CURRENT.md — refuse all consequential actions (run: aether current init)"
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")")"
-        return 1
+        return 3
     fi
 
     phase=$(current_field "$root" Phase || true)
@@ -470,11 +618,11 @@ cmd_preflight() {
         reason=$(printf '%s is prohibited while phase is %s. Next allowed action is %s.' \
             "$action" "$phase" "${next:-"(unset)"}")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s","phase":"%s","status":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")" \
                 "$(json_escape "$phase")" "$(json_escape "$status")")"
-        return 1
+        return 3
     fi
 
     # Blocked states: only exact Next may pass
@@ -489,7 +637,7 @@ cmd_preflight() {
         if str_eq_ci "$action" "$next"; then
             printf 'Allowed: %s matches Next (%s). Phase=%s Status=%s\n' \
                 "$action" "$next" "$phase" "$status"
-            append_event "$root" preflight \
+            preflight_record "$root" "$action" allowed 0 \
                 "$(printf '"action":"%s","result":"allowed","phase":"%s","status":"%s"' \
                     "$(json_escape "$action")" "$(json_escape "$phase")" \
                     "$(json_escape "$status")")"
@@ -498,11 +646,11 @@ cmd_preflight() {
         reason=$(printf '%s is not the next allowed action (%s). Phase=%s Status=%s.' \
             "$action" "$next" "$phase" "$status")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s","phase":"%s","status":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")" \
                 "$(json_escape "$phase")" "$(json_escape "$status")")"
-        return 1
+        return 3
     fi
 
     # No Next declared
@@ -510,34 +658,32 @@ cmd_preflight() {
         reason=$(printf 'Status is %s and Next is unset — refuse %s (human must set Next in CURRENT.md).' \
             "$status" "$action")
         printf 'Refused: %s\n' "$reason"
-        append_event "$root" preflight \
+        preflight_record "$root" "$action" refused 3 \
             "$(printf '"action":"%s","result":"refused","reason":"%s"' \
                 "$(json_escape "$action")" "$(json_escape "$reason")")"
-        return 1
+        return 3
     fi
 
     # Status open and no Next: allow with warning (human should set Next)
     printf 'Allowed: %s (no Next pin; Status=%s). Prefer setting **Next:** in CURRENT.md.\n' \
         "$action" "$status"
-    append_event "$root" preflight \
+    preflight_record "$root" "$action" allowed 0 \
         "$(printf '"action":"%s","result":"allowed","warn":"no_next_pin","status":"%s"' \
             "$(json_escape "$action")" "$(json_escape "$status")")"
     return 0
 }
 
 cmd_approve() {
-    # aether approve [reason...] — last path-like arg optional; keep simple: all text is reason
-    # Path: use cwd. Optional: AETHER_PROJECT or trailing path if only one arg is a dir.
-    root="$(pwd -P)"
-    reason="$*"
-    # If single arg is an existing directory, treat as path
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
-        root="$(project_root "$1")"
-        reason=""
-    fi
-    reason=${reason:-APPROVED}
+    # aether approve [reason...] [path]
+    # Path: sole arg if directory, or trailing directory after multi-word reason.
+    peel_reason_and_path "$@"
+    root="$_peel_root"
+    reason="${_peel_reason:-APPROVED}"
     cf="$(current_file "$root")"
     [ -f "$cf" ] || die "no CURRENT.md — run: aether current init"
+
+    # Trace only — never blocks (Grok seat / human is the gate). Opus next-06.
+    print_preflight_receipt_status "$root"
 
     current_set_field "$root" Status APPROVED
     current_set_field "$root" Approval APPROVED
@@ -550,25 +696,20 @@ cmd_approve() {
     append_event "$root" approve \
         "$(printf '"reason":"%s","by":"human"' "$(json_escape "$reason")")"
     # Durable human-readable trail
-    if [ -f "$root/DECISIONS.md" ] || true; then
-        if [ ! -f "$root/DECISIONS.md" ]; then
-            printf '# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n' \
-                > "$root/DECISIONS.md"
-        fi
-        printf -- '- %s APPROVED: %s\n' "$(now_iso)" "$reason" >> "$root/DECISIONS.md"
+    if [ ! -f "$root/DECISIONS.md" ]; then
+        printf '# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n' \
+            > "$root/DECISIONS.md"
     fi
+    printf -- '- %s APPROVED: %s\n' "$(now_iso)" "$reason" >> "$root/DECISIONS.md"
     printf 'APPROVED: %s\n' "$reason"
     printf '  CURRENT Status/Approval updated. Events: %s\n' "$(events_file "$root")"
 }
 
 cmd_reject() {
-    root="$(pwd -P)"
-    reason="$*"
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
-        root="$(project_root "$1")"
-        reason=""
-    fi
-    reason=${reason:-REJECTED}
+    # aether reject [reason...] [path] — same trailing-dir peel as approve
+    peel_reason_and_path "$@"
+    root="$_peel_root"
+    reason="${_peel_reason:-REJECTED}"
     cf="$(current_file "$root")"
     [ -f "$cf" ] || die "no CURRENT.md — run: aether current init"
 
@@ -591,7 +732,7 @@ cmd_reject() {
 
 # Re-SELECT after APPROVED: set a new Next without hand-editing CURRENT.
 # Usage: aether next <action-id> [path] [--reason TEXT]
-# Exit 2 on refuse (not approved / unchanged / missing id).
+# Exit 3 on protocol refuse (not approved / unchanged); exit 2 on usage.
 cmd_next() {
     root="$(pwd -P)"
     action=""
@@ -601,7 +742,7 @@ cmd_next() {
             --reason)
                 shift
                 reason="${1:-}"
-                [ -n "$reason" ] || die 'usage: aether next <action-id> [path] [--reason TEXT]'
+                [ -n "$reason" ] || die_usage 'usage: aether next <action-id> [path] [--reason TEXT]'
                 shift
                 ;;
             --reason=*)
@@ -609,7 +750,7 @@ cmd_next() {
                 shift
                 ;;
             -*)
-                die "unknown flag: $1"
+                die_usage "unknown flag: $1"
                 ;;
             *)
                 if [ -z "$action" ]; then
@@ -617,16 +758,16 @@ cmd_next() {
                 elif [ -d "$1" ]; then
                     root="$(project_root "$1")"
                 else
-                    die "usage: aether next <action-id> [path] [--reason TEXT]"
+                    die_usage "usage: aether next <action-id> [path] [--reason TEXT]"
                 fi
                 shift
                 ;;
         esac
     done
-    [ -n "$action" ] || die 'usage: aether next <action-id> [path] [--reason TEXT]'
+    [ -n "$action" ] || die_usage 'usage: aether next <action-id> [path] [--reason TEXT]'
     # action-id: no spaces
     case "$action" in
-        *[!A-Za-z0-9._-]*) die "invalid action-id: $action (use letters, digits, ._- )" ;;
+        *[!A-Za-z0-9._-]*) die_usage "invalid action-id: $action (use letters, digits, ._- )" ;;
     esac
 
     cf="$(current_file "$root")"
@@ -639,7 +780,7 @@ cmd_next() {
     # Unchanged check first (clearer than "not approved" when already on this Next)
     if [ -n "$old" ] && str_eq_ci "$old" "$action"; then
         printf 'refuse: next unchanged (%s)\n' "$action" >&2
-        return 2
+        return 3
     fi
 
     appr_u=$(printf '%s' "$appr" | tr '[:lower:]' '[:upper:]')
@@ -649,14 +790,14 @@ cmd_next() {
         *)
             printf 'refuse: current action not approved; approve or reject first\n' >&2
             printf '  Approval=%s Status=%s Next=%s\n' "${appr:-(unset)}" "${status:-(unset)}" "${old:-(unset)}" >&2
-            return 2
+            return 3
             ;;
     esac
     # Prefer Status also APPROVED, but Approval APPROVED is the gate
     if ! printf '%s' "$status_u" | grep -q 'APPROVED'; then
         printf 'refuse: current action not approved; approve or reject first\n' >&2
         printf '  Status=%s (want APPROVED) Approval=%s\n' "${status:-(unset)}" "${appr:-(unset)}" >&2
-        return 2
+        return 3
     fi
 
     current_set_field "$root" Next "$action"
@@ -711,8 +852,9 @@ cmd_brief() {
     printf 'Phase/Status/Approval: %s / %s / %s\n' \
         "${phase:-(unset)}" "${status:-(unset)}" "${appr:-(unset)}"
     if [ -n "$next" ] && [ "$next" != "unset" ]; then
+        # brief must not write events/receipts (GPT-5.6 10_ review)
         set +e
-        pf_out="$(cmd_preflight "$next" "$root" 2>&1)"
+        pf_out="$(AETHER_PREFLIGHT_DRY=1 cmd_preflight "$next" "$root" 2>&1)"
         pf_ec=$?
         set -e
         if [ "$pf_ec" -eq 0 ]; then
@@ -779,9 +921,10 @@ EOF
 }
 
 # Read-only: would preflight allow this action right now?
-# Exit 0 allow, 2 refuse (matches next refuse code family for "not now")
+# Exit 0 allow, 3 protocol refuse (matches preflight/next refuse).
+# Never writes events or preflight receipts (AETHER_PREFLIGHT_DRY=1).
 cmd_probe() {
-    [ $# -ge 1 ] || die 'usage: aether probe <action-id> [path]'
+    [ $# -ge 1 ] || die_usage 'usage: aether probe <action-id> [path]'
     action="$1"
     shift
     path_arg=$(get_path_arg "$@")
@@ -789,10 +932,10 @@ cmd_probe() {
     cf="$(current_file "$root")"
     if [ ! -f "$cf" ]; then
         printf 'probe: REFUSE (no CURRENT.md)\n'
-        return 2
+        return 3
     fi
     set +e
-    out="$(cmd_preflight "$action" "$root" 2>&1)"
+    out="$(AETHER_PREFLIGHT_DRY=1 cmd_preflight "$action" "$root" 2>&1)"
     ec=$?
     set -e
     if [ "$ec" -eq 0 ]; then
@@ -802,11 +945,11 @@ cmd_probe() {
     fi
     printf 'probe: REFUSE %s\n' "$action"
     printf '%s\n' "$out" | head -2 | sed 's/^/  /'
-    return 2
+    return 3
 }
 
 cmd_event() {
-    [ $# -gt 0 ] || die 'usage: aether event <message> [path]'
+    [ $# -gt 0 ] || die_usage 'usage: aether event <message> [path]'
     # If last arg is a directory, treat as path
     root="$(pwd -P)"
     msg="$*"
@@ -825,7 +968,7 @@ cmd_event() {
             i=$((i + 1))
         done
     fi
-    [ -n "$msg" ] || die 'empty event message'
+    [ -n "$msg" ] || die_usage 'empty event message'
     append_event "$root" note \
         "$(printf '"message":"%s","by":"human"' "$(json_escape "$msg")")"
     printf 'event logged → %s\n' "$(events_file "$root")"
@@ -833,7 +976,7 @@ cmd_event() {
 
 cmd_artifact() {
     # aether artifact <file> [--action A] [--status S] [--project DIR]
-    [ $# -gt 0 ] || die 'usage: aether artifact <path> [--action A] [--status S] [--project DIR]'
+    [ $# -gt 0 ] || die_usage 'usage: aether artifact <path> [--action A] [--status S] [--project DIR]'
     art=""
     action=""
     status="produced"
@@ -843,14 +986,14 @@ cmd_artifact() {
             --action) action="${2:-}"; shift 2 || shift ;;
             --status) status="${2:-}"; shift 2 || shift ;;
             --project) proj="${2:-}"; shift 2 || shift ;;
-            -*) die "unknown flag: $1" ;;
+            -*) die_usage "unknown flag: $1" ;;
             *)
-                if [ -z "$art" ]; then art="$1"; else die "unexpected arg: $1"; fi
+                if [ -z "$art" ]; then art="$1"; else die_usage "unexpected arg: $1"; fi
                 shift
                 ;;
         esac
     done
-    [ -n "$art" ] || die 'artifact path required'
+    [ -n "$art" ] || die_usage 'artifact path required'
     root="$(project_root "$proj")"
     ensure_aether_dirs "$root"
     # resolve art path for display
@@ -1014,7 +1157,7 @@ dumb_distill() {
             printf '%s\n\n' "$human"
         else
             printf '# Context — %s\n\n' "$(basename "$root")"
-            printf 'Human notes go **above** the generated markers. They survive `aether distill`.\n\n'
+            printf 'Human notes go **above** the generated markers. They survive aether distill.\n\n'
         fi
         build_generated_body "$root" "$cnt" "$hsh" "$ts"
     } > "$tmp" || die "dumb_distill: temp write failed"
@@ -1163,7 +1306,18 @@ cmd_status() {
     read_scope "$root" | sed 's/^/  /'
 
     printf '\nhooks:\n'
-    ls "$(hooks_dir "$root")" 2>/dev/null | sed 's/^/  /' || echo '  (none)'
+    hd="$(hooks_dir "$root")"
+    if [ -d "$hd" ]; then
+        # Portable list (no ls/SC2012; no GNU -printf)
+        listed=$(find "$hd" -mindepth 1 -maxdepth 1 2>/dev/null | sed 's|.*/|  |')
+        if [ -n "$listed" ]; then
+            printf '%s\n' "$listed"
+        else
+            echo '  (none)'
+        fi
+    else
+        echo '  (none)'
+    fi
 
     if [ -f "$root/.aether/app.json" ]; then
         printf '\napp: %s\n' "$root/.aether/app.json"
@@ -1320,7 +1474,7 @@ cmd_seed() {
     fi
     # trim
     text="$(printf '%s' "$text" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
-    [ -n "$text" ] || die 'empty seed'
+    [ -n "$text" ] || die_usage 'empty seed'
     if [ ! -f "$inbox" ]; then
         printf '# Inbox — seeds land here\n\nNever file at entry. distill sorts; you approve.\n\n' > "$inbox"
     fi
@@ -1537,7 +1691,7 @@ cmd_onboard() {
             --yes|-y) yes=1; shift ;;
             --objective) objective="${2:-}"; shift 2 ;;
             --objective=*) objective="${1#--objective=}"; shift ;;
-            -*) die "onboard: unknown flag: $1" ;;
+            -*) die_usage "onboard: unknown flag: $1" ;;
             *) path_arg="$1"; shift; break ;;
         esac
     done
@@ -1645,12 +1799,12 @@ CUR
 
 cmd_app() {
     sub="${1:-}"
-    [ -n "$sub" ] || die "usage: aether app register <name> [path]"
+    [ -n "$sub" ] || die_usage "usage: aether app register <name> [path]"
     shift
     case "$sub" in
         register)
             name="${1:-}"
-            [ -n "$name" ] || die "usage: aether app register <name> [path]"
+            [ -n "$name" ] || die_usage "usage: aether app register <name> [path]"
             shift
             path_arg=$(get_path_arg "$@")
             root="$(project_root "$path_arg")"
@@ -1697,7 +1851,7 @@ JSON
             fi
             ;;
         *)
-            die "usage: aether app register <name> [path]  |  aether app status [path]"
+            die_usage "usage: aether app register <name> [path]  |  aether app status [path]"
             ;;
     esac
 }
@@ -1710,7 +1864,7 @@ cmd_deinit() {
         case "$1" in
             --with-current) with_current=1; shift ;;
             --yes|-y) yes=1; shift ;;
-            -*) die "deinit: unknown flag: $1" ;;
+            -*) die_usage "deinit: unknown flag: $1" ;;
             *) path_arg="$1"; shift; break ;;
         esac
     done
@@ -1754,9 +1908,18 @@ cmd_try() {
     fi
 }
 
+cmd_version() {
+    printf 'aether %s\n' "$AETHER_VERSION"
+}
+
+# Print space-separated verbs from AETHER_VERBS (single source).
+cmd_verbs() {
+    printf '%s\n' "$AETHER_VERBS"
+}
+
 usage() {
+printf 'aether v%s (shell) — Mechanicall OS\n' "$AETHER_VERSION"
 cat <<'U'
-aether v0.2 (shell) — Mechanicall OS
 
   init [path]            bootstrap .aether/ + sidecars
   onboard [path] [--yes] [--objective TEXT]
@@ -1780,6 +1943,7 @@ aether v0.2 (shell) — Mechanicall OS
   poke [path]
 
   Flags: --no-hooks disables project hooks for this invocation.
+  Meta:  help | version | --version | -V | verbs
 
   Authority (SPEC-v0.2 — silence is never permission):
   current [path]         show parsed CURRENT.md authority
@@ -1787,7 +1951,7 @@ aether v0.2 (shell) — Mechanicall OS
   current validate [path]
                          SPEC-v0.2 schema check (protocol product)
   preflight <action> [path]
-                         allow (0) or refuse (1) with reason + event log
+                         allow (0) or refuse (3) with reason + event log
   approve [reason]       human APPROVED event; updates CURRENT
   reject [reason]        human REJECTED → Phase SELECT; no auto-rebuild
   next <action-id> [path] [--reason TEXT]
@@ -1796,7 +1960,9 @@ aether v0.2 (shell) — Mechanicall OS
   brief [path]           short Next/gate/events/drift paste for external TUIs
   drift [path]           git dirty report (exit 1 if drift; never writes CURRENT)
   probe <action-id> [path]
-                         read-only would-preflight allow/refuse (exit 0/2)
+                         read-only would-preflight allow/refuse (exit 0/3)
+
+  Exit codes: 0 ok/allow · 1 error (or drift dirty) · 2 usage · 3 protocol refuse
   event <message> [path] append freeform note to .aether/events.jsonl
   artifact <file> [--action A] [--status S] [--project DIR]
                          register artifact metadata + event
@@ -1816,6 +1982,7 @@ See SPEC-v0.2.md + NOT-IMPLEMENTED.md + docs/ALPHA-LIMITATIONS.md.
 
 All truth is in the filesystem.
 U
+printf '\n  Verb list (AETHER_VERBS): %s\n' "$AETHER_VERBS"
 }
 
 main() {
@@ -1838,6 +2005,8 @@ main() {
 
     cmd=${1:-status}
     [ "$cmd" = "-h" ] || [ "$cmd" = "--help" ] || [ "$cmd" = "help" ] && { usage; exit 0; }
+    [ "$cmd" = "--version" ] || [ "$cmd" = "-V" ] || [ "$cmd" = "version" ] && { cmd_version; exit 0; }
+    [ "$cmd" = "verbs" ] && { cmd_verbs; exit 0; }
     [ "$#" -gt 0 ] && shift
     case "$cmd" in
         init)      cmd_init "$@" ;;
@@ -1873,7 +2042,23 @@ main() {
         graph)     cmd_graph "$@" ;;
         garden)    cmd_garden "$@" ;;
         rival)     cmd_rival "$@" ;;
-        *)         cmd_status "$cmd" ;;
+        *)
+            # Path shortcut only: `aether /some/dir` → status that project.
+            # Unknown verbs must not print status and exit 0 (Opus peer 🔴-1 /
+            # next-01-unknown-cmd): mistyped approve/preflight/next would look
+            # like a successful gate check.
+            if [ -d "$cmd" ]; then
+                cmd_status "$cmd"
+            else
+                # If it is in AETHER_VERBS but not handled above, that is a bug.
+                if aether_is_verb "$cmd"; then
+                    die "internal: verb '$cmd' listed in AETHER_VERBS but not dispatched"
+                fi
+                printf 'aether: unknown command: %s\n' "$cmd" >&2
+                printf 'aether: try: aether help  (or: aether verbs)\n' >&2
+                exit 2
+            fi
+            ;;
     esac
 }
 

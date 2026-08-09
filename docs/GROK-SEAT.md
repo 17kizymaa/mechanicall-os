@@ -1,5 +1,7 @@
 # Grok Build seat + Mechanicall protocol
 
+**Doc status:** **NON-NORMATIVE** — ops contract for Grok Build TUI (observability, not enforcement).  
+**Map:** `docs/DOC-AUTHORITY.md`  
 **Status:** observability contract · not enforcement  
 **Audience:** operator who lives in Grok Build TUI  
 
