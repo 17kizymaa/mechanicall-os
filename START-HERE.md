@@ -16,6 +16,7 @@
 
 ## For contributing / agents
 
+5c. **[docs/AGENT-AGNOSTIC-COLD-START.md](./docs/AGENT-AGNOSTIC-COLD-START.md)** — **any agent/IDE cold start** (no TUI required)  
 6. **[AGENTS.md](./AGENTS.md)** — **CURRENT first**, then ICM  
 7. **[CORE_PRINCIPLES.md](./CORE_PRINCIPLES.md)**  
 8. **[ARCHITECTURE.md](./ARCHITECTURE.md)**  
