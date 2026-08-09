@@ -3,30 +3,31 @@
 **Doc status:** **NON-NORMATIVE** — entry narrative. Defer conflicts to SPEC-v0.2, PRODUCT, NOT-IMPLEMENTED.  
 **Map:** [docs/DOC-AUTHORITY.md](./docs/DOC-AUTHORITY.md)
 
-**Local-first project control layer for human–agent work.**
+**Local-first human–agent layer for durable project authority.**
 
-### Product shape (casual)
+You decide the plan. Agents work under it. Every allow, refuse, and human yes
+leaves a receipt you can inspect later — plain files, no hidden database.
 
-**Custom distribution · one application only** (seat UX — incomplete).  
-Not “learn the CLI to manage files.” See **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)** · **[START-HERE.md](./START-HERE.md)**.
+| Piece | Role |
+|-------|------|
+| `CURRENT.md` | Live authority (**one** Next) — versions *what is allowed* |
+| `aether preflight` | Deterministic refuse / allow |
+| Human `approve` / `reject` | Only actualisation of consequential change |
+| `.aether/events.jsonl` | Append-only conversation-with-authority |
 
-Service/dev sample Domain folder: `sh scripts/try.sh` (not the casual front door).
+**Pitch:** Real AI-assisted project work without losing control of the plan.  
+**Not only an auditor:** receipts prove the gate; CURRENT + Next + events are the living **project control / versioning** surface across agent sessions.  
+**Not:** multi-tenant SaaS, auto-synced chat-as-plan, or a finished casual single-app product.
 
+Start: [START-HERE.md](./START-HERE.md) · First project: [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) · Boundary: [PRODUCT.md](./PRODUCT.md) · Contract: [SPEC-v0.2.md](./SPEC-v0.2.md)
 
-Repo: `mechanicall-os` · Product name: **Mechanicall OS**
+Repo: `mechanicall-os` · Product name: **Mechanicall** (repo/dir may still say “OS”)
 
-Core idea: keep AI-assisted projects aligned with the **latest human decision**,
-and give agents a **deterministic preflight/refusal gate** — using only plain
-files you can `cat`, `grep`, and `git diff`.
+**Honest alpha claim:** inspectable authority contract + deterministic preflight for declared actions. It does **not** sandbox arbitrary shell access. See [docs/ALPHA-LIMITATIONS.md](./docs/ALPHA-LIMITATIONS.md).
 
-**Honest alpha claim:** Mechanicall gives humans and AI agents an inspectable
-authority contract and a deterministic preflight gate for project actions. It
-does **not** sandbox arbitrary shell access. See
-[docs/ALPHA-LIMITATIONS.md](./docs/ALPHA-LIMITATIONS.md).
-
-**First project (5 minutes):** [docs/FIRST-PROJECT.md](./docs/FIRST-PROJECT.md) ·  
-**Alpha-2 notes (draft):** [docs/RELEASE-NOTES-ALPHA-2.md](./docs/RELEASE-NOTES-ALPHA-2.md) ·  
-**Not yet:** finished casual single-app consumer packaging (see SINGLE-APP-DISTRIBUTION).
+**Optional interfaces** (not the product identity): `aether panel` / shell on the same CURRENT.  
+**Lab / incomplete:** single-app seat packaging — [docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md) · [docs/LAB-STATUS.md](./docs/LAB-STATUS.md).  
+Service/dev sample: `sh scripts/try.sh`.
 
 ## What it is (v0.2)
 
@@ -44,6 +45,7 @@ database, daemon, or cloud service.
 
 **License:** [Apache License 2.0](./LICENSE) — copyright 2026 anphuni / Mechanicall OS contributors.  
 Core protocol and in-tree tools may be vendored under Apache-2.0. **anphuni.com Session** is a separate hosted lab (use terms / privacy on the site); it is not a multi-tenant “open SaaS” license. Boundary map: [PRODUCT.md](./PRODUCT.md#license).
+
 ## What it is not
 
 See **[NOT-IMPLEMENTED.md](./NOT-IMPLEMENTED.md)** (scoped to **Mechanicall core**).

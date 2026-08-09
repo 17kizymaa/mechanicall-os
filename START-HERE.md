@@ -20,11 +20,11 @@
 7. **[CORE_PRINCIPLES.md](./CORE_PRINCIPLES.md)**  
 8. **[ARCHITECTURE.md](./ARCHITECTURE.md)**  
 
-## For interfaces
+## For interfaces (optional) and lab packaging
 
-9. **[docs/PANEL-GROK-SPLIT.md](./docs/PANEL-GROK-SPLIT.md)**  
-10. **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)**  
-11. **[docs/PROTOCOL-TEST-SURFACE.md](./docs/PROTOCOL-TEST-SURFACE.md)** — this sprint’s lab design  
+9. **[docs/PANEL-GROK-SPLIT.md](./docs/PANEL-GROK-SPLIT.md)** — cooperative panel (not a second authority store)  
+10. **[docs/PROTOCOL-TEST-SURFACE.md](./docs/PROTOCOL-TEST-SURFACE.md)** — protocol lab design  
+11. **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)** — **LAB / incomplete** casual packaging (not core)  
 
 ## Personal models / research bounds
 
@@ -35,8 +35,9 @@
 
 ## What the product is (one line)
 
-**Local authority protocol:** `CURRENT.md` + `aether preflight` + human yes.  
-Hosted Session = optional capped **lab**, not the definition of Mechanicall.
+**Human–agent control + project versioning:** `CURRENT.md` + `aether preflight` + human yes + receipts.  
+Hosted Session = optional capped **lab**, not the definition of Mechanicall.  
+Single-app seat packaging = **incomplete lab** — not the front door.
 
 ## First project (casual / pilot)
 
@@ -50,12 +51,12 @@ aether current
 aether current validate
 aether preflight <action>
 # human: aether approve "…"
+cat .aether/events.jsonl   # receipts
 ```
 
-## Casual packaging (incomplete)
+## Lab packaging (incomplete — not the product identity)
 
-Single-app distro / seat UX: **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)**.  
-Not “learn the CLI to manage files” as the casual dream — but **protocol literacy** still is the product.
+Single-app distro / seat UX: **[docs/SINGLE-APP-DISTRIBUTION.md](./docs/SINGLE-APP-DISTRIBUTION.md)** · status: **[docs/LAB-STATUS.md](./docs/LAB-STATUS.md)**.
 
 ```bash
 sh scripts/try.sh   # service/dev sample Domain — not the casual front door

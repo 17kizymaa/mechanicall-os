@@ -8,7 +8,9 @@
 
 **You decide. AI does the point-and-clicking — under a plan you can read and a yes only you can give.**
 
-Mechanicall is a **local-first authority protocol** for human–agent work: one written plan (`CURRENT.md`), cooperative preflight/refusal, and human-only approval. Not an AI hosting platform. Not “another chatbot.” Not multi-tenant SaaS.
+Mechanicall is a **local-first human–agent control and project-versioning layer**: one written plan (`CURRENT.md`), cooperative preflight/refusal, human-only approval, and append-only receipts. Not an auditor-only log. Not an AI hosting platform. Not “another chatbot.” Not multi-tenant SaaS.
+
+**Durable project conversations** mean: chat is ephemeral unless it lands as CURRENT updates + events + artifacts. The trail you can `cat` later *is* the product surface.
 
 ---
 
@@ -43,9 +45,9 @@ Filesystem is truth: `cat`, `grep`, `git diff` the plan and the event log.
 
 | Piece | Role |
 |--------|------|
-| `CURRENT.md` | Plan / law for this folder (schema: SPEC-v0.2) |
+| `CURRENT.md` | Plan / law for this folder (schema: SPEC-v0.2) — **versions** the live Next |
 | `aether preflight` / `approve` / `reject` | Deterministic gate + human record |
-| `.aether/events.jsonl` | Append-only evidence |
+| `.aether/events.jsonl` | Append-only evidence (receipts of authority) |
 | Panel / shell / Session | **Interfaces** — cooperative; they do not replace CURRENT |
 
 ---
