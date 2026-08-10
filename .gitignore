@@ -41,3 +41,14 @@ python/*.bak*
 
 # Grok session brief cache (regenerable via aether brief)
 .aether/last-grok-brief.txt
+
+# Local instance / session noise (not product)
+.aether/preflight-last
+.aether/preflight.jsonl
+.aether/chat.jsonl
+.aether/shell.jsonl
+.aether/panel.html
+.aether/last-reply.md
+.aether/COMMANDS.md
+.aether/PANEL.md
+.planning/
