@@ -28,6 +28,19 @@
 3. Do not bake preauth keys. Do not clone EdubaWare. Do not write CURRENT from inbox Accept.
 4. Further git only if more execute artifacts appear; live CURRENT still human-owned.
 
+## Go-git (this wrap)
+
+Grouped on `master` (live CURRENT **not** committed):
+
+1. `f8bbe7e` feat(pocket): sit engine
+2. `fbff54e` feat(scripts): STORM factory
+3. `d6c68b1` feat(android): sit face
+4. `5600792` docs(sit): SHARING / grill / skills
+5. `6ab94fa` docs(dev): 37–39 receipts
+6. `4a6e334` chore(lab): archive 23–36
+
+Left dirty on purpose: `CURRENT.md`, `.aether/events.jsonl`, `.context.md`, `DECISIONS.md`.
+
 ## Honest
 
 Opening the emulator is not Decide. Empty storm-0 out dir is honest until the APK is on that serial.
