@@ -20,6 +20,10 @@ venv/
 # Local inbox/sparks if stored in-tree by mistake
 /inbox.md
 
+# Depreciated sitter folder send/receive (E7). Not law. Not CURRENT.
+/.inbox/sitters/
+/.inbox/outbox/
+
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
 
