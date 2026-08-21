@@ -1,0 +1,17 @@
+#!/bin/sh
+# POSIX Gradle wrapper (demo APK). Requires gradle-wrapper.jar next to properties.
+APP_HOME=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+CLASSPATH="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+if [ ! -f "$CLASSPATH" ]; then
+  echo "missing $CLASSPATH" >&2
+  exit 1
+fi
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+  JAVACMD="$JAVA_HOME/bin/java"
+else
+  JAVACMD=java
+fi
+exec "$JAVACMD" -Xmx64m -Xms64m \
+  -Dorg.gradle.appname=gradlew \
+  -classpath "$CLASSPATH" \
+  org.gradle.wrapper.GradleWrapperMain "$@"
