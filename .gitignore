@@ -23,6 +23,14 @@ venv/
 # Depreciated sitter folder send/receive (E7). Not law. Not CURRENT.
 /.inbox/sitters/
 /.inbox/outbox/
+/.inbox/drop/
+
+# Operator JOIN provision (Headscale preauth). Never git. Never CURRENT.
+**/.aether/join-provision
+**/.aether/join-provision.*
+
+# ICM / STORM receipt APKs (S13). Source stays; binaries do not.
+*.apk
 
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
