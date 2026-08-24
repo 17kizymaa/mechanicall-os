@@ -94,22 +94,21 @@ def score_source(uidump: str = "") -> list[dict]:
         )
     )
 
-    b2 = "OBJECTIVE" in plan.upper() or "name.uppercase()" in plan
+    b2 = ("CURRENT.md" in plan or "planText" in plan) and "Changes" in plan and "Proposal" in plan
     if uidump:
-        b2 = b2 and ("OBJECTIVE" in uidump or "The plan." in uidump)
-    out.append(_row("B2-plan-readable", b2, "PlanModule CAPITALISED fields; uidump if given"))
+        b2 = b2 and ("CURRENT" in uidump or "Changes" in uidump)
+    out.append(_row("B2-plan-readable", b2, "PLAN shows CURRENT.md plus Changes plus a Proposal segment"))
 
-    plan_has_field_editor = "OutlinedTextField" in plan or "BasicTextField" in plan
-    write_from_plan = "writeSchemaDraft" in plan or "write_schema_draft" in plan
-    write_exists = "fun writeSchemaDraft" in face
-    b3 = plan_has_field_editor and write_from_plan
+    draft_editor = "OutlinedTextField" in chat
+    draft_writes = "acceptHunk" in chat or "writeSchemaDraft" in chat
+    plan_editor = "OutlinedTextField" in plan and "applyHunk" in plan
+    b3 = (draft_editor and draft_writes) or plan_editor
     out.append(
         _row(
             "B3-plan-manual-edit",
             b3,
-            "FAIL unless PLAN has a field editor that calls writeSchemaDraft. "
-            f"PlanModule editor={plan_has_field_editor} call={write_from_plan} "
-            f"bridge_has_write={write_exists}",
+            "Proposal edits write PROPOSE (Plan and/or Draft). "
+            f"draft_editor={draft_editor} draft_writes={draft_writes} plan_editor={plan_editor}",
         )
     )
 
@@ -135,13 +134,23 @@ def score_source(uidump: str = "") -> list[dict]:
     b6 = "armFade" in decide or "AGAIN" in decide
     b6 = b6 and "why.isNotBlank()" in decide
     b6 = b6 and "FaceBridge.yes" in decide
-    out.append(_row("B6-decide-only-yes", b6, "two-tap + Why-required Confirm in DecideModule"))
+    b6 = b6 and "HunkPickRow" not in decide
+    b6 = b6 and "Hunks for this change" not in decide
+    out.append(
+        _row(
+            "B6-decide-only-yes",
+            b6,
+            "two-tap + Why-required Confirm; Decide is Publish not hunk pick",
+        )
+    )
 
     b7 = "GateStrip" in theme and "GATE" in theme
     b7 = b7 and "LOAD" in theme and "STREAM" in theme
     b7 = b7 and "if (busy) \"GATE\"" not in chat
     typing_dots = 'if (busy) "…"' in chat or "if (busy) \"...\"" in chat
     b7 = b7 and not typing_dots
+    idle_dark = "else SeatPalette.LcdBg" in theme.replace("\n", " ")
+    b7 = b7 and idle_dark
     if uidump:
         b7 = b7 and "GATE" in uidump
     out.append(

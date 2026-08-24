@@ -33,21 +33,27 @@ from aether_pocket import (  # noqa: E402
     tsnet_up,
     write_gate,
     face_state,
+    is_first_sit,
     is_operator_tree,
     join_accept,
     join_status,
     list_hunks,
     not_yet,
+    parse_field_alts,
+    pick_hunk_alt,
     parse_fields,
     project_shortcuts,
     projection,
     read_propose,
     read_schema_draft,
+    record_hunk_alts,
     refuse_if_operator,
     reject_hunk,
+    set_hunk_included,
     schema_fields,
     wake_desk,
     write_propose,
+    write_first_sit_template,
     write_schema_draft,
     yes,
     read_receipt,
@@ -479,7 +485,7 @@ class TestSchemaDraftChat(unittest.TestCase):
                 return _tags_ok()
             payload = __import__("json").dumps(
                 {
-                    "say": "Next is name-plants. Not Yes.",
+                    "say": "Next is name-plants.",
                     "stage": "show-plan",
                     "fields": {},
                 }
@@ -494,11 +500,13 @@ class TestSchemaDraftChat(unittest.TestCase):
         self.assertNotIn(b"Existing PROPOSE-CURRENT.md", blob)
         self.assertIn(b"Plan (fields only", blob)
         self.assertIn(b"name-plants", blob)
-        self.assertEqual(out["reply"], "Next is name-plants. Not Yes.")
+        self.assertEqual(out["reply"], "Next is name-plants.")
         self.assertNotIn(b"rain barrel", blob)
         self.assertIn(b"Folder files (names only", blob)
         self.assertIn(b"CURRENT.md", blob)
-        self.assertIn(b"Plugin pages", blob)
+        self.assertIn(b"SAY:", blob)
+        self.assertIn(b"CHANGE:", blob)
+        self.assertNotIn(b"user:", blob)
 
     def test_walk_stage_and_clear_chat(self) -> None:
         self.assertEqual(walk_stage(self.pocket), "chat")
@@ -588,6 +596,29 @@ class TestHunkJoinWake(unittest.TestCase):
         self.assertEqual((self.pocket / "CURRENT.md").read_text(encoding="utf-8"), before)
         self.assertIn("rain barrel", read_propose(self.pocket))
 
+    def test_join_empty_uses_env_provision(self) -> None:
+        from unittest.mock import patch
+
+        os.environ["MECHANICALL_JOIN_KEY"] = "hskey-auth-ENVONLY-ABCDEF1234567890"
+        os.environ.pop("MECHANICALL_LOGIN_SERVER", None)
+        try:
+            with patch("aether_pocket._desk_alive", return_value=False):
+                st = join_accept(self.pocket, "")
+            self.assertEqual(st["status"], "invited")
+            blob = (self.pocket / ".aether" / "tailnet.json").read_text(encoding="utf-8")
+            self.assertNotIn("ENVONLY", blob)
+            self.assertNotIn("hskey-auth", blob)
+        finally:
+            os.environ.pop("MECHANICALL_JOIN_KEY", None)
+
+    def test_join_empty_without_provision_is_not_on_net(self) -> None:
+        os.environ.pop("MECHANICALL_JOIN_KEY", None)
+        os.environ.pop("MECHANICALL_TSNET_UP", None)
+        os.environ.pop("MECHANICALL_TSNET_MARKER", None)
+        st = join_accept(self.pocket, "")
+        self.assertEqual(st["status"], "not-on-net")
+        self.assertIn("provision", st["note"].lower())
+
     def test_join_accept_does_not_store_secret(self) -> None:
         from unittest.mock import patch
 
@@ -608,6 +639,27 @@ class TestHunkJoinWake(unittest.TestCase):
     def test_wake_refuses_public_url(self) -> None:
         with self.assertRaises(PocketError):
             wake_desk(self.pocket, "http://0.0.0.0:7077/wake")
+
+    def test_parse_say_change_not_json(self) -> None:
+        from aether_pocket import _parse_chat_model
+
+        say, fields, stage, change = _parse_chat_model(
+            "SAY: one sentence\nCHANGE:\n**Objective:** sit with a client\n"
+        )
+        self.assertEqual(say, "one sentence")
+        self.assertEqual(fields.get("Objective"), "sit with a client")
+        self.assertEqual(stage, "propose")
+        self.assertIn("Objective", change)
+
+    def test_parse_user_echo_is_not_a_proposal(self) -> None:
+        from aether_pocket import _parse_chat_model
+
+        say, fields, stage, change = _parse_chat_model(
+            "user: Go outside\nuser: Create a folder"
+        )
+        self.assertIn("did not propose", say.lower())
+        self.assertEqual(change, "")
+        self.assertEqual(fields, {})
 
     def test_draft_chat_focus_writes_hunk_not_current(self) -> None:
         from unittest.mock import patch
@@ -682,6 +734,130 @@ class TestHunkJoinWake(unittest.TestCase):
         self.assertIn("Queued", out["reply"])
         before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
         self.assertIn("name-plants", before)
+
+    def test_parse_three_alts_same_field(self) -> None:
+        alts = parse_field_alts(
+            "SAY: three\nCHANGE:\n**Next:** sit-ux-draft\n**Next:** sit-inbox\n**Next:** leftover\n"
+        )
+        self.assertEqual(alts["Next"], ["sit-ux-draft", "sit-inbox", "leftover"])
+
+    def test_yes_applies_only_included_hunks(self) -> None:
+        apply_hunk(self.pocket, "Next", "**Next:** sit-ux-draft\n")
+        apply_hunk(self.pocket, "Objective", "**Objective:** a new sit\n")
+        record_hunk_alts(
+            self.pocket,
+            request="change next for the sit",
+            focus="Next",
+            alts={"Next": ["sit-ux-draft", "sit-inbox"], "Objective": ["a new sit"]},
+        )
+        set_hunk_included(self.pocket, ["Next"])
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        live = parse_fields(before)
+        r = yes(self.pocket, reason="client picked one hunk")
+        self.assertTrue(r.ok, r.text)
+        fields = parse_fields((self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+        self.assertEqual(fields["Next"], "sit-ux-draft")
+        self.assertEqual(fields["Objective"], live["Objective"])
+
+    def test_pick_alt_writes_propose_not_current(self) -> None:
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        record_hunk_alts(
+            self.pocket,
+            request="rename next",
+            focus="Next",
+            alts={"Next": ["alpha", "beta"]},
+        )
+        rows = [r for r in list_hunks(self.pocket) if r["id"] == "Next"]
+        self.assertTrue(rows)
+        alts = rows[0]["alts"]
+        self.assertGreaterEqual(len(alts), 2)
+        pick_hunk_alt(self.pocket, "Next", alts[1]["id"])
+        self.assertEqual((self.pocket / "CURRENT.md").read_text(encoding="utf-8"), before)
+        self.assertIn("beta", read_propose(self.pocket))
+
+    def test_focused_prompt_asks_three_wordings(self) -> None:
+        from unittest.mock import patch
+
+        captured: list[bytes] = []
+
+        def fake_urlopen(req, timeout=0):  # noqa: ARG001
+            captured.append(req.data or b"")
+            url = getattr(req, "full_url", "") or ""
+            if "/api/tags" in url:
+                return _tags_ok()
+            return _stream_ok("**Next:** one\n**Next:** two\n**Next:** three\n")
+
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        with patch("aether_pocket.urllib.request.urlopen", side_effect=fake_urlopen):
+            out = draft_chat(
+                self.pocket,
+                "http://127.0.0.1:11434",
+                "change next for the client sit",
+                focus="Next",
+            )
+        self.assertTrue(out["ok"], out["reply"])
+        blob = b"".join(captured)
+        self.assertIn(b"THREE alternative", blob)
+        self.assertEqual((self.pocket / "CURRENT.md").read_text(encoding="utf-8"), before)
+        self.assertIn("one", read_propose(self.pocket))
+        next_row = next(r for r in list_hunks(self.pocket) if r["id"] == "Next")
+        sources = {a["source"] for a in next_row["alts"]}
+        self.assertIn("desk", sources)
+        self.assertGreaterEqual(len(next_row["alts"]), 2)
+
+    def test_first_sit_static_template_does_not_write_current(self) -> None:
+        from unittest.mock import patch
+
+        (self.pocket / "CURRENT.md").unlink()
+        self.assertTrue(is_first_sit(self.pocket))
+        with patch("aether_pocket._desk_alive", return_value=False):
+            out = draft_chat(
+                self.pocket,
+                "http://127.0.0.1:11434",
+                "run a shop sit with a client",
+            )
+        self.assertTrue(out["ok"], out["reply"])
+        self.assertEqual(out["stage"], "template")
+        self.assertFalse((self.pocket / "CURRENT.md").exists())
+        prop = read_propose(self.pocket)
+        self.assertIn("shop", prop.lower())
+        self.assertIn("**Next:**", prop)
+        self.assertIn("PENDING", prop)
+
+    def test_first_sit_prompt_asks_full_template(self) -> None:
+        from unittest.mock import patch
+
+        (self.pocket / "CURRENT.md").unlink()
+        captured: list[bytes] = []
+
+        def fake_urlopen(req, timeout=0):  # noqa: ARG001
+            captured.append(req.data or b"")
+            url = getattr(req, "full_url", "") or ""
+            if "/api/tags" in url:
+                return _tags_ok()
+            return _stream_ok(
+                "SAY: template\nCHANGE:\n**Objective:** sit a shop\n**Next:** name-the-sit\n"
+            )
+
+        with patch("aether_pocket.urllib.request.urlopen", side_effect=fake_urlopen):
+            out = draft_chat(
+                self.pocket,
+                "http://127.0.0.1:11434",
+                "I need a plan for the shop",
+            )
+        self.assertTrue(out["ok"], out["reply"])
+        blob = b"".join(captured)
+        self.assertIn(b"complete CURRENT template", blob)
+        self.assertFalse((self.pocket / "CURRENT.md").exists())
+        self.assertIn("shop", read_propose(self.pocket).lower())
+
+    def test_write_first_sit_template_is_not_yes(self) -> None:
+        (self.pocket / "CURRENT.md").unlink()
+        before = ""
+        write_first_sit_template(self.pocket, "plant a herb bed")
+        self.assertFalse((self.pocket / "CURRENT.md").exists())
+        self.assertIn("herb", read_propose(self.pocket).lower())
+        self.assertEqual(before, "")
 
 
 if __name__ == "__main__":

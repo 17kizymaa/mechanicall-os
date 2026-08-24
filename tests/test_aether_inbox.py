@@ -18,6 +18,9 @@ from aether_inbox import (  # noqa: E402
     decline_offer,
     offer_outbound,
     offer_status,
+    poll_incoming,
+    project_preview,
+    send_project,
     stage_upload,
     upload_sitter,
 )
@@ -98,6 +101,48 @@ class TestInbox(unittest.TestCase):
         self.assertTrue(r["not_yes"])
         self.assertTrue((self.pocket / ".aether" / "upload-stage" / "NOTICE.json").is_file())
         self.assertEqual((self.pocket / "CURRENT.md").read_text(encoding="utf-8"), before)
+
+    def test_preview_is_not_yes(self) -> None:
+        p = project_preview(self.pocket)
+        self.assertTrue(p["not_yes"])
+        self.assertGreaterEqual(p["files"], 1)
+        self.assertTrue((self.pocket / "CURRENT.md").is_file())
+
+    def test_lab_drop_send_and_receive_skips_current(self) -> None:
+        import threading
+        from aether_drop import DropHandler, ThreadingHTTPServer
+
+        os.environ["MECHANICALL_INBOX_ROOT"] = str(self.home / "inbox")
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), DropHandler)
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        os.environ["MECHANICALL_DROP"] = f"http://127.0.0.1:{port}"
+        sender = self.home / "alice"
+        sender.mkdir()
+        (sender / "CURRENT.md").write_text("# CURRENT\n**Next:** alice-live\n", encoding="utf-8")
+        (sender / "brief.md").write_text("alice notes\n", encoding="utf-8")
+        receiver = self.home / "bob"
+        receiver.mkdir()
+        (receiver / "CURRENT.md").write_text("# CURRENT\n**Next:** bob-live\n", encoding="utf-8")
+        try:
+            sent = send_project(sender, from_id="alice")
+            self.assertTrue(sent["not_yes"])
+            self.assertTrue(sent.get("drop"))
+            got = poll_incoming(receiver, for_id="bob")
+            self.assertTrue(got["notify"], got)
+            before = (receiver / "CURRENT.md").read_text(encoding="utf-8")
+            acc = accept_pocket_offer(receiver)
+            self.assertTrue(acc["current_untouched"])
+            self.assertEqual((receiver / "CURRENT.md").read_text(encoding="utf-8"), before)
+            self.assertIn("alice notes", (receiver / "brief.md").read_text(encoding="utf-8"))
+            again = poll_incoming(receiver, for_id="bob")
+            self.assertEqual(again.get("status"), "accepted")
+            self.assertFalse(again.get("notify"))
+            self.assertEqual((receiver / "CURRENT.md").read_text(encoding="utf-8"), before)
+        finally:
+            httpd.shutdown()
+            os.environ.pop("MECHANICALL_DROP", None)
 
 
 if __name__ == "__main__":
