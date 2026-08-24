@@ -1,8 +1,6 @@
 package com.mechanicall.pocket.demo.modules
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +28,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,17 +51,26 @@ fun DecideModule(
     var busy by remember { mutableStateOf(false) }
     var note by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
-    val armFade = remember { Animatable(0f) }
+    val armFill = remember { Animatable(0f) }
 
     LaunchedEffect(armed, dialog) {
         if (armed == null || dialog != null) {
-            if (armed == null) armFade.snapTo(0f)
+            if (armed == null) armFill.snapTo(0f)
             return@LaunchedEffect
         }
-        armFade.snapTo(1f)
-        armFade.animateTo(0f, animationSpec = tween(2000, easing = LinearEasing))
+        // Fast arm. Stay up so a second tap is anticipated. No gold-on-gold.
+        armFill.snapTo(0f)
+        repeat(5) { i ->
+            armFill.snapTo((i + 1) / 5f)
+            kotlinx.coroutines.delay(18)
+        }
+        kotlinx.coroutines.delay(2800)
         if (dialog == null) {
-            armed = null
+            for (i in 4 downTo 0) {
+                armFill.snapTo(i / 5f)
+                kotlinx.coroutines.delay(16)
+            }
+            if (dialog == null) armed = null
         }
     }
 
@@ -79,10 +88,18 @@ fun DecideModule(
                 color = SeatPalette.Lcd,
             )
         }
+        Text(
+            "Publish the proposal. Not hunk pick. Why is required.",
+            fontFamily = FontFamily.Monospace,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = SeatPalette.Ink,
+            modifier = Modifier.semantics { contentDescription = "Publish the proposal" },
+        )
         DecidePad(
             restLabel = "YES",
             armedLabel = "AGAIN",
-            fade = if (armed == "approve") armFade.value else 0f,
+            fillAmount = if (armed == "approve") armFill.value else 0f,
             fill = true,
             enabled = !busy,
             modifier = Modifier.weight(1f),
@@ -98,7 +115,7 @@ fun DecideModule(
         DecidePad(
             restLabel = "NOT YET",
             armedLabel = "AGAIN",
-            fade = if (armed == "reject") armFade.value else 0f,
+            fillAmount = if (armed == "reject") armFill.value else 0f,
             fill = false,
             enabled = !busy,
             modifier = Modifier.weight(1f),
@@ -139,7 +156,7 @@ fun DecideModule(
                 },
             ) {
                 Text(
-                    "Publish the proposal. Why? (required). JOIN, WAKE, Send, hunk accept are not Yes.",
+                    "Publish the proposal. Why? (required).",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 12.sp,
                     color = SeatPalette.Lcd,
@@ -207,36 +224,44 @@ fun DecideModule(
 private fun DecidePad(
     restLabel: String,
     armedLabel: String,
-    fade: Float,
+    fillAmount: Float,
     fill: Boolean,
     enabled: Boolean,
     modifier: Modifier,
     onClick: () -> Unit,
 ) {
-    val t = fade.coerceIn(0f, 1f)
+    val t = fillAmount.coerceIn(0f, 1f)
     val restBg = if (fill) SeatPalette.LcdBg else SeatPalette.PanelDark
-    val restFg = if (fill) SeatPalette.Lcd else SeatPalette.BevelLite
-    val bg = lerp(restBg, SeatPalette.Purple, t)
-    val restFgMixed = lerp(restFg, SeatPalette.Lcd, t)
+    val restFg = if (fill) SeatPalette.Lcd else SeatPalette.Ink
+    val rise = if (fill) SeatPalette.Panel else SeatPalette.Purple
+    val armed = t >= 0.99f
     Box(
         modifier
             .fillMaxWidth()
+            .border(3.dp, SeatPalette.BevelDark)
+            .padding(2.dp)
             .border(2.dp, SeatPalette.BevelLite)
-            .background(bg)
+            .padding(2.dp)
+            .border(1.dp, SeatPalette.BevelDark)
+            .background(restBg)
             .clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Box(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .fillMaxHeight(t)
+                .background(rise),
+        )
+        Box(
+            Modifier
+                .background(if (armed) rise else restBg)
+                .padding(horizontal = 18.dp, vertical = 10.dp),
+        ) {
             Text(
-                restLabel,
-                color = restFgMixed.copy(alpha = 1f - t),
-                fontSize = 28.sp,
-                fontFamily = FontFamily.Monospace,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                armedLabel,
-                color = SeatPalette.Lcd.copy(alpha = t),
+                if (armed) armedLabel else restLabel,
+                color = if (armed) SeatPalette.Ink else restFg,
                 fontSize = 28.sp,
                 fontFamily = FontFamily.Monospace,
                 fontWeight = FontWeight.Bold,

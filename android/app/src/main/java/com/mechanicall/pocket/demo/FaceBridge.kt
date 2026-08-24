@@ -34,6 +34,7 @@ data class FaceState(
     val shortcuts: List<String> = emptyList(),
     val walk: String = "bind",
     val chatStage: String = "",
+    val firstSit: Boolean = false,
     val schema: Map<String, String> = emptyMap(),
     val schemaDraft: Map<String, String> = emptyMap(),
     val rawError: String = "",
@@ -76,11 +77,29 @@ data class DeskProbe(
     val state: String = "quiet",
 )
 
+data class HunkAlt(
+    val id: String,
+    val text: String = "",
+    val source: String = "",
+)
+
 data class HunkRow(
     val id: String,
     val live: String = "",
     val propose: String = "",
     val differs: Boolean = false,
+    val included: Boolean = false,
+    val picked: String = "",
+    val alts: List<HunkAlt> = emptyList(),
+    val request: String = "",
+)
+
+data class ProjectPreview(
+    val name: String = "",
+    val files: Int = 0,
+    val path: String = "",
+    val note: String = "",
+    val ok: Boolean = true,
 )
 
 data class JoinState(
@@ -95,7 +114,7 @@ data class JoinState(
 data class WakeState(
     val ok: Boolean = false,
     val status: String = "sleeping",
-    val note: String = "WAKE is not Yes.",
+    val note: String = "",
 )
 
 data class OfferState(
@@ -159,6 +178,7 @@ object FaceBridge {
         return when {
             o.has("text") -> o.optString("text", raw)
             o.has("reply") -> o.optString("reply", raw)
+            o.has("note") -> o.optString("note", raw)
             o.has("message") -> o.optString("message", raw)
             else -> raw
         }
@@ -204,6 +224,7 @@ object FaceBridge {
             shortcuts = namesFrom(o.opt("shortcuts")),
             walk = o.optString("walk", "bind"),
             chatStage = o.optString("chat_stage", ""),
+            firstSit = o.optBoolean("first_sit", false),
             schema = parseFields(o.opt("schema")?.toString() ?: ""),
             schemaDraft = parseFields(o.opt("schema_draft")?.toString() ?: ""),
         )
@@ -320,12 +341,32 @@ object FaceBridge {
             val row = use.optJSONObject(i) ?: continue
             val id = row.optString("id", "")
             if (id.isBlank()) continue
+            val altsArr = row.optJSONArray("alts")
+            val alts = mutableListOf<HunkAlt>()
+            if (altsArr != null) {
+                for (j in 0 until altsArr.length()) {
+                    val alt = altsArr.optJSONObject(j) ?: continue
+                    val aid = alt.optString("id", "")
+                    if (aid.isBlank()) continue
+                    alts.add(
+                        HunkAlt(
+                            id = aid,
+                            text = alt.optString("text", ""),
+                            source = alt.optString("source", ""),
+                        ),
+                    )
+                }
+            }
             out.add(
                 HunkRow(
                     id = id,
                     live = row.optString("live", ""),
                     propose = row.optString("propose", ""),
                     differs = row.optBoolean("differs", false),
+                    included = row.optBoolean("included", false),
+                    picked = row.optString("picked", ""),
+                    alts = alts,
+                    request = row.optString("request", ""),
                 ),
             )
         }
@@ -338,6 +379,32 @@ object FaceBridge {
     fun rejectHunk(path: String, heading: String): String = pyCall("reject_hunk", path, heading)
 
     fun acceptHunk(path: String, heading: String): String = pyCall("accept_hunk", path, heading)
+
+    fun setHunkIncluded(path: String, ids: List<String>): String =
+        pyCall("set_hunk_included", path, ids.joinToString(","))
+
+    fun pickHunkAlt(path: String, field: String, altId: String): String =
+        pyCall("pick_hunk_alt", path, field, altId)
+
+    fun projectPreview(path: String): ProjectPreview {
+        val raw = pyCall("project_preview", path)
+        val o = jsonObject(raw) ?: return ProjectPreview(note = raw, ok = false)
+        return ProjectPreview(
+            name = o.optString("name", ""),
+            files = o.optInt("files", 0),
+            path = o.optString("path", path),
+            note = o.optString("note", "Project in the works."),
+            ok = o.optBoolean("ok", true),
+        )
+    }
+
+    fun sendProject(path: String): String = pyCall("send_project", path)
+
+    fun pollIncoming(path: String): OfferState {
+        val raw = pyCall("poll_incoming", path)
+        if (isError(raw)) return OfferState(ok = false, note = raw)
+        return offerStatus(path)
+    }
 
     fun joinStatus(path: String): JoinState {
         val raw = pyCall("join_status", path)
@@ -361,7 +428,7 @@ object FaceBridge {
             kind = o.optString("kind", ""),
             fp = o.optString("fp", ""),
             desk = o.optString("desk", ""),
-            note = o.optString("note", "JOIN is not Yes."),
+            note = o.optString("note", ""),
             ok = o.optBoolean("ok", true),
         )
     }
@@ -385,7 +452,7 @@ object FaceBridge {
         return OfferState(
             status = "accepted",
             notify = false,
-            note = o.optString("note", "Accepted. Not Yes."),
+            note = o.optString("note", "Accepted."),
             ok = o.optBoolean("ok", true),
         )
     }
@@ -393,7 +460,7 @@ object FaceBridge {
     fun declineOffer(path: String): OfferState {
         val raw = pyCall("decline_offer", path)
         if (isError(raw)) return OfferState(ok = false, note = raw)
-        return OfferState(status = "declined", notify = false, note = "Declined. Not Yes.")
+        return OfferState(status = "declined", notify = false, note = "Declined.")
     }
 
     fun stageUpload(path: String): String = pyCall("stage_upload", path)
@@ -405,7 +472,7 @@ object FaceBridge {
         return WakeState(
             ok = o.optBoolean("ok", false),
             status = o.optString("status", "sleeping"),
-            note = o.optString("note", "WAKE is not Yes."),
+            note = o.optString("note", ""),
         )
     }
 

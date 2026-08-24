@@ -108,7 +108,7 @@ fun PluginTitleBar(
     ) {
         Text(
             "MECHANICALL",
-            color = SeatPalette.BevelLite,
+            color = SeatPalette.Lcd,
             fontSize = 11.sp,
             fontFamily = FontFamily.Monospace,
             fontWeight = FontWeight.Bold,
@@ -131,8 +131,8 @@ fun PluginTitleBar(
 fun DeskStrip(
     joinStatus: String,
     wakeStatus: String,
-    paste: String,
-    onPaste: (String) -> Unit,
+    paste: String = "",
+    onPaste: (String) -> Unit = {},
     onJoin: () -> Unit,
     onWake: () -> Unit,
     joinEnabled: Boolean,
@@ -181,6 +181,17 @@ fun DeskStrip(
                     .clickable(enabled = wakeEnabled, onClick = onWake)
                     .padding(horizontal = 8.dp, vertical = 6.dp),
             )
+            Text(
+                "SEND FOLDER",
+                color = SeatPalette.BevelDark,
+                fontSize = 10.sp,
+                fontFamily = FontFamily.Monospace,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .border(1.dp, SeatPalette.BevelDark)
+                    .clickable(onClick = onStageUpload)
+                    .padding(horizontal = 8.dp, vertical = 6.dp),
+            )
         }
         androidx.compose.material3.OutlinedTextField(
             value = paste,
@@ -202,7 +213,7 @@ fun DeskStrip(
         )
         if (offerNotify) {
             Text(
-                "OFFER ${offerKind.ifBlank { "folder" }.uppercase()} · Accept is not Yes",
+                "OFFER ${offerKind.ifBlank { "folder" }.uppercase()}",
                 color = SeatPalette.Suggest,
                 fontSize = 10.sp,
                 fontFamily = FontFamily.Monospace,
@@ -235,17 +246,6 @@ fun DeskStrip(
                 )
             }
         }
-        Text(
-            "SEND FOLDER · depreciated · not Yes",
-            color = SeatPalette.BevelDark,
-            fontSize = 10.sp,
-            fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .border(1.dp, SeatPalette.BevelDark)
-                .clickable(onClick = onStageUpload)
-                .padding(horizontal = 8.dp, vertical = 6.dp),
-        )
         if (note.isNotBlank()) {
             Text(
                 note,
@@ -313,7 +313,7 @@ fun LcdStrip(text: String) {
     Box(
         Modifier
             .fillMaxWidth()
-            .height(28.dp)
+            .height(36.dp)
             .background(SeatPalette.LcdBg)
             .border(1.dp, SeatPalette.BevelDark)
             .padding(horizontal = 6.dp),
@@ -389,7 +389,7 @@ fun GateStrip(
                 else -> 0
             }
             val onColor = if (loading) SeatPalette.Lcd else SeatPalette.Purple
-            val offColor = if (loading) SeatPalette.LcdBg else SeatPalette.PurpleDim
+            val offColor = if (streaming) SeatPalette.PurpleDim else SeatPalette.LcdBg
             repeat(steps) { i ->
                 Box(
                     Modifier

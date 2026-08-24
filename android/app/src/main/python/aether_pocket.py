@@ -47,6 +47,7 @@ DEFAULT_DESK_HOSTS = (
     "http://100.90.85.68:11434",
 )
 HUNK_MAX_CHARS = 2048
+HUNK_SELECT_REL = Path(".aether") / "hunk-select.json"
 TAILNET_REL = Path(".aether") / "tailnet.json"
 QUEUE_REL = Path(".aether") / "desk-queue.json"
 WAKE_DEFAULT = "http://wol-pi:7077/wake"
@@ -199,6 +200,22 @@ def parse_fields(current_md: str) -> dict[str, str]:
     return out
 
 
+def parse_field_alts(text: str) -> dict[str, list[str]]:
+    """Every **Field:** value, including duplicates (alternative hunks)."""
+    out: dict[str, list[str]] = {name: [] for name in AUTHORITY_FIELDS}
+    for line in (text or "").splitlines():
+        m = FIELD_RE.match(line.strip())
+        if not m:
+            continue
+        name = m.group("name").strip().rstrip(":")
+        if name not in AUTHORITY_FIELDS:
+            continue
+        val = m.group("value").strip()
+        if val and val not in out[name]:
+            out[name].append(val)
+    return {k: v for k, v in out.items() if v}
+
+
 def extract_propose_block(propose_md: str) -> str:
     """Prefer the block after 'Proposed CURRENT change'; else first fence; else whole file."""
     prefer = re.search(
@@ -255,8 +272,11 @@ def apply_fields_to_current(current_text: str, fields: dict[str, str]) -> str:
     return "\n".join(out) + ("\n" if current_text.endswith("\n") else "")
 
 
-def apply_propose(pocket: str | Path) -> PocketResult:
-    """Write proposed **Field:** values into CURRENT.md. Does not approve."""
+def apply_propose(pocket: str | Path, only: list[str] | None = None) -> PocketResult:
+    """Write proposed **Field:** values into CURRENT.md. Does not approve.
+
+    ``only`` limits which AUTHORITY_FIELDS land. Empty list is a refuse.
+    """
     root = refuse_if_operator(pocket)
     cf = root / "CURRENT.md"
     pf = root / PROPOSE_NAME
@@ -270,6 +290,13 @@ def apply_propose(pocket: str | Path) -> PocketResult:
         fields = parse_field_value_pairs(pf.read_text(encoding="utf-8"))
     if not fields:
         raise PocketError("PROPOSE has no **Field:** lines to apply")
+    if only is not None:
+        allow = [n for n in only if n in AUTHORITY_FIELDS]
+        if not allow:
+            raise PocketError("refused: no hunks included")
+        fields = {k: v for k, v in fields.items() if k in allow}
+        if not fields:
+            raise PocketError("refused: included hunks have no proposed values")
     new_text = apply_fields_to_current(cf.read_text(encoding="utf-8"), fields)
     cf.write_text(new_text, encoding="utf-8")
     return PocketResult(
@@ -314,7 +341,7 @@ def write_receipt(
         f"**Status:** {status}\n"
         f"**Approval:** {approval}\n\n"
         f"{headline}\n\n"
-        f"Silence is never permission. Opening this page is not a Yes.\n\n"
+        f"Silence is never permission.\n\n"
         f"## What happened\n"
         f"- Reason recorded: {reason or '(none)'}\n\n"
         f"## Trail\n\n"
@@ -362,6 +389,7 @@ def _empty_face(path: str, message: str, *, refused: bool = False) -> dict:
         "chat_len": 0,
         "walk": "bind",
         "chat_stage": "",
+        "first_sit": False,
     }
 
 
@@ -444,6 +472,7 @@ def face_state(pocket: str | Path) -> dict:
         "chat_len": 0,
         "walk": "plan",
         "chat_stage": "",
+        "first_sit": is_first_sit(root),
     }
     return _apply_walk(payload, root)
 
@@ -452,9 +481,59 @@ def face_state_json(pocket: str | Path) -> str:
     return json.dumps(face_state(pocket), ensure_ascii=False)
 
 
-def yes(pocket: str | Path, reason: str = "yes from demo sitting", **kw) -> PocketResult:
-    """Human Yes: apply PROPOSE then aether approve. Agent must not call this."""
-    applied = apply_propose(pocket)
+def is_first_sit(pocket: str | Path) -> bool:
+    """No published Objective or Next. Template stage, not hunk pick."""
+    root = refuse_if_operator(pocket)
+    cf = root / "CURRENT.md"
+    if not cf.is_file():
+        return True
+    fields = parse_fields(cf.read_text(encoding="utf-8"))
+    obj = (fields.get("Objective") or "").strip()
+    nxt = (fields.get("Next") or "").strip()
+    return not obj and not nxt
+
+
+def _action_id_from(asked: str) -> str:
+    words = re.findall(r"[a-z0-9]+", (asked or "").lower())
+    if not words:
+        return "name-the-sit"
+    return "-".join(words[:4])[:48]
+
+
+def write_first_sit_template(
+    pocket: str | Path,
+    asked: str,
+    fields: dict[str, str] | None = None,
+) -> PocketResult:
+    """Full PROPOSE CURRENT template. Never CURRENT. Not Yes."""
+    root = refuse_if_operator(pocket)
+    asked_s = (asked or "").strip().replace("\n", " ")[:200]
+    src = {name: "" for name in AUTHORITY_FIELDS}
+    if isinstance(fields, dict):
+        for name in AUTHORITY_FIELDS:
+            val = str(fields.get(name) or "").strip()
+            if val:
+                src[name] = val
+    src["Objective"] = src["Objective"] or asked_s or "Sit this folder. One Next."
+    src["Phase"] = src["Phase"] or "SELECT"
+    src["Status"] = src["Status"] or "DRAFT"
+    src["Baseline"] = src["Baseline"] or "first-sit"
+    src["Next"] = src["Next"] or _action_id_from(asked_s)
+    src["Approval"] = src["Approval"] or "PENDING"
+    return write_schema_draft(root, src)
+
+
+def yes(
+    pocket: str | Path,
+    reason: str = "yes from demo sitting",
+    included: list[str] | str | None = None,
+    **kw,
+) -> PocketResult:
+    """Human Yes: apply included hunks then aether approve. Agent must not call this."""
+    if included is not None:
+        set_hunk_included(pocket, included)
+    names = hunk_included(pocket)
+    applied = apply_propose(pocket, only=names)
     approved = run_aether(["approve", reason], pocket, **kw)
     rec = write_receipt(pocket, said="Yes", reason=reason)
     text = applied.text + "\n" + approved.text + "\n" + rec.text
@@ -541,9 +620,9 @@ def write_schema_draft(pocket: str | Path, fields: dict) -> PocketResult:
         f"**Date:** {now}\n"
         "**Author:** schema editor (propose only)\n\n"
         "## Observations\n\n"
-        "- Schema fields edited on the phone seat. Opening is not Yes.\n\n"
+        "- Schema fields edited on the phone seat.\n\n"
         "## Inferences\n\n"
-        "- These values are a draft until a human Yes.\n\n"
+        "- These values are a draft until Decide publishes.\n\n"
         "## Unknowns\n\n"
         "- (none from schema editor)\n\n"
         "## Proposed CURRENT change\n\n"
@@ -598,6 +677,161 @@ def _read_live_md(root: Path) -> str:
     return ""
 
 
+def _hunk_select_path(root: Path) -> Path:
+    return root / HUNK_SELECT_REL
+
+
+def load_hunk_select(pocket: str | Path) -> dict:
+    root = refuse_if_operator(pocket)
+    path = _hunk_select_path(root)
+    empty: dict = {"request": "", "focus": "", "included": None, "alts": {}, "picked": {}}
+    if not path.is_file():
+        return dict(empty)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return dict(empty)
+    if not isinstance(data, dict):
+        return dict(empty)
+    alts = data.get("alts") if isinstance(data.get("alts"), dict) else {}
+    picked = data.get("picked") if isinstance(data.get("picked"), dict) else {}
+    included = data.get("included")
+    if included is not None and not isinstance(included, list):
+        included = None
+    return {
+        "request": str(data.get("request") or ""),
+        "focus": str(data.get("focus") or ""),
+        "included": included,
+        "alts": alts,
+        "picked": picked,
+    }
+
+
+def save_hunk_select(pocket: str | Path, data: dict) -> dict:
+    root = refuse_if_operator(pocket)
+    path = _hunk_select_path(root)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "request": str(data.get("request") or ""),
+        "focus": str(data.get("focus") or ""),
+        "included": data.get("included"),
+        "alts": data.get("alts") if isinstance(data.get("alts"), dict) else {},
+        "picked": data.get("picked") if isinstance(data.get("picked"), dict) else {},
+        "not_yes": True,
+    }
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return payload
+
+
+def hunk_included(pocket: str | Path) -> list[str] | None:
+    """None = apply every proposed field (legacy). List = Decide's included hunks."""
+    inc = load_hunk_select(pocket).get("included")
+    if inc is None:
+        return None
+    return [n for n in inc if n in AUTHORITY_FIELDS]
+
+
+def _field_value(text: str, name: str) -> str:
+    found = parse_fields(text or "")
+    if name in found:
+        return found[name]
+    line = (text or "").strip()
+    if line.startswith(f"**{name}:**"):
+        return line.split(":", 1)[-1].lstrip("* ").strip()
+    return line
+
+
+def _alt_row(field: str, value: str, source: str, index: int) -> dict:
+    val = (value or "").strip()
+    text = val if val.startswith(f"**{field}:**") else f"**{field}:** {val}"
+    return {"id": f"{field}#{index}", "text": text, "source": source}
+
+
+def record_hunk_alts(
+    pocket: str | Path,
+    *,
+    request: str = "",
+    focus: str = "",
+    alts: dict[str, list[str]] | None = None,
+) -> dict:
+    """Store alternative wordings for one request. Never writes CURRENT."""
+    root = refuse_if_operator(pocket)
+    live = schema_fields(root)
+    asked = (request or "").strip().replace("\n", " ")[:200]
+    packed: dict[str, list[dict]] = {}
+    included: list[str] = []
+    picked: dict[str, str] = {}
+    for name in AUTHORITY_FIELDS:
+        values = list((alts or {}).get(name) or [])
+        rows: list[dict] = []
+        for val in values:
+            clean = _field_value(val, name)
+            if not clean:
+                continue
+            rows.append(_alt_row(name, clean, "desk", len(rows) + 1))
+        if asked and focus == name:
+            if asked not in {_field_value(r["text"], name) for r in rows}:
+                rows.append(_alt_row(name, asked, "asked", len(rows) + 1))
+        live_val = (live.get(name) or "").strip()
+        if live_val and live_val not in {_field_value(r["text"], name) for r in rows}:
+            rows.append(_alt_row(name, live_val, "live", len(rows) + 1))
+        if rows:
+            packed[name] = rows
+            if any(r.get("source") != "live" for r in rows):
+                included.append(name)
+                desk = next((r for r in rows if r.get("source") == "desk"), rows[0])
+                picked[name] = desk["id"]
+    data = {
+        "request": asked,
+        "focus": focus,
+        "included": included,
+        "alts": packed,
+        "picked": picked,
+    }
+    return save_hunk_select(root, data)
+
+
+def set_hunk_included(pocket: str | Path, names: list[str] | str | None) -> dict:
+    root = refuse_if_operator(pocket)
+    sel = load_hunk_select(root)
+    if isinstance(names, str):
+        items = [n.strip() for n in names.split(",") if n.strip()]
+    elif names is None:
+        items = []
+    else:
+        items = [str(n).strip() for n in names if str(n).strip()]
+    sel["included"] = [n for n in items if n in AUTHORITY_FIELDS]
+    return save_hunk_select(root, sel)
+
+
+def pick_hunk_alt(pocket: str | Path, field: str, alt_id: str) -> dict:
+    """Write the chosen wording onto PROPOSE. Not Yes."""
+    root = refuse_if_operator(pocket)
+    hid = (field or "").strip()
+    if hid not in AUTHORITY_FIELDS:
+        raise PocketError("hunk pick needs an authority field")
+    sel = load_hunk_select(root)
+    alts = sel.get("alts", {}).get(hid) or []
+    chosen = None
+    for row in alts:
+        if str(row.get("id")) == str(alt_id):
+            chosen = row
+            break
+    if chosen is None and alts:
+        raise PocketError("refused: unknown hunk alt")
+    text = str((chosen or {}).get("text") or "")
+    if not text:
+        raise PocketError("refused: empty hunk alt")
+    apply_hunk(root, hid, text if text.endswith("\n") else text + "\n")
+    sel["picked"][hid] = str(alt_id)
+    if hid not in (sel.get("included") or []):
+        inc = list(sel.get("included") or [])
+        inc.append(hid)
+        sel["included"] = inc
+    save_hunk_select(root, sel)
+    return {"ok": True, "field": hid, "picked": str(alt_id), "not_yes": True}
+
+
 def list_hunks(pocket: str | Path) -> list[dict]:
     """Live vs proposed hunks. Never writes CURRENT."""
     root = refuse_if_operator(pocket)
@@ -609,16 +843,33 @@ def list_hunks(pocket: str | Path) -> list[dict]:
     for row in live + proposed:
         if row["id"] not in ids:
             ids.append(row["id"])
+    sel = load_hunk_select(root)
+    for name in AUTHORITY_FIELDS:
+        if name not in ids and name in (sel.get("alts") or {}):
+            ids.append(name)
+    included = sel.get("included")
+    picked_map = sel.get("picked") or {}
+    alts_map = sel.get("alts") or {}
     out: list[dict] = []
     for hid in ids:
         lt = by_live.get(hid, "")
         pt = by_prop.get(hid, "")
+        differs = bool(pt) and pt != lt
+        alts = alts_map.get(hid) if isinstance(alts_map.get(hid), list) else []
+        if included is None:
+            is_in = differs
+        else:
+            is_in = hid in included
         out.append(
             {
                 "id": hid,
                 "live": lt,
                 "propose": pt,
-                "differs": bool(pt) and pt != lt,
+                "differs": differs,
+                "included": bool(is_in),
+                "picked": str(picked_map.get(hid) or ""),
+                "alts": alts,
+                "request": sel.get("request") or "",
             }
         )
     return out
@@ -764,16 +1015,48 @@ def tsnet_up() -> bool:
     return bool(isinstance(obj, dict) and obj.get("up"))
 
 
-def join_accept(pocket: str | Path, pasted: str) -> dict:
-    """Consume Headscale preauth paste. Never stores the secret. Never CURRENT. Not Yes.
+def _join_provision(root: Path) -> str:
+    """Desk-side key. Never a face well. Never git. Never CURRENT."""
+    env_key = os.environ.get("MECHANICALL_JOIN_KEY", "").strip()
+    env_ls = os.environ.get("MECHANICALL_LOGIN_SERVER", "").strip()
+    if env_key:
+        return f"{env_ls} {env_key}".strip()
+    path = root / ".aether" / "join-provision"
+    if not path.is_file():
+        return ""
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def join_accept(pocket: str | Path, pasted: str = "") -> dict:
+    """JOIN from desk provision (env or ``.aether/join-provision``). Never stores the
+    secret in tailnet.json. Never CURRENT. Not Yes. Empty paste is allowed.
 
     ``connected`` only if userspace tsnet is Up. A live ``myarch:11434`` is not JOIN.
     """
     root = refuse_if_operator(pocket)
     raw = pasted if isinstance(pasted, str) else str(pasted)
-    text = raw.strip()
+    text = raw.strip() or _join_provision(root)
     if not text:
-        raise PocketError("JOIN needs a pasted invite or auth key")
+        userspace = tsnet_up()
+        st = {
+            "status": "connected" if userspace else "not-on-net",
+            "kind": "",
+            "fp": "",
+            "desk": "",
+            "login_server": "",
+            "userspace": userspace,
+            "ok": True,
+            "note": (
+                "Connected (userspace)."
+                if userspace
+                else "JOIN waits on desk provision."
+            ),
+        }
+        _save_tailnet(root, st)
+        return st
     low = text.lower()
     if "17kizymaa" in low:
         raise PocketError("refused: Tailscale-as-me is not a send path")
@@ -803,9 +1086,9 @@ def join_accept(pocket: str | Path, pasted: str) -> dict:
         "userspace": userspace,
         "ok": True,
         "note": (
-            "Connected (userspace). JOIN is not Yes."
+            "Connected (userspace)."
             if userspace
-            else "JOIN is not Yes. Secret not stored. Userspace not linked — not connected."
+            else "Secret not stored. Userspace not linked — not connected."
         ),
     }
     _save_tailnet(root, st)
@@ -835,14 +1118,14 @@ def wake_desk(pocket: str | Path, url: str = "") -> dict:
                 "ok": 200 <= code < 300,
                 "status": "waking" if 200 <= code < 300 else "sleeping",
                 "url_host": urllib.parse.urlparse(target).hostname or "",
-                "note": "WAKE is not Yes.",
+                "note": "",
             }
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         return {
             "ok": False,
             "status": "sleeping",
             "url_host": urllib.parse.urlparse(target).hostname or "",
-            "note": f"WAKE is not Yes. ({exc})",
+            "note": str(exc),
         }
 
 
@@ -1149,7 +1432,7 @@ def enqueue_desk(pocket: str | Path, message: str, focus: str = "") -> dict:
         desk=g.get("desk") or "",
         queue=len(rows),
     )
-    return {"ok": True, "queued": True, "queue": len(rows), "note": "Queued. GATE is the strip. Not Yes."}
+    return {"ok": True, "queued": True, "queue": len(rows), "note": "Queued."}
 
 
 def pop_desk_queue(pocket: str | Path) -> dict | None:
@@ -1283,16 +1566,34 @@ a fenced Proposed CURRENT change with **Field:** lines, Conflicts, Human decisio
 CHAT_USER_TURNS = 3
 CHAT_MSG_CHARS = 280
 CHAT_SAY_CHARS = 240
-_CHAT_SYS = """You are a Mechanicall peer on Chat.
-Plugin pages: Plan, Draft, Decide, Receipt. Bind is the folder slot, not a page.
-Decide is the human. Never write CURRENT. Never approve.
-Reply JSON only: {"say":"<one or two short sentences>","stage":"show-plan|propose","fields":{}}
-fields only when stage is propose. Keys: Objective, Phase, Status, Baseline, Next, Approval.
+_CHAT_SYS = """You propose. You never approve. You never write CURRENT.
+Reply with exactly:
+SAY: <one short line>
+CHANGE:
+**Field:** <new value>
 """
-_CHAT_SYS_HUNK = """You are a Mechanicall peer. Propose only. Output one hunk patch.
-Do not rewrite CURRENT. Do not approve. Do not dump the whole file.
-Reply JSON only: {"say":"<one short line>","hunk":"<replacement for focus only>","schema":{}}
-schema keys if completing fields from the hunk: Objective, Phase, Status, Baseline, Next, Approval.
+_CHAT_SYS_CHANGE = """Never approve. Never write CURRENT.
+The person asked for one change. Give THREE alternative values for that one field.
+Do not say SURE. Do not give a GOAL or RULE. Do not continue a transcript.
+Exactly:
+SAY: <one short line>
+CHANGE:
+**{focus}:** <wording 1>
+**{focus}:** <wording 2>
+**{focus}:** <wording 3>
+"""
+_CHAT_SYS_TEMPLATE = """Never approve. Never write CURRENT.
+They have no plan yet. Write a complete CURRENT template from what they said.
+Do not say SURE. Do not give a GOAL or RULE. Do not continue a transcript.
+Exactly:
+SAY: <one short line>
+CHANGE:
+**Objective:** <one sentence>
+**Phase:** SELECT
+**Status:** DRAFT
+**Baseline:** first-sit
+**Next:** <one-action-id>
+**Approval:** PENDING
 """
 
 
@@ -1325,6 +1626,14 @@ def chat_stage(message: str) -> str:
     )
     if any(p in m for p in propose):
         return "propose"
+    template = (
+        "start a plan",
+        "new project",
+        "make a template",
+        "first sit",
+    )
+    if any(t in m for t in template):
+        return "template"
     return "show-plan"
 
 
@@ -1352,8 +1661,9 @@ def _slim_user_turns(history: list[dict[str, str]]) -> str:
     users = [row for row in history if row.get("role") == "user"][-CHAT_USER_TURNS:]
     if not users:
         return "(none)"
+    # Do not prefix "user:" — the 7B continues that transcript as the desk say.
     return "\n".join(
-        f"user: {_trim(row.get('text', ''), CHAT_MSG_CHARS)}" for row in users
+        f"- {_trim(row.get('text', ''), CHAT_MSG_CHARS)}" for row in users
     )
 
 
@@ -1365,12 +1675,18 @@ def _prompt_contains_whole_file(prompt: str, root: Path) -> bool:
 
 
 def _parse_chat_model(raw: str) -> tuple[str, dict[str, str], str, str]:
-    """Return say, fields, stage, hunk. Never treat the whole dump as the bubble."""
+    """Return say, fields, stage, change-text. Never treat a user-echo as the bubble."""
     text = (raw or "").strip()
     say = ""
     fields: dict[str, str] = {}
     stage = "show-plan"
     hunk = ""
+    say_m = re.search(r"(?im)^SAY:\s*(.+)$", text)
+    if say_m:
+        say = say_m.group(1).strip()
+    change_m = re.search(r"(?im)^CHANGE:\s*(.*)$", text, re.DOTALL)
+    if change_m:
+        hunk = change_m.group(1).strip()
     blob = text
     fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
     if fence:
@@ -1384,7 +1700,7 @@ def _parse_chat_model(raw: str) -> tuple[str, dict[str, str], str, str]:
     except json.JSONDecodeError:
         obj = None
     if isinstance(obj, dict):
-        say = str(obj.get("say") or "").strip()
+        say = say or str(obj.get("say") or "").strip()
         st = str(obj.get("stage") or "").strip().lower()
         if st in {"show-plan", "propose", "gate"}:
             stage = st
@@ -1400,17 +1716,21 @@ def _parse_chat_model(raw: str) -> tuple[str, dict[str, str], str, str]:
                 val = schema.get(key) or schema.get(key.lower())
                 if val and key not in fields:
                     fields[key] = str(val).strip()
-        hunk = str(obj.get("hunk") or "").strip()
+        hunk = hunk or str(obj.get("change") or obj.get("hunk") or "").strip()
     if not fields:
-        extracted = parse_fields(text)
+        extracted = parse_fields(hunk or text)
         if not extracted:
             extracted = parse_fields(extract_propose_block(text))
         fields = {k: v for k, v in extracted.items() if k in AUTHORITY_FIELDS and v}
         if fields:
             stage = "propose"
+    echo = text.lower().lstrip().startswith("user:") or text.lower().count("\nuser:") >= 1
+    if echo and not fields and not hunk:
+        say = "Desk did not propose. Try again."
+        return _trim(say, CHAT_SAY_CHARS), {}, "show-plan", ""
     if not say:
-        if fields:
-            say = "Draft updated. Open Plan to read it."
+        if fields or hunk:
+            say = "Change drafted."
         else:
             say = _trim(re.sub(r"\s+", " ", text), CHAT_SAY_CHARS) or (
                 "The desk answered."
@@ -1474,7 +1794,10 @@ def draft_chat(
     user_text = message if isinstance(message, str) else str(message)
     focus_id = (focus or "").strip()
     stage = chat_stage(user_text)
-    if focus_id and stage == "show-plan":
+    if is_first_sit(root) and stage not in {"gate"}:
+        stage = "template"
+        focus_id = ""
+    elif focus_id and stage == "show-plan":
         stage = "propose"
     existing = read_propose(root)
     if stage == "gate":
@@ -1517,19 +1840,22 @@ def draft_chat(
     schema = _schema_lines(root)
     slim = _slim_user_turns(history_before)
     names = _folder_names(root)
-    if focus_id:
+    if stage == "template":
+        prompt = (
+            f"{_CHAT_SYS_TEMPLATE}\n"
+            f"They said:\n{slim}\n"
+        )
+    elif focus_id:
         hunks = {row["id"]: row for row in list_hunks(root)}
         focused = hunks.get(focus_id) or {"live": "", "propose": ""}
         live_h = _trim(str(focused.get("live") or ""), HUNK_MAX_CHARS)
         prop_h = _trim(str(focused.get("propose") or ""), HUNK_MAX_CHARS)
         prompt = (
-            f"{_CHAT_SYS_HUNK}\n"
-            f"Turn stage: {stage}\n"
-            f"focus: {focus_id}\n"
-            f"LIVE (this hunk only):\n{live_h or '(empty)'}\n\n"
-            f"PROPOSED (this hunk only, may be empty):\n{prop_h or '(empty)'}\n\n"
-            f"schema fields (names + short values, not the whole file):\n{schema}\n\n"
-            f"Recent user turns (capped):\n{slim}\n"
+            f"{_CHAT_SYS_CHANGE.format(focus=focus_id)}\n"
+            f"Focus field: {focus_id}\n"
+            f"Live:\n{live_h or '(empty)'}\n"
+            f"Already proposed (may be empty):\n{prop_h or '(empty)'}\n"
+            f"They said:\n{slim}\n"
         )
     else:
         prompt = (
@@ -1562,6 +1888,22 @@ def draft_chat(
             break
     if not live:
         write_gate(root, state="quiet", step=0, desk="")
+        if stage == "template":
+            write_first_sit_template(root, user_text)
+            say = "Desk quiet. Template drafted from what you said. Not Yes."
+            _append_chat(root, "assistant", say, stage="template")
+            return {
+                "ok": True,
+                "reply": say,
+                "propose": read_propose(root),
+                "stage": "template",
+                "history": chat_history(root),
+                "fields": {},
+                "schema_draft": read_schema_draft(root),
+                "hunk": "",
+                "focus": "",
+                "fallback": "static",
+            }
         err = "Desk quiet."
         _append_chat(root, "assistant", err, stage=stage)
         return {
@@ -1596,6 +1938,24 @@ def draft_chat(
         last_exc = exc
     if not text:
         write_gate(root, state="quiet", step=0, desk=live)
+        if stage == "template":
+            write_first_sit_template(root, user_text)
+            say = "Desk quiet. Template drafted from what you said. Not Yes."
+            _append_chat(root, "assistant", say, stage="template")
+            _drain_one_send(root, host, model, timeout)
+            return {
+                "ok": True,
+                "reply": say,
+                "propose": read_propose(root),
+                "stage": "template",
+                "history": chat_history(root),
+                "host": live,
+                "fields": {},
+                "schema_draft": read_schema_draft(root),
+                "hunk": "",
+                "focus": "",
+                "fallback": "static",
+            }
         err = f"Desk quiet. ({last_exc})"
         _append_chat(root, "assistant", err, stage=stage)
         _drain_one_send(root, host, model, timeout)
@@ -1614,19 +1974,37 @@ def draft_chat(
     write_gate(root, state="quiet", step=GATE_STEPS, desk=live, queue=len(list_desk_queue(root)))
     used_host = live
     say, fields, parsed_stage, hunk = _parse_chat_model(text)
+    alts = parse_field_alts(text)
+    if hunk:
+        extra = parse_field_alts(hunk)
+        for name, vals in extra.items():
+            have = alts.setdefault(name, [])
+            for val in vals:
+                if val not in have:
+                    have.append(val)
     out_stage = stage
-    if stage == "propose":
-        if focus_id and hunk:
+    if stage == "template":
+        write_first_sit_template(root, user_text, fields)
+        say = say or "Template on PROPOSE. Use Decide to publish."
+        out_stage = "template"
+    elif stage == "propose":
+        if not alts and fields:
+            alts = {k: [v] for k, v in fields.items() if v}
+        if not alts and focus_id and hunk:
+            first = parse_fields(hunk) or parse_fields(f"**{focus_id}:** {hunk}")
+            alts = {k: [v] for k, v in first.items() if v}
+        if alts:
+            for name, vals in alts.items():
+                apply_hunk(root, name, f"**{name}:** {vals[0]}\n")
+        elif focus_id and hunk:
             apply_hunk(root, focus_id, hunk)
-        if fields:
-            if focus_id:
-                for name, val in fields.items():
-                    apply_hunk(root, name, f"**{name}:** {val}\n")
-            else:
-                write_schema_draft(root, {**schema_fields(root), **fields})
+        elif fields and not focus_id:
+            write_schema_draft(root, {**schema_fields(root), **fields})
         elif (not focus_id) and text and parse_fields(text):
             write_propose(root, text)
-        say = say or "Draft updated. Not Yes."
+        if alts or focus_id:
+            record_hunk_alts(root, request=user_text, focus=focus_id, alts=alts)
+        say = say or "Draft updated."
         out_stage = "propose"
     elif parsed_stage == "propose":
         # Local stage owns the turn. The desk cannot promote a question into a write.
@@ -1645,6 +2023,7 @@ def draft_chat(
         "schema_draft": read_schema_draft(root),
         "hunk": hunk,
         "focus": focus_id,
+        "alts": alts,
     }
 
 

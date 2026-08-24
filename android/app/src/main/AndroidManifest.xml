@@ -8,7 +8,7 @@
         android:label="Mechanicall"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+        android:theme="@style/Theme.Mechanicall.Sit">
         <activity
             android:name=".MainActivity"
             android:exported="true"

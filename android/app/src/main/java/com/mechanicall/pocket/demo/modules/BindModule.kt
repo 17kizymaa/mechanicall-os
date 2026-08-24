@@ -68,6 +68,12 @@ fun BindModule(
             fontFamily = FontFamily.Monospace,
             fontSize = 14.sp,
         )
+        Text(
+            "Choose your folder is the sitting path (system picker). Typing a path is support. All-files access is lab, not product.",
+            color = SeatPalette.BevelLite,
+            fontFamily = FontFamily.Monospace,
+            fontSize = 11.sp,
+        )
         OutlinedTextField(
             value = pocket,
             onValueChange = onPocketChange,
@@ -95,19 +101,19 @@ fun BindModule(
             )
         }
         BindPad(
-            label = "Bind this folder",
+            label = "Choose your folder",
             fill = true,
             modifier = Modifier.height(56.dp),
-            onClick = { onBind(pocket) },
-        )
-        BindPad(
-            label = "Choose your folder",
-            fill = false,
-            modifier = Modifier.height(48.dp),
             onClick = { picker.launch(null) },
         )
+        BindPad(
+            label = "Bind this folder",
+            fill = false,
+            modifier = Modifier.height(40.dp),
+            onClick = { onBind(pocket) },
+        )
         Text(
-            "Picker is support. Binding replaces the last project.",
+            "Binding replaces the last project.",
             color = SeatPalette.BevelLite,
             fontFamily = FontFamily.Monospace,
             fontSize = 11.sp,

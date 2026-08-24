@@ -23,7 +23,9 @@ def _wrap(fn, *args):
             join_accept,
             join_status,
             list_hunks,
+            pick_hunk_alt,
             reject_hunk,
+            set_hunk_included,
             wake_desk,
             drift,
             events_tail,
@@ -61,7 +63,9 @@ def _wrap(fn, *args):
                 "join_accept": join_accept,
                 "join_status": join_status,
                 "list_hunks": list_hunks,
+                "pick_hunk_alt": pick_hunk_alt,
                 "reject_hunk": reject_hunk,
+                "set_hunk_included": set_hunk_included,
                 "wake_desk": wake_desk,
                 "drift": drift,
                 "events_tail": events_tail,
@@ -91,6 +95,9 @@ def _inbox_wrap(fn, *args):
             accept_pocket_offer,
             decline_pocket_offer,
             offer_status,
+            poll_incoming,
+            project_preview,
+            send_project,
             stage_upload,
         )
         from aether_pocket import PocketError
@@ -103,6 +110,9 @@ def _inbox_wrap(fn, *args):
                 "accept_pocket_offer": accept_pocket_offer,
                 "decline_pocket_offer": decline_pocket_offer,
                 "offer_status": offer_status,
+                "poll_incoming": poll_incoming,
+                "project_preview": project_preview,
+                "send_project": send_project,
                 "stage_upload": stage_upload,
             },
             *args,
@@ -255,6 +265,23 @@ def accept_hunk(path: str, heading: str) -> str:
     return _wrap(inner, path, heading)
 
 
+def set_hunk_included(path: str, names: str) -> str:
+    return _wrap(
+        lambda m, p, n: json.dumps(m["set_hunk_included"](p, n), ensure_ascii=False),
+        path,
+        names,
+    )
+
+
+def pick_hunk_alt(path: str, field: str, alt_id: str) -> str:
+    return _wrap(
+        lambda m, p, f, a: json.dumps(m["pick_hunk_alt"](p, f, a), ensure_ascii=False),
+        path,
+        field,
+        alt_id,
+    )
+
+
 def join_status(path: str) -> str:
     return _wrap(lambda m, p: json.dumps(m["join_status"](p), ensure_ascii=False), path)
 
@@ -317,3 +344,15 @@ def decline_offer(path: str) -> str:
 
 def stage_upload(path: str) -> str:
     return _inbox_wrap(lambda m, p: json.dumps(m["stage_upload"](p), ensure_ascii=False), path)
+
+
+def project_preview(path: str) -> str:
+    return _inbox_wrap(lambda m, p: json.dumps(m["project_preview"](p), ensure_ascii=False), path)
+
+
+def send_project(path: str) -> str:
+    return _inbox_wrap(lambda m, p: json.dumps(m["send_project"](p), ensure_ascii=False), path)
+
+
+def poll_incoming(path: str) -> str:
+    return _inbox_wrap(lambda m, p: json.dumps(m["poll_incoming"](p), ensure_ascii=False), path)

@@ -1,6 +1,8 @@
 package com.mechanicall.pocket.demo
 
 import android.content.Context
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +17,7 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -70,8 +73,11 @@ fun SeatNav() {
     var join by remember { mutableStateOf(JoinState()) }
     var wake by remember { mutableStateOf(WakeState()) }
     var offer by remember { mutableStateOf(OfferState()) }
-    var invitePaste by remember { mutableStateOf("") }
-    var deskNote by remember { mutableStateOf("JOIN and WAKE are not Yes.") }
+    var sendOpen by remember { mutableStateOf(false) }
+    var sendBusy by remember { mutableStateOf(false) }
+    var preview by remember { mutableStateOf(ProjectPreview()) }
+
+    var deskNote by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
     fun persistPocket(path: String) {
@@ -105,9 +111,15 @@ fun SeatNav() {
     }
 
     LaunchedEffect(pocket) {
+        var ticks = 0
         while (true) {
             gate = FaceBridge.gateState(pocket)
-            offer = FaceBridge.offerStatus(pocket)
+            if (ticks % 12 == 0 && pocket.isNotBlank()) {
+                offer = FaceBridge.pollIncoming(pocket)
+            } else {
+                offer = FaceBridge.offerStatus(pocket)
+            }
+            ticks += 1
             delay(120)
         }
     }
@@ -160,17 +172,13 @@ fun SeatNav() {
             DeskStrip(
                 joinStatus = join.status,
                 wakeStatus = wake.status,
-                paste = invitePaste,
-                onPaste = { invitePaste = it },
                 onJoin = {
-                    val pasted = invitePaste
                     scope.launch {
                         val next = withContext(Dispatchers.IO) {
-                            FaceBridge.joinAccept(pocket, pasted)
+                            FaceBridge.joinAccept(pocket, "")
                         }
                         join = next
-                        deskNote = next.note.ifBlank { "JOIN is not Yes." }
-                        invitePaste = ""
+                        deskNote = next.note
                         if (next.status == "connected") deskOn = true
                     }
                 },
@@ -183,7 +191,7 @@ fun SeatNav() {
                         deskNote = next.note
                     }
                 },
-                joinEnabled = invitePaste.isNotBlank(),
+                joinEnabled = join.status != "connected",
                 wakeEnabled = join.status == "connected" || deskOn,
                 note = deskNote,
                 offerNotify = offer.notify,
@@ -194,7 +202,7 @@ fun SeatNav() {
                             FaceBridge.acceptOffer(pocket)
                         }
                         offer = FaceBridge.offerStatus(pocket)
-                        deskNote = next.note.ifBlank { "Accepted. Not Yes." }
+                        deskNote = next.note.ifBlank { "Accepted." }
                         reload()
                     }
                 },
@@ -202,16 +210,12 @@ fun SeatNav() {
                     scope.launch {
                         withContext(Dispatchers.IO) { FaceBridge.declineOffer(pocket) }
                         offer = FaceBridge.offerStatus(pocket)
-                        deskNote = "Declined. Not Yes."
+                        deskNote = "Declined."
                     }
                 },
                 onStageUpload = {
-                    scope.launch {
-                        val raw = withContext(Dispatchers.IO) {
-                            FaceBridge.stageUpload(pocket)
-                        }
-                        deskNote = if (raw.startsWith("ERROR:")) raw else "Staged upload. Not Yes."
-                    }
+                    preview = FaceBridge.projectPreview(pocket)
+                    sendOpen = true
                 },
             )
         }
@@ -262,6 +266,76 @@ fun SeatNav() {
 
     fun closeOverlays() {
         bindOpen = false
+    }
+
+    if (sendOpen) {
+        Dialog(
+            onDismissRequest = { if (!sendBusy) sendOpen = false },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+                dismissOnClickOutside = !sendBusy,
+            ),
+        ) {
+            PluginDialogFrame(
+                title = "IN THE WORKS",
+                actionLabel = "CANCEL",
+                onAction = { if (!sendBusy) sendOpen = false },
+                onScrim = { if (!sendBusy) sendOpen = false },
+            ) {
+                Text(
+                    "This project is being offered. The other seat Accepts. CURRENT stays theirs.",
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
+                    color = SeatPalette.Lcd,
+                )
+                Text(
+                    "Folder: ${preview.name.ifBlank { pocket.substringAfterLast('/') }}",
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 13.sp,
+                    color = SeatPalette.Lcd,
+                    modifier = Modifier.padding(top = 10.dp),
+                )
+                Text(
+                    "Files: ${preview.files}",
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 13.sp,
+                    color = SeatPalette.Lcd,
+                )
+                Text(
+                    preview.note.ifBlank { "Barebones confirmation." },
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 11.sp,
+                    color = SeatPalette.BevelLite,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+                Text(
+                    if (sendBusy) "SENDING…" else "PUT ON THE WIRE",
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = SeatPalette.Ink,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
+                        .border(2.dp, SeatPalette.BevelLite)
+                        .background(SeatPalette.BevelLite)
+                        .clickable(enabled = !sendBusy) {
+                            sendBusy = true
+                            scope.launch {
+                                val raw = withContext(Dispatchers.IO) {
+                                    FaceBridge.sendProject(pocket)
+                                }
+                                deskNote = FaceBridge.asText(raw).ifBlank {
+                                    if (raw.startsWith("ERROR:")) raw else "In the works."
+                                }
+                                sendBusy = false
+                                sendOpen = false
+                            }
+                        }
+                        .padding(horizontal = 12.dp, vertical = 12.dp),
+                )
+            }
+        }
     }
 
     if (bindOpen) {

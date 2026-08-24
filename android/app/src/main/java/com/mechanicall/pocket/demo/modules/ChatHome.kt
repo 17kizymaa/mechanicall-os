@@ -3,9 +3,10 @@ package com.mechanicall.pocket.demo.modules
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,7 @@ const val DESK_OLLAMA =
     "http://myarch:11434,http://127.0.0.1:11434,http://192.168.0.51:11434,http://100.90.85.68:11434"
 private const val SEND_TIMEOUT_MS = 28_000L
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChatHome(
     face: FaceState,
@@ -49,10 +53,11 @@ fun ChatHome(
 ) {
     var composer by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(false) }
-    var note by remember { mutableStateOf("Suggesting on PROPOSE. Accept is not Yes.") }
+    var note by remember { mutableStateOf("Suggesting on PROPOSE.") }
     var lastSay by remember { mutableStateOf("") }
     var hunks by remember { mutableStateOf(listOf<HunkRow>()) }
     var focus by remember { mutableStateOf("Objective") }
+    val firstSit = face.firstSit
     val scope = rememberCoroutineScope()
 
     fun refresh() {
@@ -69,6 +74,10 @@ fun ChatHome(
     }
 
     val focused = hunks.firstOrNull { it.id == focus }
+    var more by remember { mutableStateOf(false) }
+    val primary = setOf("Objective", "Next")
+    val shown = if (more) hunks else hunks.filter { it.id in primary }
+    val hidden = (hunks.size - shown.size).coerceAtLeast(0)
 
     Column(Modifier.fillMaxSize()) {
         Column(
@@ -79,38 +88,52 @@ fun ChatHome(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                note,
+                if (firstSit) "First sit. One prompt makes a template. Not Yes." else note,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 11.sp,
                 color = SeatPalette.Ink,
             )
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                hunks.forEach { row ->
+                shown.forEach { row ->
                     val on = row.id == focus
                     Text(
                         row.id.uppercase(),
                         fontFamily = FontFamily.Monospace,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = if (row.differs) SeatPalette.Suggest else SeatPalette.Ink,
                         modifier = Modifier
+                            .semantics { contentDescription = "Field ${row.id}" }
                             .border(
                                 1.dp,
                                 if (on) SeatPalette.Suggest else SeatPalette.BevelDark,
                             )
                             .background(if (on) SeatPalette.PanelDark else SeatPalette.Panel)
                             .clickable(enabled = !busy) { focus = row.id }
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                            .padding(horizontal = 10.dp, vertical = 10.dp),
+                    )
+                }
+                if (hidden > 0 || more) {
+                    Text(
+                        if (more) "LESS" else "MORE $hidden",
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = SeatPalette.Ink,
+                        modifier = Modifier
+                            .semantics { contentDescription = if (more) "Fewer fields" else "More fields" }
+                            .border(1.dp, SeatPalette.BevelDark)
+                            .clickable { more = !more }
+                            .padding(horizontal = 10.dp, vertical = 10.dp),
                     )
                 }
             }
             Text(
-                "LIVE",
+                "LIVE · $focus",
                 fontFamily = FontFamily.Monospace,
                 fontSize = 10.sp,
                 color = SeatPalette.Ink,
@@ -119,16 +142,17 @@ fun ChatHome(
             Text(
                 focused?.live?.ifBlank { "(none)" } ?: "(none)",
                 fontFamily = FontFamily.Monospace,
-                fontSize = 12.sp,
+                fontSize = 14.sp,
                 color = SeatPalette.Ink,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(SeatPalette.PanelDark)
-                    .padding(8.dp),
+                    .background(SeatPalette.Panel)
+                    .border(1.dp, SeatPalette.BevelDark)
+                    .padding(10.dp),
             )
             if (focused?.differs == true) {
                 Text(
-                    "DRAFT · not Yes",
+                    "DRAFT · SUGGESTING",
                     fontFamily = FontFamily.Monospace,
                     fontSize = 10.sp,
                     color = SeatPalette.Suggest,
@@ -137,47 +161,49 @@ fun ChatHome(
                 Text(
                     focused.propose,
                     fontFamily = FontFamily.Monospace,
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     color = SeatPalette.Suggest,
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, SeatPalette.Suggest)
-                        .padding(8.dp),
+                        .padding(10.dp),
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        "ACCEPT HUNK",
+                        "KEEP",
                         fontFamily = FontFamily.Monospace,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = SeatPalette.Ink,
                         modifier = Modifier
+                            .semantics { contentDescription = "Keep this change on the proposal" }
                             .border(1.dp, SeatPalette.BevelDark)
                             .background(SeatPalette.BevelLite)
                             .clickable(enabled = !busy) {
                                 FaceBridge.acceptHunk(pocket, focus)
-                                note = "Hunk kept on PROPOSE. Not Yes."
+                                note = "Change kept on PROPOSE."
                                 refresh()
                                 onReload()
                             }
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                            .padding(horizontal = 12.dp, vertical = 10.dp),
                     )
                     Text(
-                        "REJECT HUNK",
+                        "UNDO",
                         fontFamily = FontFamily.Monospace,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = SeatPalette.Ink,
                         modifier = Modifier
+                            .semantics { contentDescription = "Restore live text into the proposal" }
                             .border(1.dp, SeatPalette.BevelDark)
                             .background(SeatPalette.PanelDark)
                             .clickable(enabled = !busy) {
                                 FaceBridge.rejectHunk(pocket, focus)
-                                note = "Hunk restored from live. Not Yes."
+                                note = "Change restored from live."
                                 refresh()
                                 onReload()
                             }
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                            .padding(horizontal = 12.dp, vertical = 10.dp),
                     )
                 }
             }
@@ -192,6 +218,7 @@ fun ChatHome(
                 fontFamily = FontFamily.Monospace,
                 fontSize = 13.sp,
                 color = SeatPalette.Ink,
+                maxLines = 4,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(SeatPalette.PanelDark)
@@ -208,8 +235,12 @@ fun ChatHome(
             OutlinedTextField(
                 value = composer,
                 onValueChange = { composer = it },
-                label = { Text("Suggest $focus") },
-                modifier = Modifier.weight(1f),
+                label = { Text(if (firstSit) "What is this folder for" else "Change $focus") },
+                modifier = Modifier
+                    .weight(1f)
+                    .semantics {
+                        contentDescription = if (firstSit) "What is this folder for" else "Change $focus"
+                    },
                 enabled = !busy,
                 minLines = 1,
                 colors = OutlinedTextFieldDefaults.colors(
@@ -231,6 +262,9 @@ fun ChatHome(
                 fontWeight = FontWeight.Bold,
                 color = SeatPalette.Ink,
                 modifier = Modifier
+                    .semantics {
+                        contentDescription = if (firstSit) "Send template" else "Send suggestion for $focus"
+                    }
                     .border(1.dp, SeatPalette.BevelDark)
                     .background(SeatPalette.BevelLite)
                     .clickable(enabled = !busy) {
@@ -242,7 +276,12 @@ fun ChatHome(
                             note = "Desk thinking. GATE is the strip."
                             val result = withTimeoutOrNull(SEND_TIMEOUT_MS) {
                                 withContext(Dispatchers.IO) {
-                                    FaceBridge.draftChat(pocket, DESK_OLLAMA, text, focus)
+                                    FaceBridge.draftChat(
+                                        pocket,
+                                        DESK_OLLAMA,
+                                        text,
+                                        if (firstSit) "" else focus,
+                                    )
                                 }
                             }
                             if (result == null) {
@@ -252,7 +291,8 @@ fun ChatHome(
                                 lastSay = result.reply.ifBlank { "Desk quiet." }
                                 note = when {
                                     result.stage == "gate" -> "Use DECIDE to publish."
-                                    result.ok -> "Suggestion on PROPOSE. Not Yes."
+                                    result.stage == "template" -> "Template on PROPOSE. Use DECIDE to publish."
+                                    result.ok -> "Suggestion on PROPOSE."
                                     else -> "Desk quiet."
                                 }
                                 refresh()

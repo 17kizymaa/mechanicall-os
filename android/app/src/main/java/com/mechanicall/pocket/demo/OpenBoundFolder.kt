@@ -8,7 +8,7 @@ import android.os.Environment
 import android.widget.Toast
 import java.io.File
 
-/** FILES → the device file manager on the bound directory. Not an in-app overlay. Not Yes. */
+/** FILES → the device file manager on the bound directory. Not an in-app overlay. */
 fun openBoundInFileManager(context: Context, path: String) {
     val dir = File(path)
     if (path.isBlank() || !dir.exists()) {
