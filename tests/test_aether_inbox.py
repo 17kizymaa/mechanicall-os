@@ -2,17 +2,21 @@
 """Inbox offers are not Yes and do not write operator CURRENT."""
 from __future__ import annotations
 
+import io
 import json
 import os
+import stat
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "python"))
 
 from aether_inbox import (  # noqa: E402
+    _unzip_to,
     accept_offer,
     accept_pocket_offer,
     decline_offer,
@@ -25,6 +29,19 @@ from aether_inbox import (  # noqa: E402
     upload_sitter,
 )
 from aether_pocket import PocketError  # noqa: E402
+
+
+def _zip_bytes(entries: dict[str, bytes], *, symlink: str | None = None) -> bytes:
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for name, data in entries.items():
+            zf.writestr(name, data)
+        if symlink is not None:
+            info = zipfile.ZipInfo(symlink)
+            info.create_system = 3
+            info.external_attr = (stat.S_IFLNK | 0o777) << 16
+            zf.writestr(info, "/tmp/outside")
+    return buf.getvalue()
 
 
 class TestInbox(unittest.TestCase):
@@ -140,6 +157,88 @@ class TestInbox(unittest.TestCase):
             self.assertEqual(again.get("status"), "accepted")
             self.assertFalse(again.get("notify"))
             self.assertEqual((receiver / "CURRENT.md").read_text(encoding="utf-8"), before)
+        finally:
+            httpd.shutdown()
+            os.environ.pop("MECHANICALL_DROP", None)
+
+    def test_unzip_nested_file_stays_inside(self) -> None:
+        dest = self.home / "safe-offer"
+        n = _unzip_to(_zip_bytes({"docs/note.md": b"ok\n", "CURRENT.md": b"# CURRENT\n"}), dest)
+        self.assertGreaterEqual(n, 1)
+        self.assertTrue((dest / "docs" / "note.md").is_file())
+        self.assertIn("ok", (dest / "docs" / "note.md").read_text(encoding="utf-8"))
+
+    def test_unzip_refuses_dotdot(self) -> None:
+        dest = self.home / "slip-dotdot"
+        outside = self.home / "pwned.txt"
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({"../pwned.txt": b"no\n"}), dest)
+        self.assertFalse(outside.exists())
+
+    def test_unzip_refuses_absolute_unix(self) -> None:
+        dest = self.home / "slip-abs"
+        marker = self.home / "abs-pwned.txt"
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({str(marker): b"no\n"}), dest)
+        self.assertFalse(marker.exists())
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({"/etc/mechanicall-pwned": b"no\n"}), dest)
+
+    def test_unzip_refuses_backslash_and_drive(self) -> None:
+        dest = self.home / "slip-win"
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({"..\\pwned.txt": b"no\n"}), dest)
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({"C:/Windows/mechanicall-pwned.txt": b"no\n"}), dest)
+        self.assertFalse(self.home.joinpath("pwned.txt").exists())
+
+    def test_unzip_refuses_symlink_member(self) -> None:
+        dest = self.home / "slip-link"
+        with self.assertRaises(PocketError):
+            _unzip_to(_zip_bytes({"ok.md": b"x\n"}, symlink="escape"), dest)
+        self.assertFalse((dest / "escape").exists())
+
+    def test_poll_malicious_zip_does_not_stage(self) -> None:
+        import threading
+        from aether_drop import DropHandler, ThreadingHTTPServer
+
+        os.environ["MECHANICALL_INBOX_ROOT"] = str(self.home / "inbox")
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), DropHandler)
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        os.environ["MECHANICALL_DROP"] = f"http://127.0.0.1:{port}"
+        drop_root = self.home / "inbox" / "drop"
+        drop_root.mkdir(parents=True, exist_ok=True)
+        evil = _zip_bytes({"../pwned-poll.txt": b"no\n", "brief.md": b"hi\n"})
+        (drop_root / "offer.zip").write_bytes(evil)
+        (drop_root / "offer.json").write_text(
+            json.dumps(
+                {
+                    "id": "evil",
+                    "from": "mallory",
+                    "name": "mallory",
+                    "present": True,
+                    "files": 2,
+                    "kind": "folder",
+                    "status": "offered",
+                    "not_yes": True,
+                }
+            ),
+            encoding="utf-8",
+        )
+        receiver = self.home / "victim"
+        receiver.mkdir()
+        (receiver / "CURRENT.md").write_text("# CURRENT\n**Next:** keep\n", encoding="utf-8")
+        try:
+            got = poll_incoming(receiver, for_id="victim")
+            self.assertFalse(got.get("notify"), got)
+            self.assertFalse((self.home / "pwned-poll.txt").exists())
+            self.assertFalse((receiver / ".aether" / "offer").exists())
+            self.assertEqual(
+                (receiver / "CURRENT.md").read_text(encoding="utf-8"),
+                "# CURRENT\n**Next:** keep\n",
+            )
         finally:
             httpd.shutdown()
             os.environ.pop("MECHANICALL_DROP", None)

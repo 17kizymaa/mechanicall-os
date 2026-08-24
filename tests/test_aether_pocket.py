@@ -251,6 +251,33 @@ class TestPocketAether(unittest.TestCase):
         with self.assertRaises(PocketError):
             yes(ROOT, reason="no")
 
+    def test_yes_without_posix_aether(self) -> None:
+        os.environ.pop("AETHER_HOME", None)
+        saved = os.environ.get("PATH", "")
+        os.environ["PATH"] = "/usr/bin:/bin"
+        try:
+            r = yes(self.pocket, reason="stock phone yes")
+            self.assertTrue(r.ok, r.text)
+            self.assertIn("APPROVED", r.text)
+            fields = parse_fields((self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+            self.assertEqual(fields["Approval"], "APPROVED")
+            self.assertEqual(fields["Status"], "APPROVED")
+            self.assertEqual(fields["Next"], "buy-starts")
+            ev = events_tail(self.pocket, n=20)
+            self.assertIn("approve", ev.text)
+            self.assertIn("stock phone yes", ev.text)
+            self.assertIn("APPROVED: stock phone yes", (self.pocket / "DECISIONS.md").read_text(encoding="utf-8"))
+        finally:
+            os.environ["PATH"] = saved
+            os.environ["AETHER_HOME"] = str(ROOT)
+
+    def test_yes_refuses_empty_why(self) -> None:
+        with self.assertRaises(PocketError) as ctx:
+            yes(self.pocket, reason="   ")
+        self.assertIn("Why", str(ctx.exception))
+        fields = parse_fields((self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+        self.assertEqual(fields["Approval"], "PENDING")
+
     def test_face_state_fields_open_is_not_yes(self) -> None:
         before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
         st = face_state(self.pocket)

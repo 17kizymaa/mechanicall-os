@@ -2,8 +2,8 @@
 """Pocket Domain bridge for the mobile-planning-demo APK (demo only).
 
 Law: bind a folder *outside* the mechanicall-os operator tree.
-Prefer the real ``aether`` CLI (same ``bin/aether`` as desktop).
-Apply-PROPOSE then ``aether approve`` is the only Yes path.
+Apply-PROPOSE then native pocket approve is Yes (stock phone; no POSIX
+``bin/aether`` required). Desktop ``aether`` CLI remains for current/validate.
 
 This module is stdlib-only so Chaquopy can import it.
 """
@@ -523,18 +523,92 @@ def write_first_sit_template(
     return write_schema_draft(root, src)
 
 
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
+def _append_event(root: Path, kind: str, **fields: object) -> Path:
+    dest = root / ".aether"
+    dest.mkdir(parents=True, exist_ok=True)
+    ev = dest / "events.jsonl"
+    payload = {"ts": _now_iso(), "kind": kind, **fields}
+    with ev.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    return ev
+
+
+def _append_decision(root: Path, line: str) -> None:
+    path = root / "DECISIONS.md"
+    if not path.is_file():
+        path.write_text(
+            "# DECISIONS\n\nAppend-only human decisions. Authority remains CURRENT.md.\n\n",
+            encoding="utf-8",
+        )
+    with path.open("a", encoding="utf-8") as fh:
+        fh.write(line.rstrip() + "\n")
+
+
+def _require_why(reason: str) -> str:
+    why = (reason or "").strip()
+    if not why:
+        raise PocketError("refused: Why is required")
+    return why
+
+
+def pocket_approve(pocket: str | Path, reason: str) -> PocketResult:
+    """Same field/event shape as ``aether approve``. No POSIX aether. Not for agents."""
+    root = refuse_if_operator(pocket)
+    why = _require_why(reason)
+    cf = root / "CURRENT.md"
+    if not cf.is_file():
+        raise PocketError("no CURRENT.md in pocket")
+    fields = parse_fields(cf.read_text(encoding="utf-8"))
+    patch = {"Status": "APPROVED", "Approval": "APPROVED"}
+    phase = (fields.get("Phase") or "").strip().upper()
+    if phase in {"EXECUTE", "REVIEW", "SELECT", "COMMIT"}:
+        patch["Phase"] = "APPROVE"
+    cf.write_text(apply_fields_to_current(cf.read_text(encoding="utf-8"), patch), encoding="utf-8")
+    ev = _append_event(root, "approve", reason=why, by="human")
+    _append_decision(root, f"- {_now_iso()} APPROVED: {why}")
+    text = f"APPROVED: {why}\n  CURRENT Status/Approval updated. Events: {ev}"
+    return PocketResult(ok=True, code=0, text=text, extra={"reason": why})
+
+
+def pocket_reject(pocket: str | Path, reason: str) -> PocketResult:
+    """Same field/event shape as ``aether reject``. No POSIX aether. Not for agents."""
+    root = refuse_if_operator(pocket)
+    why = _require_why(reason)
+    cf = root / "CURRENT.md"
+    if not cf.is_file():
+        raise PocketError("no CURRENT.md in pocket")
+    patch = {"Status": "REJECTED", "Approval": "REJECTED", "Phase": "SELECT"}
+    cf.write_text(apply_fields_to_current(cf.read_text(encoding="utf-8"), patch), encoding="utf-8")
+    ev = _append_event(root, "reject", reason=why, by="human", phase="SELECT")
+    _append_decision(
+        root,
+        f"- {_now_iso()} REJECTED: {why} (returned to SELECT; no automatic rebuild)",
+    )
+    text = f"REJECTED: {why}\n  Phase → SELECT. No automatic rebuild. Events: {ev}"
+    return PocketResult(ok=True, code=0, text=text, extra={"reason": why})
+
+
 def yes(
     pocket: str | Path,
     reason: str = "yes from demo sitting",
     included: list[str] | str | None = None,
     **kw,
 ) -> PocketResult:
-    """Human Yes: apply included hunks then aether approve. Agent must not call this."""
+    """Human Yes: apply included hunks then native approve. Agent must not call this.
+
+    Does not exec POSIX ``aether``. ``kw`` kept for FaceBridge call sites.
+    """
+    del kw
+    _require_why(reason)
     if included is not None:
         set_hunk_included(pocket, included)
     names = hunk_included(pocket)
     applied = apply_propose(pocket, only=names)
-    approved = run_aether(["approve", reason], pocket, **kw)
+    approved = pocket_approve(pocket, reason)
     rec = write_receipt(pocket, said="Yes", reason=reason)
     text = applied.text + "\n" + approved.text + "\n" + rec.text
     return PocketResult(
@@ -546,7 +620,8 @@ def yes(
 
 
 def not_yet(pocket: str | Path, reason: str = "not yet from demo sitting", **kw) -> PocketResult:
-    rejected = run_aether(["reject", reason], pocket, **kw)
+    del kw
+    rejected = pocket_reject(pocket, reason)
     rec = write_receipt(pocket, said="Not yet", reason=reason)
     text = rejected.text + "\n" + rec.text
     return PocketResult(

@@ -18,6 +18,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -288,22 +289,75 @@ def _zip_tree(src: Path) -> bytes:
     return data
 
 
+def _zip_member_unsafe(info: zipfile.ZipInfo) -> bool:
+    """True if this member must not be written (zip-slip / special / abs)."""
+    raw = info.filename or ""
+    if not raw or "\x00" in raw:
+        return True
+    if raw.startswith(("/", "\\")):
+        return True
+    if "\\" in raw:
+        return True
+    if len(raw) >= 2 and raw[1] == ":" and raw[0].isalpha():
+        return True
+    name = Path(raw)
+    if name.is_absolute() or name.anchor:
+        return True
+    if any(part in {"..", ""} for part in name.parts):
+        return True
+    if info.create_system == 3:
+        mode = (info.external_attr >> 16) & 0xFFFF
+        ftype = stat.S_IFMT(mode) if mode else 0
+        if ftype and ftype not in {stat.S_IFREG, stat.S_IFDIR}:
+            return True
+    return False
+
+
+def _zip_target(dest_res: Path, info: zipfile.ZipInfo) -> Path:
+    """Resolved path under dest_res, or PocketError if it would escape."""
+    if _zip_member_unsafe(info):
+        raise PocketError("refused: zip member escapes offer directory")
+    rel = Path(info.filename)
+    target = dest_res.joinpath(*rel.parts)
+    try:
+        resolved = target.resolve()
+        resolved.relative_to(dest_res)
+    except ValueError as exc:
+        raise PocketError("refused: zip member escapes offer directory") from exc
+    dest_s = str(dest_res)
+    norm = os.path.normpath(str(dest_res.joinpath(*rel.parts)))
+    if not (norm == dest_s or norm.startswith(dest_s + os.sep)):
+        raise PocketError("refused: zip member escapes offer directory")
+    return target
+
+
 def _unzip_to(blob: bytes, dest: Path) -> int:
     dest.mkdir(parents=True, exist_ok=True)
+    dest_res = dest.resolve()
     n = 0
     with zipfile.ZipFile(io.BytesIO(blob)) as zf:
+        planned: list[tuple[zipfile.ZipInfo, Path]] = []
         for info in zf.infolist():
-            if info.is_dir():
+            if info.is_dir() or str(info.filename).endswith("/"):
                 continue
             name = Path(info.filename)
             if name.name in SKIP or name.name == "NOTICE.json":
                 continue
-            if ".." in name.parts:
-                continue
-            target = dest / name
+            planned.append((info, _zip_target(dest_res, info)))
+        for info, target in planned:
+            if target.exists() and (target.is_symlink() or not target.is_file()):
+                raise PocketError("refused: zip member collides with non-file")
             target.parent.mkdir(parents=True, exist_ok=True)
+            if target.parent.resolve() != dest_res:
+                try:
+                    target.parent.resolve().relative_to(dest_res)
+                except ValueError as exc:
+                    raise PocketError("refused: zip member escapes offer directory") from exc
             with zf.open(info) as src, target.open("wb") as out:
                 out.write(src.read())
+            if target.is_symlink():
+                target.unlink()
+                raise PocketError("refused: zip member resolved as symlink")
             n += 1
     return n
 
@@ -405,7 +459,13 @@ def poll_incoming(pocket: str | Path, for_id: str = "") -> dict:
         dest = pocket_offer_dir(root)
         if dest.exists():
             shutil.rmtree(dest)
-        n = _unzip_to(blob, dest)
+        try:
+            n = _unzip_to(blob, dest)
+        except PocketError:
+            if dest.exists():
+                shutil.rmtree(dest)
+            last = "drop zip refused"
+            continue
         _notice(
             dest,
             direction="drop-to-sitter",
