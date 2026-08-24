@@ -1,13 +1,55 @@
-# Decision tree — notepad Decide + send/receive cycle (C-series)
+# Decision tree — production-grade APK in git (R-series)
 
-**Premise (this grill, 2026-08-24):** User: standardise Decide input as a **normal notepad**; debug the **project cycle** (sending and receiving); grill **why this phase is in the current state**; *“I feel misunderstood; what?”* Live law is still **`sit-testers` APPROVED**. Dual-Next Reject. Models never approve. No implement until this tree closes *and* a human-applied CURRENT (unless they pick leftover-under-sit-testers on C-law).
+**Premise (this grill, 2026-08-24):** User wants **production-ready** stuff and to **PR a production-grade APK to git**. Live law is **`sit-distro-gate` APPROVED**: closed testers, Play **internal/closed**, **Reject production listing**, no jks/AAB in git, LTE before Console. Dual-Next Reject. Models never approve.
 
 **Interview started:** 2026-08-24  
-**Interview status:** **OPEN.** C0 auto (why-this-state, from disk). C1 posed (what “notepad” is).  
-**Skill:** `grill-me-store-decisions`.  
-**Live law now:** header **Next:** `sit-testers` · **APPROVED**. Agents do **not** silently rewrite CURRENT.
+**Interview status:** **OPEN.** R0 auto (facts). R1–R3 posed (frontier).  
+**Skill:** Matt Pocock `grilling` + `grill-me-store-decisions`.  
+**Live law now:** header **Next:** `sit-distro-gate` · **APPROVED**. Agents do **not** silently rewrite CURRENT.
+
+**Problem note:** `dev/42_sit-distro-gate/06_production-grade/output/PROBLEM.md`  
+**Handoff:** `/tmp/mechanicall-handoff-production-apk.md`
+
+**Prior:** C-series notepad **PARKED** (C1 unanswered). P-series closed. S/T/E/G closed. D-series archived.
+
+---
+
+# Prior interview (parked) — notepad Decide + send/receive (C-series)
+
+**Premise then:** Standardise Decide as notepad; debug send/receive; *“I feel misunderstood.”* Live law then `sit-testers`. C1 never answered.
+
+**Interview started:** 2026-08-24  
+**Interview status:** **PARKED.**
 
 **Prior closed tree:** 2026-08-23 testers / SOS / first-sit (P-series, P2b recant). 2026-08-20 invite + Draft workshop (S/T/E/G). 2026-08-16 mobile-planning-demo archived at bottom (D1–D14).
+
+---
+
+## R-series (open) — production-grade in git
+
+### R0 — Facts (auto)
+
+Live Next `sit-distro-gate` APPROVED. Play **production listing** Reject. No jks/AAB in git. Signed AAB off-git SHA-256 `5442e455…`. PR #7 `0.17.1-api36` target 36. LTE USB≠LTE BLOCKED. 13_* merge-now No. **Status:** decided (auto). **Cost:** $0 to name; Play $25 already-or-not.
+
+### R1 — What “production-grade APK in git” means — **open**
+
+1. Quality bar for **closed testers** (source + listing + checksums; no binary in git). **Recommended.**
+2. Commit **APK/AAB binaries** into the PR.
+3. Recant Play **production listing** this Next (new CURRENT).
+
+**Cost:** 1 = $0 git + your Console week. 2 = repo bloat + gitignore recant. 3 = policy week (privacy URL, All-files, 16KB, review).
+
+### R2 — What the PR may contain — **open** (depends little on R1)
+
+1. Source + `android/play-listing/` + sha256. **Recommended.**
+2. Also attach APK as a GitHub **Release** asset (not the git tree).
+3. Binaries in git.
+
+### R3 — Console track — **open** (after R1)
+
+1. Internal/closed only until LTE + hosted privacy URL. **Recommended** if R1=1.
+2. Production listing this Next (only if R1=3).
+3. Sideload only; Play stays Reject.
 
 ---
 
