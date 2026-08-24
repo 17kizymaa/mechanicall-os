@@ -1,11 +1,11 @@
 # CURRENT
 
 **Objective:** Closed-tester distribution that is **honestly Play-uploadable** (internal/closed track). Fix zip containment, make Decide→Publish work on a stock phone, target API 36, signed AAB from an off-git keystore. Not production. Not Funnel. Lab drop stays lab until the zip is safe.
-**Phase:** APPROVE
-**Status:** APPROVED
+**Phase:** SELECT
+**Status:** DRAFT
 **Baseline:** 2026-08-24 · live Next was `sit-testers` APPROVED · PR #7 open · A33 `13_FIRST_DISTRIBUTION_PR_GPT5.6.md` verdict NO · drop :8765 down · targetSdk 34 vs Play API-36 gate 2026-08-31
 **Next:** sit-distro-gate
-**Approval:** APPROVED
+**Approval:** PENDING
 **Host:** myarch · `personal-llm-sft-v4` · STORM home `~/.mechanicall/storm`
 
 ## Product (non-negotiable identity)

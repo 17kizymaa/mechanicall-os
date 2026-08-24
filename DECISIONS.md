@@ -219,3 +219,4 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-08-21T18:30:54.982Z APPROVED: APPROVED
 - 2026-08-23T05:29:01.717Z APPROVED: APPROVED
 - 2026-08-23T11:32:12.619Z APPROVED: first-sit template, off-LAN then Play internal
+- 2026-08-24T14:52:35.855Z APPROVED: closed-tester distro gate: contain zip, stock-phone Publish, API 36, then Play internal
