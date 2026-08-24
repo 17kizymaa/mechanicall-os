@@ -33,6 +33,11 @@ venv/
 *.apk
 *.aab
 
+# Play upload keystore — never git. Lives in ~/.mechanicall/
+*.jks
+*.keystore
+play-upload.properties
+
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
 

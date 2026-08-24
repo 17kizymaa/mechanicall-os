@@ -22,7 +22,7 @@ Decide → Publish is **native** in the APK (`pocket_approve`). No Termux and no
 - `MANAGE_EXTERNAL_STORAGE` (bind a user-chosen folder). Restricted permission — justify All files access or switch to SAF; this Next does not silently pass policy.
 - `usesCleartextTraffic` (lab desk URLs). Declare in Data safety; do not ship as production.
 - Target API **36** (required for new/update uploads from 2026-08-31).
-- Signing: upload keystore lives **off git** (`~/.mechanicall/play-upload.properties`). This tree never contains `.jks`.
+- Signing: upload keystore lives **off git** (`~/.mechanicall/play-upload.jks` + `play-upload.properties`). This tree never contains `.jks`. Backup that directory before first Console upload.
 
 ## Privacy / data safety (honest)
 
