@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Mechanicall.Sit" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowBackground">#E8E0D0</item>
+        <item name="android:statusBarColor">#2E2E2C</item>
+        <item name="android:navigationBarColor">#E8E0D0</item>
+        <item name="android:windowSplashScreenBackground">#E8E0D0</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#E8E0D0</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    </style>
+</resources>

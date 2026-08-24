@@ -1,0 +1,5 @@
+Alias name: upload
+Owner: CN=Mechanicall closed testers, O=Mechanicall, C=GB
+Valid from: Mon Aug 24 17:56:50 BST 2026 until: Fri Jan 09 16:56:50 GMT 2054
+SHA1: 05:18:E3:86:68:A6:8F:FD:BC:0B:2C:EC:38:84:DD:6E:53:E0:67:62
+SHA256: 51:AE:5D:F0:11:E4:0B:B5:EE:25:32:56:43:2D:D8:D0:4E:C0:9F:3B:21:22:F3:68:09:37:0C:E8:C4:65:A8:58

@@ -792,6 +792,26 @@ printf '%s\n' "$out" | grep -qi 'STALE\|preflight:' || true
 printf '%s\n' "$out" | grep -qi STALE || fail "expected STALE after dirty edit without new preflight: $out"
 pass "git dirty authority_fp content-sensitive + STALE"
 
+# --- pocket demo engine (temp dirs only; never operator CURRENT) ---
+if command -v python3 >/dev/null 2>&1; then
+  python3 "$ROOT/tests/test_aether_pocket.py" || fail "pocket unit tests"
+  pass "pocket unit tests"
+  python3 "$ROOT/tests/test_app_verify.py" || fail "app_verify unit tests"
+  pass "app_verify unit tests"
+  python3 "$ROOT/tests/test_aether_client.py" || fail "aether client unit tests"
+  pass "aether client unit tests"
+  python3 "$ROOT/tests/test_aether_pocket_serve.py" || fail "pocket serve tests"
+  pass "pocket serve tests"
+  python3 "$ROOT/tests/test_aether_twin.py" || fail "read-twin unit tests"
+  pass "read-twin unit tests"
+  python3 "$ROOT/tests/test_aether_storm.py" || fail "storm factory unit tests"
+  pass "storm factory unit tests"
+  python3 "$ROOT/tests/test_aether_inbox.py" || fail "inbox offer unit tests"
+  pass "inbox offer unit tests"
+  sh "$ROOT/scripts/rehearse-pocket-spike.sh" || fail "pocket host rehearsal"
+  pass "pocket host rehearsal"
+fi
+
 # --- source checkout unchanged by the suite (porcelain + authority hashes) ---
 AFTER_AUTH_SNAP=$(src_authority_snap)
 if [ "$SRC_AUTH_SNAP" != "$AFTER_AUTH_SNAP" ]; then

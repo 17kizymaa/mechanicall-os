@@ -20,6 +20,24 @@ venv/
 # Local inbox/sparks if stored in-tree by mistake
 /inbox.md
 
+# Depreciated sitter folder send/receive (E7). Not law. Not CURRENT.
+/.inbox/sitters/
+/.inbox/outbox/
+/.inbox/drop/
+
+# Operator JOIN provision (Headscale preauth). Never git. Never CURRENT.
+**/.aether/join-provision
+**/.aether/join-provision.*
+
+# ICM / STORM receipt APKs and Play bundles (S13). Source stays; binaries do not.
+*.apk
+*.aab
+
+# Play upload keystore — never git. Lives in ~/.mechanicall/
+*.jks
+*.keystore
+play-upload.properties
+
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
 

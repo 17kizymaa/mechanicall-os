@@ -43,7 +43,8 @@ Vendoring a lab tree as “Mechanicall core” is a claim error.
 | `domains/` | **LAB** | Sample Domain folders (house-tv-desk, minimal-cli) — not the product |
 | `seat/` | **LAB** | Tauri/Vite seat shell — incomplete single-app experiment (**not** the product front door) |
 | `docs/SINGLE-APP-DISTRIBUTION.md` | **LAB** narrative | Casual packaging dream — incomplete; do not lead README with this. **Note:** body may still say “CLI is not the product” (older face) — follow-up rewrite; LAB-STATUS + PRODUCT win on conflict |
-| `android/` | **LAB** | Android/boot experiments — not core protocol |
+| `android/` | **LAB** | Demo pocket APK (`mechanicall-pocket`) — **not** core protocol; sideload only |
+| `python/aether_storm.py` · `scripts/storm-*.sh` | **SUPPORT** / **LAB** | Persistent STORM factory: isolated AVD review envs for chat subagents. Never A33. Never Confirm. AVD data in `~/.mechanicall/storm` (**LOCAL**, not git) |
 | `nix/` · `flake.nix` · `shell.nix` | **LAB** / host tooling | Portable Kingston / NixOS seating — distribution lab |
 | `legacy/` | **ARCHIVE** | Old Python package path — not the one-true CLI |
 | `dev/` | **ARCHIVE** / **LAB** | ICM stages, peer packs, client work — Layer-4 receipts |
