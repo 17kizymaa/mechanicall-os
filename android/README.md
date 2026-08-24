@@ -8,19 +8,17 @@ This Next (`people-app-phone-seat`): **APK first**. URL / pocket-face is the sib
 
 ```bash
 sh scripts/sync-pocket-engine.sh
-# JDK 17 + SDK 34 + ./gradlew  (this Nix host used ~/.jdk/temurin-17 + ~/.android-sdk-mechanicall)
-cd android && ./gradlew :app:assembleDebug
-sh scripts/sideload-apk-via-edge.sh   # A33 via mbp-edge ADB
+# JDK 17 + SDK 36 + Gradle 8.11.1  (this Nix host: ~/.jdk/temurin-17 + ~/.android-sdk-mechanicall)
+cd android && ./gradlew :app:assembleDebug   # or :app:bundleRelease
+# Play upload keystore is off git: ~/.mechanicall/play-upload.properties
+sh scripts/sideload-apk-via-edge.sh   # A33 via mbp-edge ADB — not an LTE receipt
 ```
 
 ## What this chrome is
 
-Android Compose + Chaquopy calling `aether_pocket.py`, which execs the same `bin/aether` when a POSIX `aether` is on PATH / `AETHER_HOME`.
+Android Compose + Chaquopy calling `aether_pocket.py`. **Decide → Publish** is native (`pocket_approve` / `pocket_reject`): apply PROPOSE, then Status/Approval + events + DECISIONS + RECEIPT. No POSIX `bin/aether` on the phone.
 
-On a stock phone there is no bash `aether`. For a sitting either:
-
-1. Sideload the APK **and** provide `AETHER_HOME` via a copied `aether` + toybox/Termux (same law), or  
-2. Use the **URL face** (host already has `aether`) and treat the APK as optional chrome.
+Desktop `aether current` / `validate` still use the CLI when present. Opening the app is not Yes. Why is required.
 
 ## Build (needs Android SDK — not in the default Nix shell)
 

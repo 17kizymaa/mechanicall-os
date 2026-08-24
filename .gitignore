@@ -29,8 +29,9 @@ venv/
 **/.aether/join-provision
 **/.aether/join-provision.*
 
-# ICM / STORM receipt APKs (S13). Source stays; binaries do not.
+# ICM / STORM receipt APKs and Play bundles (S13). Source stays; binaries do not.
 *.apk
+*.aab
 
 # Optional local noise (events/artifacts are usually committed for inspectability)
 # .aether/events.jsonl
