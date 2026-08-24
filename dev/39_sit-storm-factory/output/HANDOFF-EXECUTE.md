@@ -44,3 +44,7 @@ Left dirty on purpose: `CURRENT.md`, `.aether/events.jsonl`, `.context.md`, `DEC
 ## Honest
 
 Opening the emulator is not Decide. Empty storm-0 out dir is honest until the APK is on that serial.
+
+## Execute ran (2026-08-21)
+
+Sideload **Success** on `emulator-5554` (`0.15.0-vst`). Glass dumps in `output/storm-0/`. `app_verify` 10/10 source+glass. FILES opened OEM manager. Confirm not tapped. A33 refused. Details: `05_execute/output/EXECUTE.md`. PASS is not human Yes.

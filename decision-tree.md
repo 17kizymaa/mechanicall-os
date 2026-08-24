@@ -1,12 +1,20 @@
-# Decision tree — tailnet invite (depreciated stranger) + Draft workshop
+# Decision tree — notepad Decide + send/receive cycle (C-series)
 
-**Premise:** Quick spike (two clauses, one grill): (1) an in-app action so the **app user can accept a tailnet invitation**, then **boot myarch** and **send desk requests**, under a **depreciated stranger role**; (2) **Draft** becomes an actual **proposal-editing workshop**, not a chat surface with LIVE/DRAFT labels.
+**Premise (this grill, 2026-08-24):** User: standardise Decide input as a **normal notepad**; debug the **project cycle** (sending and receiving); grill **why this phase is in the current state**; *“I feel misunderstood; what?”* Live law is still **`sit-testers` APPROVED**. Dual-Next Reject. Models never approve. No implement until this tree closes *and* a human-applied CURRENT (unless they pick leftover-under-sit-testers on C-law).
 
-**Interview started:** 2026-08-20  
-**Interview status:** **E7 decided 2026-08-21.** Depreciated local `.inbox/` send (AirDrop-shaped); Headscale is mesh only. FILES → system file manager. Original sit central. EdubaWare cut. STORM factory in-tree. Re-apply PROPOSE `sit-storm-factory` (amended). Agents do not next/approve. Go-git last.  
-**Skill:** `grill-me-store-decisions`  
-**Live law at start:** `CURRENT.md` **Next:** `ACTUAL-APP-VERIFICATION` · Phase APPROVE · Status APPROVED. Body **Action id** still `mechanicall-debug-window` (header/body drift; agents do **not** silently rewrite). Dual-concurrent-next prohibited. Models never `aether approve` / `reject` / `next`.  
-**Live law now:** header **Next:** `sit-storm-factory` · SELECT / **REJECTED** (human: Headscale folder up/download). Dual-Next Reject. Agents do **not** silently rewrite.
+**Interview started:** 2026-08-24  
+**Interview status:** **OPEN.** C0 auto (why-this-state, from disk). C1 posed (what “notepad” is).  
+**Skill:** `grill-me-store-decisions`.  
+**Live law now:** header **Next:** `sit-testers` · **APPROVED**. Agents do **not** silently rewrite CURRENT.
+
+**Prior closed tree:** 2026-08-23 testers / SOS / first-sit (P-series, P2b recant). 2026-08-20 invite + Draft workshop (S/T/E/G). 2026-08-16 mobile-planning-demo archived at bottom (D1–D14).
+
+---
+
+# Prior interview (closed as law-history) — tailnet invite + Draft workshop
+
+**Premise then:** JOIN invite + Draft as proposal workshop.  
+**Closed:** E7 2026-08-21. STORM factory in-tree. Play Store Reject. Camel Space parked as later reskin (**S9 — this grill reopens**).
 
 **Prior closed tree:** 2026-08-16 mobile-planning-demo interview is archived at the bottom of this file (D1–D14). Inherited principles that still bind are copied up, not re-asked.
 
@@ -53,6 +61,16 @@ From this kickoff + live CURRENT + inherited 2026-08-16 tree (elevate further if
 34. **STORM is developer infrastructure only (E3b).** User: “2. STORM is only developer infrastructure...” Then recanted k3s-as-product.
 35. **Original app is central; cut EdubaWare (E4 recant, 2026-08-21).** User: “OK original app is central, now! Cut the Eduware platform. Emulator means just a mass-app subagent review environments for this chat sessions. I just want the tools to be persistent via being an actual application component on here! Go!” E1–E3b platform clone **cut**. Persist `python/aether_storm.py` + scripts + `/storm-review`. Dirty tree last.
 36. **Headscale is mesh, not a folder store (E7).** User rejected `sit-storm-factory` until uploads/downloads are named. Headscale/tsnet do not hold CURRENT. Bind is local. Twin GET is the only designed download. POST of law files is not Yes.
+37. **SOS reskin left parked (P2b recant, 2026-08-23).** User: “Leave the reskin actually though cos it'll probably fail and the current one is fine now. Good practice at doing it achieved today!” `15_binary-skin` + revert is **practice Done**. S9 stands: Camel Space is a later settings reskin, not this Next. Current cream/LCD/GATE face ships.
+38. **First sitting is a template, not Decide hunks (P-series).** User: a first-time user wants a template the **7B can generate**. They do **not** select which hunks to automate from one prompt. That feature was wrongly put on Decide (useless). Multi-ICM picture required.
+39. **Testers via App Store now (P-series).** Easiest way to get testers. Off-the-LAN SDK test has **not** been done. Live CURRENT still Rejects Play Store — this grill is how that Reject gets recanted or replaced, not a silent listing.
+40. **Ask, grill, persist, then handoff.** No code until this tree closes *and* they apply CURRENT. `/handoff` after close, not instead of the grill.
+41. **Do not steal Camel Audio bitmaps.** Steal the *toolkit/pipeline* (VSTGUI-era CBitmap / filmstrip / nodpi blit). Copyright theft stays FAIL.
+42. **sit-one-path proposal is not law.** `examples/propose-current/CURRENT-sit-one-path.md` parked millwork/Play Store. This grill may recant that parking.
+43. **Misunderstood = progress measured as factory, not as a sitting.** User 2026-08-24. Agents shipped STORM, leftover chrome, SOS blit practice, first-sit template engine, Play-prep receipts. The person still cannot **type a decision on a notepad** and **send/receive a folder** as a cycle. Receipts in `dev/41_sit-testers/` are not that sitting.
+44. **Decide input is writing.** “Normal notepad” is the named standard. Giant YES/AGAIN pads + Confirm dialog is protocol theater; walkers already must never tap Confirm, so the only text well on Decide is in the forbidden dialog.
+45. **Send/receive is the product cycle, not leftover chrome.** Lab drop `127.0.0.1:8765` + “SEND FOLDER IN THE WORKS” is not two seats exchanging a project. G4 mesh JNI remains named BLOCK. Do not list LTE folder-send.
+46. **Ask, grill, persist.** Same as 1/40. This C-series does not rewrite CURRENT. Implement only after the tree closes *and* they apply (or they explicitly pick leftover-under-live-Next — not recommended).
 
 ---
 
@@ -65,13 +83,15 @@ Recurring **$/month**. Demo / lab. Most lines $0 on existing hardware.
 | Ollama on myarch | $0 (existing box) | $0–80 always-on | $200–2,000 GPU fleet | Keep self-host | Public `:11434` rejected |
 | Tailscale Personal | **$0** (already) | $0–6 Personal Plus | $30–500 / Headscale | Headscale $0 + VPS ~$5 | Invite path needs API token **off git** |
 | wol-pi (always-on) | $0 (already on tailnet) | $0 | $0–5 spare Pi | Same | Holds invite mint + WoL; not in APK |
-| Play listing | $0 sideload | $25 one-time | $25 + cut | Sideload | Demo must not wait on Play |
+| Play listing | $0 sideload | **$25 one-time** (closed testing reopen) | $25 + 15% cut if production | Sideload / Firebase App Dist | CURRENT still Rejects until P1+human CURRENT |
 | Cloud LLM | $0 | $20–200 | $500–5,000 | Ollama | Conflicts with private desk |
 | EdubaWare cloud | $0 (his alpha bill) | his SaaS | n/a | **Private k3s (E3)** | User refused his cloud; picked cluster ops |
 | k3s node | **$0 myarch (E3b=2)** | $5–20 VPS (not picked) | $20–200 nodes | compose cap-2 (E3 rec, not picked) | Pause STORM AVDs when cluster+7B hot |
 | Auth / BaaS | $0 (don’t) | $0–25 | $25–200 | Files + Tailscale ACL | Second authority store — reject |
 | Engineer time (invite + WoL + embed) | **1–3 weeks** libtailscale in APK (S10+S10b) + wol-pi HTTP | — | — | — | VPN or userspace is S10c; auth key not in git |
 | Engineer time (Draft workshop) | **5–10 days** document-workshop Plan+Draft (S5+S5b) after 0.5–2 days research | — | — | — | Not a 1-day polish; hunk UI is the week |
+| Lab drop (send/receive) | **$0** LAN `127.0.0.1:8765` | $0 if Headscale/tsnet carries zip | $0 mesh or it is not a product | Public relay $5–20 + incident | Quiet drop is “Staged locally”; not off-LAN |
+| Decide notepad (C-series) | **1–5 days** face (C1) | $0 | $0 | N/A | Recants Confirm-dialog as the only Why well |
 
 **Crossover:** Putting 50 strangers on the *operator* tailnet is the wrong product. Headscale or “no shared Ollama” becomes cheaper/safer around a handful of sitters. Dollar cost is still tiny vs your week.
 
@@ -130,11 +150,327 @@ Recurring **$/month**. Demo / lab. Most lines $0 on existing hardware.
 | **E3b** | **k3s on myarch vs VPS** | **2 — k3s on myarch** + STORM is lab-only | decided | $0 extra; pause AVDs when cluster+7B hot |
 | **E4** | **What “swarm review with STORM SDK” is now** | **Other — original app central; cut EdubaWare; persist STORM factory** | decided | in-tree component; AVD not git |
 | **E7** | **Headscale folder upload/download** | **Other — depreciated local inbox send + notify/Accept; mesh only** | decided | gitignored `.inbox/`; never CURRENT |
+| **G2** | **SOS look vs grey pastiche** | **Keep yellow/purple/cream; SOS texture/depth/luminance via bitmap skin (not Camel PNG)** | decided | 0.15.2-luminance demo sideload; not Play Store |
 | **E8** | **FILES button** | **system file manager on bound dir** (cut in-app overlay) | decided | $0; Intent VIEW folder |
+| P0 | Code facts for this grill | auto (SOS revert, Decide hunks, Play Reject, no off-LAN) | decided (auto) | $0 |
+| **P1** | **Law-shape of SOS + template ICM + testers** | **1 — one CURRENT for the whole bundle** then **P2b dropped SOS from the bundle** | decided | 1–2 weeks + $25 if closed testing |
+| **P2** | **SOS toolkit** | **1 — VSTGUI-grammar blit** then **P2b recant: leave reskin** | recanted | practice Done; $0 more |
+| **P2b** | **Ship the blit this Next?** | **Leave reskin; current face is fine** | decided | saves 1–2 weeks; testers see 0.16.x chrome |
+| **P3** | **First-sit Draft** | **1 — 7B full PROPOSE template; Decide is Publish** (Other parsed as “1”) | decided | 3–8 days; $0 GPU |
+| **P4** | **Tester path** | **1 — off-LAN then Play internal/closed for the app** (Other: “1 for the app, 2 for the website later”) | decided | $25 Play; hours–2d off-LAN |
+| **P4b** | **Website production listing** | **parked** — liked 2 for a website, not this Next | parked | later CURRENT |
+| **P5** | **Off-LAN definition** | **auto: cellular AVD first, then one LTE device; A33 never STORM serial** | decided (auto) | hours–2d; G4 mesh not a store claim |
+| **P6** | **Action-id** | **`sit-testers`** (matches rec) | decided | $0 process; human apply |
+| **C0** | **Why this phase is in this state** | **auto from disk + prior trees** — factory receipts, not a finishable sitting | decided (auto) | $0 to name; weeks already spent |
+| **C1** | **What “Decide = normal notepad” is** | — | **open** | 1–5d face; $0 SaaS |
 
 ---
 
 ## Per-decision sections
+
+### P0 — Code facts this grill will not re-ask (auto)
+
+**Question (exactly as posed):** *(not posed — explored the tree)*
+
+**Options presented:** none.
+
+**Selected:** Record as fact.
+
+**Rationale / recommendation:** Skill: if the codebase answers it, do not ask.
+
+Facts:
+
+1. **SOS UI failed as architecture, then the fix was reverted.** Camel Space SOS Test is a **bitmap-skinned VSTGUI editor** (`CBitmap` of the whole panel; knobs are filmstrips; hit-tests are `CRect`s). 0.15.1–0.15.2 painted millwork live in Compose. `15_binary-skin` named the VSTGUI pipeline (`drawable-nodpi/sit_skin.png` blit + overlay hits) and explicitly **did not extract Camel PNGs**. `16_revert-skin` restored cream Host Compose millwork. Live glass is the revert, not SOS.
+2. **Libraries:** original authors used **VSTGUI 2.x**, not Compose `drawBehind`. JUCE `BinaryData` is Alchemy-era, not Camel Space 2005. Neither VSTGUI nor JUCE is in the APK.
+3. **Drafting:** `DecideModule.kt` lists IN/OUT hunks + alt wordings. `ChatHome.kt` is still field chips + SEND. S11 said hunk-scoped ICM may auto-complete schema on PROPOSE. User now: first-time wants a **template the 7B generates**; they do **not** pick hunks from one prompt; Decide hunk picker is useless.
+4. **Store:** live CURRENT **Rejects Play Store**. `STORE-GATE.md` G2 millwork FLAG, G4 mesh BLOCK. No off-the-LAN SDK test in receipts. storm-1 was killed. Lab drop is `127.0.0.1:8765` (on-LAN).
+5. **Law:** `sit-one-path` proposal parks millwork and Play Store. Not applied. Dual-Next still Reject.
+
+**Cost tradeoff:**
+
+- **v1:** $0 to record. Re-asking “did we copy VSTGUI?” wastes the grill.
+- **alpha / growth:** listing a Compose pastiche costs tester bounce, not $25.
+- **SaaS vs self-host:** N/A.
+- **Engineer-time:** 0.
+- **Crossover:** none.
+
+**Dependencies:** S9, S11, S0c, G2, E7, STORE-GATE. Unlocks P1.
+
+**Status:** `decided` (auto)
+
+---
+
+### P1 — Law-shape of SOS + first-sit template + testers
+
+**Question (exactly as posed):**
+
+> You named three failures as one rage: SOS face never used the original toolkit, first-time Draft is not a 7B template (hunk pick landed on Decide), and you need testers via the App Store without even an off-the-LAN SDK test. Live CURRENT **Rejects Play Store**, **one Next**, and parked Camel Space as a later reskin. How should this grill become law?
+
+**Options presented:**
+
+1. **One new CURRENT action-id for the whole bundle (recommended).** Recant S9 (SOS face *is* this Next, VSTGUI-grammar blit, not Camel PNGs). Recant Decide-as-hunk-picker (first-sit = 7B emits a CURRENT *template*; multi-ICM; Decide stays Publish). Recant Play Reject **only as closed testing** after a named **off-the-LAN SDK test**. Human applies after this tree closes. Dual-Next still Reject.
+2. **Sequential Nexts.** UI CURRENT, then draft CURRENT, then store CURRENT. One at a time after each human next. Testers wait.
+3. **Play closed testing only.** Ship the current face/draft to testers this week. UI and ICM later.
+4. **Sideload / off-LAN SDK only.** Keep Play Reject. Testers via APK link. SOS + template still this grill but not a listing.
+
+**Selected:** **1 — One CURRENT for the whole bundle** (matches rec). Not sequential. Not Play-only. Not sideload-only.
+
+**Rationale / recommendation:**
+
+**Recommend option 1.** (User picked it.)
+
+Why: you said testers *now* **and** the UI/draft are why testers would bounce. Option 3 ships the thing you are angry at. Option 2 is honest sequencing but contradicts “now” and burns three human CURRENT applies. Option 4 keeps CURRENT Play Reject and still does not get Play testers. Option 1 is one Next; closed testing is not Funnel and not a production listing; off-LAN SDK is the missing gate so “App Store” is not a LAN lie.
+
+I will not open Play Console, copy Camel bitmaps, or overwrite CURRENT from this grill.
+
+**Cost tradeoff:**
+
+- **v1 (solo):** $0 listing until human CURRENT. Engineer **2–4 weeks** (SOS blit 1–2w + template ICM 3–8d + Play closed testing + off-LAN test 1–3d). Play **$25 one-time** if you pick a listing track.
+- **alpha (50 testers):** Play closed testing $25 + 0% cut (internal/closed). Firebase App Distribution $0. Sideload $0 and does not scale past friends.
+- **growth (1,000):** production listing $25 + 15% if you later lift closed→prod. Self-host APK $0 + support cost.
+- **SaaS vs self-host:** Play is the distribution SaaS. Sideload/Firebase are the $0 alternatives. Crossover: ~10 testers who are not on your LAN — sideload dies; closed testing wins.
+- **Crossover:** If the face is still Compose pastiche, Play spend is wasted (bounce). If testers are three friends on Wi-Fi, option 4 is cheaper by $25 and a week of Console.
+
+**Dependencies:** P0 facts; live CURRENT Play Reject / dual-Next; S9; S11. Unlocks P2 (toolkit), P3 (template ICM), P4 (tester track).
+
+**Status:** `decided`
+
+---
+
+### P2 — What “copy the original authors’ libraries” means for SOS
+
+**Question (exactly as posed):**
+
+> Camel Space SOS Test was built in **VSTGUI 2.x**: one panel `CBitmap` in the DLL, knobs as filmstrips, hits as `CRect`s. We never linked that toolkit. We painted millwork in Compose, then `15_binary-skin` named the blit pipeline, then `16_revert-skin` undid it. You cannot drop Win32 VSTGUI into a Chaquopy APK. What do we steal so the sit *looks* like SOS Test without stealing Camel Audio PNGs?
+
+**Options presented:**
+
+1. **VSTGUI-grammar blit (recommended).** Steal the *pipeline*, not the C++: whole-panel PNG in `res/drawable-nodpi/` (CBitmap), overlay hit-targets (CRect), knob/GATE filmstrips later. No Camel PNGs. This is what 15_binary-skin already wrote and 16 reverted.
+2. **Embed JUCE / iPlug2 / a real VST editor toolkit on Android.** Native months. Not VSTGUI 2.x. High chance of a second pastiche.
+3. **Try harder at live Compose millwork** (shaders, more lips, SOS luminance). Already failed across two chats.
+4. **Use extracted Camel Space / CamelPhat bitmaps.** Looks right, is copyright theft, FACE-SPEC V7 FAIL.
+
+**Selected:** **1 — VSTGUI-grammar blit** (matches rec). Not JUCE. Not Compose millwork. Not Camel PNGs.
+
+**Rationale / recommendation:** **Recommend option 1.** (User picked it.) Option 3 is the failure mode you named. Option 4 is theft. Option 2 is the “we copied a library” fantasy that still will not be VSTGUI 2.x and will delay testers. Option 1 *is* how SOS-quality GUIs live in binaries.
+
+**Cost tradeoff:**
+
+- **v1:** $0 licenses. Engineer **1–2 weeks** to re-land blit + match SOS Test grammar (LCD well, GATE pits, overlapping plates) against `camel-space-sos.jpg`.
+- **alpha / growth:** skin is a few MB in the APK. No SaaS.
+- **SaaS vs self-host:** N/A. Photoshop/SkinMan vs a Python renderer we already have (`scripts/render-sit-skin.py`).
+- **Crossover:** If blit still “looks nothing like it” after one honest pass vs the SOS photo, then a hired pixel artist (not JUCE) is the next fork — not Compose millwork again.
+
+**Dependencies:** P1 option 1. Unlocks P3 (template sits *inside* the SOS frame).
+
+**Status:** `recanted` by P2b
+
+---
+
+### P2b — Leave the reskin (recant P2 as this Next)
+
+**Question (exactly as posed):** *(user, not a multiple-choice)*
+
+> Leave the reskin actually though cos it'll probably fail and the current one is fine now. Good practice at doing it achieved today!
+
+**Options presented:** none (override).
+
+**Selected:** **Park SOS/VSTGUI blit.** Keep live cream/LCD/GATE face. Treat `15_binary-skin` (pipeline named, skin landed, then `16_revert-skin`) as **good practice Done**, not a ship task. S9 later-settings reskin stands. Testers sit the current UI.
+
+**Rationale / recommendation:** Honour the recant. Re-landing blit under `sit-testers` would spend the tester Next on a face they now call fine, and they expect it to fail. Template + off-LAN + Play internal remain.
+
+**Cost tradeoff:**
+
+- **v1:** **saves 1–2 engineer weeks.** $0 licenses either way.
+- **alpha / growth:** testers see the current face; bounce risk is Draft/store, not millwork.
+- **SaaS vs self-host:** N/A.
+- **Crossover:** If testers bounce on looks, unpark P2 as a **later** CURRENT (S9), not this Next.
+
+**Dependencies:** P2. Narrows P1 bundle. Unlocks a slimmer `sit-testers` PROPOSE.
+
+**Status:** `decided`
+
+---
+
+### P3 — First-time Draft is a 7B template, not Decide hunks
+
+**Question (exactly as posed):**
+
+> A first-time user just wants a **template the 7B can generate**. They do not select which hunks to automate from one prompt. That picker was implemented on **Decide** (you called it useless). Multi-ICM: first sit ≠ later revise ≠ Publish. What is the first sitting?
+
+**Options presented:**
+
+1. **First-sit template (recommended).** Empty/short pocket: one prompt → 7B writes a **full PROPOSE CURRENT template** (Objective through Next, Keep/Reject stubs). Plan shows law (maybe none). Draft shows the template as paper, not field-chip roulette. Decide = Publish the template (two-tap + Why). **No hunk IN/OUT on Decide.** Later sittings: typed revise on Draft / optional one-field SEND. Multi-ICM = stages `template` → `revise` → `gate`, local stage still owns the write.
+2. **Every prompt regenerates the whole CURRENT template.** Simple. Destroys a workshop. Easy to clobber Keep.
+3. **Keep Decide hunks; add Generate template on Bind/Plan only.** Fastest code. Leaves the useless picker on Decide.
+4. **On-device ICM folders as the UX** (`01_template/`, `02_revise/`). Honest ICM. Heavy chrome. Testers bounce.
+
+**Selected:** **1 — First-sit template** (user Other = `1.` — parsed as option 1, not a new fourth path). Not every-prompt regenerate. Not keep Decide hunks. Not ICM folders as the phone UX.
+
+**Rationale / recommendation:** **Recommend option 1.** (User signalled 1.) Option 3 keeps the thing you hate. Option 2 is a blender. Option 4 is the meta-agent skill as a phone OS — not a first sit. Option 1 matches “template the 7B can generate” and keeps Decide as Yes only.
+
+**Cost tradeoff:**
+
+- **v1:** $0 GPU (myarch 7B). Engineer **3–8 days** (prompt, parser for a full template, hide Decide hunk list, first-sit vs revise branch).
+- **alpha / growth:** still self-host Ollama or testers bring no desk (template button quiet / GATE quiet is honest).
+- **SaaS vs self-host:** Cloud LLM $20–200/mo at alpha if you later leave myarch. Conflicts with private desk.
+- **Crossover:** If 7B cannot emit a usable template in one generate, first-sit must ship a **static markdown template** the human edits — not more hunk UI.
+
+**Dependencies:** P1, P2. Unlocks P4 (what testers actually tap).
+
+**Status:** `decided`
+
+---
+
+### P4 — Testers: Play track, and the missing off-LAN SDK test
+
+**Question (exactly as posed):**
+
+> You need testers **now**. App Store is the easiest list. We have **not** done an off-the-LAN SDK test (lab drop is `127.0.0.1`; storm-1 is dead; JOIN is NOT-ON-NET). Live CURRENT still **Rejects Play Store**. P1 already chose one bundle that recants that Reject *only as closed testing after a named off-LAN test*. Which tester path?
+
+**Options presented:**
+
+1. **Off-LAN SDK test, then Play internal/closed testing (recommended).** Gate: one APK on a device **not** on myarch Wi-Fi (cellular AVD or LTE phone that is not RZCW2038KHN-as-STORM-share). Then Play **internal testing** (≤100) or **closed testing** (email list). Not production. Not Funnel. $25 developer account. Recant CURRENT Play Reject only that far.
+2. **Play production listing this Next.** Full review. STORE-GATE G2/G4 still FLAG/BLOCK. Highest bounce + policy risk.
+3. **Firebase App Distribution / APK link only.** $0. No Play testers. Fast.
+4. **Off-LAN test only; Play stays Reject.** Honest vs live law. No Console.
+
+**Selected:** **1 — Off-LAN SDK test, then Play internal/closed for the app.** User Other: *“I kinda like 1 for the app and 2 for the website, but we'll just do 1 for now!”* Production listing parked as **P4b** (website, later CURRENT). Not Firebase-only. Not Play-stays-Reject.
+
+**Cost tradeoff:**
+
+- **v1:** $25 one-time Play Console. Off-LAN test: **hours–2 days**. No 15% cut on internal/closed.
+- **alpha (50):** internal testing is enough. Privacy policy + data safety form if closed/open.
+- **growth (1,000):** closed or open testing, then a **later** CURRENT for production. 15% only if production.
+- **SaaS vs self-host:** Play vs Firebase ($0) vs sideload ($0). Crossover ~10 off-LAN testers.
+- **Crossover:** If off-LAN test fails because mesh JNI is BLOCK, **do not** list “send a project over LTE” as a store feature — list bind/plan/template/decide only.
+
+**Dependencies:** P1 option 1. Unlocks P5 (auto) and P6 (action-id).
+
+**Status:** `decided`
+
+---
+
+### P4b — Website production listing (parked)
+
+**Question:** not posed as its own fork.
+
+**Selected:** **Parked.** User likes production listing **for a website**, not this app Next.
+
+**Cost tradeoff:** $0 now. Hosting later is a different CURRENT. Not Funnel.
+
+**Status:** `parked`
+
+---
+
+### P5 — Off-LAN SDK test (auto from P4)
+
+**Question (exactly as posed):** *(not posed — P4 option 1 already named the gate; skip-obvious)*
+
+**Options presented (would have been):** cellular AVD / LTE phone / both / remote SDK.
+
+**Selected:** **Cellular AVD first (not myarch Wi-Fi), then one LTE sideload.** Serial `RZCW2038KHN` may be a *person’s* tester phone; it is **never** a STORM review serial. Lab drop `127.0.0.1` is **not** the off-LAN receipt. Store listing must **not** claim LTE folder-send until JNI exists (G4 BLOCK).
+
+**Rationale / recommendation:** Auto-approved from P4. Re-asking “what is off-LAN” after they picked option 1 is noise.
+
+**Cost tradeoff:** hours–2 days. $0 extra SaaS.
+
+**Dependencies:** P4. Unlocks Play internal *after* the receipt exists.
+
+**Status:** `decided` (auto)
+
+---
+
+### P6 — Action-id for the human-applied CURRENT
+
+**Question (exactly as posed):**
+
+> One Next will hold SOS blit + first-sit 7B template + off-LAN test + Play internal/closed. Dual-Next stays Reject. What is the **action-id** you will apply?
+
+**Options presented:**
+
+1. **`sit-testers` (recommended).** Short. Names why Play is in the Next. SOS + template are how testers don’t bounce.
+2. **`sit-sos-template-testers`.** Honest bundle in the id. Ugly.
+3. **`sit-one-path`** (already on disk, parks millwork and Play). Would need a rewrite of that file, not a reuse as-is.
+4. **`sit-storm-factory` leftover.** Keep live Next and stuff this in. That is the unsuccessful progress mode.
+
+**Selected:** **1 — `sit-testers`** (matches rec). Not sit-sos-template-testers. Not sit-one-path as-is. Not leftover storm-factory.
+
+**Rationale / recommendation:** **Recommend option 1 (`sit-testers`).** (User picked it.) Option 4 is the failure. Option 3’s file currently parks the work you just unparked. Option 2 is a commit-message as an id.
+
+**Cost tradeoff:** $0. Process only. Human `cp` + `aether next` + `aether approve`.
+
+**Dependencies:** P1–P5. Unlocks PROPOSE CURRENT + `/handoff`.
+
+**Status:** `decided`
+
+---
+
+### C0 — Why this app-development phase is in the current state (auto)
+
+**Question (exactly as posed):**
+
+> /grill-me-store-decisions on why this app development phase is in the current state. Go! (I feel misunderstood; what?)
+
+**Options presented:** none (explored the tree instead of asking “are we stuck?”).
+
+**Selected:** Record as diagnosis. The misunderstood thing is **what counted as progress**.
+
+**Rationale / recommendation:** Skill: if the codebase answers it, do not ask. Facts on 2026-08-24:
+
+1. **Live law** `CURRENT.md` Next **`sit-testers` APPROVED**. Objective is testers + first-sit 7B template + off-LAN then Play internal. Face kept. SOS parked (P2b). That bundle is *distribution of a sitting that is not finishable*.
+2. **Decide is not a notepad.** `DecideModule.kt` is two giant pads (YES / NOT YET → AGAIN) then a `Dialog` whose only `OutlinedTextField` is Why, closed by a button labelled **Confirm**. Walkers must never tap Confirm. Agents must never `aether approve`. The writing surface for a decision therefore lives in the control humans forbade agents to use, and testers only reach after two arming taps. That is protocol theater, not Notepad.
+3. **Plan already has paper; Draft is still ChatHome.** `PlanModule.kt` shows CURRENT.md + Changes chips + a Proposal well. `ChatHome.kt` is chips + composer + SEND (first-sit template copy). BEHAVIOURS B3/B4 still fail as a workshop (`app_verify` / `/app-reviewer` last closed FAIL on B3, B4, B7). So “standardise input as notepad” is a recant of *mixed modes*, not a polish of Decide pads.
+4. **Send/receive is a lab toy, not a cycle.** `python/aether_inbox.py` `send_project` zips the pocket to `drop_hosts()` defaulting LAN (`127.0.0.1:8765`). Quiet drop → “Staged locally.” `poll_incoming` pulls an offer; Accept copies files and **skips live CURRENT.md**. Face: `SEND FOLDER` opens a preview panel (“Project in the works”). JOIN is still not tsnet-up. G4 mesh JNI is a named BLOCK. Off-LAN cellular AVD receipt exists; **LTE folder-send is not claimed**. Two seats exchanging a project is the named debug, and it is not done.
+5. **Factory ate the Next.** `sit-storm-factory` succeeded as factory (STORM, FILES=OEM, depreciated inbox, glass) and failed as progress (user: unsuccessful progress-wise). Then SOS blit (`15_binary-skin`) then revert (`16_revert-skin`). Then first-sit template engine + hunk picker removal. Then Play-internal *prep* with no keystore and no Console login. storm-0 died at 10h `max_runtime`. adb empty. Each of those is a receipt. None of them is bind → plan → type a decision → send → the other seat receives.
+6. **What was heard vs what was meant.** Agents heard: testers, Play, template ICM, keep the face, never Confirm. Agents did: store process, prompt stages, chrome, STORM. User meant: a **person** sits this face, **writes** like a notepad, and **the project actually moves**. Feeling misunderstood is that substitution.
+
+**Cost tradeoff:**
+
+- **v1:** $0 to name. Already spent **weeks** of engineer-time on factory/chrome/Play-prep vs **1–5 days** notepad + **2–7 days** a send path that is not `127.0.0.1`-only.
+- **alpha (50):** Play internal $25 is wasted if testers hit Confirm-theater and SEND FOLDER that stages locally.
+- **growth (1,000):** a broken cycle does not become a product by listing.
+- **SaaS vs self-host:** drop is self-host. Public relay would be $5–20/mo and contradicts Funnel/public Reject.
+- **Engineer-time:** C0 is 0. C1–C-law is the week that was postponed.
+- **Crossover:** none — recording this is cheaper than another STORM round.
+
+**Dependencies:** P-series closed; E7 inbox; G4 BLOCK; B6 two-tap+Why; live `sit-testers`. Unlocks C1 (notepad), then C2 (what “working send/receive” is), then C-law (one CURRENT vs leftover-under-sit-testers).
+
+**Status:** `decided` (auto)
+
+---
+
+### C1 — What “standardise the decide input mode (normal notepad)” means
+
+**Question (exactly as posed):**
+
+> You said standardise Decide as a **normal notepad**. On disk, Decide is two giant pads (YES / NOT YET) that arm to AGAIN, then a dialog whose only text well is Why, submitted by **Confirm**. Plan already has a Proposal well; Draft is still ChatHome chips+composer. Walkers never tap Confirm. What is the notepad?
+
+**Options presented:**
+
+1. **Decide page is the notepad (recommended).** Full-page editable paper on DECIDE: they type Why (and can read/edit the proposal text) *on the page*. YES / NOT YET stay **small** two-tap actions on that paper so B6 still holds. The Confirm **dialog goes away**. One writing widget family as Plan’s Proposal well (OutlinedTextField / paper), not a second mode.
+2. **Keep pads + dialog; only restyle the Why field** to look like Notepad (font, cream paper). Input *mode* stays dialog-after-arm. Cheapest. Still theater.
+3. **Recant two-tap.** Decide is Notepad.exe: the document *is* the decision; one explicit Publish after they typed a non-empty Why. First tap can be Yes if Why is already on the page. Conflicts with current B6 “first tap is not Yes” unless we rewrite BEHAVIOURS with a human CURRENT.
+4. **Hand off to the OEM notepad / FILES.** Decide opens the system editor on `PROPOSE-CURRENT.md` (or a Why file). Mechanicall only has Publish after they return. Honest files. Ugly sitting.
+
+**Recommended:** **option 1.** Option 2 is the misunderstanding again (chrome). Option 3 is a real protocol change — only if you say the two-tap was the bug. Option 4 is FILES (already E8) pretending to be Decide.
+
+**Selected:** —
+
+**Rationale / recommendation:** Recommend **1**. “Normal notepad” is the *input mode*: you sit and write. The Why well must be on the page *before* arming, or testers never write and agents cannot demo Decide without tapping Confirm. Two-tap can remain so silence still is not permission. Standardise = same paper widget as Plan, not a new millwork family.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = **1–3 engineer days** (DecideModule rewrite, app_verify B6 still two-tap+Why-required, walker still never Confirm because Confirm is gone). 2 = hours and no behaviour change. 3 = **2–5 days** + BEHAVIOURS rewrite + human CURRENT. 4 = hours Intent + loss of in-app sitting.
+- **alpha / growth:** $0 SaaS. Bounce cost if testers cannot find where to type.
+- **SaaS vs self-host:** N/A.
+- **Crossover:** 1→3 only if you hate two-tap itself, not the dialog. 1→4 if Compose text fields keep eating IME (already a lab lesson). Never 2 if the rage is “not a notepad.”
+
+**Dependencies:** C0 diagnosis; B6; P3 (Decide is Publish, not hunk pick — not recanted by 1). Unlocks C2 (send/receive definition), then C-law (does this recant `sit-testers` remainder / Play).
+
+**Status:** `open`
+
+---
 
 ### S0 — Obvious law (auto-approved, not re-asked)
 
@@ -1880,6 +2216,11 @@ Factory already in-tree this turn: `python/aether_storm.py`, `scripts/storm-sdk-
 
 | # | Branch | Why it waits | Cost note |
 |---|--------|----------------|-----------|
+| **C1** | What “Decide = normal notepad” is | **posed now** | 1–5d face; $0 SaaS |
+| **C2** | What “working send/receive” is (lab drop vs mesh vs two-AVD vs LTE) | waits C1 | 2–7d; G4 JNI still BLOCK for mesh |
+| **C-law** | One new CURRENT vs leftover under `sit-testers` | waits C1+C2 | process; dual-Next still Reject |
+| **C3** | Recant B6 two-tap? only if C1=3 | waits C1 | BEHAVIOURS + human CURRENT |
+| P-series | testers / SOS / template | **closed 2026-08-23** | live Next still `sit-testers` until human recants |
 | E5 | Dirty tree / Go-git | last, as named | S13; never CURRENT |
 | G1 | 3–4 PR slice | parked until E5 | $0 |
 | T8c | Bind location vs many CURRENT.md | grey-area | $0 |

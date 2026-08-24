@@ -97,3 +97,125 @@ Append-only human decisions. Authority remains CURRENT.md.
 - 2026-08-08T19:32:02.229Z REJECTED: listen-to-peer-review (returned to SELECT; no automatic rebuild)
 - 2026-08-08T19:33:35.566Z APPROVED: scaffold-encouraging-changes-with-valid-execution!
 - 2026-08-08T19:34:53.607Z NEXT_SELECTED: polish-product-reciept-layer -> scaffold-encouraging-changes-with-valid-execution (Human accepted before polish-product-reciept-layer; polish PR #4 using GPT56 phone-pack sessions digest + executive redraft)
+- 2026-08-09T17:19:07.527Z APPROVED: PR #4 human-merged; scaffold-encouraging-changes-with-valid-execution complete
+- 2026-08-09T17:19:07.679Z NEXT_SELECTED: scaffold-encouraging-changes-with-valid-execution -> polish-product-reciept-layer (post-merge queue; human continue)
+- 2026-08-09T18:02:14.777Z APPROVED: polish-product-reciept-layer complete (PR #5 merged)
+- 2026-08-09T18:02:14.928Z NEXT_SELECTED: polish-product-reciept-layer -> agent-agnostic-cold-start-checklist (human: go with handoff follow-up)
+- 2026-08-10T07:00:50.000Z REPO_CLEAN: reset master to origin/master 64bcea5; WIP parked wip/local-before-clean-20260810T0800Z; untracked archived /mnt/phase2-backup/mechanicall-os-clean-resolution-20260810T0800Z
+- 2026-08-10T11:52:15Z HUMAN_ESCALATE: agent-agnostic-cold-start-checklist -> personal-model-dev-launchpad (dev launchpad / personal model; agent edited CURRENT Next per human order; aether next blocked without prior approve)
+- 2026-08-10T11:57:31.910Z APPROVED: APPROVED
+- 2026-08-10T12:05:59.934Z REJECTED: Justttttt not coonfident that the plan is going to work. In the conversation I had, the        ageeeeeeent hasn't really addresseeeeeeeeeeeeeeeeeeeeeeeeeeeeed the overfitting issues that may occur when designing the product. I want something that isn't technically bouuuuuuuuund so                          thhhhhhhhhhhhhhhhhhhhhhhhhhat my device setup can handle it (review the codebase for more documentation on that + my/agreed opinions/observations/statements) and other users devices can handle it (preferably web apps via anphuni.com, android app, desktop app, and the full distro as the distributiooooooooon suiteeeeeeeee). (returned to SELECT; no automatic rebuild)
+- 2026-08-10T12:10:57.506Z APPROVED: APPROVED
+- 2026-08-10T12:12:00.903Z NEXT_SELECTED: personal-model-dev-launchpad -> multi-surface-distribution-suite (human: approve anti-overfit multi-surface distribution suite escalate (law not stack; web/android/desktop/full distro))
+- 2026-08-10T12:12:22Z HUMAN: anti-overfit multi-surface direction approved as escalate; Next personal-model-dev-launchpad -> multi-surface-distribution-suite (aether next + CURRENT body rewrite)
+- 2026-08-10T12:15:45.245Z APPROVED: APPROVED
+- 2026-08-10T12:24:53.163Z APPROVED: APPROVED
+- 2026-08-10T13:12:47.282Z APPROVED: APPROVED
+- 2026-08-10T13:16:23.871Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-10T13:21:06.482Z APPROVED: APPROVED
+- 2026-08-10T13:21:33.993Z APPROVED: suite map + layers A/B/C (seed technique, deferred creative, employ personal+RAG job)
+- 2026-08-10T15:40:00.709Z NEXT_SELECTED: multi-surface-distribution-suite -> meta-next-checkpoint (human: pre-plan project next actions / timeline gauge before picking suite slices)
+- 2026-08-10T15:55:21Z HUMAN_GO: meta-next-checkpoint -> suite-single-app-as-member (aether next refused PENDING; hand re-SELECT per Go; Wave 1 S1)
+- 2026-08-10T16:30:13Z HUMAN: casual v0 Domain file surface in scope (not forbid file manager); S1 amend + Wave1 S4 suite-android-gap-brief
+- 2026-08-10T17:05:52Z HUMAN_APPROVE_GO: suite-android-gap-brief -> suite-session-domain-honest (chat: I approve; aether next refused PENDING)
+- 2026-08-10T17:18:55Z HUMAN_GO: suite-session-domain-honest -> seed-boot-identity-brief (chat Go; aether next refused PENDING)
+- 2026-08-10T19:03:00Z HUMAN_GO: prerequisite suite-thin-backend-map (thin faces need desktop/private API + client-paid hard instances before more surface Next)
+- 2026-08-10T19:12:59Z HUMAN_CONTINUE: suite-thin-backend-map -> b1-peer-serve-spike (B1 desktop backend verified + checklist)
+- 2026-08-10T19:15:48Z HUMAN_CONTINUE: b1-peer-serve-spike -> employ-personal-model-rag (Layer C G0/G1 recipes)
+- 2026-08-10T19:33:28Z HUMAN_GO: employ-personal-model-rag -> park-multi-surface-map (docs campaign parked)
+- 2026-08-10T19:35:52Z HUMAN_CONTINUE: park -> suite-kiosk-path-note (Kingston foundation vs kiosk gaps)
+- 2026-08-10T19:38:41Z HUMAN_CONTINUE: suite-kiosk-path-note -> suite-desktop-seat-slice (fidelity contract; seat sources absent)
+- 2026-08-10T19:49:19Z HUMAN_CONTINUE: suite-desktop-seat-slice scaffold seat/ Tauri+Vite cargo check OK
+- 2026-08-10T20:26:01Z HUMAN: REJECT seat GUI draft; APPROVE continue execution no-GUI -> agent-agnostic-cold-start-verify
+- 2026-08-10T20:36:39Z continue-executions: SUITE-EXECUTION-BOARD + DOC-AUTHORITY/FIRST-PROJECT/START-HERE suite wiring
+- 2026-08-10T20:42:10Z employ-personal-model-rag-run + B1 network partial (LAN/TS tags)
+- 2026-08-10T20:53:04.687Z APPROVED: recipe C + B1 network partial OK
+- 2026-08-10T20:53:04.835Z NEXT_SELECTED: employ-personal-model-rag-run -> b1-second-device-uat
+- 2026-08-10T20:54:05.642Z APPROVED: recipe C + B1 network partial OK // going to note-to-self to research the limits of RAG capabilities with my setup (mirrored from lab dev/20_* Domain)
+- 2026-08-10T20:54:29Z MIRROR: lab dev/20_* approves -> root Domain; reason recipe C + B1 partial OK; Next b1-second-device-uat (aether next no-op already on id)
+- 2026-08-10T21:10:55.220Z APPROVED: APPROVED
+- 2026-08-10T21:11:06.415Z APPROVED: Assuming it works!
+- 2026-08-10T21:12:15.923Z APPROVED: continue-executions
+- 2026-08-10T21:14:22Z B1 UAT: mbp-edge -> myarch:11434 PASS generate; aether absent on edge; tty3 no user write
+- 2026-08-10T21:17:11.981Z APPROVED: aether already installed, and that should've been the stable part of this action's test!
+- 2026-08-10T21:17:25.894Z NEXT_SELECTED: b1-second-device-uat -> seat-verify-kingston-run
+- 2026-08-10T21:20:23Z continue: B1 edge aether thin Domain PASS; seat-verify-kingston.sh static run
+- 2026-08-10T21:21:19Z seat-verify-kingston-run: static script PASS + SEAT-VERIFY-KINGSTON-RECEIPT; B1 edge complete
+- 2026-08-10T21:21:42Z added scripts/seat-menu.sh (foundation multi-entry; nix expected it)
+- 2026-08-10T21:24:03.558Z APPROVED: seat-verify static + seat-menu OK
+- 2026-08-10T21:27:38.690Z APPROVED: Let's finish off for tonight!
+- 2026-08-10T21:31:00.526Z NEXT_SELECTED: seat-verify-kingston-run -> park-product-sprint
+- 2026-08-10T21:31:16.295Z APPROVED: APPROVED
+- 2026-08-10T21:32:30Z WRAP: park-execution-wave-2026-08-10; SESSION-WRAP-2026-08-10.md
+- 2026-08-11T07:10:39Z RESELECT: park-execution-wave -> xfce-claude-code-mech-extension (XFCE dual WS + Claude Code extension playground; mum; Emilia-geobook)
+- 2026-08-11T07:31:55.118Z APPROVED: plan MVP: panel + CLAUDE.md + brief hooks + narrow deny (mirrored from lab dev/20_* 2026-08-11)
+- 2026-08-11T07:33:37Z TARGET: Emilia-geobook (not MBP); LAN 192.168.0.143 ping OK; SSH denied; geobook-120 Tailnet offline
+- 2026-08-11T10:57:48Z GEOBOOK: SSH up as Emilia@emilia-geobook (192.168.0.143) Alpine 3.24; not lowercase emilia
+- 2026-08-11T10:58:10Z Emilia-geobook SSH Emilia@ UP; inventory minimal Alpine; needs root bootstrap for XFCE/playground
+- 2026-08-11T11:02:18Z geobook skeleton: Domain+CLAUDE.md+hooks+aether on Emilia@; XFCE/TS still open
+- 2026-08-11T11:25:49Z geobook XFCE confirmed; dual workspace + autostart Domain front; lightdm start pending
+- 2026-08-11T11:47:07Z PRE-COMPACT handoff: HANDOFF-PRE-COMPACT-2026-08-11.md; geobook NOT deployment-ready
+- 2026-08-11T11:51:27.793Z APPROVED: xfce-claude-code-mech-extension
+- 2026-08-11T17:25:04.809Z NEXT_SELECTED: xfce-claude-code-mech-extension -> claim2-hyprland-habitat (Human: patch over slash/WS1; Claim-1 foundation enough; proceed Claim-2 Hyprland habitat+dashboard)
+- 2026-08-11T17:28:23.973Z APPROVED: finish Claim-1 residuals before Claim-2 Hyprland
+- 2026-08-11T17:28:24.122Z NEXT_SELECTED: claim2-hyprland-habitat -> xfce-claude-code-mech-extension (complete Claim-1; do not skip module)
+- 2026-08-11T17:32:50.960Z REJECTED: ClaudeCode still should open under the repository Domains/playground (I think that's suitable // ?) (returned to SELECT; no automatic rebuild)
+- 2026-08-11T17:35:54.213Z APPROVED: It can be fixed later, let's continue!
+- 2026-08-11T17:41:01.637Z NEXT_SELECTED: xfce-claude-code-mech-extension -> claim2-hyprland-habitat (Human: Claim-1 all green (G1+B1+TS+plugin); residual WS placement is Hyprland class; proceed Claim-2 habitat+dashboard)
+- 2026-08-11T17:44:04.634Z APPROVED: Claim-2 Hyprland habitat + dashboard — kickoff OK
+- 2026-08-11T17:46:33.504Z APPROVED: Human: Let's go Claim-2 Hyprland; work only from mechanicall-os root — no sub-CURRENT overhead
+- 2026-08-11T19:13:33.160Z NEXT_SELECTED: claim2-hyprland-habitat -> casual-core-interface (Human: park Claim-2 Hyprland; Next is interface reduced to actual casual core)
+- 2026-08-11T19:14:55.818Z APPROVED: casual-core interface direction
+- 2026-08-11T19:15:14.754Z APPROVED: Human: Go — casual-core interface contract
+- 2026-08-11T19:28:16.300Z APPROVED: APPROVED
+- 2026-08-11T19:48:37Z REPO_CLEAN: master@7471ad1=origin/master; WIP wip/local-before-clean-20260811T1948Z@595a609; archive /home/anphuni/mechanicall-wip-archive/clean-resolution-20260811T1948Z
+- 2026-08-16T08:23:14.935Z APPROVED: APPROVED
+- 2026-08-16T08:23:37.408Z APPROVED: APPROVED
+- 2026-08-16T09:52:22.839Z APPROVED: APPROVED
+- 2026-08-16T09:57:52.917Z APPROVED: Continue!
+- 2026-08-17T16:38:58.690Z APPROVED: APPROVED
+- 2026-08-18T12:07:09.545Z NEXT_SELECTED: mobile-planning-demo -> icm-people-app (leave sitting; people-app informed by failed stranger-send)
+- 2026-08-18T12:33:20.249Z APPROVED: Good enough!
+- 2026-08-18T12:35:15.724Z APPROVED: people-app factory is the Next; sitting is lab
+- 2026-08-18T16:57:04.723Z NEXT_SELECTED: icm-people-app -> people-app-validation
+- 2026-08-18T16:57:17.730Z APPROVED: APPROVED
+- 2026-08-18T17:02:49.209Z REJECTED: We need to create an actual phone seat though; otherwise, this won't work with mate/ (returned to SELECT; no automatic rebuild)
+- 2026-08-18T17:09:40.668Z APPROVED: APPROVED
+- 2026-08-18T17:09:43.767Z NEXT_SELECTED: people-app-validation -> people-app-phone-seat (phone seat so mate/ can be sat)
+- 2026-08-18T17:16:01.858Z APPROVED: phone seat is APK chrome so mate/ can be sat; pocket-face stays sibling not a second Next
+- 2026-08-19T08:18:01.730Z REJECTED: I follow the laws myself too much; we need actual human operator approvement (returned to SELECT; no automatic rebuild)
+- 2026-08-19T08:34:12.644Z REJECTED: Refinement/reeval due (returned to SELECT; no automatic rebuild)
+- 2026-08-19T09:06:05.170Z REJECTED: I feel like we could still standardise this as an application? Like, we need something else... I need to pick from a llist. I am still getting impatient from the last turns completed: definition is gonna have to be something that rewards my actual hard work since late July in everything I've asked this repository to do. We should even deep research this using some sort of actual deep research skill for grok TUI to be able to draw some sort of explicit conclusion of my wants. Go! (returned to SELECT; no automatic rebuild)
+- 2026-08-19T10:03:49.342Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-19T14:44:43.831Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T08:28:50.048Z APPROVED: APPROVED
+- 2026-08-20T09:14:45.805Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T09:14:52.804Z APPROVED: APPROVED
+- 2026-08-20T11:33:51.472Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T12:53:11.079Z APPROVED: Let us hand over authority to CURRENT.md so that this overfitting implementation phase does not drift into my opinionated tasks, here!
+- 2026-08-20T13:10:22.675Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T13:11:49.924Z REJECTED: Philosophical reflection: ICM (arXiv:2603.16021) says the folder tree is the agent architecture. Today the operator used that architecture as a human: reject, re-SELECT, one action-id, “hand over authority to CURRENT.md so overfitting does not drift.” That is Mechanicall OS working as awareness + gate, not as a chat that keeps painting. The people-app tension in the paper’s terms is factory vs product: dev/25 configured a copyable walk (bind → plan → propose → gate → do → receipt) for a person with a folder. The phone stages (27–35) then spent days projecting operator chrome onto a demo pocket. The kid test is the same as Jake’s “workspace is the app”: if the child’s folder is not bound, later stages are empty theatre. Observability (screenshots, uidumps, events) made the hole visible: GATE IDLE, timeout, name-the-outcome. A long conclusion exists so that this comment is inspectable tomorrow the way a receipt is — not so that the kid has to read it.
+
+Next-stage proposals (folders only if you say proceed; none created):
+
+• 02_request-space/ — Purpose: name the missing slot in one page. Inputs: this comment, people-app 01_bind + 03_propose, pocket CURRENT, live CURRENT Limits (“phone bind ≠ this repo”). Outputs: REQUEST-SPACE.md (what a kid’s ask becomes on disk; where it lives; what it is not). Not a second live Next while mechanicall-debug-window is APPROVED.
+• 03_one-kid-folder/ — Purpose: a throwaway bound folder for one child (outside mechanicall-os, not the demo pocket). Inputs: ~/people-app-stranger-sit lessons, bind.py refuse list. Outputs: BIND.md, a one-line CURRENT they can hear read aloud. Human must apply any operator CURRENT change.
+• 04_desk-hop-prove/ — Purpose: the live Next’s first clause (anyone boots myarch; one Send returns a short say). Inputs: CURRENT.md action 1, scripts/desk-through-a33.sh, VERIFY timeout. Outputs: RECEIPT with a real GATE WARM → QUIET and a say bubble. This is the only proposal that is already the declared Next. (returned to SELECT; no automatic rebuild)
+- 2026-08-20T13:34:55.615Z APPROVED: APPROVED
+- 2026-08-20T14:58:50.958Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T15:43:25.376Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-20T15:46:43.909Z APPROVED: APPROVED
+- 2026-08-20T15:46:56.501Z NEXT_SELECTED: mechanicall-debug-window -> ACTUAL-APP-VERIFICATION
+- 2026-08-20T15:47:01.897Z APPROVED: APPROVED
+- 2026-08-20T16:11:06.783Z APPROVED: APPROVED
+- 2026-08-20T18:58:47.331Z APPROVED: one sit: stranger join (userspace) + wake + document workshop under hunk ICM
+- 2026-08-20T21:41:18.065Z NEXT_SELECTED: sit-join-workshop -> sit-vst-headscale (VST frame + Headscale + LOAD/STREAM GATE + twin + STORM iterate)
+- 2026-08-20T21:41:21.515Z APPROVED: one Next: genuine VST rack, Headscale preauth, two-phase GATE, read-twin~
+- 2026-08-20T21:57:00.968Z APPROVED: APPROVED
+- 2026-08-20T22:04:53.856Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-08-21T17:08:29.790Z APPROVED: original sit central; STORM factory persisted; EdubaWare cut
+- 2026-08-21T17:09:25.758Z REJECTED: Final consideration needed: how are the headscaled folder uploads/downloads handled? (returned to SELECT; no automatic rebuild)
+- 2026-08-21T17:25:37.129Z APPROVED: inbox send is depreciated local offer; Headscale is mesh; FILES is the device manager
+- 2026-08-21T18:30:54.982Z APPROVED: APPROVED
+- 2026-08-23T05:29:01.717Z APPROVED: APPROVED
+- 2026-08-23T11:32:12.619Z APPROVED: first-sit template, off-LAN then Play internal
