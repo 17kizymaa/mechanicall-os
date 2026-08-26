@@ -66,7 +66,9 @@ def _row(bid: str, ok: bool, evidence: str) -> dict:
 
 
 def score_source(uidump: str = "") -> list[dict]:
-    nav = _java("SeatNav.kt")
+    nav = _java("MainActivity.kt")
+    rack = _java("SitRackView.kt")
+    crects = _java("SitCRects.kt")
     plan = _java("PlanModule.kt")
     chat = _java("ChatHome.kt")
     decide = _java("DecideModule.kt")
@@ -81,49 +83,57 @@ def score_source(uidump: str = "") -> list[dict]:
     out: list[dict] = []
 
     b1 = (
-        "SeatRoute.Bind" in nav
-        and "landingFrom" in nav
+        "SitPlate.BIND" in nav
         and "pocket_one" in nav
-        and "operator tree" in bind.lower()
+        and "operator tree" in nav.lower()
+        and "OpenDocumentTree" in nav
     )
     out.append(
         _row(
             "B1-bind-first",
             b1,
-            "landingFrom → Bind when unbound; prefs pocket_one; operator copy on bind",
+            "unbound SitPlate.BIND; prefs pocket_one; operator tree refused copy; SAF picker",
         )
     )
 
-    b2 = ("CURRENT.md" in plan or "planText" in plan) and "Changes" in plan and "Proposal" in plan
+    b2 = (
+        "SitRackView" in nav
+        and "LawPages" in nav
+        and "sit_plan" in rack
+        and "contentDescription = \"Changes\"" not in plan
+        and "clipRect" in rack
+    )
     if uidump:
-        b2 = b2 and ("CURRENT" in uidump or "Changes" in uidump)
-    out.append(_row("B2-plan-readable", b2, "PLAN shows CURRENT.md plus Changes plus a Proposal segment"))
+        b2 = b2 and ("LCD" in uidump or "LAW" in uidump or "sit millwork" in uidump)
+    out.append(
+        _row(
+            "B2-plan-readable",
+            b2,
+            "PLAN is SitRackView CBitmap + LCD law pages clipped to glass; no Changes chip row",
+        )
+    )
 
-    draft_editor = "OutlinedTextField" in chat
-    draft_writes = "acceptHunk" in chat or "writeSchemaDraft" in chat
-    plan_editor = "OutlinedTextField" in plan and "applyHunk" in plan
-    b3 = (draft_editor and draft_writes) or plan_editor
+    draft_editor = "EditText" in rack and "Field Objective" in rack
+    draft_writes = "writeSchemaDraft" in nav
+    b3 = draft_editor and draft_writes
     out.append(
         _row(
             "B3-plan-manual-edit",
             b3,
-            "Proposal edits write PROPOSE (Plan and/or Draft). "
-            f"draft_editor={draft_editor} draft_writes={draft_writes} plan_editor={plan_editor}",
+            "Draft EditTexts write PROPOSE via writeSchemaDraft. "
+            f"draft_editor={draft_editor} draft_writes={draft_writes}",
         )
     )
 
-    has_chips = "AUTHORITY_FIELDS" in chat and (
-        "schemaDraft" in chat or "readSchemaDraft" in chat
-    )
-    has_hunks = "listHunks" in chat and "LIVE" in chat and "DRAFT" in chat
-    still_thread = "LazyColumn" in chat
-    b4 = (has_chips or has_hunks) and not still_thread
+    has_fields = "Field Objective" in rack and "Field Next" in rack
+    still_thread = "LazyColumn" in rack
+    b4 = has_fields and draft_writes and not still_thread
     out.append(
         _row(
             "B4-draft-is-workshop",
             b4,
-            "PASS only if field chips exist and the page is not a message thread. "
-            f"chips={has_chips} hunks={has_hunks} thread={still_thread}",
+            "PASS if draft wells exist and the rack is not a message thread. "
+            f"fields={has_fields} writes={draft_writes} thread={still_thread}",
         )
     )
 
@@ -131,39 +141,37 @@ def score_source(uidump: str = "") -> list[dict]:
     b5 = b5 and "test_show_plan_cannot_write_propose" in tests
     out.append(_row("B5-propose-not-current", b5, "local stage owns PROPOSE write; test present"))
 
-    b6 = "armFade" in decide or "AGAIN" in decide
-    b6 = b6 and "why.isNotBlank()" in decide
-    b6 = b6 and "FaceBridge.yes" in decide
-    b6 = b6 and "HunkPickRow" not in decide
-    b6 = b6 and "Hunks for this change" not in decide
+    b6 = "decideArmed" in nav or "Publish? tap paper again" in nav
+    b6 = b6 and "why required" in nav
+    b6 = b6 and "FaceBridge.yes" in nav
+    b6 = b6 and "HunkPickRow" not in nav
+    b6 = b6 and "Hunks for this change" not in nav
     out.append(
         _row(
             "B6-decide-only-yes",
             b6,
-            "two-tap + Why-required Confirm; Decide is Publish not hunk pick",
+            "two-tap paper + Why-required; Decide is Publish not hunk pick",
         )
     )
 
-    b7 = "GateStrip" in theme and "GATE" in theme
-    b7 = b7 and "LOAD" in theme and "STREAM" in theme
-    b7 = b7 and "if (busy) \"GATE\"" not in chat
-    typing_dots = 'if (busy) "…"' in chat or "if (busy) \"...\"" in chat
+    b7 = "LOAD" in nav and "STREAM" in nav
+    b7 = b7 and "SitCRects.gate" in rack
+    b7 = b7 and "if (busy) \"GATE\"" not in rack
+    typing_dots = 'if (busy) "…"' in rack or "if (busy) \"...\"" in rack
     b7 = b7 and not typing_dots
-    idle_dark = "else SeatPalette.LcdBg" in theme.replace("\n", " ")
-    b7 = b7 and idle_dark
     if uidump:
-        b7 = b7 and "GATE" in uidump
+        b7 = b7 and ("GATE" in uidump or "IDLE" in uidump or "LOAD" in uidump)
     out.append(
         _row(
             "B7-gate-instrument",
             b7,
-            "GateStrip LOAD then STREAM; Send not labelled GATE; busy must not be typing dots. "
+            "LCD LOAD then STREAM; GATE SEQ CRect pages law; busy must not be typing dots. "
             f"typing_dots={typing_dots}",
         )
     )
 
-    b8 = "did not pretend you agreed" in receipt.lower() or "No decision recorded" in receipt
-    out.append(_row("B8-receipt-tomorrow", b8, "honest empty copy on ReceiptModule"))
+    b8 = "empty receipt" in nav.lower() or "(empty receipt)" in rack
+    out.append(_row("B8-receipt-tomorrow", b8, "honest empty copy on RECEIPT LCD"))
 
     b9 = 'android:resizeableActivity="true"' in manifest
     b9 = b9 and "widthIn(max = 360.dp)" not in theme

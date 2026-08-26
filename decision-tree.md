@@ -1,9 +1,817 @@
-# Decision tree — production-grade APK in git (R-series)
+# Decision tree — M-series (actual MVP) then W / R
+
+**Live law now:** header **Next:** `sit-mvp-rack` · **APPROVED** (old distro amendment — body still `sit-distro-gate`). Agents do **not** silently rewrite CURRENT. Dual-Next Reject. Propose file is not apply.
+
+**Skill:** `/grill-me-store-decisions` (one question at a time + persist) · in-repo grilling (frontier; facts from disk).  
+**Premise:** Operator: “I feel like I've actually overprogrammed the app — grill me on the actual MVP.”  
+**2026-08-25 dump (not yet law):** Plan = typeset CURRENT (no md glyphs / nested scroll / Changes); Draft = interactive Plan + schemas + TBC; models deferred; login/preauth baked in APK not Compose window; SOS plugin as production chrome; one network = folder upload/download; JOIN/WAKE overlaid “under construction”; produce UI the same way the original plugin UI was produced.
+
+---
+
+# M-series (open) — what is the actual MVP
+
+**Interview started:** 2026-08-25  
+**Interview status:** **OPEN (M4/M5 parked).** M-series product locked. **M3=2** (`sit-mvp-rack`). Human already re-SELECT’d header Next. Body still distro-gate. Propose: `.aether/proposals/CURRENT-proposal-20260825-1821.md`.  
+**Does not recant** `sit-conjure-desk` until human applies a CURRENT.  
+**Halt:** human reviews Imagine PNGs + CRect map before assemble. This grill does **not** Imagine a sit until CURRENT allows leftover-chrome.
+
+## Guiding principles (M)
+
+1. CURRENT is law. This grill does not `aether next` / rewrite CURRENT.
+2. One Next. Dual-Next Reject.
+3. Models never approve. Silence ≠ permission. Decide is the only Yes.
+4. **Overprogrammed** (this sitting): treat extra surface as guilty until it earns a place in MVP.
+5. Minimize paid third parties. No BaaS as authority. Play $25 is already the tester path if testers are MVP.
+6. Phone bind ≠ this operator tree.
+7. PRODUCT: core is the filesystem protocol; the phone sit is the **lab face**.
+8. **M1=6:** model *deployment* deferred this MVP (auto-draft-from-prompt is a TBC well, not a ship).
+9. **M1=6:** chrome produced like a 2005 VST editor (baked panel bitmap in the binary + overlay hits), not live Compose millwork.
+10. **M8=3:** the networking that earns MVP is Headscale/tsnet **carrying** the folder zip. JOIN/WAKE/SEND are **symbolic static PNG plates** (Imagine, freeze) — recant verbose Compose status/preauth well, not recant the mesh. Funnel still Reject. tsnet JNI gap must close for this to be true.
+11. **M2:** entire sit UI is **generated plates**; live data *fills* plates (do not invent a new information architecture). Plan and Draft are simplified work areas (published vs workshop), not chip museums.
+12. **Human reviews plate PNGs + CRect map** before any Go / assemble. Silence ≠ permission.
+13. **M7=1:** Imagine is **Photoshop**, not the spec. FACE-SPEC “no Imagine-mocks as the spec” **stands**. Fun is paint; ship is freeze into `drawable-nodpi/`. Not Camel clones.
+14. **M10=1:** AuthKey is compiled into the APK so JOIN has no Compose window. Secret **never in git**. Assemble injects from `~/.mechanicall/headscale-preauth` (or sibling of the Play keystore). Treat the APK as public: ephemeral + `tag:stranger` + TTL + ACL. No R8-as-security. ControlURL may be baked (not a secret).
+15. **M11=2:** WAKE is a symbolic PNG whose hit-rect still POSTs wol-pi. Conjure (S3, HOLD 15, doorbell) is **in this MVP** with Imagine plates + tsnet. Recants M1=6’s “conjure is not the done-line.” Dual-Next still Reject — one fat Next.
+
+## Master cost map (M)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| Protocol only (`aether`+CURRENT) | $0 | $0 | $0 | already the repo |
+| Sit walk (bind/plan/draft/Decide/receipt) | 0–1 engineer-week polish | tester bounce if bind-stuck | same walk | APK sideload $0 |
+| SOS-pipeline face (Imagine paint + blit) | Imagine iterations + pack hours; freeze one PNG | tester bounce if vibe-chased | bounce × N | Photoshop/human paint; Python blit parked for millwork |
+| Folder cycle (Headscale carry + zip) | engineer-weeks (tsnet AAR) + Headscale box | support + keys | fleet | zip+SAF (M8=1, rejected) |
+| Play internal | $25 one-time + Console hours | ≤100 internal | later CURRENT | sideload list |
+| Conjure (wol-pi+S3) | wol-pi already; SSH/deploy hours | $0–5 Pi | not 1,000 desks | no Funnel |
+| JOIN/Headscale/JNI | engineer-weeks + named gap | support | fleet | Tailscale $0–20 |
+| Model deployment (Ollama/7B) | metal + weights | per-desk | not SaaS | deferred if M1=6 |
+| STORM / leftover / website | factory weeks | bounce | listing | park |
+
+## Summary of decisions (M)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **M0** | Overprogram facts | auto | decided | $0 |
+| **M0b** | SOS / original plugin-UI pipeline | auto | decided | $0 research; 1–2w if unparked |
+| **M1** | What *is* MVP done? | **6 — sit walk + SOS-pipeline face + folder cycle** | decided | 1–3 engineer-weeks; not a shrink |
+| **M2** | Plan typeset vs B2 / overflow | **1 — fixed plates; whole UI; Plan/Draft as suggested** | decided | recants B2; BEHAVIOURS rewrite in the implementing Next |
+| **M6** | How plates are generated | **4 — Imagine/LLM paints plates** (override; rec was 1) | decided | millwork not cat-able; freeze-vs-vibe is M7 |
+| **M7** | Imagine = Photoshop or spec? | **1 — Imagine = Photoshop; freeze** | decided | FACE-SPEC stands; leftover-chrome still needs CURRENT recant |
+| **M8** | Folder upload/download cycle | **3 — Headscale carry; JOIN/SEND = symbolic PNG** (override; rec was 1) | decided | tsnet JNI in MVP; verbose strip recanted |
+| **M9** | How preauth enters (baked vs paste) | **2 — AuthKey in APK** (override; rec was 1) + “security measures” | decided as *intent* | extractable; M10 is the real control |
+| **M10** | Which baked-key measures | **1 — Headscale jail + gitignored inject** | decided | $0 extra; rotate by rebuild; APK treated public |
+| **M11** | WAKE lamp vs wol-pi this MVP | **2 — lamp still calls wol-pi** (override; rec was 1) | decided | conjure in the same MVP; fat Next |
+| **M3** | Recant / swell live Next | **2 — new action-id `sit-mvp-rack`** (override; rec was 1). Human already set header Next. | decided | body still stale until human applies propose |
+| **M12** | Freeze host after look failed | **awaiting Go** — rec 1 SitRackView (native CBitmap+CRect). Not selected until human Go on `02b_native-rack/output/FRAMEWORK.md` | open | Compose overlay killed the plate; PNG kept |
+
+---
+
+### M0 — Facts (auto)
+
+**Selected (auto):** The sit is already more than the PRODUCT core.
+
+On disk:
+
+- **Core (PRODUCT):** `CURRENT.md` + `aether preflight` + human Yes + `events.jsonl`. Pitch: *You decide. AI does the point-and-clicking — under a plan you can read and a yes only you can give.*
+- **Sit walk (BEHAVIOURS):** bind → plan → propose → GATE → Decide (Publish) → receipt. B1–B8, B10. That is the *app* loop.
+- **Already extra vs that walk:** VST rack chrome, JOIN/WAKE/wol-pi, GATE LOAD/STREAM as instrument, inbox/AirDrop, FILES, STORM factory, Play listing pack, Headscale/JNI gap, first-sit 7B template, leftover millwork, SOS blit (parked), k3s (inactive), Funnel (Reject).
+- **Live Next** is `sit-conjure-desk` (S3 + doorbell + sitter WAKE). Distro Play/git not closed. Header/body CURRENT still disagree (body Action id `sit-distro-gate`).
+- **Worth test (classify, Aug 18):** a person who is not you can say “I didn’t say yes” and the machine lives with it. Uncollected.
+
+**Cost tradeoff:** $0 to name. Re-asking “what did we build?” wastes the grill.
+
+**Dependencies:** none. Unlocks M1.
+
+**Status:** `decided` (auto)
+
+---
+
+### M0b — Camel Space SOS + how the original plugin UI was produced (auto)
+
+**Selected (auto):** Production-grade plugin UI is a **baked panel**, not live layout.
+
+**What Camel Space actually is.** Camel Audio *CamelSpace* (Musikmesse 2005; SOS magazine “SOS Test” preset photographed Nov 2005). Rhythmic multi-effect: 128-step trance gate (vol/pan/cutoff), MM filter, auto-pan, flanger, stereo delay, reverb, enhancer, XY, Randomize. Apple later folded the *sound* into Logic Step FX; the *editor* is the thing we steal. The in-tree photo is `dev/39_sit-storm-factory/13_camel-sos-check/references/camel-space-sos.jpg` (DAW title `Guitar 2: Ins. 1 - CamelSpace`, preset **SOS Test**). Grammar: overlapping brushed-metal plates, LCD well, GATE pits, filmstrip knobs, host window is the DAW — the plugin fills that window.
+
+**How that UI was produced (2004–2006 VST shop, not Compose):**
+
+| Stage | Tool | What lands in the *binary* |
+|-------|------|----------------------------|
+| Paint | Photoshop: noise → motion blur → lighting. Later SkinMan / KnobMan (2007+) for filmstrips; POV-Ray for photographed knobs | Whole-panel PNG/BMP + per-widget frames |
+| Toolkit | **VSTGUI 2.x** `CBitmap` / `CAnimKnob` / `CMovieBitmap` | One background bitmap; knobs = vertical filmstrips; hits = `CRect`s, not Layout |
+| Pack (Win) | PE `.rsrc` (`RT_BITMAP`, custom `PNG`/`PICTURE`/`RCDATA`) | Resource Hacker / Restorator |
+| Pack (Mac) | `.vst` `Contents/Resources/` | Loose PNG or Mach-O bytes |
+| Later (not Camel Space) | JUCE `BinaryData.cpp` | Alchemy-era. Not 2005. |
+
+The host (DAW / Android OEM) only owns the window. The plugin **blits the editor**. Lighting, AO, overlapping plates, rivets, LCD glass were decided in Photoshop and **frozen**. Live rectangles with a repeating metal shader are the pastiche.
+
+**Android analogue already named, built, then reverted:**
+
+```
+scripts/render-sit-skin.py          # inspectable PSD
+  → res/drawable-nodpi/sit_skin.png # CBitmap (no density scale)
+  → Compose Image fill              # blit
+  → transparent hit-targets         # CRects
+```
+
+`15_binary-skin` shipped that (`BINARY-PIPELINE.md`). `16_revert-skin` undid it because you said the cream/LCD/GATE face was “fine now” and the reskin would “probably fail” (**P2b**). Live APK has **no** `drawable-nodpi/sit_skin.png`. Live millwork is Compose again. CURRENT still **Rejects** `SOS-reskin-as-this-Next` and `leftover-compose-millwork-as-sos`. FACE-SPEC v2: rack around paper; Plan = published CURRENT; Draft = Suggesting; JOIN paste is a **Compose** `OutlinedTextField` (“preauth / login-server · not stored”); `JOIN ${status}` / `WAKE ${status}` are live labels (`not-on-net`, `sleeping`).
+
+**Copyright:** steal the *pipeline*, never Camel Audio bitmaps (FACE-SPEC V7 FAIL; CURRENT Prohibited `camel-png-theft`).
+
+**Cost tradeoff:** $0 to name. Re-asking “how did Camel Audio make the GUI?” wastes the grill. Re-landing blit is 1–2 engineer-weeks and is the same job that was recanted.
+
+**Dependencies:** M0. Unlocks M1 option 6, M-face (pipeline vs Compose), M-login (baked vs well).
+
+**Status:** `decided` (auto)
+
+---
+
+### M1 — What counts as MVP **done** — **decided**
+
+**Question (exactly as posed, first time):**
+
+> You said the **app** is overprogrammed. Live Next is `sit-conjure-desk` (sleeping desk + WAKE). PRODUCT says the **protocol** is core and the sit is a lab face. BEHAVIOURS already specify one walk: bind, readable plan, draft as workshop, Decide-only Yes, receipt. Play internal and Go-git are still open from distro-gate. What is the actual MVP — the thing that, when true, you stop adding surface?
+
+**Question (re-posed after 2026-08-25 dump):**
+
+> You then specified a *face*, not a cut: Plan = typeset CURRENT (no md glyphs, no nested scroll, **no Changes module**); Draft = the same page, editable, with ugly schemas + a TBC for auto-draft-from-prompt — **and** you immediately deferred model deployment. Login/preauth “baked into the APK, not some Compose window.” Chrome produced like Camel Space SOS (baked panel). One network: upload/download project cycle. JOIN NOT-ON-NET and WAKE SLEEPING overlaid “under construction.” Live Next is still conjure. BEHAVIOURS **B2** currently *requires* Changes + Proposal diffs on PLAN. P2b parked SOS because it would fail. `SEND FOLDER` already stages a copy (`aether_inbox.stage_upload`) — depreciated, not a working two-seat cycle. What is MVP **done**?
+
+**Options presented:**
+
+1. **Protocol only.** `CURRENT` + preflight + human Yes + receipt. Sit/Play/conjure are lab, not MVP. Honest to PRODUCT.
+2. **Sit walk only.** Bind (not this repo) + PLAN + Draft/PROPOSE + Decide two-tap + receipt. Cut JOIN/WAKE/Play/VST/inbox from MVP. (Original recommended.)
+3. **Closed testers.** Play internal listing of the current sit (finish distro-gate Console + git). MVP = other people can install from Play.
+4. **Conjure desk.** wol-pi + S3 + sitter WAKE. Matches live Next; you just called that overprogramming.
+5. **One stranger Yes.** Feature-agnostic: MVP is one person who is not you tapping Not yet / Yes on *their* folder and opening a receipt tomorrow.
+6. **Sit walk + SOS-pipeline face + folder cycle.** Bind → typeset Plan → schema Draft (no model this MVP) → Decide → receipt, **and** one working upload/download of the bound folder. Chrome = VSTGUI-grammar blit (re-land `15_binary-skin`, not Camel PNGs). JOIN/WAKE stay on the rack but stamped under-construction (not live mesh, not conjure). Play/models/conjure are *not* the done-line. Recants B2’s Changes-on-PLAN, P2b, leftover-chrome-as-Next, and fights live `sit-conjure-desk` — those recants are later M questions, not silent CURRENT edits. **Recommended after the dump.**
+
+**Selected:** **6 — sit walk + SOS-pipeline face + folder cycle** (matches rec after dump). User replied `6`. Not 1–5.
+
+**Rationale / recommendation:** Option **6** *now that you named the face*; option **2** was right when the complaint was “overprogrammed” without a replacement. 6 is **more** Kotlin than 2 unless JOIN/WAKE become dead plates and Draft stops calling Ollama. Do not pretend 6 is a shrink. 1 still does not match “the app.” 3/4 are distribution and metal. 5 remains the *test* of 2 or 6, not a different product. Picking 6 does **not** start implement tonight.
+
+**Cost tradeoff:**
+
+- **v1:** 6 = 1–3 engineer-weeks (blit + Plan typeset + folder cycle) + $0 SaaS. 2 = days of *cutting*. 1 = $0 no app. 3 = $25 + Console. 4 = wol-pi deploy; do not suspend from this agent. 5 = one sitting if 2 or 6 works.
+- **alpha (50):** 6 still sideloads until a later CURRENT for Play. Under-construction JOIN will be the first support ticket.
+- **growth (1,000):** none of these are a SaaS. Funnel/public wake still Reject. Baked preauth-in-APK (if that is what “baked login” means) becomes a leaked key at any scale — grill in M-login; do not lock it here.
+- **SaaS vs self-host:** all self-host. Dollar delta is engineer-weeks of extra surface.
+- **Engineer-time:** 6 re-does a reverted Next. 2 deletes surface. Crossover: pick 2 if the pain is “too much app”; pick 6 if the pain is “wrong app.” You said both in one sitting.
+- **Crossover:** 6→5 when a stranger can bind, read a typeset plan, edit draft without a model, Publish, and send/receive a folder. 6→4 never as MVP if JOIN/WAKE are under construction. 6→3 after the walk is sit-able.
+
+**Dependencies:** M0, M0b. Unlocks M2 (Plan vs B2 Changes), M3 (recant live Next), M-login, M-folder-cycle, M-face-pipeline, M4 (stranger), M5 (Play).
+
+**Status:** `decided`
+
+---
+
+### M2 — Plan typeset vs B2 / overflow — **decided**
+
+**Question (exactly as posed):**
+
+> M1=6 says PLAN is a published formatting of CURRENT.md: no ugly md glyphs, no nested scroll window, no Changes module. DRAFT is the same page, interactive, with ugly schemas showing and a TBC for auto-draft (model deferred). BEHAVIOURS **B2** currently *requires* PLAN to show published CURRENT **plus** a Changes list **plus** a Proposal diff. Live PLAN is raw markdown in a nested `SeatCard` + `verticalScroll`, then Changes chips, then Proposal (`PlanModule.kt`). Live DRAFT is field chips + LIVE/SUGGESTING + composer (`ChatHome.kt`); first-sit still says “One prompt makes a template.” `AUTHORITY_FIELDS` on disk are only Objective / Phase / Status / Baseline / Next / Approval — not Keep / Reject / Limits. Camel Space **does not scroll**; the editor is one fixed bitmap. Live operator CURRENT.md is ~100 lines. You cannot blit an arbitrary markdown file the way SOS blits a filter. How does Plan/Draft actually lay out?
+
+**Options presented:**
+
+1. **Fixed plates (SOS).** PLAN = CRect paper of *typeset fields* (at least Objective, Next, Keep, Reject, Limits — labels, not `**Next:**`). No Changes, no Proposal, no nested millwork window. Overflow = MORE / section plates (like plugin modules), not a Compose scroll-window. DRAFT = the same plates, editable, schema visible, TBC well **empty** this MVP (no 7B). Recants B2. **Recommended.**
+2. **Typeset whole file; paper still scrolls.** Kill Changes + Proposal + md glyphs. One document scroll as paper (honest length). Recants B2’s Changes; keeps document overflow. Weaker SOS.
+3. **Keep B2.** PLAN still has Changes + Proposal; just prettier typesetting. Contradicts the dump and M1=6.
+4. **One bank, published/edit toggle.** No separate PLAN/DRAFT tabs. Published = typeset; edit = schema + TBC. Collapses B4’s two-module walk.
+5. **LCD-only Plan.** PLAN shows Next + Objective on the rack LCD; full CURRENT only in Draft. Too little “published CURRENT.md.”
+
+**Selected:** **1 — fixed plates**, with user override (2026-08-25): *entire UI* is generated plates; smart-fill from current sit data (do not invent new IA); Plan and Draft stay as specified (simplified work areas: published typeset vs interactive schema + TBC); **implementation framework needs human review before Go**. Not 2–5.
+
+**Rationale / recommendation:** Option **1**. You picked SOS *and* “no scroll window.” Those two only cohere if PLAN is a **view of fields**, not a printout of the file. The override extends plates to the whole rack (title / LCD / GATE / DESK / tabs / paper / bind / splash), which is what `SKIN-LAYOUT.md` already named. Option 2 is the honest document and the weaker plugin. Option 3 is a recant of the dump. Option 4 saves a tab and loses the published/workshop split. Option 5 starves PLAN. First-sit 7B is **off** under M1=6; TBC is a well, not a generate. `app_verify.py` / BEHAVIOURS B2–B4 rewrite in the implementing Next — after framework review, not in this grill.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = days of typesetter + BEHAVIOURS recant + bind/Decide still work; $0 SaaS. 2 = cheaper (markdown→HTML/annotated string + drop Changes). 3 = polish hours, still the ugly app. 4 = one screen, more state bugs. 5 = LCD copy only.
+- **alpha (50):** long Keep/Reject lists: 1 needs MORE plates or testers miss Limits; 2 they scroll and bounce on wall-of-text; 3 they bounce on chips.
+- **growth (1,000):** typesetting is CPU-local. No vendor.
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** 1 is the SOS-shaped job (fixed CRects in `render-sit-skin.py` + overlay fields). 2 fights the blit (variable-height paper on a frozen bitmap).
+- **Crossover:** If CURRENT is always 6 short fields, 1 and 2 look the same. This repo’s CURRENT is not that. Pick 1 if the plugin is the identity; pick 2 if “published CURRENT.md” is literal.
+
+**Dependencies:** M1=6. Unlocks M6 (how plates are generated), M3 (CURRENT recant can name B2 + plates), Draft TBC copy, first-sit-without-model.
+
+**Status:** `decided`
+
+---
+
+### M6 — How plates are generated (the framework you review) — **decided**
+
+**Question (exactly as posed):**
+
+> M2=1: the *entire* sit is generated plates; live data fills what we already have; Plan/Draft are simplified work areas; you review the **implementation framework** before Go. Camel Space was **one** background `CBitmap` that *looks* like overlapping plates, plus filmstrips — not 20 independent PNGs composited at runtime. This repo already wrote that analogue: `scripts/render-sit-skin.py` → `drawable-nodpi/sit_skin.png` with CRects in `SKIN-LAYOUT.md` (title, lcd, gate, desk, tabs, paper). Then `16_revert-skin` deleted it. Live millwork is Compose again. Imagine-as-spec is Reject. “Smart fill” means title=bound name, LCD=Next+GATE, DESK=JOIN/WAKE under-construction + SEND FOLDER, tabs=PLAN/DRAFT/DECIDE/RECEIPT, paper=typeset Plan or schema Draft. Bind and splash are plates too. What is the generator — the thing whose output you review before assemble?
+
+**Options presented:**
+
+1. **One editor CBitmap + CRect plates (re-land VSTGUI pipeline).** `render-sit-skin.py` (inspectable PSD) bakes *one* 1080×2138 `sit_skin.png` into `drawable-nodpi/`. Overlapping plates are **painted into** that PNG. Compose only blits + live text/clicks. Review artifact = `SKIN-LAYOUT.md` + preview PNG (and CONTEXT.md for the Next). Unparks P2b as *method*, not as “ship tonight.” **Recommended.**
+2. **Atlas of per-module PNGs** (`title.png`, `lcd.png`, `paper.png`, …) composited at bake or runtime. Literal “composed of plates.” More SkinMan. Lighting seams. More files to review.
+3. **Runtime millwork** (Compose/Canvas generates plates each frame). That is the pastiche `15_binary-skin` named and `16` reverted to.
+4. **Imagine / LLM generates plates** each sitting. Imagine-as-spec Reject. Not a `cat`-able framework.
+5. **Human-painted PSD; script only slices.** You are Photoshop. Highest millwork, operator hours, agents overlay only.
+
+**Selected:** **4 — Imagine / LLM generates plates** (user override). Reply: `4!` plus “cat-able does not apply for me here” / “this is where you trip over fun territory.” Not 1 (Python blit). Not 2–3, 5.
+
+**Rationale / recommendation:** Recommended **1**; user picked **4**. The trip was real: Camel Audio’s paint stage was **Photoshop**, not a cat-able script. VSTGUI pack + CRects stay inspectable; millwork does not have to be numpy. Calling 4 “prohibited” collapsed *Imagine-as-spec* (FACE-SPEC Reject) with *Imagine-as-Photoshop* (the 2005 paint stage). M7 splits those. Still do **not** extract Camel PNGs. Still do **not** Imagine a sit this turn (live Next is conjure; leftover-chrome Reject).
+
+**Cost tradeoff:**
+
+- **v1:** 1 = 1–2 engineer-weeks to re-land + typeset paper CRects; $0 SaaS; review is hours not dollars. 2 = +week of asset pipeline. 3 = cheaper to code, testers bounce. 4 = API cost + copyright/taste mess. 5 = your pixel time (days–weeks).
+- **alpha (50):** 1 scales as one nodpi PNG (~2–3 MiB). 2 multiplies assets × density mistakes. 3 looks cheap on every phone.
+- **growth (1,000):** still one APK skin. No vendor. If plates must be *per-locale*, 2 gets worse; 1 still one bake with live text.
+- **SaaS vs self-host:** 1 = PIL in-tree $0. 4 = image-gen in the agent loop (no extra vendor if xAI Imagine is the sitting); freeze still packs with aapt2. Self-host alt for 4 is option 5 (you paint).
+- **Engineer-time:** 1 is a recant of P2b’s *park*. 4 is prompt-craft + human PNG review + the same blit/pack as 1. Crossover: pick 5 only if generated millwork still “looks nothing like SOS” after one honest pass vs `camel-space-sos.jpg`.
+- **Crossover:** 4 → M7. If M7=spec, M1=6 never freezes. If M7=paint, 4 is SOS production with Imagine instead of Photoshop/PIL.
+
+**Dependencies:** M2=1. Unlocks **M7** (paint vs spec vs runtime). Then M3 (CURRENT must recant leftover-chrome / Imagine-as-spec if 4 ships), M-login, M-folder.
+
+**Status:** `decided`
+
+---
+
+### M7 — Imagine is Photoshop, or Imagine is the spec? — **decided**
+
+**Question (exactly as posed):**
+
+> M6=4: plates are *generated* (Imagine/LLM), and cat-able millwork does not apply to chrome. Camel Space still packed a **frozen** bitmap. FACE-SPEC v2 still says “no Imagine-mocks as the spec.” M1=6 still needs one sit a stranger can reinstall. M1 also **deferred model deployment**, so on-device generation is out. Live CURRENT still Rejects leftover-chrome as this Next. What is Imagine *for*?
+
+**Options presented:**
+
+1. **Imagine = Photoshop (paint stage only).** Agent generates millwork PNGs into a reviewable `output/`. You review the images. Then they **freeze** into `drawable-nodpi/` (one editor CBitmap or a small atlas — still blitted). CRect map stays a file. CURRENT / BEHAVIOURS / FACE-SPEC stay law. Not Camel clones. Fun is the paint; ship is the freeze. **Recommended reading of 4.**
+2. **Imagine = the spec.** Prompts and generated shots *are* face law. Recants FACE-SPEC “no Imagine-mocks as the spec.” Every sitting can chase a new vibe. Testers never reinstall the same sit. M1=6 has no done-line.
+3. **Runtime generation on the phone.** Contradicts M1=6 model deferral. Not this MVP.
+4. **Regen the APK skin every agent sitting, never freeze.** Fun loop. Not a product. Same done-line problem as 2.
+5. **Recant M6=4** back to Python blit (1) or human paint (5).
+
+**Selected:** **1 — Imagine = Photoshop (paint stage only).** User replied `M7=1`. Matches rec. Not 2–5.
+
+**Rationale / recommendation:** Option **1**. You asked for fun *and* an MVP. SOS was painted, then frozen. If Imagine is the spec (2) or a per-sitting regen (4), there is no sit to folder-cycle. Option 3 is illegal under M1. Option 5 is only if you did not mean 4. This still does not Imagine tonight: leftover-chrome is Reject on `sit-conjure-desk`.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = a handful of Imagine calls + review hours + pack; $0 extra vendor in this sitting. 2 = unbounded Imagine + never-done. 3 = ship a model on-device (weeks + metal). 4 = every session is a reskin. 5 = undo.
+- **alpha (50):** 1 is one frozen APK. 2/4 means 50 people see 50 faces; support is screenshots of screenshots.
+- **growth (1,000):** 2/4 is not a store listing. 1 is.
+- **SaaS vs self-host:** Imagine vs you-paint (M6 option 5) vs Python (M6 option 1). Dollar delta is iteration time, not a monthly bill.
+- **Engineer-time:** 1 keeps the VSTGUI pack from M0b (aapt2, nodpi, overlay hits). 2 throws away pack discipline. Crossover: if one freeze still looks like pastiche, iterate *paint* (more Imagine, still freeze) — do not recant into 2.
+
+**Dependencies:** M6=4. Unlocks M8 (folder cycle; JOIN is UC so mesh is not the cycle), M-login (shape depends on M8), M3 (propose names Imagine-as-paint; FACE-SPEC Imagine-as-spec **not** recanted).
+
+**Status:** `decided`
+
+---
+
+### M8 — Folder upload/download cycle — **decided**
+
+**Question (exactly as posed):**
+
+> M1=6: the *one* networking feature that earns MVP is the project upload/download cycle. JOIN/WAKE are under-construction overlays, not live mesh. `SEND FOLDER` today calls `send_project`: stage a copy + POST a zip to lab drop (`127.0.0.1:8765` / `10.0.2.2` / `192.168.0.51`). If the drop is quiet, it still stages locally. Accept must not write live CURRENT. `_unzip_to` containment is Done (sit-distro-gate). Headscale/tsnet JNI is a **named gap**. USB-as-LTE is Reject. Funnel/public wake is Reject. A working two-seat cycle is still missing. What *is* upload/download this MVP?
+
+**Options presented:**
+
+1. **Zip export / zip import (no mesh).** SEND FOLDER writes a contained zip of the bound pocket (SAF / share sheet). Other seat picks that zip; Accept copies files, never live CURRENT. JOIN stays UC. Login/preauth not required for the cycle. **Recommended.**
+2. **Lab drop only** (`aether_drop.py` on `127.0.0.1`). Two seats if they can hit the lab. Honest as lab; not testers-off-LAN; not LTE. Already written.
+3. **Headscale/tsnet carry.** JOIN cannot be UC. JNI gap. Contradicts M1=6. Recants under-construction.
+4. **USB / adb push-pull.** Lab cable. Not a sitter cycle. Not LTE proof.
+5. **Keep depreciated inbox** (stage + operator copies `.inbox/sitters/` by hand). Cycle is you, not two seats.
+
+**Selected:** **3 — Headscale/tsnet carry**, with override (2026-08-25): recant the *implementation* of JOIN (verbose `JOIN NOT-ON-NET` / Material preauth well / over-complicated status copy), not the mesh. JOIN + SEND FOLDER (and WAKE as the same class of strip chrome) get a **symbolic, statically PNG’d** interpretation — Imagine-painted, frozen, like SOS lamps — not under-construction stamps and not Compose essays. Payload can still be the contained zip; the mesh carries it. User replied `3`. Recommended was 1.
+
+**Rationale / recommendation:** Recommended **1** because JOIN was UC. User picked **3** and recanted the UC *face*, not the function. Honest cost: `android/tsnet/README.md` — JOIN `connected` requires gomobile tsnet AAR; until then `tsnet_up()` is false and JOIN stays **invited**. M8=3 puts **closing that JNI gap in the MVP**. Funnel still Reject. AuthKey must enter somehow → M9. Symbolic PNG is M6=4 + M7=1 applied to the DESK strip.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = days (share sheet + contained unzip + offer Accept) + $0 SaaS. 2 = $0 already. 3 = engineer-weeks + always-on Headscale. 4 = $0 cable. 5 = $0, no testers.
+- **alpha (50):** 1 they email/Nearby a zip. 2 they cannot. 3 needs JOIN live. Support for 1 is “the zip was evil” — `_unzip_to` is the gate.
+- **growth (1,000):** 1 stays files. 3 becomes a mesh product. Funnel still Reject.
+- **SaaS vs self-host:** 1 is OEM share. 3 is self-host Headscale ($0 software, your login-server).
+- **Engineer-time:** 1 reuses `send_project` zip + `_unzip_to`. Crossover: 1→3 only after JOIN is *not* UC.
+- **Crossover:** If the sitter and operator never share a file, there is no cycle this MVP. Do not fake one with USB.
+
+**Dependencies:** M1=6, M7=1. Unlocks **M9** (preauth must enter; Compose well is recanted). Then M3 (CURRENT must name Headscale cycle + tsnet AAR + leftover-chrome for Imagine plates).
+
+**Status:** `decided`
+
+---
+
+### M9 — How does preauth enter if JOIN is a static PNG? — **decided (intent)**
+
+**Question (exactly as posed):**
+
+> Original dump: login/pre-auth “baked into the APK, not some Compose window.” M8=3: Headscale carries the folder; JOIN/SEND are symbolic frozen PNGs (recant verbose well). Fact: tsnet `AuthKey` is pasted preauth, RAM only; `ControlURL` is the Headscale login-server; state is `filesDir/tsnet/`, never the bound folder (`android/tsnet/README.md`). Until the AAR exists, JOIN cannot be `connected`. A static PNG cannot type a key. Compiling the key into the APK is extractable and fights Limits (no secrets in git; APK is a zip). What is “baked login”?
+
+**Options presented:**
+
+1. **Symbolic JOIN plate + invisible paste CRect.** Frozen PNG (off/on filmstrip). No Material `OutlinedTextField`, no “preauth / login-server” copy. Tap/long-press/paste still lands in RAM. Key never stored in the pocket. **Recommended.**
+2. **AuthKey compiled into the APK.** Truly baked. Extractable. Per-sitter builds or one leaked lab key. Limits fight.
+3. **Provision sidecar / QR (gitignored).** Operator mints; sitter never types. JOIN plate is only a lamp. Closest to “baked” without putting the secret in git.
+4. **Share-intent the key onto the JOIN plate.** No text field; Android paste/share. Same as 1 with a different hit.
+5. **Keep the Compose window.** You just recanted this.
+
+**Selected:** **2 — AuthKey compiled into the APK**, with user override “with security measures…”. Recommended was 1. Not 3–5.
+
+**Rationale / recommendation:** Recommended **1**. User picked **2**. An APK is a zip: `apktool d` prints strings. R8, NDK, and “encrypted assets” with a key that also lives in the APK are theater. Real controls are **not in the APK**: gitignore the key (same pattern as `play-upload.jks`), inject at assemble, assume anyone with the APK has the key, jail it on Headscale (ephemeral, `tag:stranger`, expiry, not reusable). That split is **M10** — M9 is not closed as a security story until M10. Limits still: no secrets in git. ControlURL (login-server URL) may be baked; it is not a secret.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = overlay hit + clipboard; $0. 2 = leaked key at first sideload. 3 = Headscale ACL + QR flow (days). 4 = intent filter. 5 = already written, aesthetically recanted.
+- **alpha (50):** 2 cannot mint 50 keys into 50 APKs without a factory. 1/3 scale as one APK + 50 preauth keys on Headscale. 3 is less support (“scan this”).
+- **growth (1,000):** 2 is a breach. 1/3 + Headscale tags. Funnel still Reject.
+- **SaaS vs self-host:** Headscale is self-host ($0 software, your always-on HTTPS). Tailscale.com keys skip IdP but are not 3’s Headscale pick (T3 already locked Headscale).
+- **Engineer-time:** 1 is hours on top of tsnet AAR (the AAR is the week). Crossover: pick 3 if a stranger cannot be trusted to paste; pick 1 if the sit is an instrument they touch.
+- **Crossover:** Never 2. If paste is still “a Compose window” in your mouth, pick 3.
+
+**Dependencies:** M8=3. Unlocks **M10** (which measures). Then M3 (CURRENT must name gitignored inject + Headscale jail, not “secret safe in APK”).
+
+**Status:** `decided` (intent) — security measures **open** as M10
+
+---
+
+### M10 — Which “security measures” for a baked AuthKey? — **decided**
+
+**Question (exactly as posed):**
+
+> M9=2: AuthKey lives in the APK so JOIN is a symbolic PNG with no Compose window. You asked for security measures. Fact: anyone with the APK can extract the string. CURRENT Limits already forbid secrets in git (same as the Play `.jks`). Headscale can mint **ephemeral**, **tagged**, **expiring**, **non-reusable** preauth keys; tsnet README already wants `Ephemeral=true` and `tag:stranger`. Obfuscation does not change extractability. What actually binds?
+
+**Options presented:**
+
+1. **Headscale-side jail + gitignored inject (recommended).** Key never in git. Assemble reads `~/.mechanicall/headscale-preauth` (or sibling of the Play keystore). APK contains the string. Treat the APK as public: key is ephemeral, `tag:stranger`, short TTL, ACL’d so a stolen node cannot Funnel, cannot see operator CURRENT, cannot WAKE unless W12 says so. Rotate by rebuilding. Same APK for closed testers until TTL. No R8-as-security.
+2. **Per-sitter APK.** Factory mints a unique one-time key into each binary. 50 testers = 50 assembleDebug. Strongest identity, brutal factory.
+3. **One-time baked key, then filesDir tsnet state.** First launch consumes the key; later launches use node state on device. Reinstall/sideload of the *same* APK fails after expiry. Still extractable for the first race.
+4. **Obfuscation theater** (R8, NDK .so, AES asset with baked cipher key). Does not bind. Reject as the measure.
+5. **Recant M9=2** back to paste CRect (1) or QR sidecar (3) after hearing the zip fact.
+
+**Selected:** **1 — Headscale jail + gitignored inject.** User replied `M10=1`. Matches rec. Not 2–5.
+
+**Rationale / recommendation:** Option **1**. The control plane is Headscale, not the APK. This matches how the Play upload key already lives off-git. Option 2 only if testers are named and few. Option 3 is 1 plus a race. Option 4 is how people pretend 2 is safe. Option 5 if you will not ship a string you assume is leaked.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = $0 extra; hours for inject + Headscale ACL; rebuild when TTL dies. 2 = hours × N sitters. 3 = 1 + first-run logic. 4 = weeks of fake security. 5 = undo bake.
+- **alpha (50):** 1 = one APK, one tagged key, 50 ephemeral nodes if reusable-tagged; or rotate often. 2 = 50 binaries (Play internal hates this). 4 still leaked × 50.
+- **growth (1,000):** 2 does not scale. 1 + Headscale tags. Funnel still Reject. Stolen Play APK = stolen key; TTL+ACL is the containment.
+- **SaaS vs self-host:** Headscale self-host. No DexGuard ($2000+/y) — that is still theater.
+- **Engineer-time:** 1 is days on top of tsnet AAR. Crossover: 1→2 when a stranger with the APK must not share a tag with other strangers *and* you will operate a factory. Never 4.
+- **Crossover:** If you cannot rotate (no rebuild path), do not bake. Recant to M9=3.
+
+**Dependencies:** M9=2. Unlocks **M11** (WAKE lamp vs wol-pi — ACL “cannot WAKE” depends on this). Then M3 (CURRENT Limits: gitignore preauth, inject at assemble, Headscale jail named).
+
+**Status:** `decided`
+
+---
+
+### M11 — WAKE: lamp only, or wol-pi this MVP? — **decided**
+
+**Question (exactly as posed):**
+
+> M8=3: JOIN/WAKE/SEND are symbolic frozen PNGs. JOIN+SEND are live mesh (tsnet AAR + Headscale carry). Live CURRENT Next is `sit-conjure-desk` (S3 + wol-pi doorbell + sitter WAKE, W12=connected sitter may WAKE). You originally stamped WAKE under construction because it over-complicated the face — then recanted that *look*, not necessarily the doorbell. M1=6 said conjure is not the done-line. Wiring WAKE’s hit-rect to `POST /wake` pulls S3/HOLD/wol-pi into this same MVP (bundle smell). Lamp-only keeps conjure parked. What does the WAKE plate *do*?
+
+**Options presented:**
+
+1. **Lamp only.** Frozen PNG filmstrip (sleeping / waking / up). No wol-pi call this MVP. Conjure stays specified (W-series) and parked. JOIN+SEND are the live DESK verbs. **Recommended.**
+2. **Lamp that still calls wol-pi.** Symbolic PNG; hit-rect POSTs `/wake`. Conjure (S3, HOLD 15, doorbell) folds into this MVP with the face + tsnet. One fat Next.
+3. **Hide WAKE this MVP.** Strip is JOIN + SEND only. Cleanest cut; less SOS-complete.
+4. **Keep Compose `WAKE SLEEPING` text.** Recanted by M8.
+
+**Selected:** **2 — lamp that still calls wol-pi.** User replied `2`. Recommended was 1.
+
+**Rationale / recommendation:** Recommended **1**. User picked **2**: symbolic PNG, hit-rect POSTs `/wake`. Conjure (S3, HOLD 15, doorbell, W12) folds into the same MVP as Imagine plates + tsnet + Plan/Draft. That is one fat Next, not dual-Next. M1=6’s “conjure is not the done-line” is recanted. Funnel still Reject. Do not suspend myarch from this agent. M10 ACL must allow tagged sitters to WAKE (W12) — stolen APK can ring the doorbell until TTL; that is the cost of 2+M9.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = Imagine one more filmstrip; $0 metal. 2 = wol-pi deploy + do-not-suspend-from-agent + face + tsnet in one Next (weeks). 3 = one less plate. 4 = $0 and ugly.
+- **alpha (50):** 2 means 50 sitters can ring a doorbell (W12); abuse/ACL is M10’s jail. 1 they cannot ring; support is “lamp is decorative.”
+- **growth (1,000):** 2 is a public-wake smell if ACL slips. Funnel still Reject. 1 does not care.
+- **SaaS vs self-host:** wol-pi already exists. Dollar delta is operator hours and the dual-Next cost, not a vendor.
+- **Engineer-time:** 1 is paint. 2 is CONJURE.md implement. Crossover: 1→2 after the sit walk + folder cycle is sit-able, as a *later* CURRENT. Never 2 as the same Next as Imagine plates unless you recant “overprogrammed.”
+
+**Dependencies:** M8=3, M10=1. Unlocks **M3** (live Next is already `sit-conjure-desk`; bundle must become law without dual-Next).
+
+**Status:** `decided`
+
+---
+
+### M3 — How does this bundle become live law? — **decided**
+
+**Question (exactly as posed):**
+
+> MVP now (M-series): sit walk + Imagine-painted frozen plates (review PNG+CRects before assemble) + typeset Plan / schema Draft + Headscale zip carry + tsnet AAR + AuthKey gitignored-inject + Headscale jail + symbolic JOIN/SEND + WAKE that POSTs wol-pi. Live CURRENT **Next is already** `sit-conjure-desk` **APPROVED**. Body Action id is still `sit-distro-gate` (two clocks). Leftover-chrome and SOS-reskin are **Reject as this Next**. Models never `aether next` / rewrite CURRENT. Dual-Next Reject. You asked to review the implementation framework before Go. How does the bundle become the Next?
+
+**Options presented:**
+
+1. **Amend `sit-conjure-desk` in place.** Same action-id. Human applies a CURRENT that names Imagine-paint halt, Plan/Draft plates, tsnet AAR, baked key jail, symbolic DESK, WAKE→wol-pi. First stage still halt at `output/` (PNGs + CRect map) before assemble. No new picker. **Recommended** — live Next already *is* conjure; M11=2 folded the rest into it.
+2. **New action-id** (e.g. `sit-mvp-rack`) replacing conjure. Cleaner name for a face+mesh+desk bundle. Extra human `aether next` + approve. Honest because `sit-conjure-desk` does not say plates.
+3. **Doorbell-only first.** Finish wol-pi as written, face later. Contradicts M11=2 (WAKE is in the face).
+4. **Face-only first, doorbell later.** Contradicts M11=2.
+5. **Implement in chat without CURRENT change.** Leftover-chrome Reject. Illegal.
+
+**Selected:** **2 — new action-id `sit-mvp-rack`.** User: “Continue (I acted on M3=2 already — just redraft the proposal now around NEXT).” Header Next is already `sit-mvp-rack`. Recommended was 1 (amend conjure in place).
+
+**Rationale / recommendation:** Recommended **1**. User picked **2** and already ran human `aether next`. Name is honest. Body/Objective/Action id still `sit-distro-gate` (two clocks). Status still APPROVED on the **old** distro amendment — applying the new body needs a **new** human approve. Propose file: `.aether/proposals/CURRENT-proposal-20260825-1821.md`. Model does not overwrite CURRENT.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = one human approve of an amendment; $0. 2 = next+approve ceremony. 3/4 = two Currents, longer calendar. 5 = law bug.
+- **alpha / growth:** action-id is operator UX, not a SaaS. Wrong name costs future grill time (this sitting already has two clocks).
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** 0 to pick. Weeks to execute whichever Next you apply. First deliverable is reviewable plates, not assemble.
+- **Crossover:** pick 2 if you will not remember that conjure now means “the whole sit.” Pick 1 if you want fewer picker steps.
+
+**Dependencies:** M11=2, whole M-series face/mesh. Unlocks propose around `sit-mvp-rack`. M4/M5 parked (not blocking apply; Play/LTE not this Next).
+
+**Status:** `decided`
+
+---
+
+### M12 — Freeze host after look failed — **open (awaiting Go)**
+
+**Question:** `02_freeze` packed the imagined `plan.png`. USB + NeuralBridge screenshots show millwork is right and Compose overlay is wrong (`LAW · OBJECTIVE` on the bezel, SEQ pits on OBJECTIVE). What is the sit host?
+
+**Options:**
+
+1. **SitRackView** — one native `android.view.View`. One `CBitmap`. Integer CRects through the blit `Matrix`. LCD text clipped to STATUS glass. Draft = transparent `EditText` in wells. Decide = CRect two-tap. **Recommended.**
+2. Keep Compose; delete leftover modules only. The zoom leak is the host (`SkinLayout.lcdZoom` covers paper). Not a module-delete.
+3. Recant plates / return to cream Compose millwork. Forbidden (`leftover-compose-millwork-as-sos`).
+4. Multiple runtime-composited PNGs. Contradicts M2=1 (one editor bitmap).
+
+**Selected:** not yet. Contract: `dev/45_sit-mvp-rack/02b_native-rack/output/FRAMEWORK.md`. Human Go implements 1. Silence ≠ Go.
+
+**Cost tradeoff:** 1 is a rewrite of `SeatNav`/`LcdViewer`, not of millwork paint. 2 ships the same shit. 3/4 fight M2/M7.
+
+**Status:** `open`
+
+---
+
+### Open branches (parked, not blocking `sit-mvp-rack` apply)
+
+- **M4** — Who is the first stranger. Worth-test later.
+- **M5** — Play Console this week vs never this milestone. Distro remainder parked (LTE still BLOCKED; not this Next).
+
+**Cost notes:** Human must apply the propose + `aether approve` with a real reason. Preflight already **allows** `sit-mvp-rack` because the header matches — that is a two-clocks hole until the body is applied. I will not Imagine or assemble until that apply. Dual-Next still Reject.
+
+---
+
+# W-series then R-series (prior)
+
+**Live law when W started:** `sit-distro-gate`. **Now:** `sit-conjure-desk`. Agents do **not** silently rewrite CURRENT. Dual-Next Reject.
+
+**Skill:** in-repo `grilling` (whole frontier per round) + `grill-me-store-decisions` (persist).  
+**Fact pack:** `dev/43_journey-review/03_workflow-process/output/PROCESS.md`
+
+---
+
+# W-series (open) — how to build vs four doors
+
+**Premise (2026-08-24):** Operator asked for more **workflow/process** research and how to move forward building the app, **and** in the same turn: (1) anyone in the world networks with me, (2) explore Draft and Plan in a UI redesign, (3) finish intended non-pastiche UI, (4) redesign the website to market it.
+
+**Interview started:** 2026-08-24  
+**Interview status:** **CONJURE/DEV-MODE closed pending confirm.** W0 auto. W1=1. W2=3. W7=1 + working-hours ASLEEP. W8=1 + in-tree dev mode. **W9=1 recant E3b later. W10=1 S3. W11=1 HOLD 15 min unless local session. W12=2 sitter may WAKE. W13=2 `dev/`+`examples/` toys.** W3–W6 blocked. R parked.  
+**Fact pack:** `dev/43_journey-review/04_ambient-and-child-current/output/AMBIENT-AND-CHILD.md` · `05_conjure-protocol/output/{CONJURE,DEV-MODE}.md`  
+**Prior this file:** R-series **PARKED** by W1=1.
+
+## Guiding principles (W)
+
+1. CURRENT is law. Chat does not recant Funnel, leftover-chrome, P2b, or P4b.
+2. One Next. `&` four products is dual-Next.
+3. Finding facts is the agent’s job. Decisions are the operator’s.
+4. Close or park an open grill before treating a new wishlist as Go.
+5. Minimize paid third parties. No BaaS as authority. Play $25 is the closed-tester path already chosen (P4).
+6. Phone bind ≠ this operator tree.
+
+## Master cost map (W — additive to P-series Play $25)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| Stay on sit-distro-gate (LTE+internal) | $0 + hours LTE + Console time | $25 already | later CURRENT for production | sideload $0, no testers list |
+| Funnel / public wake recant | hosting + abuse desk | $5–50/mo relay or public VPS | real abuse/moderation | Headscale userspace (JNI gap) $0 infra, engineer-weeks |
+| Sit chrome leftover / SOS finish | 1–3 engineer-weeks | tester bounce if pastiche | bounce × N | FACE-SPEC already $0 spec |
+| Marketing website redesign | 1–2 engineer-weeks; existing host | 2-minute bounce repeats | listing/SEO later | anphuni.com already; P4b parked |
+| Binaries in git (R2=3) | repo bloat | worse clone | worse clone | GitHub Release asset, not tree |
+
+## Summary of decisions (W)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **W0** | Process facts | auto — see PROCESS.md | decided | $0 |
+| **W1** | Open R-series | **1 — park R** (R1=1 quality bar, no binaries in git) | decided | $0 |
+| **W2** | Four-door ask vs live Next | **3 — stop** (PROCESS.md; no recant, no chrome, no Console) | decided | testers still unpaid; Next unchanged |
+| **W3–W6** | Recant doors | blocked (W2≠2) | blocked | — |
+| **W7** | Funnel shutdown / ambient | **1 + working hours fully asleep** | decided | $0 spec; E3b fights sleep |
+| **W8** | Child CURRENT / multiple Nexts | **1 + in-tree aggressive dev mode** | decided | CONTEXT.md factories under this folder |
+| **W9** | k3s on myarch (E3b) vs ASLEEP | **1 — recant E3b later** (cluster off myarch) | decided | later CURRENT; not this Next |
+| **W10** | Sleep depth | **1 — S3 + NIC WoL** | decided | $0; Kingston mount survives |
+| **W11** | HOLD / schedule | **1 — N min then S3 unless local session** (N=15 auto) | decided | systemd keep_alive |
+| **W12** | Who may CONJURE | **2 — connected sitter may WAKE** | decided | S4 chrome |
+| **W13** | Dev-mode layout | **2 — `dev/` + `examples/` toys** | decided | $0 already true |
+
+---
+
+### W0 — Facts (auto)
+
+**Question:** not posed — codebase + PROCESS.md.
+
+**Selected:** Mechanisms M1–M8 (wishlist stacking, unanswered grill, recant-by-chat, surface replacement, two clocks, rubber-stamp Yes, capture without filing, looking instead of LTE). FACE-SPEC v2 + BEHAVIOURS already specify Plan/Draft. Funnel/public wake Reject. leftover-chrome Reject as Next. P2b SOS blit parked. P4b website parked. LTE BLOCKED this host. R-series OPEN.
+
+**Rationale:** Grilling: facts are the agent’s job.
+
+**Cost tradeoff:** $0. Re-asking “what does FACE-SPEC say?” wastes the round.
+
+**Dependencies:** none. Unlocks W1–W2.
+
+**Status:** `decided` (auto)
+
+---
+
+### W1 — Open R-series (production-grade APK in git) — **open**
+
+**Question (exactly as posed):**
+
+> R1–R3 are still unanswered: what “production-grade APK in git” means, what the PR may contain, which Console track. A new four-door wishlist does not close that grill. What happens to R-series?
+
+**Options presented:**
+
+1. **Park R-series.** Keep the recommended R1=1 (quality bar for closed testers; source + listing + checksums; **no** APK/AAB/jks in git). **Recommended.**
+2. Answer R1–R3 **now** in this round (still one Next: sit-distro-gate).
+3. Recant into binaries-in-git or Play **production** (R1=2 or 3) — only with a CURRENT propose; not this chat.
+
+**Rationale / recommendation:** Option 1. `PROBLEM.md` already holds the mismatch. Binaries in git vs a marketing site vs leftover chrome is three doors. Park R so W2 can be answered without a second law fight.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = $0. 2 = minutes of answers, still no LTE. 3 = gitignore recant + review risk.
+- **alpha / growth:** binaries in git never get cheaper; clones get worse.
+- **SaaS vs self-host:** GitHub Release asset (not tree) if a binary must be downloadable.
+- **Engineer-time:** 0 to park.
+- **Crossover:** none — Limits already forbid jks in git.
+
+**Dependencies:** R0, PROBLEM.md. Unlocks a clean W2.
+
+**Selected:** **1 — Park R-series.** User: `W1: 1`. Recommended option. R1=1 (quality bar; no APK/AAB/jks in git) stands as the parked recommendation. Not answered R1–R3 in full; not binaries-in-git.
+
+**Status:** `decided`
+
+---
+
+### W2 — This four-door ask vs live Next
+
+**Question (exactly as posed):**
+
+> You asked to help anyone in the world network with you, explore Draft/Plan in a UI redesign, finish the intended non-pastiche UI, **and** redesign the website to market it. Live Next is `sit-distro-gate` APPROVED (LTE still BLOCKED here; Play internal human; dirty git last). Funnel, leftover-chrome-as-Next, SOS-reskin-this-Next, dual-Next, Play production, and P4b website listing are Reject or parked. How does this sitting relate to live law?
+
+**Options presented:**
+
+1. **Stay on `sit-distro-gate`.** Finish remainder: LTE when a cellular phone exists (else leave BLOCKED), human Console, Go-git last. Queue the four doors as **later** Nexts (at least three action-ids), one at a time, via propose-current after this Next closes. **Recommended.**
+2. **Recant `sit-distro-gate` now** — human applies a new CURRENT with **exactly one** of: (a) world-network, (b) sit Plan/Draft+look, (c) website P4b. The other two wait. Requires propose file; model does not write CURRENT.
+3. **Stop.** PROCESS.md stands. No recant. No chrome. No Console.
+
+**Rationale / recommendation:** Option 1. The unpaid collection is still a tester who is not you on a signed artifact off LAN. FACE-SPEC already specifies Draft/Plan. Website now repeats the 2-minute Session bounce. “Anyone in the world” without a Funnel recant **is** closed testers. Recanting for a four-door `&` is the workflow failure (M1). Option 2 is legal **only** as one door + human CURRENT apply.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = hours–2d LTE + your Console; $25 Play path already chosen (P4). 2 = 1–3 engineer-weeks on the chosen door + testers still missing. 3 = $0, testers still missing.
+- **alpha (50):** internal/closed list only exists after 1. Chrome/website without that list is demo theatre.
+- **growth (1,000):** production listing and public network are **later** CURRENTs; not this fork.
+- **SaaS vs self-host:** Funnel/public wake is the expensive recant (VPS + abuse). Headscale userspace is the named $0-infra gap (JNI).
+- **Engineer-time:** 1 is the short path. 2 is a new Next. `&` all four is months and lost.
+- **Crossover:** If no cellular phone will exist this week, option 1 still wins as **honest BLOCKED** over option 2 chrome.
+
+**Dependencies:** W0, live CURRENT, P4/P4b, Funnel Reject, leftover-chrome Reject. Unlocks W3–W6 only if W2=2. Unlocks W7–W8 as workflow research after W2=3.
+
+**Selected:** **3 — Stop.** User: `W2: 3`. PROCESS.md stands. No recant of `sit-distro-gate`. No chrome. No Console this sitting. Four-door bundle does **not** become Next. Follow-up research (ambient / child CURRENT) is **not** a recant.
+
+**Status:** `decided`
+
+---
+
+### W7 — Funnel shutdown vs ambient doorbell — **open**
+
+**Question (exactly as posed):**
+
+> You want shutdown Funnel logic present; the home desktop should not be always-on; you want the logic for ambient, self-hosted requests. Funnel/public wake is still Reject. GATE-CONTRACT already specifies WAKE (wol-pi) → LOAD → STREAM → QUIET. `wake_desk` already refuses public URLs. E3b put k3s **on** myarch (fights sleep). What should “Funnel shutdown / ambient” mean **as a spec**, not as this Next’s implement?
+
+**Options presented:**
+
+1. **Keep Funnel Reject. Ambient = doorbell + sleeping desk.** wol-pi (or spare) always-on on tailnet; myarch QUIET by default; WAKE/LOAD/STREAM already in GATE-CONTRACT; refuse `0.0.0.0`; Funnel never starts. Document that as the shutdown logic. **Recommended.**
+2. **Same as 1, plus recant E3b later** (k3s off myarch so the workbench can actually sleep). Still not this Next; needs a future CURRENT propose.
+3. **Recant Funnel** (public expose) but add a shutdown switch — public URL when up, off when you say. Conflicts live Reject; needs CURRENT recant; abuse desk.
+4. **Always-on myarch + 7B.** Simplest SLA; you said you do not want this.
+
+**Rationale / recommendation:** Option 1 now; option 2 as a *later* fork if sleep is real. Do not recant Funnel. Shutdown logic is the refuse-path + QUIET, not a Funnel feature.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = $0 spec (already written). 2 = later CURRENT + maybe $5–20/mo doorbell VPS if wol-pi is not enough. 3 = Funnel incident risk (stolen-model, not a line item). 4 = power + your “not always-on” recant.
+- **alpha / growth:** public Funnel is moderation + incident. Tailnet doorbell stays $0–20.
+- **SaaS vs self-host:** wol-pi/Tailscale is self-host. Funnel is public.
+- **Engineer-time:** 0 this sitting (W2=3). Later Next: verify GATE-CONTRACT + wake refuse, not a new mesh product.
+- **Crossover:** 1→2 when k3s on myarch keeps the box hot and you mean sleep. Never 3 while Funnel is Reject.
+
+**Dependencies:** W2=3, GATE-CONTRACT, E3b, Funnel Reject. Unlocks W9 (E3b recant) only if W7=2.
+
+**Selected:** **1 — Keep Funnel Reject; ambient = doorbell + sleeping desk**, plus amendment **working hours fully asleep** until conjured. User: `W7: 1 + working hours fully asleep (… define the exact protocol I'm trying to CONJURE)`. Not Funnel recant (3). Not always-on 7B (4). E3b recant not chosen as W7=2; sleep-depth may force it as **W9**.
+
+**Status:** `decided`
+
+---
+
+### W8 — Child CURRENT.md for subagents / multiple Nexts
+
+**Question (exactly as posed):**
+
+> You want to focus on implementation workflow and suggested session-based child CURRENT.md files so subagents can execute multiple Nexts. Live Reject: dual-concurrent-next. SPEC already has `aether … [path]` (one Next **per folder**). Root Keep: no child Domain as operator session authority. Is a child CURRENT the way to run parallel work?
+
+**Options presented:**
+
+1. **No child CURRENT on this operator tree.** Parallel work = ICM CONTEXT.md + `output/` halt + read-only/isolated subagents that **never** approve. Other folders may have their own CURRENT (`aether current /their/path`). **Recommended.**
+2. **Session BRIEF/CONTEXT only** (explicitly not named CURRENT.md). Same as 1 with a naming rule so agents cannot preflight a fake Next.
+3. **Recant dual-Next:** child CURRENT.md per subagent, each with Next/Approve. Human Yes on every child. Two clocks by design. Needs CURRENT recant — not this sitting (W2=3).
+4. **Child CURRENT that cannot approve** (read-only Next pin). Still two clocks; agents will treat it as law (HUMAN_ESCALATE). Don’t.
+
+**Rationale / recommendation:** Option 1, with option 2 as the naming belt. Child CURRENT **is** dual-Next with extra files. You already have legal multiples: stages inside one action-id, sitter folders, STORM review. W2=3 declined recanting for a bundle; child CURRENT as a trick to do the bundle anyway is wishlist stacking.
+
+**Cost tradeoff:**
+
+- **v1:** 1–2 = $0 (already the factory). 3 = protocol week + repair when two Nexts disagree. 4 = cheaper than 3 and still a law bug.
+- **alpha (50):** 3 × 50 child CURRENTs is a hosted product, not a lab.
+- **growth:** never from this fork.
+- **SaaS vs self-host:** N/A. The cost is **repair time** when chat outranks the wrong file.
+- **Engineer-time:** 0 to keep CONTEXT.md. Weeks to recant dual-Next honestly.
+- **Crossover:** none. If you want two projects at once, bind **two folders**, not two Nexts in mechanicall-os.
+
+**Dependencies:** W2=3, SPEC-v0.2 path form, D3, dual-Next Reject. Unlocks W13 (in-tree factory shape).
+
+**Selected:** **1 — No child CURRENT on this operator tree**, plus amendment: **keep projects under this folder as aggressive mechanicall-os dev mode** (ICM `dev/` + sample CURRENTs under `examples/` as toys; root CURRENT remains the only operator Next). User: `W8: 1 (but I like how the old workflow keeps projects under this folder. We can utilise it as an aggressive mechanicall-os dev mode!)`. Not recant dual-Next (3).
+
+**Status:** `decided`
+
+---
+
+### W9 — k3s on myarch (E3b) vs fully asleep
+
+**Question (exactly as posed):**
+
+> W7 now says myarch is **fully asleep in working hours** until conjured. E3b selected **k3s on myarch**. A cluster cannot sleep. What happens to E3b? (Not this Next’s implement. Later CURRENT if you recant.)
+
+**Options presented (original):** recant E3b / keep k3s and recant fully-asleep / k3s on wol-pi / leave unnamed.
+
+**Post-W10 note:** User picked **S3**. S3 **freezes** k3s with the box — recanting E3b is **not** required for sleep. The remaining fight is **inhibitors** (etcd timers, STORM AVDs, USB) that **block** suspend, and whether you still want a cluster on this workbench at all.
+
+**Options now (answer these):**
+
+1. **Freeze with S3.** Keep E3b. k3s/STORM sleep with the box. Sleep hooks must not let them inhibit suspend. **Recommended** if cluster is lab-only.
+2. **Stop k3s/STORM before S3** (systemd sleep hook). E3b stays; cluster is not hot across HOLD.
+3. **Recant E3b later** — no k3s on myarch (docker-cap / VPS / none). Cleanest sleep. Later CURRENT.
+4. **Allow k3s to inhibit S3** — box stays up. Fights W10=1. Don’t.
+
+**Rationale / recommendation:** Option 1 now that W10=1. Option 3 if k3s was a mood and you want a simple workbench. Option 2 if AVDs/etcd actually block S3 in practice. Not 4.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = $0 + maybe a sleep-hook if inhibitors appear. 2 = hours of systemd. 3 = later CURRENT weekend. 4 = recants W10.
+- **alpha:** cluster SLA and S3 SLA cannot both be true while ASLEEP.
+- **SaaS vs self-host:** VPS k3s still self-host if 3.
+- **Engineer-time:** 0 this sitting.
+- **Crossover:** 1→2 when `systemctl suspend` fails because of k3s/kvm. 1→3 when you do not want a cluster on the sleeping desk.
+
+**Dependencies:** W7 amendment, E3b, **W10=1**. Unlocks a later propose-current to move k3s off myarch. Unlocks nothing on `sit-distro-gate`.
+
+**Selected:** **1 — Recant E3b later** (cluster off myarch so S3 is a clean workbench). User: `W9: 1` answering the **chat** list (1 recant E3b / 2 keep k3s and recant sleep / 3 wol-pi / 4 unnamed). That is **not** the post-W10 in-file “freeze with S3” option 1. Later CURRENT propose; **not this Next**. Until then E3b remains historical grill law on disk, not applied here.
+
+**Status:** `decided`
+
+---
+
+### W10 — Sleep depth (what CONJURE hits)
+
+**Question (exactly as posed):**
+
+> “Fully asleep” is still undefined. S4 already picked magic packet via wol-pi. What is down when the desk is ASLEEP?
+
+**Options presented:**
+
+1. **Suspend-to-RAM (S3)** + NIC WoL. Matches S4. Kingston mount usually survives. **Recommended.**
+2. **Poweroff + BIOS WoL.** Darker; slower; Kingston unmounted until boot.
+3. **Stop 7B / k3s / STORM; kernel stays up.** Tailscale on myarch still answers; no magic packet required. Not “fully” asleep.
+4. **Display-off only.** Not sleep.
+
+**Rationale / recommendation:** Option 1. S4 is otherwise decoration. Option 3 is the k3s-compatible cop-out.
+
+**Cost tradeoff:**
+
+- **v1:** 1 = BIOS/NIC WoL check (hours). 2 = +boot time. 3 = $0 and fights W7. 4 = $0 lie.
+- **Engineer-time:** ops on myarch, not APK.
+- **Crossover:** 1→2 only if S3 leaks power you care about.
+
+**Dependencies:** W7, S4. Unlocks W9 refined (inhibitors), W11 return path.
+
+**Selected:** **1 — Suspend-to-RAM (S3) + NIC WoL.** User: `W10: 1`. Kingston mount survives. Not poweroff. Not kernel-up. Not display-off.
+
+**Status:** `decided`
+
+---
+
+### W11 — HOLD then ASLEEP (working-hours schedule)
+
+**Question (exactly as posed):**
+
+> After STREAM quiets, when does myarch go ASLEEP **including working hours**?
+
+**Options presented:**
+
+1. **N minutes after last token always**, unless a local session (you at the keyboard) is active. Working hours are not a keep-alive. **Recommended.**
+2. **Always after N minutes**, even if you are at the desk (brutal).
+3. **Calendar:** sleep only nights; 09–18 may stay IDLE. Fights “working hours fully asleep.”
+4. **Manual only:** you suspend; protocol does not auto-sleep.
+
+**Rationale / recommendation:** Option 1. N ≈ 10–15 min keep_alive then S3. Operator-at-desk is the only exception.
+
+**Cost tradeoff:**
+
+- **v1:** systemd timer / `keep_alive` — hours. 3 = calendar cron, fights W7. 4 = $0 and the box stays hot.
+- **SaaS:** none.
+- **Crossover:** 1→2 only if you never work at myarch’s console.
+
+**Dependencies:** W7 amendment, W10. Unlocks return path in CONJURE.md.
+
+**Selected:** **1 — N minutes after last token unless a local session is active.** User: `W11: 1`. **N=15 minutes** recorded skip-obvious (override if you say otherwise). Working hours are not a keep-alive.
+
+**Status:** `decided`
+
+---
+
+### W12 — Who may CONJURE (WAKE)
+
+**Question (exactly as posed):**
+
+> S4: WAKE when JOIN=connected. Who is allowed to fire wol-pi?
+
+**Options presented:**
+
+1. **Operator WAKE strip only.** Sitters see QUIET until you wake the desk.
+2. **Connected sitter (`tag:stranger`) may WAKE.** Matches “anyone can boot this desk.” **Recommended.**
+3. **Send implies WAKE** (no extra tap). Nicer; easier to confuse with Yes. Don’t unless you want that.
+
+**Rationale / recommendation:** Option 2. Keep WAKE a separate strip tap (not Decide). Option 3 blurs Yes.
+
+**Cost tradeoff:**
+
+- **v1:** 2 is already S4 chrome. 3 = UX week + doctrine note.
+- **alpha:** 50 sitters WoL one desk is fine; hammering is wol-pi’s problem.
+- **Crossover:** 2→1 if strangers must not boot your house.
+
+**Dependencies:** S4, W7. Unlocks ACL copy.
+
+**Selected:** **2 — Connected sitter (`tag:stranger`) may WAKE.** User: `W12: 2`. Operator strip may WAKE. Send does **not** imply WAKE.
+
+**Status:** `decided`
+
+---
+
+### W13 — Aggressive in-tree dev mode shape
+
+**Question (exactly as posed):**
+
+> W8=1: no child CURRENT as operator law, but projects stay **under this folder**. What is the allowed layout?
+
+**Options presented:**
+
+1. **`dev/` ICM only** (CONTEXT.md + output/). `domains/` stays empty LAB. **Tight.**
+2. **`dev/` factories + `examples/` sample CURRENTs as toys** (`aether current examples/dev-task` learns schema; never live Next). **Recommended** (already true).
+3. **New `projects/` tree** with CONTEXT.md, still no CURRENT.md.
+4. **`domains/<name>/CURRENT.md` allowed as LAB toys** the operator session must not approve as root.
+
+**Rationale / recommendation:** Option 2. Do not add a fourth tree. Sample CURRENT ≠ live Next.
+
+**Cost tradeoff:**
+
+- **v1:** 2 = $0 (already on disk). 3 = naming week. 4 = agents will preflight the toy (HUMAN_ESCALATE risk).
+- **Engineer-time:** 0 to keep 2.
+- **Crossover:** 2→4 only if you want Domain demos in-tree and will teach agents they are not root.
+
+**Dependencies:** W8 amendment. Unlocks AGENTS.md one-liner later (optional).
+
+**Selected:** **2 — `dev/` factories + `examples/` sample CURRENTs as toys.** User: `W13: 2`. Sample CURRENT ≠ live Next. No new `projects/` tree.
+
+**Status:** `decided`
+
+---
+
+### Open branches not yet asked (blocked)
+
+- **W3–W6** — recant product doors (blocked: W2=3).
+
+**Conjure + dev-mode frontier:** empty. Shared understanding **pending human confirm** (grilling: do not implement until they say the tree is closed).
+
+**Cost notes:** None of this recants `sit-distro-gate`. E3b recant is a later propose. N=15 skip-obvious (override if you say so).
+
+---
+
+# R-series (still open) — production-grade APK in git
 
 **Premise (this grill, 2026-08-24):** User wants **production-ready** stuff and to **PR a production-grade APK to git**. Live law is **`sit-distro-gate` APPROVED**: closed testers, Play **internal/closed**, **Reject production listing**, no jks/AAB in git, LTE before Console. Dual-Next Reject. Models never approve.
 
 **Interview started:** 2026-08-24  
-**Interview status:** **OPEN.** R0 auto (facts). R1–R3 posed (frontier).  
+**Interview status:** **PARKED** (W1=1). R0 auto. R1–R3 unanswered; parked recommendation remains R1=1 (no binaries in git).  
 **Skill:** Matt Pocock `grilling` + `grill-me-store-decisions`.  
 **Live law now:** header **Next:** `sit-distro-gate` · **APPROVED**. Agents do **not** silently rewrite CURRENT.
 
