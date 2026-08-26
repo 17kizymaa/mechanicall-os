@@ -19,8 +19,8 @@ android {
         applicationId = "com.mechanicall.pocket.demo"
         minSdk = 26
         targetSdk = 36
-        versionCode = 22
-        versionName = "0.17.1-api36"
+        versionCode = 24
+        versionName = "0.18.1-storage"
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
