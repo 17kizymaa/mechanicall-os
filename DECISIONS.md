@@ -220,3 +220,44 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-08-23T05:29:01.717Z APPROVED: APPROVED
 - 2026-08-23T11:32:12.619Z APPROVED: first-sit template, off-LAN then Play internal
 - 2026-08-24T14:52:35.855Z APPROVED: closed-tester distro gate: contain zip, stock-phone Publish, API 36, then Play internal
+- 2026-08-25T11:52:13.984Z APPROVED: APPROVED
+- 2026-08-25T11:52:36.203Z APPROVED: ...real reason...
+- 2026-08-25T12:36:52.821Z APPROVED: sit-conjure-desk: S3 / wol-pi doorbell / sitter WAKE
+- 2026-08-25T12:41:43.703Z NEXT_SELECTED: sit-distro-gate -> sit-conjure-desk
+- 2026-08-25T12:43:19.652Z APPROVED: Trying to get to the next stage: it's all just floating through my brain the information kind of (concurrent errors found on device application - cannot get past the initial bind page dialogue!)
+- 2026-08-25T18:18:45.474Z NEXT_SELECTED: sit-conjure-desk -> sit-mvp-rack (Cleaner naming - we have turned a new direction in the first official deployment of Mechanicall (first one nobody uses yet).)
+- 2026-08-25T18:19:30.280Z APPROVED: I finally got verified Play Store dev account so we can make the first distribution now!
+- 2026-08-25T18:27:25.139Z APPROVED: Didn't really read sh*t to be honest - let's wrap this up like a condom
+- 2026-08-25T20:35:06.350Z APPROVED: APPROVED
+- 2026-08-28T13:47:56.368Z NEXT_SELECTED: (unset) -> pr-rubric-as-check (I think I could do with more scripts - helps define the ICM further as the 'project recovery service' tool)
+- 2026-08-28T13:48:46.359Z APPROVED: This codebase reviewer session should be focused enoguh to carry out these proposed nexts it suggested
+- 2026-08-28T13:51:42.994Z APPROVED: This codebase reviewer session should be focused enough to carry out these proposed nexts it suggested - the changes seem like it would make the next best PR before redrafting the APK again
+- 2026-08-28T14:51:02.469Z NEXT_SELECTED: pr-rubric-as-check -> take-forward
+- 2026-08-28T14:51:06.163Z APPROVED: APPROVED
+- 2026-08-28T14:54:34Z HUMAN: take-forward applied onto operator CURRENT.md (aether current validate OK). SitRackView host, PR rubric Keep, two-pocket split, EdubaWare look-not-core, dirty tree not a PR. Model did not run aether approve/next. Halt for human aether next.
+- 2026-08-28T14:55:32.243Z NEXT_SELECTED: take-forward -> leftover-compose-delete
+- 2026-08-28T14:59:03.319Z APPROVED: Just want to get a clean slate to focus on a new implementation of the pocketAPK
+- 2026-08-28T15:01:36.593Z NEXT_SELECTED: leftover-compose-delete -> aether-mcp-projection (Aether integration more solid)
+- 2026-08-28T15:08:00Z HUMAN: leftover-compose-delete executed (Compose millwork files gone; gradle without Compose; app_verify 10/10). No sideload. assembleDebug blocked on JDK 26. Model did not implement aether-mcp-projection (Approval PENDING).
+- 2026-08-28T15:05:03.755Z APPROVED: Turn finished
+- 2026-08-28T15:20:00Z HUMAN: aether-mcp-projection spike on disk (python/aether_mcp.py; current/probe/propose_write; approve/next refused in tests). Not default-on. Model did not aether next.
+- 2026-08-31T17:59:12.471Z REJECTED: Just did a speech teasing the 'mechanicall-pocket' APK. Before playstore listing, 1. The UI should be fully executed finished, 2. Headscale should be up 'n' operable, 3. the UI should be fully executed 4. idkr (returned to SELECT; no automatic rebuild)
+- 2026-08-31T18:33:26.449Z APPROVED: speech ≠ listing; park MCP; UI other pocket; Headscale following; idkr unnamed
+- 2026-08-31T18:43:39.997Z NEXT_SELECTED: aether-mcp-projection -> listing-bar-pin
+- 2026-08-31T18:43:50.645Z APPROVED: APPROVED
+- 2026-08-31T18:45:22Z HUMAN: listing-bar-pin applied onto operator CURRENT.md (proposal 1817; aether current validate OK). MCP parked. UI other pocket. Headscale following not live. idkr unnamed. Model did not run aether approve/next. Halt for human aether next.
+- 2026-09-03T11:36:56.188Z APPROVED: Ignore the service frameworks introduced by '15-RAW-_SS-CLOSING-APK-THREAD.md' - don't agree with that, moving from now (since here)
+- 2026-09-03T11:55:44.657Z APPROVED: We should also look at the 'external CURRENT.md' in making it an actual protocol convention that 'doesn't let that caveat weaken the philosophy, but identify the work still required to emboy it fully' (if that statement really does apply..) - also interested in, after post-APK-listing and MOS-git-tree-polish, to reflect on what 'a model' can do based on its capabilities in terms of running this repo ('models are already smart' - yeah, taht's what the repo is leveraging, but what models?).
+- 2026-09-03T11:57:24.547Z APPROVED: We can revisit the 'service framework' later when clientelle gets super-diverse, like.
+- 2026-09-03T14:43:02.769Z APPROVED: Last addition: an extra item on 'PROPOSED_CURRENT.md' should be added on a multi-language setting - matter of fact, that module can be the start of the settings tab!
+- 2026-09-03T14:43:55.389Z APPROVED: Matter of fact, that last addition should be a parked item. Nevertheless, good luck developing!
+- 2026-09-04T11:02:21Z APPROVED: APPROVED (Next sit-module-panels)
+- 2026-09-04T11:15:00Z HUMAN: sit-module-panels implemented on disk (isolated CRT, Send overlay, Draft workshop page, honest receipt). app_verify 15/15. Send smoke source-only (A33 USB look not this sitting). Model did not aether next. Halt for sideload look.
+- 2026-09-03T16:31:24.106Z NEXT_SELECTED: listing-bar-pin -> ss-closing-apk
+- 2026-09-03T16:31:24.259Z APPROVED: handoff ss-closing-apk; UI taste on wired 0.19.0-sit-rack; Play/web following not live
+- 2026-09-04T10:07:19.648Z REJECTED: Just not confident that the pocket is going to fix the app the way I want it to. I have a few ideas I wanted to have executed but the preview-on-sdk doesn't feel like enough! How do I describe the behaviours I want the app to do without losing the bigger picture (MVP?). (returned to SELECT; no automatic rebuild)
+- 2026-09-04T10:36:34.968Z REJECTED: I literally just want the terminal to be clickable which shows it in an isolated preview (no overlay) of a maximised, dark panel, and want to make the send folder icon clickable to show an overlain panel of that module, I want the draft panel to reflect the changes suggested in "15_..." plus it should open its own isolated page, too, I want to smoke-test "Send folder," I want to change receipt. Basically, propose a CURRENT.md for that sprint so we can get to action! (returned to SELECT; no automatic rebuild)
+- 2026-09-04T11:02:21.011Z APPROVED: APPROVED
+- 2026-09-04T11:28:24.348Z NEXT_SELECTED: sit-module-panels -> sit-glass-polish
+- 2026-09-04T11:28:24.501Z APPROVED: polish millwork + isolated CRT/Send/Draft/Receipt plates; walk stays; not Play
+- 2026-09-04T12:57:19.903Z REJECTED: Looks shittier than the freeze rack. Isolated CRT/Draft/Send dests recant. Start from zero. Draft a new CURRENT. (returned to SELECT; no automatic rebuild)

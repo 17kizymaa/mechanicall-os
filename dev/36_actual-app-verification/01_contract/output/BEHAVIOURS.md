@@ -9,7 +9,7 @@ Walk: bind → show-plan → propose → gate → (do after Yes) → receipt.
 | id | Need | Not | Evidence |
 |----|------|-----|----------|
 | B1 bind-first | Unbound: FOLDER is the only module. One path. Operator tree refused. | Auto-bind mechanicall-os or a hidden default pocket as the product | source + uidump |
-| B2 plan-readable | PLAN shows published CURRENT.md, a Changes list, and a **Proposal** segment with diffs. | Protocol museum / chip page as PLAN | source + uidump |
+| B2 plan-readable | PLAN millwork + STATUS LCD shows published CURRENT essentials (zoom/GATE pages). No Changes chip row. No Proposal-on-PLAN. | Nested scroll window / Changes museum | source + uidump |
 | B3 plan-manual-edit | Human edits the **proposal** (Plan Proposal segment and/or Draft field paper). Writes PROPOSE only. CURRENT until Decide. | Chat bubbles as the only editor | source |
 | B4 draft-is-workshop | Draft is a plan workshop: live vs proposed fields. Desk proposes. | Chat-app identity (composer+bubbles as the product) | source + uidump |
 | B5 propose-not-current | Draft/Send writes PROPOSE only. CURRENT bytes unchanged until Yes | Model auto-write CURRENT | source + tests |
@@ -18,5 +18,10 @@ Walk: bind → show-plan → propose → gate → (do after Yes) → receipt.
 | B8 receipt-tomorrow | Receipt is what they already said. Empty is honest | Fake agree on open | source |
 | B9 window-honest | `resizeableActivity`. No painted 92% card. OEM pop-up optional | Fake traffic-light VST filling the glass as “windowed” | source |
 | B10 bind-not-repo | Phone bind ≠ this operator tree | Binding mechanicall-os | source + tests |
+| B11 crt-isolated | Tap STATUS CRT → maximised **dark** terminal, **no** millwork overlay | Zoom-stretch of chassis glass; LcdViewer host | uidump + look PNG |
+| B12 send-overlay | Tap Send-folder → overlay panel of **Send module** | Send is Yes; Send writes CURRENT; Send = FILES | uidump + CURRENT bytes |
+| B13 draft-workshop-page | Draft bank → isolated page; live vs proposed fields; fluency proposes | Chat bubbles as the product; Draft writes CURRENT | uidump + tests |
+| B14 send-folder-smoke | One lab smoke: Send overlay opens, offer/staging honest, dismiss returns to rack | Smoke as Play receipt; USB as LTE | script + look |
+| B15 receipt-honest | RECEIPT bank shows `receiptText`; empty is empty | Fake agree; plan millwork as receipt | uidump + source |
 
 Walkers **never** tap Confirm. Models **never** `aether approve`.

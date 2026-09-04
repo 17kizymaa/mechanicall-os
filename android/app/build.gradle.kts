@@ -19,8 +19,8 @@ android {
         applicationId = "com.mechanicall.pocket.demo"
         minSdk = 26
         targetSdk = 36
-        versionCode = 24
-        versionName = "0.18.1-storage"
+        versionCode = 28
+        versionName = "0.19.3-glass-polish"
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
@@ -48,8 +48,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
-    buildFeatures { compose = true }
-    composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
     packaging {
         jniLibs {
             useLegacyPackaging = false
@@ -64,10 +62,6 @@ chaquopy {
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 }

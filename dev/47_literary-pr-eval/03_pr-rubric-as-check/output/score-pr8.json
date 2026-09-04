@@ -1,0 +1,155 @@
+{
+  "verdict": "blocker",
+  "blockers_fail": [
+    "B2",
+    "B3"
+  ],
+  "file_count": 41,
+  "rows": {
+    "B1": {
+      "id": "B1",
+      "score": "PASS",
+      "question": "approve/reject/next still human-only in code and events?",
+      "evidence": [
+        "no test-as-human or MCP-approve pattern in changed files"
+      ]
+    },
+    "B2": {
+      "id": "B2",
+      "score": "FAIL",
+      "question": "Decide/Publish works on claimed surface without hidden POSIX aether?",
+      "evidence": [
+        "FaceBridge.yes present without native pocket_approve in this blob"
+      ]
+    },
+    "B3": {
+      "id": "B3",
+      "score": "FAIL",
+      "question": "transport cannot write outside the bound tree?",
+      "evidence": [
+        "ZipFile present; no _zip_member_unsafe / relative_to in blob"
+      ]
+    },
+    "B4": {
+      "id": "B4",
+      "score": "PASS",
+      "question": "live CURRENT excluded, or honestly applied by a human?",
+      "evidence": [
+        "proposals only: ['.aether/proposals/CURRENT-proposal-20260825-1138.md', '.aether/proposals/CURRENT-proposal-20260825-1821.md', '.aether/proposals/CURRENT-proposal-20260825-2114.md']"
+      ]
+    },
+    "B5": {
+      "id": "B5",
+      "score": "PASS",
+      "question": "distribution claim has a built artifact, not string-search 10/10?",
+      "evidence": [
+        "Android assemble/bundle referenced"
+      ]
+    },
+    "B6": {
+      "id": "B6",
+      "score": "PASS",
+      "question": "off-LAN claim is LTE/Play, not USB-on-mbp-edge?",
+      "evidence": [
+        "USB tools present; USB\u2260LTE language present"
+      ]
+    },
+    "S1": {
+      "id": "S1",
+      "score": "PASS",
+      "question": "one product artifact and a rollback?",
+      "evidence": [
+        "SitRackView.kt in set: True",
+        "rollback scripts in set: True"
+      ]
+    },
+    "S2": {
+      "id": "S2",
+      "score": "PASS",
+      "question": "walk still Bind \u2192 Plan \u2192 Draft \u2192 Decide+Why \u2192 Receipt?",
+      "evidence": [
+        "opening/bind not Yes language"
+      ]
+    },
+    "S3": {
+      "id": "S3",
+      "score": "N/A",
+      "question": "incoming offers skip CURRENT.md?",
+      "evidence": [
+        "not in this set"
+      ]
+    },
+    "S4": {
+      "id": "S4",
+      "score": "N/A",
+      "question": "empty receipts stay empty?",
+      "evidence": [
+        "needs a receipt file / runtime; not grepped as a blocker"
+      ]
+    },
+    "S5": {
+      "id": "S5",
+      "score": "PASS",
+      "question": "interfaces do not become a second authority store?",
+      "evidence": [
+        "no leftover Compose millwork modules in this change set"
+      ]
+    },
+    "S6": {
+      "id": "S6",
+      "score": "PASS",
+      "question": "stranger can see lab vs testers install?",
+      "evidence": [
+        "41 paths",
+        "0 storm dump paths",
+        "0 extra sit_*.png (not splash/bind/plan/draft/skin)"
+      ]
+    }
+  },
+  "extra_sit_png": [],
+  "leftover_compose": [],
+  "label": "pr-8",
+  "files_sample": [
+    ".aether/proposals/CURRENT-proposal-20260825-1138.md",
+    ".aether/proposals/CURRENT-proposal-20260825-1821.md",
+    ".aether/proposals/CURRENT-proposal-20260825-2114.md",
+    ".grok/skills/sit-lab/SKILL.md",
+    "android/app/build.gradle.kts",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/LawPages.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/MainActivity.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SitCRects.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SitRackView.kt",
+    "android/app/src/main/res/drawable-nodpi/sit_bind.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan.png",
+    "android/app/src/main/res/drawable-nodpi/sit_skin.png",
+    "android/app/src/main/res/drawable-nodpi/sit_splash.png",
+    "android/app/src/main/res/values-v31/themes.xml",
+    "android/app/src/main/res/values/themes.xml",
+    "decision-tree.md",
+    "dev/45_sit-mvp-rack/01_plates/CONTEXT.md",
+    "dev/45_sit-mvp-rack/01_plates/output/RECEIPT.md",
+    "dev/45_sit-mvp-rack/01_plates/output/SKIN-LAYOUT.md",
+    "dev/45_sit-mvp-rack/01_plates/output/ZOOM.md",
+    "dev/45_sit-mvp-rack/01_plates/output/summary.md",
+    "dev/45_sit-mvp-rack/01_plates/scripts/composite_lcd.py",
+    "dev/45_sit-mvp-rack/02_freeze/CONTEXT.md",
+    "dev/45_sit-mvp-rack/02_freeze/output/CAPTURE.md",
+    "dev/45_sit-mvp-rack/02_freeze/output/NEURALBRIDGE.md",
+    "dev/45_sit-mvp-rack/02_freeze/output/RECEIPT.md",
+    "dev/45_sit-mvp-rack/02_freeze/output/summary.md",
+    "dev/45_sit-mvp-rack/02b_native-rack/CONTEXT.md",
+    "dev/45_sit-mvp-rack/02b_native-rack/output/FRAMEWORK.md",
+    "dev/45_sit-mvp-rack/02b_native-rack/output/RECEIPT.md",
+    "dev/45_sit-mvp-rack/02b_native-rack/output/summary.md",
+    "dev/45_sit-mvp-rack/CONTEXT.md",
+    "python/app_verify.py",
+    "scripts/sideload-apk-via-edge.sh",
+    "scripts/sit-apk-archive.sh",
+    "scripts/sit-apk-from-device.sh",
+    "scripts/sit-apk-list.sh",
+    "scripts/sit-apk-rollback.sh",
+    "scripts/sit-look.sh",
+    "scripts/sit-wake.sh"
+  ]
+}

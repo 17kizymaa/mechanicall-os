@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
+import android.text.InputType
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
@@ -17,13 +19,15 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import kotlin.math.roundToInt
 
 /**
- * One CBitmap + CRect hits. LCD text clipped to STATUS glass.
- * Not Compose. Not millwork-as-layout.
+ * Overlay stack + alpha hits. Kotlin glyphs only on the CRT dest.
+ * Not Compose. Not millwork-as-layout. Wiring: sit-ui-sprint WIRING.md.
  */
 class SitRackView @JvmOverloads constructor(
     context: Context,
@@ -43,10 +47,44 @@ class SitRackView @JvmOverloads constructor(
             if (field != value) {
                 field = value
                 zoomed = false
+                if (value != SitPlate.DRAFT) isolated = IsolatedMode.NONE
+                sendOverlay = false
+                hideCrtEdit()
                 syncEditors()
                 invalidate()
             }
         }
+
+    var isolated: IsolatedMode = IsolatedMode.NONE
+        set(value) {
+            if (field != value) {
+                field = value
+                if (value != IsolatedMode.NONE) {
+                    zoomed = false
+                    sendOverlay = false
+                }
+                if (value != IsolatedMode.DRAFT && plate != SitPlate.DECIDE) {
+                    hideCrtEdit()
+                }
+                glitch()
+                syncEditors()
+                invalidate()
+            }
+        }
+
+    var sendOverlay: Boolean = false
+        set(value) {
+            if (field != value) {
+                field = value
+                if (value) isolated = IsolatedMode.NONE
+                invalidate()
+            }
+        }
+
+    var sendStatus: String = "idle"
+    var sendNote: String = ""
+    var receiptBody: String = ""
+    var liveFields: Map<String, String> = emptyMap()
 
     var idleLine: String = ""
         set(value) {
@@ -84,17 +122,17 @@ class SitRackView @JvmOverloads constructor(
     var whyText: String = ""
         set(value) {
             field = value
-            if (why.hasFocus().not() && why.text.toString() != value) {
-                why.setText(value)
+            if (editKey == "Why" && crtEdit.hasFocus().not() && crtEdit.text.toString() != value) {
+                crtEdit.setText(value)
             }
         }
 
     var draftFields: Map<String, String> = emptyMap()
         set(value) {
             field = value
-            if (!alpha.hasFocus()) alpha.setText(value["Objective"].orEmpty())
-            if (!beta.hasFocus()) beta.setText(value["Next"].orEmpty())
-            if (!gamma.hasFocus()) gamma.setText(value["Baseline"].orEmpty())
+            if (editKey != null && editKey != "Why" && !crtEdit.hasFocus()) {
+                crtEdit.setText(value[editKey].orEmpty())
+            }
         }
 
     private val blit = Matrix()
@@ -103,13 +141,23 @@ class SitRackView @JvmOverloads constructor(
     private var dest = RectF()
 
     private var splashBmp: Bitmap? = null
-    private var bindBmp: Bitmap? = null
-    private var planBmp: Bitmap? = null
-    private var draftBmp: Bitmap? = null
+    private var chassisBmp: Bitmap? = null
+    private var crtBmp: Bitmap? = null
+    private var lampJoinBmp: Bitmap? = null
+    private var lampSendBmp: Bitmap? = null
+    private var lampWakeBmp: Bitmap? = null
+    private var banksBmp: Bitmap? = null
+    private var wellBindBmp: Bitmap? = null
+    private var wellPlanBmp: Bitmap? = null
+    private var wellDraftBmp: Bitmap? = null
+    private var wellDecideBmp: Bitmap? = null
+    private var gateBmp: Bitmap? = null
+    private val crtGlassSrc = Rect()
 
     private val bitmapPaint = Paint(Paint.FILTER_BITMAP_FLAG)
     private val flashPaint = Paint()
     private val tearPaint = Paint()
+    private val dimPaint = Paint()
     private val lcdPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         color = SitCRects.LcdAmber
         typeface = Typeface.MONOSPACE
@@ -120,10 +168,8 @@ class SitRackView @JvmOverloads constructor(
     private var tear = 0f
     private var animator: ValueAnimator? = null
 
-    private val alpha = editor("Field Objective")
-    private val beta = editor("Field Next")
-    private val gamma = editor("Field Baseline")
-    private val why = editor("Why")
+    private var editKey: String? = null
+    private val crtEdit = editor()
 
     init {
         setWillNotDraw(false)
@@ -131,43 +177,80 @@ class SitRackView @JvmOverloads constructor(
         contentDescription = "sit millwork"
         importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_YES
         isClickable = true
-        addView(alpha)
-        addView(beta)
-        addView(gamma)
-        addView(why)
+        addView(crtEdit)
         decodeSkins()
         syncEditors()
     }
 
-    private fun editor(desc: String): EditText = EditText(context).apply {
+    private fun editor(): EditText = EditText(context).apply {
         setBackgroundColor(0x00000000)
-        setTextColor(SitCRects.Ink)
+        setTextColor(SitCRects.LcdAmber)
         setHintTextColor(SitCRects.Hint)
+        highlightColor = 0x33E6C14A
         typeface = Typeface.MONOSPACE
         textSize = 13f
-        hint = desc
-        contentDescription = desc
         visibility = GONE
-        setPadding(12, 8, 12, 8)
+        setPadding(16, 12, 16, 12)
+        imeOptions = EditorInfo.IME_ACTION_DONE
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
         onFocusChangeListener = OnFocusChangeListener { _, has ->
             if (!has) emitDraft()
+        }
+        setOnEditorActionListener { _, actionId, _ ->
+            emitDraft()
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(windowToken, 0)
+                clearFocus()
+                true
+            } else {
+                false
+            }
         }
     }
 
     private fun decodeSkins() {
-        val opts = BitmapFactory.Options().apply { inScaled = false }
-        splashBmp = BitmapFactory.decodeResource(resources, R.drawable.sit_splash, opts)
-        bindBmp = BitmapFactory.decodeResource(resources, R.drawable.sit_bind, opts)
-        planBmp = BitmapFactory.decodeResource(resources, R.drawable.sit_plan, opts)
-            ?: BitmapFactory.decodeResource(resources, R.drawable.sit_skin, opts)
-        draftBmp = BitmapFactory.decodeResource(resources, R.drawable.sit_draft, opts)
+        splashBmp = decode(R.drawable.sit_splash)
+        chassisBmp = decode(R.drawable.sit_chassis)
+        crtBmp = decode(R.drawable.sit_crt)
+        lampJoinBmp = decode(R.drawable.sit_lamp_join)
+        lampSendBmp = decode(R.drawable.sit_lamp_send)
+        lampWakeBmp = decode(R.drawable.sit_lamp_wake)
+        banksBmp = decode(R.drawable.sit_banks)
+        wellBindBmp = decode(R.drawable.sit_well_bind)
+        wellPlanBmp = decode(R.drawable.sit_well_plan)
+        wellDraftBmp = decode(R.drawable.sit_well_draft)
+        wellDecideBmp = decode(R.drawable.sit_well_decide)
+        gateBmp = decode(R.drawable.sit_gate)
+        crtBmp?.let { bmp ->
+            crtGlassSrc.set(
+                (22f / 504f * bmp.width).roundToInt(),
+                (48f / 382f * bmp.height).roundToInt(),
+                (482f / 504f * bmp.width).roundToInt(),
+                (362f / 382f * bmp.height).roundToInt(),
+            )
+        }
     }
 
-    private fun skin(): Bitmap? = when (plate) {
-        SitPlate.SPLASH -> splashBmp
-        SitPlate.BIND -> bindBmp
-        SitPlate.DRAFT -> draftBmp
-        SitPlate.PLAN, SitPlate.DECIDE, SitPlate.RECEIPT -> planBmp
+    private fun decode(id: Int): Bitmap? {
+        val opts = BitmapFactory.Options().apply {
+            inScaled = false
+            inPreferredConfig = Bitmap.Config.ARGB_8888
+        }
+        val bmp = BitmapFactory.decodeResource(resources, id, opts) ?: return null
+        return if (bmp.config == Bitmap.Config.ARGB_8888) {
+            bmp
+        } else {
+            bmp.copy(Bitmap.Config.ARGB_8888, false)
+        }
+    }
+
+    private fun wellBmp(): Bitmap? = when (plate) {
+        SitPlate.BIND -> wellBindBmp
+        SitPlate.PLAN -> wellPlanBmp
+        SitPlate.DRAFT -> wellDraftBmp
+        SitPlate.DECIDE -> wellDecideBmp
+        else -> null
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -181,10 +264,7 @@ class SitRackView @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        layoutPack(alpha, SitCRects.fieldAlpha)
-        layoutPack(beta, SitCRects.fieldBeta)
-        layoutPack(gamma, SitCRects.fieldGamma)
-        layoutPack(why, SitCRects.tbc)
+        layoutPack(crtEdit, crtTypeDest())
     }
 
     private fun layoutPack(child: View, r: PackRect) {
@@ -207,45 +287,129 @@ class SitRackView @JvmOverloads constructor(
     }
 
     private fun syncEditors() {
-        val draftOn = plate == SitPlate.DRAFT && !zoomed
-        val decideOn = plate == SitPlate.DECIDE && !zoomed
-        alpha.visibility = if (draftOn) VISIBLE else GONE
-        beta.visibility = if (draftOn) VISIBLE else GONE
-        gamma.visibility = if (draftOn) VISIBLE else GONE
-        why.visibility = if (decideOn) VISIBLE else GONE
-        if (decideOn) why.hint = "why"
-        if (draftOn) {
-            alpha.hint = "Objective"
-            beta.hint = "Next"
-            gamma.hint = "Baseline"
+        val show = editKey != null && plate != SitPlate.SPLASH
+        if (editKey == "Why") {
+            crtEdit.hint = "why"
+            crtEdit.contentDescription = "why"
+            if (!crtEdit.hasFocus() && crtEdit.text.toString() != whyText) {
+                crtEdit.setText(whyText)
+            }
         }
+        crtEdit.visibility = if (show) VISIBLE else GONE
+        crtEdit.textSize = if (isolated != IsolatedMode.NONE || zoomed) 14f else 13f
+        requestLayout()
+    }
+
+    fun dismissEdit() {
+        hideCrtEdit()
+        syncEditors()
+        invalidate()
+    }
+
+    fun editOnCrt(key: String, text: String, hint: String) {
+        editKey = key
+        crtEdit.hint = hint
+        crtEdit.contentDescription = hint
+        if (!crtEdit.hasFocus() && crtEdit.text.toString() != text) {
+            crtEdit.setText(text)
+        }
+        crtEdit.visibility = VISIBLE
+        crtEdit.requestFocus()
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(crtEdit, InputMethodManager.SHOW_IMPLICIT)
+        requestLayout()
+        invalidate()
+    }
+
+    private fun hideCrtEdit() {
+        emitDraft()
+        editKey = null
+        crtEdit.visibility = GONE
+        crtEdit.clearFocus()
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(crtEdit.windowToken, 0)
     }
 
     private fun emitDraft() {
-        host?.onDraftChanged(
-            mapOf(
-                "Objective" to alpha.text.toString(),
-                "Next" to beta.text.toString(),
-                "Baseline" to gamma.text.toString(),
-            ),
-        )
-        host?.onWhyChanged(why.text.toString())
+        val typed = crtEdit.text.toString()
+        when (editKey) {
+            "Why" -> {
+                whyText = typed
+                host?.onWhyChanged(typed)
+            }
+            null -> host?.onWhyChanged(whyText)
+            else -> {
+                val next = draftFields.toMutableMap()
+                next[editKey!!] = typed
+                draftFields = next
+                host?.onDraftChanged(next)
+            }
+        }
     }
 
-    fun whyNow(): String = why.text.toString()
+    fun whyNow(): String {
+        return if (editKey == "Why") crtEdit.text.toString() else whyText
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(SitCRects.Letterbox)
-        val bmp = skin() ?: return
-        canvas.drawBitmap(bmp, blit, bitmapPaint)
-        val glass = if (zoomed) SitCRects.lcdZoom else SitCRects.lcd
-        if (zoomed) {
-            val src = SitCRects.lcd.toRect()
-            val dst = mapPack(SitCRects.lcdZoom)
-            canvas.drawBitmap(bmp, src, dst, bitmapPaint)
+        if (plate == SitPlate.SPLASH) {
+            splashBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+            return
         }
-        drawLcd(canvas, glass)
+        if (isolated == IsolatedMode.CRT) {
+            canvas.drawColor(SitCRects.IsolatedDark)
+            drawCrtModule(canvas, SitCRects.isolatedCrt)
+            if (crtEdit.visibility != VISIBLE) {
+                drawLcd(canvas, SitCRects.glassIn(SitCRects.isolatedCrt))
+            }
+            return
+        }
+        if (isolated == IsolatedMode.DRAFT) {
+            canvas.drawColor(SitCRects.IsolatedDark)
+            drawCrtModule(canvas, SitCRects.isolatedCrt)
+            wellDraftBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+            if (crtEdit.visibility != VISIBLE) drawDraftWorkshop(canvas)
+            return
+        }
+        chassisBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        lampJoinBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        lampSendBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        lampWakeBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        banksBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        wellBmp()?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        gateBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        drawCrtSurface(canvas)
+        if (plate == SitPlate.RECEIPT) drawReceiptWell(canvas)
+        if (crtEdit.visibility != VISIBLE) {
+            drawLcd(canvas, crtTypeDest())
+        }
+        if (sendOverlay) drawSendOverlay(canvas)
+    }
+
+    /** Isolated CRT/draft: phosphor of the STATUS tube. Chassis fill: zoomed glass. Idle: STATUS. */
+    private fun crtTypeDest(): PackRect = when {
+        isolated == IsolatedMode.CRT -> SitCRects.glassIn(SitCRects.isolatedCrt)
+        isolated == IsolatedMode.DRAFT -> SitCRects.glassIn(SitCRects.isolatedCrt)
+        zoomed -> SitCRects.glassIn(SitCRects.lcdFill)
+        else -> SitCRects.lcd
+    }
+
+    private fun drawCrtModule(canvas: Canvas, dest: PackRect) {
+        val crt = crtBmp ?: return
+        canvas.drawBitmap(crt, null, mapPack(dest), bitmapPaint)
+    }
+
+    private fun drawCrtSurface(canvas: Canvas) {
+        val crt = crtBmp ?: return
+        if (zoomed) {
+            canvas.drawBitmap(crt, null, mapPack(SitCRects.lcdFill), bitmapPaint)
+        } else if (crtGlassSrc.width() > 0) {
+            canvas.drawBitmap(crt, crtGlassSrc, mapPack(SitCRects.lcd), bitmapPaint)
+        } else {
+            canvas.drawBitmap(crt, null, mapPack(SitCRects.lcd), bitmapPaint)
+        }
     }
 
     private fun drawLcd(canvas: Canvas, glass: PackRect) {
@@ -264,7 +428,11 @@ class SitRackView @JvmOverloads constructor(
             canvas.drawLine(0f, y + 3f, dst.width(), y + 3f, tearPaint)
         }
         val body = lcdBody()
-        lcdPaint.textSize = if (zoomed) sp(11f) else sp(13f)
+        lcdPaint.textSize = when {
+            isolated != IsolatedMode.NONE -> sp(14f)
+            zoomed -> sp(11f)
+            else -> sp(13f)
+        }
         val pad = sp(8f)
         val innerW = (dst.width() - pad * 2).toInt().coerceAtLeast(8)
         val layout = StaticLayout.Builder
@@ -278,10 +446,67 @@ class SitRackView @JvmOverloads constructor(
     }
 
     private fun lcdBody(): String {
-        if (!zoomed) return idleLine
-        val page = pages.getOrNull(pageIndex)
-        val text = page?.body?.ifBlank { "(none)" } ?: "(none)"
-        return "LAW · ${page?.title.orEmpty()}\n$text"
+        if (plate == SitPlate.RECEIPT && isolated == IsolatedMode.NONE && !zoomed) {
+            return receiptBody.ifBlank { "(empty receipt)" }
+        }
+        if (isolated == IsolatedMode.CRT || zoomed) {
+            val page = pages.getOrNull(pageIndex)
+            val text = page?.body?.ifBlank { "(none)" } ?: "(none)"
+            return "LAW  ${page?.title.orEmpty()}\n$text"
+        }
+        return idleLine
+    }
+
+    private fun drawDraftWorkshop(canvas: Canvas) {
+        val keys = listOf("Objective", "Next", "Baseline", "Tbc")
+        val key = editKey?.takeIf { it in keys } ?: "Objective"
+        val live = liveFields[key].orEmpty().ifBlank { "(none)" }
+        val prop = draftFields[key].orEmpty().ifBlank { "(none)" }
+        drawPackText(
+            canvas,
+            SitCRects.glassIn(SitCRects.isolatedCrt),
+            "DRAFT  workshop\n" +
+                "live vs proposed. Fluency proposes. PROPOSE only.\n" +
+                "Field Objective · Field Next · tap a key\n\n" +
+                "$key\n  live: ${live.take(90)}\n  proposed: ${prop.take(90)}\n\n" +
+                "tap a key · type · not CURRENT",
+        )
+    }
+
+    private fun drawReceiptWell(canvas: Canvas) {
+        val body = receiptBody.ifBlank { "(empty receipt)" }
+        drawPackText(canvas, SitCRects.well, "RECEIPT\n$body")
+    }
+
+    private fun drawSendOverlay(canvas: Canvas) {
+        dimPaint.color = SitCRects.Dim
+        canvas.drawRect(mapPack(PackRect(0, 0, SitCRects.PACK_W, SitCRects.PACK_H)), dimPaint)
+        drawCrtModule(canvas, SitCRects.sendPanel)
+        val status = sendStatus.ifBlank { "idle" }
+        val note = sendNote.ifBlank { "(no offer)" }
+        drawPackText(
+            canvas,
+            SitCRects.glassIn(SitCRects.sendPanel),
+            "SEND  folder\nstatus: $status\n$note\nnot Yes · not FILES · tap outside to dismiss",
+        )
+    }
+
+    private fun drawPackText(canvas: Canvas, pack: PackRect, body: String) {
+        val dst = mapPack(pack)
+        canvas.save()
+        canvas.clipRect(dst)
+        canvas.translate(dst.left, dst.top)
+        lcdPaint.textSize = sp(13f)
+        val pad = sp(10f)
+        val innerW = (dst.width() - pad * 2).toInt().coerceAtLeast(8)
+        val layout = StaticLayout.Builder
+            .obtain(body, 0, body.length, lcdPaint, innerW)
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setIncludePad(false)
+            .build()
+        canvas.translate(pad, pad)
+        layout.draw(canvas)
+        canvas.restore()
     }
 
     private fun sp(v: Float): Float = v * resources.displayMetrics.scaledDensity
@@ -317,9 +542,44 @@ class SitRackView @JvmOverloads constructor(
         return true
     }
 
+    private fun opaque(bmp: Bitmap?, x: Float, y: Float): Boolean {
+        if (bmp == null) return false
+        val ix = x.roundToInt()
+        val iy = y.roundToInt()
+        if (ix !in 0 until bmp.width || iy !in 0 until bmp.height) return false
+        return Color.alpha(bmp.getPixel(ix, iy)) > SitCRects.ALPHA_HIT
+    }
+
     private fun hitAt(x: Float, y: Float): SitHit {
+        if (plate == SitPlate.SPLASH) return SitHit.None
+        if (isolated == IsolatedMode.CRT) {
+            val g = SitCRects.isolatedCrt
+            val glass = SitCRects.glassIn(g)
+            if (glass.contains(x, y)) {
+                val w = glass.w.toFloat()
+                val lx = x - glass.l
+                return when {
+                    lx < w * 0.18f -> SitHit.LcdPrev
+                    lx > w * 0.82f -> SitHit.LcdNext
+                    else -> SitHit.Lcd
+                }
+            }
+            return SitHit.DismissZoom
+        }
+        if (isolated == IsolatedMode.DRAFT) {
+            if (SitCRects.well.contains(x, y) || opaque(wellDraftBmp, x, y)) {
+                return wellHit(x, y)
+            }
+            if (SitCRects.glassIn(SitCRects.isolatedCrt).contains(x, y)) {
+                return SitHit.Lcd
+            }
+            return SitHit.DismissZoom
+        }
+        if (sendOverlay) {
+            return if (SitCRects.sendPanel.contains(x, y)) SitHit.Send else SitHit.DismissZoom
+        }
         if (zoomed) {
-            val g = SitCRects.lcdZoom
+            val g = SitCRects.lcdFill
             if (g.contains(x, y)) {
                 val w = g.w.toFloat()
                 val lx = x - g.l
@@ -329,51 +589,56 @@ class SitRackView @JvmOverloads constructor(
                     else -> SitHit.Lcd
                 }
             }
-            if (SitCRects.gate.contains(x, y)) return SitHit.Gate
-            bankHit(x, y)?.let { return it }
+            if (SitCRects.gate.contains(x, y) || opaque(gateBmp, x, y)) return SitHit.Gate
+            if (SitCRects.title.contains(x, y)) return SitHit.DismissZoom
             return SitHit.DismissZoom
         }
         if (SitCRects.lcd.contains(x, y)) return SitHit.Lcd
-        if (SitCRects.gate.contains(x, y)) return SitHit.Gate
-        bankHit(x, y)?.let { return it }
-        return when (plate) {
-            SitPlate.SPLASH -> SitHit.None
-            SitPlate.BIND -> if (SitCRects.bindPaper.contains(x, y) || SitCRects.paper.contains(x, y)) {
-                SitHit.BindPaper
-            } else SitHit.None
-            SitPlate.PLAN -> when {
-                SitCRects.wakePlan.contains(x, y) -> SitHit.Wake
-                SitCRects.objective.contains(x, y) -> SitHit.FieldObjective
-                SitCRects.next.contains(x, y) -> SitHit.FieldNext
-                SitCRects.keep.contains(x, y) -> SitHit.FieldKeep
-                SitCRects.reject.contains(x, y) -> SitHit.FieldReject
-                SitCRects.limits.contains(x, y) -> SitHit.FieldLimits
-                else -> SitHit.None
-            }
-            SitPlate.DRAFT -> when {
-                SitCRects.fieldAlpha.contains(x, y) -> SitHit.FieldAlpha
-                SitCRects.fieldBeta.contains(x, y) -> SitHit.FieldBeta
-                SitCRects.fieldGamma.contains(x, y) -> SitHit.FieldGamma
-                SitCRects.tbc.contains(x, y) -> SitHit.Tbc
-                SitCRects.join.contains(x, y) -> SitHit.Join
-                SitCRects.send.contains(x, y) -> SitHit.Send
-                SitCRects.wake.contains(x, y) -> SitHit.Wake
-                else -> SitHit.None
-            }
-            SitPlate.DECIDE -> when {
-                SitCRects.paper.contains(x, y) -> SitHit.DecidePaper
-                else -> SitHit.None
-            }
-            SitPlate.RECEIPT -> SitHit.None
+        if (SitCRects.gate.contains(x, y) && (gateBmp == null || opaque(gateBmp, x, y))) return SitHit.Gate
+        wellBmp()?.let { well ->
+            if (opaque(well, x, y)) return wellHit(x, y)
         }
+        if (SitCRects.banksDest.contains(x, y) && (banksBmp == null || opaque(banksBmp, x, y))) {
+            bankHit(x, y)?.let { return it }
+        }
+        if (SitCRects.join.contains(x, y) && (lampJoinBmp == null || opaque(lampJoinBmp, x, y))) return SitHit.Join
+        if (SitCRects.send.contains(x, y) && (lampSendBmp == null || opaque(lampSendBmp, x, y))) return SitHit.Send
+        if (SitCRects.wake.contains(x, y) && (lampWakeBmp == null || opaque(lampWakeBmp, x, y))) return SitHit.Wake
+        if (SitCRects.files.contains(x, y)) return SitHit.Files
+        if (plate == SitPlate.BIND && SitCRects.bindPad.contains(x, y)) return SitHit.BindPaper
+        return SitHit.None
     }
 
-    private fun bankHit(x: Float, y: Float): SitHit? = when {
-        SitCRects.bankPlan.contains(x, y) -> SitHit.BankPlan
-        SitCRects.bankDraft.contains(x, y) -> SitHit.BankDraft
-        SitCRects.bankDecide.contains(x, y) -> SitHit.BankDecide
-        SitCRects.bankReceipt.contains(x, y) -> SitHit.BankReceipt
-        else -> null
+    private fun wellHit(x: Float, y: Float): SitHit = when (plate) {
+        SitPlate.BIND -> SitHit.BindPaper
+        SitPlate.PLAN -> when {
+            SitCRects.fieldObjective.contains(x, y) -> SitHit.FieldObjective
+            SitCRects.fieldNext.contains(x, y) -> SitHit.FieldNext
+            SitCRects.fieldKeep.contains(x, y) -> SitHit.FieldKeep
+            SitCRects.fieldReject.contains(x, y) -> SitHit.FieldReject
+            SitCRects.fieldLimits.contains(x, y) -> SitHit.FieldLimits
+            else -> SitHit.FieldObjective
+        }
+        SitPlate.DRAFT -> when {
+            SitCRects.fieldAlpha.contains(x, y) -> SitHit.FieldAlpha
+            SitCRects.fieldBeta.contains(x, y) -> SitHit.FieldBeta
+            SitCRects.fieldGamma.contains(x, y) -> SitHit.FieldGamma
+            SitCRects.tbc.contains(x, y) -> SitHit.Tbc
+            else -> SitHit.FieldAlpha
+        }
+        SitPlate.DECIDE -> SitHit.DecidePaper
+        else -> SitHit.None
+    }
+
+    private fun bankHit(x: Float, y: Float): SitHit? {
+        if (x < SitCRects.banksDest.l || x >= SitCRects.banksDest.r) return null
+        if (y < SitCRects.banksDest.t || y >= SitCRects.banksDest.b) return null
+        return when {
+            x < SitCRects.bankDraft.l -> SitHit.BankPlan
+            x < SitCRects.bankDecide.l -> SitHit.BankDraft
+            x < SitCRects.bankReceipt.l -> SitHit.BankDecide
+            else -> SitHit.BankReceipt
+        }
     }
 
     override fun onDetachedFromWindow() {

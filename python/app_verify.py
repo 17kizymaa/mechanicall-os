@@ -28,6 +28,11 @@ BEHAVIOURS = (
     "B8-receipt-tomorrow",
     "B9-window-honest",
     "B10-bind-not-repo",
+    "B11-crt-isolated",
+    "B12-send-overlay",
+    "B13-draft-workshop-page",
+    "B14-send-folder-smoke",
+    "B15-receipt-honest",
 )
 
 
@@ -69,12 +74,17 @@ def score_source(uidump: str = "") -> list[dict]:
     nav = _java("MainActivity.kt")
     rack = _java("SitRackView.kt")
     crects = _java("SitCRects.kt")
-    plan = _java("PlanModule.kt")
-    chat = _java("ChatHome.kt")
-    decide = _java("DecideModule.kt")
-    bind = _java("BindModule.kt")
-    receipt = _java("ReceiptModule.kt")
-    theme = _java("SeatTheme.kt")
+    leftover = "\n".join(
+        (
+            _java("SeatNav.kt"),
+            _java("SeatTheme.kt"),
+            _java("LcdViewer.kt"),
+            _java("SkinLayout.kt"),
+            _java("PlanModule.kt"),
+            _java("ChatHome.kt"),
+            _java("DecideModule.kt"),
+        )
+    )
     manifest = _read(ANDROID / "AndroidManifest.xml")
     pocket = _read(PY / "aether_pocket.py")
     tests = _read(ROOT / "tests" / "test_aether_pocket.py")
@@ -99,9 +109,10 @@ def score_source(uidump: str = "") -> list[dict]:
     b2 = (
         "SitRackView" in nav
         and "LawPages" in nav
-        and "sit_plan" in rack
-        and "contentDescription = \"Changes\"" not in plan
+        and ("sit_plan" in rack or "sit_well_plan" in rack)
+        and "setContentView(rack)" in nav
         and "clipRect" in rack
+        and leftover.strip() == ""
     )
     if uidump:
         b2 = b2 and ("LCD" in uidump or "LAW" in uidump or "sit millwork" in uidump)
@@ -109,7 +120,7 @@ def score_source(uidump: str = "") -> list[dict]:
         _row(
             "B2-plan-readable",
             b2,
-            "PLAN is SitRackView CBitmap + LCD law pages clipped to glass; no Changes chip row",
+            "PLAN is SitRackView CBitmap + LCD clipped to glass; leftover Compose millwork gone",
         )
     )
 
@@ -174,12 +185,38 @@ def score_source(uidump: str = "") -> list[dict]:
     out.append(_row("B8-receipt-tomorrow", b8, "honest empty copy on RECEIPT LCD"))
 
     b9 = 'android:resizeableActivity="true"' in manifest
-    b9 = b9 and "widthIn(max = 360.dp)" not in theme
-    b9 = b9 and "360.dp" not in theme
-    out.append(_row("B9-window-honest", b9, "resizeableActivity; painted 360×560 letterbox gone"))
+    b9 = b9 and leftover.strip() == ""
+    out.append(_row("B9-window-honest", b9, "resizeableActivity; leftover Compose letterbox host gone"))
 
     b10 = "is_operator_tree" in pocket and "test_operator_tree_refused" in tests
     out.append(_row("B10-bind-not-repo", b10, "operator-tree refuse in engine + tests"))
+
+    b11 = "IsolatedMode.CRT" in nav and "IsolatedDark" in rack and "LcdViewer" not in leftover
+    b11 = b11 and "isolatedGlass" in crects
+    out.append(_row("B11-crt-isolated", b11, "CRT tap sets IsolatedMode.CRT; dark dest; no LcdViewer host"))
+
+    b12 = "sendOverlay" in rack and "openSendOverlay" in nav
+    b12 = b12 and "SitHit.Send -> openSendOverlay" in nav
+    b12 = b12 and "sendProject" not in nav
+    b12 = b12 and "SitHit.Files" in nav
+    out.append(
+        _row(
+            "B12-send-overlay",
+            b12,
+            "Send opens overlay via offerStatus; not yes(); not sendProject; FILES stays other hit",
+        )
+    )
+
+    b13 = "IsolatedMode.DRAFT" in nav and "live vs proposed" in rack and "writeSchemaDraft" in nav
+    b13 = b13 and "LazyColumn" not in rack
+    out.append(_row("B13-draft-workshop-page", b13, "Draft bank opens isolated workshop; PROPOSE only"))
+
+    b14 = "SEND overlay" in nav and "tap outside to dismiss" in rack
+    b14 = b14 and "sit-send-smoke" in _read(ROOT / "scripts" / "sit-send-smoke.sh")
+    out.append(_row("B14-send-folder-smoke", b14, "overlay copy + scripts/sit-send-smoke.sh (USB look optional)"))
+
+    b15 = "receiptText" in nav and "(empty receipt)" in rack
+    out.append(_row("B15-receipt-honest", b15, "RECEIPT bank loads FaceBridge.receiptText; empty stays empty"))
 
     return out
 

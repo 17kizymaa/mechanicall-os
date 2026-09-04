@@ -1,0 +1,223 @@
+{
+  "verdict": "blocker",
+  "blockers_fail": [
+    "B1",
+    "B3",
+    "B4"
+  ],
+  "file_count": 97,
+  "rows": {
+    "B1": {
+      "id": "B1",
+      "score": "FAIL",
+      "question": "approve/reject/next still human-only in code and events?",
+      "evidence": [
+        "diff includes .aether/events.jsonl (provenance mix risk)"
+      ]
+    },
+    "B2": {
+      "id": "B2",
+      "score": "N/A",
+      "question": "Decide/Publish works on claimed surface without hidden POSIX aether?",
+      "evidence": [
+        "no Decide/yes path in this change set"
+      ]
+    },
+    "B3": {
+      "id": "B3",
+      "score": "FAIL",
+      "question": "transport cannot write outside the bound tree?",
+      "evidence": [
+        "ZipFile present; no _zip_member_unsafe / relative_to in blob"
+      ]
+    },
+    "B4": {
+      "id": "B4",
+      "score": "FAIL",
+      "question": "live CURRENT excluded, or honestly applied by a human?",
+      "evidence": [
+        "changes live CURRENT.md: ['CURRENT.md']"
+      ]
+    },
+    "B5": {
+      "id": "B5",
+      "score": "N/A",
+      "question": "distribution claim has a built artifact, not string-search 10/10?",
+      "evidence": [
+        "no distribution claim in this change set"
+      ]
+    },
+    "B6": {
+      "id": "B6",
+      "score": "PASS",
+      "question": "off-LAN claim is LTE/Play, not USB-on-mbp-edge?",
+      "evidence": [
+        "USB tools present; USB\u2260LTE language present"
+      ]
+    },
+    "S1": {
+      "id": "S1",
+      "score": "N/A",
+      "question": "one product artifact and a rollback?",
+      "evidence": [
+        "SitRackView.kt in set: False",
+        "rollback scripts in set: False"
+      ]
+    },
+    "S2": {
+      "id": "S2",
+      "score": "PASS",
+      "question": "walk still Bind \u2192 Plan \u2192 Draft \u2192 Decide+Why \u2192 Receipt?",
+      "evidence": [
+        "opening/bind not Yes language"
+      ]
+    },
+    "S3": {
+      "id": "S3",
+      "score": "N/A",
+      "question": "incoming offers skip CURRENT.md?",
+      "evidence": [
+        "not in this set"
+      ]
+    },
+    "S4": {
+      "id": "S4",
+      "score": "N/A",
+      "question": "empty receipts stay empty?",
+      "evidence": [
+        "needs a receipt file / runtime; not grepped as a blocker"
+      ]
+    },
+    "S5": {
+      "id": "S5",
+      "score": "FAIL",
+      "question": "interfaces do not become a second authority store?",
+      "evidence": [
+        "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/LcdViewer.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/SkinLayout.kt"
+      ]
+    },
+    "S6": {
+      "id": "S6",
+      "score": "PASS",
+      "question": "stranger can see lab vs testers install?",
+      "evidence": [
+        "97 paths",
+        "14 storm dump paths",
+        "17 extra sit_*.png (not splash/bind/plan/draft/skin)"
+      ]
+    }
+  },
+  "extra_sit_png": [
+    "android/app/src/main/res/drawable-nodpi/sit_abcd.png",
+    "android/app/src/main/res/drawable-nodpi/sit_bind_folder.png",
+    "android/app/src/main/res/drawable-nodpi/sit_chassis.png",
+    "android/app/src/main/res/drawable-nodpi/sit_crt.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_alpha.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_beta.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_gamma.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_tbc.png",
+    "android/app/src/main/res/drawable-nodpi/sit_gate.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_join.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_send.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_wake.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_keep.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_limits.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_next.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_objective.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_reject.png"
+  ],
+  "leftover_compose": [
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/LcdViewer.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SkinLayout.kt"
+  ],
+  "label": "dirty-tree",
+  "files_sample": [
+    ".aether/events.jsonl",
+    ".context.md",
+    ".continue-here.md",
+    "CURRENT.md",
+    "DECISIONS.md",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatTheme.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/BindModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt",
+    "dev/36_actual-app-verification/01_contract/output/BEHAVIOURS.md",
+    "dev/42_sit-distro-gate/04_lte-receipt/output/BLOCKED.md",
+    "dev/42_sit-distro-gate/CONTEXT.md",
+    "tests/run.sh",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/LcdViewer.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SkinLayout.kt",
+    "android/app/src/main/res/drawable-nodpi/sit_abcd.png",
+    "android/app/src/main/res/drawable-nodpi/sit_bind_folder.png",
+    "android/app/src/main/res/drawable-nodpi/sit_chassis.png",
+    "android/app/src/main/res/drawable-nodpi/sit_crt.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_alpha.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_beta.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_gamma.png",
+    "android/app/src/main/res/drawable-nodpi/sit_draft_tbc.png",
+    "android/app/src/main/res/drawable-nodpi/sit_gate.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_join.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_send.png",
+    "android/app/src/main/res/drawable-nodpi/sit_lamp_wake.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_keep.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_limits.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_next.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_objective.png",
+    "android/app/src/main/res/drawable-nodpi/sit_plan_reject.png",
+    "dev/39_sit-storm-factory/05_execute/output/after-relaunch.png",
+    "dev/39_sit-storm-factory/05_execute/output/decide.png",
+    "dev/39_sit-storm-factory/05_execute/output/draft.png",
+    "dev/39_sit-storm-factory/05_execute/output/files.png",
+    "dev/39_sit-storm-factory/05_execute/output/home.png",
+    "dev/39_sit-storm-factory/05_execute/output/receipt.png",
+    "dev/39_sit-storm-factory/06_leftover/output/dir.png",
+    "dev/39_sit-storm-factory/06_leftover/output/draft.png",
+    "dev/39_sit-storm-factory/06_leftover/output/home.png",
+    "dev/39_sit-storm-factory/06_leftover/output/plan.png",
+    "dev/39_sit-storm-factory/06_leftover/output/storm-0/",
+    "dev/39_sit-storm-factory/07_chips/output/draft.png",
+    "dev/39_sit-storm-factory/07_chips/output/storm-0/",
+    "dev/39_sit-storm-factory/08_execute-nexts/output/draft.png",
+    "dev/39_sit-storm-factory/08_execute-nexts/output/plan.png",
+    "dev/39_sit-storm-factory/08_execute-nexts/output/storm-0/",
+    "dev/39_sit-storm-factory/10_demo-polish/output/storm-0/",
+    "dev/39_sit-storm-factory/11_ux-polish/output/storm-0/",
+    "dev/39_sit-storm-factory/12_icm-plan/output/new-field-icm.txt",
+    "dev/39_sit-storm-factory/12_icm-plan/output/storm-0/",
+    "dev/39_sit-storm-factory/13_camel-sos-check/",
+    "dev/39_sit-storm-factory/13_run-test/output/storm-1/",
+    "dev/39_sit-storm-factory/14_sos-luminance/output/metal-preview.png",
+    "dev/39_sit-storm-factory/14_sos-luminance/output/storm-0/",
+    "dev/39_sit-storm-factory/15_binary-skin/output/sit_skin.png",
+    "dev/39_sit-storm-factory/15_binary-skin/output/storm-0/",
+    "dev/39_sit-storm-factory/15_hunk-inbox/output/seed/sitrae/.aether/",
+    "dev/39_sit-storm-factory/15_hunk-inbox/output/storm-0/",
+    "dev/39_sit-storm-factory/15_hunk-inbox/output/storm-1/",
+    "dev/39_sit-storm-factory/16_revert-skin/output/storm-0/",
+    "dev/39_sit-storm-factory/output/storm-0/",
+    "dev/41_sit-testers/01_first-sit-template/output/storm-0/",
+    "dev/42_sit-distro-gate/04_lte-receipt/output/PROBE-MBP-EDGE.md",
+    "dev/42_sit-distro-gate/04_lte-receipt/output/RECEIPT.md",
+    "dev/42_sit-distro-gate/06_session-wrap/",
+    "dev/43_journey-review/",
+    "dev/44_sit-conjure-desk/",
+    "dev/45_sit-mvp-rack/01_plates/output/bind.png",
+    "dev/45_sit-mvp-rack/01_plates/output/draft.png",
+    "dev/45_sit-mvp-rack/01_plates/output/lcd-idle.png",
+    "dev/45_sit-mvp-rack/01_plates/output/lcd-keep.png",
+    "dev/45_sit-mvp-rack/01_plates/output/lcd-next.png",
+    "dev/45_sit-mvp-rack/01_plates/output/lcd-objective.png",
+    "dev/45_sit-mvp-rack/01_plates/output/plan.png",
+    "dev/45_sit-mvp-rack/01_plates/output/rack.png",
+    "dev/45_sit-mvp-rack/01_plates/output/splash.png",
+    "dev/45_sit-mvp-rack/01_plates/output/zoom-bezel.png"
+  ]
+}

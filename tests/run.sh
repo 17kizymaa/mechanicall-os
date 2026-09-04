@@ -808,6 +808,10 @@ if command -v python3 >/dev/null 2>&1; then
   pass "storm factory unit tests"
   python3 "$ROOT/tests/test_aether_inbox.py" || fail "inbox offer unit tests"
   pass "inbox offer unit tests"
+  python3 "$ROOT/tests/test_wol_wake.py" || fail "wol-wake doorbell tests"
+  pass "wol-wake doorbell tests"
+  python3 "$ROOT/tests/test_aether_mcp.py" || fail "aether MCP projection tests"
+  pass "aether MCP projection tests"
   sh "$ROOT/scripts/rehearse-pocket-spike.sh" || fail "pocket host rehearsal"
   pass "pocket host rehearsal"
 fi
