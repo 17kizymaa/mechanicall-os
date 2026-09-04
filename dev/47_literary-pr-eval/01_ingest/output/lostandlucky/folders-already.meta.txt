@@ -1,0 +1,18 @@
+Stop Buying Agent Tools. Your Folders Already Do This.\n20260822\nhttps://www.skool.com/cliefnotes/about
+
+A member built an "agent" inside his client folder, gave it a name, and asked if he was doing it wrong. He wasn't. He'd found the whole trick.
+
+A sub-agent is one model copying itself and reading instructions. Your folder structure already is those instructions, which is why routing sub-agents through folders cuts instruction tokens by around 97 percent. The word agent is a label we put on automation so we can comprehend it at a scale we've never had before. It's UI and UX design.
+
+Also in here: why every provider is converging on the same harness the way every browser converged on Chromium, the prompt I use to spawn sub-agents across folders, why I still gate everything with stages and stopping points, and where I think this actually ends up: the meeting becomes the chat.
+
+0:00 The question that starts it
+1:30 One model, copying itself
+2:03 Your folders become the instructions
+2:56 Agents are UI and UX design
+5:35 The Chromium argument
+7:03 What sub-agents cost in tokens
+8:46 Stages and stopping points
+9:46 The meeting becomes the chat
+
+Built with ICM, my folder-based method for working with AI. Questions welcome in the comments.

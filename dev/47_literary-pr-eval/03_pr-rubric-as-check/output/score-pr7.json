@@ -1,0 +1,201 @@
+{
+  "verdict": "not-distribution",
+  "blockers_fail": [
+    "B4"
+  ],
+  "file_count": 676,
+  "rows": {
+    "B1": {
+      "id": "B1",
+      "score": "PASS",
+      "question": "approve/reject/next still human-only in code and events?",
+      "evidence": [
+        "no test-as-human or MCP-approve pattern in changed files"
+      ]
+    },
+    "B2": {
+      "id": "B2",
+      "score": "PASS",
+      "question": "Decide/Publish works on claimed surface without hidden POSIX aether?",
+      "evidence": [
+        "pocket_approve / native yes path present"
+      ]
+    },
+    "B3": {
+      "id": "B3",
+      "score": "PASS",
+      "question": "transport cannot write outside the bound tree?",
+      "evidence": [
+        "zip member unsafe/escape checks present"
+      ]
+    },
+    "B4": {
+      "id": "B4",
+      "score": "FAIL",
+      "question": "live CURRENT excluded, or honestly applied by a human?",
+      "evidence": [
+        "changes live CURRENT.md: ['CURRENT.md', 'dev/39_sit-storm-factory/15_hunk-inbox/output/seed/sitbob/CURRENT.md', 'dev/39_sit-storm-factory/15_hunk-inbox/output/seed/sitrae/CURRENT.md', 'examples/pocket-demo-client/CURRENT.md']"
+      ]
+    },
+    "B5": {
+      "id": "B5",
+      "score": "PASS",
+      "question": "distribution claim has a built artifact, not string-search 10/10?",
+      "evidence": [
+        "Android assemble/bundle referenced"
+      ]
+    },
+    "B6": {
+      "id": "B6",
+      "score": "PASS",
+      "question": "off-LAN claim is LTE/Play, not USB-on-mbp-edge?",
+      "evidence": [
+        "USB tools present; USB\u2260LTE language present"
+      ]
+    },
+    "S1": {
+      "id": "S1",
+      "score": "N/A",
+      "question": "one product artifact and a rollback?",
+      "evidence": [
+        "SitRackView.kt in set: False",
+        "rollback scripts in set: False"
+      ]
+    },
+    "S2": {
+      "id": "S2",
+      "score": "PASS",
+      "question": "walk still Bind \u2192 Plan \u2192 Draft \u2192 Decide+Why \u2192 Receipt?",
+      "evidence": [
+        "opening/bind not Yes language"
+      ]
+    },
+    "S3": {
+      "id": "S3",
+      "score": "PASS",
+      "question": "incoming offers skip CURRENT.md?",
+      "evidence": [
+        "skip-CURRENT language found"
+      ]
+    },
+    "S4": {
+      "id": "S4",
+      "score": "N/A",
+      "question": "empty receipts stay empty?",
+      "evidence": [
+        "needs a receipt file / runtime; not grepped as a blocker"
+      ]
+    },
+    "S5": {
+      "id": "S5",
+      "score": "FAIL",
+      "question": "interfaces do not become a second authority store?",
+      "evidence": [
+        "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/modules/DecideModule.kt",
+        "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt"
+      ]
+    },
+    "S6": {
+      "id": "S6",
+      "score": "FAIL",
+      "question": "stranger can see lab vs testers install?",
+      "evidence": [
+        "676 paths",
+        "0 storm dump paths",
+        "0 extra sit_*.png (not splash/bind/plan/draft/skin)"
+      ]
+    }
+  },
+  "extra_sit_png": [],
+  "leftover_compose": [
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/DecideModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt"
+  ],
+  "label": "pr-7",
+  "files_sample": [
+    ".aether/proposals/13_FIRST_DISTRIBUTION_PR_GPT5.6.md",
+    ".aether/proposals/CURRENT-proposal-20260817-pocket-face-split.md",
+    ".aether/proposals/CURRENT-proposal-20260818-0627.md",
+    ".aether/proposals/CURRENT-proposal-20260818-0652.md",
+    ".aether/proposals/CURRENT-proposal-20260818-icm-people-app.md",
+    ".aether/proposals/CURRENT-proposal-20260818-people-app-phone-seat.md",
+    ".aether/proposals/CURRENT-proposal-20260819-application-pick.md",
+    ".aether/proposals/CURRENT-proposal-20260820-mechanicall-debug-window.md",
+    ".aether/proposals/CURRENT-proposal-20260820-sit-join-workshop.md",
+    ".aether/proposals/CURRENT-proposal-20260820-sit-vst-headscale.md",
+    ".aether/proposals/CURRENT-proposal-20260821-park-sit-edubaware.md",
+    ".aether/proposals/CURRENT-proposal-20260821-sit-leftover-one.md",
+    ".aether/proposals/CURRENT-proposal-20260821-sit-storm-factory.md",
+    ".aether/proposals/CURRENT-proposal-20260822-sit-draft-dictation.md",
+    ".aether/proposals/CURRENT-proposal-20260823-sit-one-path.md",
+    ".aether/proposals/CURRENT-proposal-20260823-sit-testers.md",
+    ".aether/proposals/CURRENT-proposal-20260823-sit-ux-draft.md",
+    ".aether/proposals/CURRENT-proposal-20260824-sit-distro-gate.md",
+    ".aether/proposals/PROBE-20260824-zip-servers.md",
+    ".continue-here.md",
+    ".gitignore",
+    ".grok/skills/app-reviewer/SKILL.md",
+    ".grok/skills/grill-me/SKILL.md",
+    ".grok/skills/grilling/SKILL.md",
+    ".grok/skills/handoff/SKILL.md",
+    ".grok/skills/storm-review/SKILL.md",
+    ".grok/skills/visual-reviewer/SKILL.md",
+    ".grok/workflows/actual-app-verification.rhai",
+    ".grok/workflows/product-review.rhai",
+    ".inbox/README.md",
+    "CURRENT.md",
+    "DECISIONS.md",
+    "SHARING.md",
+    "android/.gitignore",
+    "android/KNOWN-LIMITATIONS.md",
+    "android/README.md",
+    "android/app/build.gradle.kts",
+    "android/app/src/main/AndroidManifest.xml",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/FaceBridge.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/MainActivity.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/OpenBoundFolder.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatNav.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/SeatTheme.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/BindModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ChatHome.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/DecideModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/PlanModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/ReceiptModule.kt",
+    "android/app/src/main/java/com/mechanicall/pocket/demo/modules/SplashScreen.kt",
+    "android/app/src/main/python/README.md",
+    "android/app/src/main/python/aether_bridge.py",
+    "android/app/src/main/python/aether_client.py",
+    "android/app/src/main/python/aether_inbox.py",
+    "android/app/src/main/python/aether_pocket.py",
+    "android/app/src/main/res/drawable/logo_mechanicall.png",
+    "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+    "android/app/src/main/res/values-v31/themes.xml",
+    "android/app/src/main/res/values/themes.xml",
+    "android/build.gradle.kts",
+    "android/gradle.properties",
+    "android/gradle/wrapper/gradle-wrapper.jar",
+    "android/gradle/wrapper/gradle-wrapper.properties",
+    "android/gradlew",
+    "android/play-listing/PRIVACY.md",
+    "android/play-listing/STORE-COPY.md",
+    "android/play-listing/feature-1024x500.png",
+    "android/play-listing/icon-512.png",
+    "android/settings.gradle.kts",
+    "android/tsnet/README.md",
+    "decision-tree.md",
+    "dev/23_mobile-planning-demo/02_sprint-impl/CONTEXT.md",
+    "dev/23_mobile-planning-demo/02_sprint-impl/output/PUSH-A33.md",
+    "dev/23_mobile-planning-demo/02_sprint-impl/output/RECEIPT.md",
+    "dev/23_mobile-planning-demo/03_termux-aether/CONTEXT.md",
+    "dev/23_mobile-planning-demo/03_termux-aether/output/RECEIPT.md",
+    "dev/23_mobile-planning-demo/05_live-ollama/CONTEXT.md",
+    "dev/23_mobile-planning-demo/05_live-ollama/output/RECEIPT.md",
+    "dev/23_mobile-planning-demo/06_mum-face/CONTEXT.md",
+    "dev/23_mobile-planning-demo/06_mum-face/output/RECEIPT.md",
+    "dev/23_mobile-planning-demo/07_resume-rehearsal/CONTEXT.md"
+  ]
+}
