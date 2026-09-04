@@ -6,6 +6,6 @@
         <item name="android:navigationBarColor">#12100E</item>
         <item name="android:windowSplashScreenBackground">#12100E</item>
         <item name="android:windowSplashScreenIconBackgroundColor">#12100E</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sit_splash_mark</item>
     </style>
 </resources>

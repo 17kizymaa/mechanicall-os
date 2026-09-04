@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         setContentView(rack)
         rack.plate = SitPlate.SPLASH
         rack.idleLine = "MECHANICALL"
-        ui.postDelayed({ land() }, 1100)
+        ui.postDelayed({ land() }, 2000)
         ui.post(gateTick)
     }
 
@@ -192,19 +192,43 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
     private fun goBank(p: SitPlate) {
         decideArmed = false
         rack.zoomed = false
+        rack.sendOverlay = false
+        rack.dismissEdit()
         rack.plate = p
         rack.pages = LawPages.of(face.planText, face.receipt)
+        rack.liveFields = mapOf(
+            "Objective" to face.objective,
+            "Next" to face.next,
+            "Baseline" to face.baseline,
+            "Tbc" to face.schema["Tbc"].orEmpty(),
+        )
         if (p == SitPlate.DRAFT) {
             rack.draftFields = FaceBridge.readSchemaDraft(pocket, face)
+            rack.isolated = IsolatedMode.DRAFT
+            rack.contentDescription = "Field Objective DRAFT workshop live vs proposed"
+        } else {
+            rack.isolated = IsolatedMode.NONE
+        }
+        if (p == SitPlate.RECEIPT) {
+            val path = pocket
+            io.execute {
+                val text = FaceBridge.receiptText(path)
+                ui.post {
+                    rack.receiptBody = text
+                    refreshLcd()
+                }
+            }
         }
         refreshLcd()
-        rack.contentDescription = when (p) {
-            SitPlate.BIND -> "Choose your folder"
-            SitPlate.PLAN -> "PLAN published CURRENT.md in LCD. Field plates open zoom."
-            SitPlate.DRAFT -> "DRAFT"
-            SitPlate.DECIDE -> "DECIDE"
-            SitPlate.RECEIPT -> "RECEIPT"
-            SitPlate.SPLASH -> "sit millwork"
+        if (p != SitPlate.DRAFT) {
+            rack.contentDescription = when (p) {
+                SitPlate.BIND -> "Choose your folder"
+                SitPlate.PLAN -> "PLAN published CURRENT.md in LCD. Field plates open zoom."
+                SitPlate.DECIDE -> "DECIDE"
+                SitPlate.RECEIPT -> "RECEIPT"
+                SitPlate.SPLASH -> "sit millwork"
+                else -> rack.contentDescription
+            }
         }
     }
 
@@ -218,21 +242,33 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             else -> "IDLE"
         }
         rack.pages = LawPages.of(face.planText, face.receipt)
-        rack.idleLine = when {
+        val instruction = when {
             rack.plate == SitPlate.BIND && !hasAllFiles() ->
                 "All files access. Allow, then bind."
-            rack.plate == SitPlate.BIND || !face.bound || face.refused ->
-                "Name your folder. One project. Not the operator tree."
-            rack.zoomed -> rack.idleLine
-            rack.plate == SitPlate.DECIDE && decideArmed ->
-                "Publish? tap paper again · why required"
-            rack.plate == SitPlate.RECEIPT ->
-                face.receipt.ifBlank { "(empty receipt)" }.take(72)
-            else -> "${rack.plate.name} · ${face.next.ifBlank { "(no Next)" }} · $phase".take(72)
+            rack.plate == SitPlate.BIND ->
+                if (face.bound) "Tap the folder to rebind." else "Name a folder. One project."
+            rack.plate == SitPlate.PLAN -> "Tap a key. Glass holds law."
+            rack.plate == SitPlate.DRAFT -> "Tap a field. Type on glass."
+            rack.plate == SitPlate.DECIDE && decideArmed -> "Publish? tap plaque again."
+            rack.plate == SitPlate.DECIDE -> "Why on glass. Two-tap plaque."
+            rack.plate == SitPlate.RECEIPT -> face.receipt.ifBlank { "(empty receipt)" }.take(48)
+            else -> "MECHANICALL"
         }
-        if (rack.zoomed) {
+        if (rack.isolated == IsolatedMode.NONE && !rack.zoomed) {
+            rack.idleLine = "${rack.plate.name}  $phase\nNext: ${face.next.ifBlank { "(none)" }}\n$instruction"
+        }
+        if (rack.sendOverlay) {
+            rack.contentDescription = "SEND overlay ${rack.sendStatus}"
+        } else if (rack.isolated == IsolatedMode.CRT) {
+            val id = rack.pages.getOrNull(rack.pageIndex)?.id ?: "law"
+            rack.contentDescription = "LCD isolated $id"
+        } else if (rack.isolated == IsolatedMode.DRAFT) {
+            rack.contentDescription = "Field Objective DRAFT workshop live vs proposed"
+        } else if (rack.zoomed) {
             val id = rack.pages.getOrNull(rack.pageIndex)?.id ?: "law"
             rack.contentDescription = "LCD zoom $id"
+        } else if (rack.plate == SitPlate.RECEIPT) {
+            rack.contentDescription = "RECEIPT"
         } else if (rack.plate != SitPlate.BIND) {
             rack.contentDescription = "LCD idle"
         }
@@ -241,11 +277,17 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
     override fun onHit(hit: SitHit) {
         when (hit) {
             SitHit.Lcd -> {
-                if (rack.plate == SitPlate.BIND) {
-                    startBind()
-                } else {
-                    rack.zoomed = true
-                    refreshLcd()
+                when {
+                    rack.plate == SitPlate.BIND -> startBind()
+                    rack.plate == SitPlate.DECIDE ->
+                        rack.editOnCrt("Why", why, "why")
+                    rack.isolated == IsolatedMode.DRAFT -> rack.dismissEdit()
+                    else -> {
+                        rack.zoomed = false
+                        rack.isolated = IsolatedMode.CRT
+                        rack.contentDescription = "LCD isolated LAW"
+                        refreshLcd()
+                    }
                 }
             }
             SitHit.LcdPrev -> {
@@ -253,41 +295,102 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 refreshLcd()
             }
             SitHit.LcdNext, SitHit.Gate -> {
+                rack.zoomed = false
+                rack.isolated = IsolatedMode.CRT
                 rack.pageIndex = rack.pageIndex + 1
+                rack.contentDescription = "LCD isolated LAW"
                 refreshLcd()
             }
             SitHit.DismissZoom -> {
+                rack.dismissEdit()
                 rack.zoomed = false
+                rack.isolated = IsolatedMode.NONE
+                rack.sendOverlay = false
                 refreshLcd()
             }
-            SitHit.BankPlan -> if (face.bound) goBank(SitPlate.PLAN)
-            SitHit.BankDraft -> if (face.bound) goBank(SitPlate.DRAFT)
-            SitHit.BankDecide -> if (face.bound) goBank(SitPlate.DECIDE)
-            SitHit.BankReceipt -> if (face.bound) goBank(SitPlate.RECEIPT)
+            SitHit.BankPlan -> if (face.bound) {
+                rack.dismissEdit()
+                goBank(SitPlate.PLAN)
+            }
+            SitHit.BankDraft -> if (face.bound) {
+                rack.dismissEdit()
+                goBank(SitPlate.DRAFT)
+            }
+            SitHit.BankDecide -> if (face.bound) {
+                rack.dismissEdit()
+                goBank(SitPlate.DECIDE)
+            }
+            SitHit.BankReceipt -> if (face.bound) {
+                rack.dismissEdit()
+                goBank(SitPlate.RECEIPT)
+            }
             SitHit.BindPaper -> startBind()
             SitHit.FieldObjective -> openPage(0)
             SitHit.FieldNext -> openPage(1)
             SitHit.FieldKeep -> openPage(2)
             SitHit.FieldReject -> openPage(3)
             SitHit.FieldLimits -> openPage(4)
-            SitHit.FieldAlpha, SitHit.FieldBeta, SitHit.FieldGamma, SitHit.Tbc -> Unit
+            SitHit.FieldAlpha -> rack.editOnCrt("Objective", rack.draftFields["Objective"].orEmpty(), "Objective")
+            SitHit.FieldBeta -> rack.editOnCrt("Next", rack.draftFields["Next"].orEmpty(), "Next")
+            SitHit.FieldGamma -> rack.editOnCrt("Baseline", rack.draftFields["Baseline"].orEmpty(), "Baseline")
+            SitHit.Tbc -> rack.editOnCrt("Tbc", rack.draftFields["Tbc"].orEmpty(), "TBC")
             SitHit.Join -> ioNote { FaceBridge.joinStatus(pocket).note.ifBlank { FaceBridge.joinStatus(pocket).status } }
-            SitHit.Send -> ioNote { FaceBridge.asText(FaceBridge.sendProject(pocket)) }
+            SitHit.Send -> openSendOverlay()
             SitHit.Wake -> ioNote { FaceBridge.wakeDesk(pocket).note.ifBlank { FaceBridge.wakeDesk(pocket).status } }
             SitHit.DecidePaper -> decideTap()
+            SitHit.Files -> {
+                rack.dismissEdit()
+                openBoundInFileManager(this, pocket)
+            }
             SitHit.None -> Unit
         }
     }
 
     private fun openPage(i: Int) {
         rack.pageIndex = i
-        rack.zoomed = true
+        rack.zoomed = false
+        rack.isolated = IsolatedMode.CRT
+        rack.contentDescription = "LCD isolated LAW"
         refreshLcd()
+    }
+
+    private fun openSendOverlay() {
+        val p = pocket
+        rack.dismissEdit()
+        rack.isolated = IsolatedMode.NONE
+        rack.sendOverlay = true
+        rack.sendStatus = "idle"
+        rack.sendNote = if (p.isBlank()) "Name a folder first." else "Send folder module. Not Yes."
+        rack.contentDescription = "SEND overlay ${rack.sendStatus}"
+        if (p.isBlank()) return
+        io.execute {
+            val offer = try {
+                FaceBridge.offerStatus(p)
+            } catch (e: Exception) {
+                OfferState(ok = false, note = e.message.orEmpty())
+            }
+            val preview = try {
+                FaceBridge.projectPreview(p)
+            } catch (_: Exception) {
+                ProjectPreview(ok = false, note = "")
+            }
+            val status = offer.status.ifBlank { "idle" }
+            val note = listOf(offer.note, preview.note)
+                .filter { it.isNotBlank() }
+                .joinToString("\n")
+                .ifBlank { "idle · folder-out · not FILES" }
+            ui.post {
+                rack.sendStatus = status
+                rack.sendNote = note
+                rack.contentDescription = "SEND overlay $status"
+            }
+        }
     }
 
     private fun decideTap() {
         val reason = rack.whyNow().ifBlank { why }
         if (reason.isBlank()) {
+            rack.editOnCrt("Why", "", "why")
             rack.idleLine = "why required"
             return
         }
@@ -295,7 +398,7 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             decideArmed = true
             armToken += 1
             val token = armToken
-            rack.idleLine = "Publish? tap paper again"
+            rack.idleLine = "Publish? tap plaque again"
             ui.postDelayed({
                 if (token == armToken) {
                     decideArmed = false

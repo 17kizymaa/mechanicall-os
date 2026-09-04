@@ -17,13 +17,17 @@ class TestAppVerify(unittest.TestCase):
         rows = score_source()
         ids = [r["id"] for r in rows]
         self.assertEqual(ids, list(BEHAVIOURS))
-        self.assertEqual(len(rows), 10)
+        self.assertEqual(len(rows), 15)
 
     def test_last_pass_closes_gaps(self) -> None:
         rows = {r["id"]: r for r in score_source()}
         self.assertTrue(rows["B3-plan-manual-edit"]["ok"], rows["B3-plan-manual-edit"])
         self.assertTrue(rows["B4-draft-is-workshop"]["ok"], rows["B4-draft-is-workshop"])
         self.assertTrue(rows["B7-gate-instrument"]["ok"], rows["B7-gate-instrument"])
+        self.assertTrue(rows["B11-crt-isolated"]["ok"], rows["B11-crt-isolated"])
+        self.assertTrue(rows["B12-send-overlay"]["ok"], rows["B12-send-overlay"])
+        self.assertTrue(rows["B13-draft-workshop-page"]["ok"], rows["B13-draft-workshop-page"])
+        self.assertTrue(rows["B15-receipt-honest"]["ok"], rows["B15-receipt-honest"])
 
     def test_refuse_a33(self) -> None:
         self.assertEqual(main(["--serial", REFUSE_SERIAL]), 3)

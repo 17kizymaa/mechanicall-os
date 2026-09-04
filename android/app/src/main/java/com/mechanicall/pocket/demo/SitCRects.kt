@@ -10,9 +10,19 @@ data class PackRect(val l: Int, val t: Int, val r: Int, val b: Int) {
     fun toRectF(): RectF = RectF(l.toFloat(), t.toFloat(), r.toFloat(), b.toFloat())
     val w: Int get() = r - l
     val h: Int get() = b - t
+
+    fun row(n: Int, i: Int): PackRect {
+        val span = h / n
+        val top = t + i * span
+        val bot = if (i == n - 1) b else top + span
+        return PackRect(l, top, r, bot)
+    }
 }
 
 enum class SitPlate { SPLASH, BIND, PLAN, DRAFT, DECIDE, RECEIPT }
+
+/** SitRackView modes: isolated = maximised dark dest, no millwork overlay. */
+enum class IsolatedMode { NONE, CRT, DRAFT }
 
 enum class SitHit {
     Lcd,
@@ -37,51 +47,83 @@ enum class SitHit {
     Send,
     Wake,
     DecidePaper,
+    Files,
     DismissZoom,
     None,
 }
 
+/** Pack CRects from sit-ui-sprint WIRING.md. CRect is a cull; hit = topmost opaque. */
 object SitCRects {
     const val PACK_W = 1080
     const val PACK_H = 2138
+    const val ALPHA_HIT = 32
 
-    val title = PackRect(75, 41, 1005, 171)
-    val bankPlan = PackRect(75, 41, 307, 171)
-    val bankDraft = PackRect(307, 41, 540, 171)
-    val bankDecide = PackRect(540, 41, 772, 171)
-    val bankReceipt = PackRect(772, 41, 1005, 171)
+    /** MECHANICALL plaque. Never a control (U17). Dismiss fill. */
+    val title = PackRect(131, 38, 949, 185)
 
-    /** STATUS glass on plan/bind/draft/splash (measured on plan.png). */
-    val lcd = PackRect(135, 302, 945, 774)
-    /** Enlarged glass: below title, above GATE. Law text clips here. */
-    val lcdZoom = PackRect(105, 188, 975, 1860)
+    val lcd = PackRect(146, 254, 934, 767)
+    val lcdFill = PackRect(131, 185, 949, 1864)
 
-    val join = PackRect(131, 857, 356, 1114)
-    val send = PackRect(422, 857, 666, 1114)
-    val wake = PackRect(722, 857, 966, 1114)
-    val wakePlan = PackRect(788, 891, 1013, 1131)
+    /**
+     * Phosphor inset of a STATUS module dest.
+     * sit_crt.png is crt-bezel-idle (504×382); glass src is (22,48)–(482,362).
+     */
+    fun glassIn(module: PackRect): PackRect {
+        val w = module.w
+        val h = module.h
+        return PackRect(
+            module.l + w * 22 / 504,
+            module.t + h * 48 / 382,
+            module.l + w * 482 / 504,
+            module.t + h * 362 / 382,
+        )
+    }
 
-    val bindPaper = PackRect(169, 908, 911, 1456)
-    val paper = PackRect(90, 822, 990, 1884)
+    val join = PackRect(165, 877, 375, 1110)
+    val send = PackRect(435, 870, 652, 1110)
+    val wake = PackRect(705, 877, 922, 1110)
 
-    val objective = PackRect(90, 822, 750, 1131)
-    val next = PackRect(525, 925, 1005, 1268)
-    val keep = PackRect(90, 1199, 750, 1508)
-    val reject = PackRect(469, 1371, 1005, 1713)
-    val limits = PackRect(90, 1713, 1005, 1902)
+    val bankPlan = PackRect(165, 1158, 322, 1261)
+    val bankDraft = PackRect(368, 1158, 525, 1261)
+    val bankDecide = PackRect(570, 1158, 728, 1261)
+    val bankReceipt = PackRect(772, 1158, 930, 1261)
+    val banksDest = PackRect(135, 1144, 953, 1288)
 
-    val fieldAlpha = PackRect(131, 908, 949, 1114)
-    val fieldBeta = PackRect(131, 1165, 949, 1371)
-    val fieldGamma = PackRect(131, 1422, 949, 1627)
-    val tbc = PackRect(131, 1679, 949, 1884)
+    val well = PackRect(109, 1316, 971, 1836)
+    val bindPad = PackRect(262, 1405, 818, 1713)
+    val files = PackRect(150, 1720, 938, 1830)
 
-    val gate = PackRect(75, 1919, 1005, 2121)
+    val fieldObjective = well.row(5, 0)
+    val fieldNext = well.row(5, 1)
+    val fieldKeep = well.row(5, 2)
+    val fieldReject = well.row(5, 3)
+    val fieldLimits = well.row(5, 4)
+
+    val fieldAlpha = well.row(4, 0)
+    val fieldBeta = well.row(4, 1)
+    val fieldGamma = well.row(4, 2)
+    val tbc = well.row(4, 3)
+
+    val gate = PackRect(75, 1864, 1005, 2107)
+
+    /** Full dest cull for isolated modes. Chassis stays off this dest (B11). */
+    val isolatedGlass = PackRect(40, 40, 1040, 2098)
+
+    /**
+     * Maximised STATUS tube. 504×382 aspect of sit_crt.png.
+     * Isolated dest millwork is the tube, not a chassis overlay.
+     */
+    val isolatedCrt = PackRect(40, 200, 1040, 958)
+
+    /** Send overlay plate = STATUS module, not a filled rectangle. */
+    val sendPanel = PackRect(90, 640, 990, 1322)
 
     val Letterbox = 0xFF12100E.toInt()
+    val IsolatedDark = 0xFF0A0A0C.toInt()
+    val Dim = 0xCC0A0A0C.toInt()
     val LcdAmber = 0xFFE6C14A.toInt()
     val LcdFlash = 0x59E6C14A.toInt()
-    val Ink = 0xFF1B1814.toInt()
-    val Hint = 0xFF8A8070.toInt()
+    val Hint = 0x99E6C14A.toInt()
     val TearRed = 0x80FF4444.toInt()
     val TearCyan = 0x8066DDFF.toInt()
 }
