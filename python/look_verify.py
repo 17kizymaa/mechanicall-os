@@ -243,6 +243,14 @@ def score(png_dir: Path | None = None) -> list[dict]:
         rows.append(_row("L2-crt-dest", "FLAG", "no dest-crt still"))
     elif src["law_prefix"]:
         rows.append(_row("L2-crt-dest", "FAIL", "LAW dump still in SitRackView"))
+    elif crt_fr["n"] == 0:
+        rows.append(
+            _row(
+                "L2-crt-dest",
+                "FLAG",
+                f"{crt_png.name} no pixel score (Pillow missing)",
+            )
+        )
     elif crt_fr["dark"] > 0.55 and crt_fr["millwork"] < 0.08:
         rows.append(
             _row(
