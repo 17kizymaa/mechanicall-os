@@ -118,6 +118,9 @@ object SitCRects {
     /** Send overlay plate = STATUS module, not a filled rectangle. */
     val sendPanel = PackRect(90, 640, 990, 1322)
 
+    /** OEM FILES strip on the combined Send+FILES dest. */
+    val folderOem = PackRect(120, 1208, 960, 1310)
+
     val Letterbox = 0xFF12100E.toInt()
     val IsolatedDark = 0xFF0A0A0C.toInt()
     val Dim = 0xCC0A0A0C.toInt()

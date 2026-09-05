@@ -83,6 +83,7 @@ class SitRackView @JvmOverloads constructor(
 
     var sendStatus: String = "idle"
     var sendNote: String = ""
+    var folderList: String = ""
     var receiptBody: String = ""
     var liveFields: Map<String, String> = emptyMap()
 
@@ -366,13 +367,6 @@ class SitRackView @JvmOverloads constructor(
             }
             return
         }
-        if (isolated == IsolatedMode.DRAFT) {
-            canvas.drawColor(SitCRects.IsolatedDark)
-            drawCrtModule(canvas, SitCRects.isolatedCrt)
-            wellDraftBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
-            if (crtEdit.visibility != VISIBLE) drawDraftWorkshop(canvas)
-            return
-        }
         chassisBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         lampJoinBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         lampSendBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
@@ -381,6 +375,7 @@ class SitRackView @JvmOverloads constructor(
         wellBmp()?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         gateBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         drawCrtSurface(canvas)
+        if (plate == SitPlate.DRAFT) drawDraftPeek(canvas)
         if (plate == SitPlate.RECEIPT) drawReceiptWell(canvas)
         if (crtEdit.visibility != VISIBLE) {
             drawLcd(canvas, crtTypeDest())
@@ -391,7 +386,7 @@ class SitRackView @JvmOverloads constructor(
     /** Isolated CRT/draft: phosphor of the STATUS tube. Chassis fill: zoomed glass. Idle: STATUS. */
     private fun crtTypeDest(): PackRect = when {
         isolated == IsolatedMode.CRT -> SitCRects.glassIn(SitCRects.isolatedCrt)
-        isolated == IsolatedMode.DRAFT -> SitCRects.glassIn(SitCRects.isolatedCrt)
+        isolated == IsolatedMode.DRAFT -> SitCRects.lcd
         zoomed -> SitCRects.glassIn(SitCRects.lcdFill)
         else -> SitCRects.lcd
     }
@@ -427,14 +422,20 @@ class SitRackView @JvmOverloads constructor(
             tearPaint.color = SitCRects.TearCyan
             canvas.drawLine(0f, y + 3f, dst.width(), y + 3f, tearPaint)
         }
-        val body = lcdBody()
-        lcdPaint.textSize = when {
-            isolated != IsolatedMode.NONE -> sp(14f)
-            zoomed -> sp(11f)
-            else -> sp(13f)
+        if (isolated == IsolatedMode.CRT) {
+            drawTerminalGlass(canvas, dst.width(), dst.height())
+        } else {
+            drawPreviewGlass(canvas, dst.width(), dst.height())
         }
-        val pad = sp(8f)
-        val innerW = (dst.width() - pad * 2).toInt().coerceAtLeast(8)
+        canvas.restore()
+    }
+
+    /** Chassis STATUS peek. Truncated. No page chrome. Same phosphor hue. */
+    private fun drawPreviewGlass(canvas: Canvas, w: Float, @Suppress("UNUSED_PARAMETER") h: Float) {
+        lcdPaint.textSize = if (zoomed) sp(11f) else sp(13f)
+        val pad = sp(10f)
+        val innerW = (w - pad * 2).toInt().coerceAtLeast(8)
+        val body = lcdBody()
         val layout = StaticLayout.Builder
             .obtain(body, 0, body.length, lcdPaint, innerW)
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
@@ -442,34 +443,70 @@ class SitRackView @JvmOverloads constructor(
             .build()
         canvas.translate(pad, pad)
         layout.draw(canvas)
-        canvas.restore()
+        canvas.translate(-pad, -pad)
+    }
+
+    /** Isolated dest: caption + body in the glass. Keep glow, hue, glitch. Raster CRT is following. */
+    private fun drawTerminalGlass(canvas: Canvas, w: Float, h: Float) {
+        val scan = SitCRects.LcdAmber and 0x00FFFFFF or 0x22000000
+        tearPaint.strokeWidth = 1f
+        tearPaint.color = scan
+        var y = 0f
+        while (y < h) {
+            canvas.drawLine(0f, y, w, y, tearPaint)
+            y += 4f
+        }
+        val page = pages.getOrNull(pageIndex)
+        val caption = page?.title.orEmpty().ifBlank { "STATUS" }
+        val body = page?.body?.ifBlank { "(none)" } ?: "(none)"
+        val pad = sp(14f)
+        val innerW = (w - pad * 2).toInt().coerceAtLeast(8)
+        lcdPaint.textSize = sp(16f)
+        val capLayout = StaticLayout.Builder
+            .obtain(caption, 0, caption.length, lcdPaint, innerW)
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setIncludePad(false)
+            .build()
+        lcdPaint.textSize = sp(14f)
+        val bodyLayout = StaticLayout.Builder
+            .obtain(body, 0, body.length, lcdPaint, innerW)
+            .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+            .setIncludePad(false)
+            .build()
+        canvas.translate(pad, pad)
+        capLayout.draw(canvas)
+        canvas.translate(0f, capLayout.height + sp(10f))
+        bodyLayout.draw(canvas)
     }
 
     private fun lcdBody(): String {
-        if (plate == SitPlate.RECEIPT && isolated == IsolatedMode.NONE && !zoomed) {
-            return receiptBody.ifBlank { "(empty receipt)" }
-        }
-        if (isolated == IsolatedMode.CRT || zoomed) {
-            val page = pages.getOrNull(pageIndex)
-            val text = page?.body?.ifBlank { "(none)" } ?: "(none)"
-            return "LAW  ${page?.title.orEmpty()}\n$text"
+        if (plate == SitPlate.RECEIPT && isolated == IsolatedMode.NONE) {
+            return clipPreview(receiptBody.ifBlank { "(empty receipt)" })
         }
         return idleLine
     }
 
-    private fun drawDraftWorkshop(canvas: Canvas) {
-        val keys = listOf("Objective", "Next", "Baseline", "Tbc")
-        val key = editKey?.takeIf { it in keys } ?: "Objective"
-        val live = liveFields[key].orEmpty().ifBlank { "(none)" }
-        val prop = draftFields[key].orEmpty().ifBlank { "(none)" }
+    companion object {
+        private const val PREVIEW_CHARS = 120
+
+        fun clipPreview(raw: String, n: Int = PREVIEW_CHARS): String {
+            val t = raw.replace('\n', ' ').trim()
+            if (t.length <= n) return t
+            return t.take(n - 1) + "…"
+        }
+    }
+
+    private fun drawDraftPeek(canvas: Canvas) {
+        val live = liveFields["Next"].orEmpty().ifBlank { "(none)" }
+        val prop = draftFields["Next"].orEmpty().ifBlank { "(none)" }
         drawPackText(
             canvas,
-            SitCRects.glassIn(SitCRects.isolatedCrt),
-            "DRAFT  workshop\n" +
-                "live vs proposed. Fluency proposes. PROPOSE only.\n" +
-                "Field Objective · Field Next · tap a key\n\n" +
-                "$key\n  live: ${live.take(90)}\n  proposed: ${prop.take(90)}\n\n" +
-                "tap a key · type · not CURRENT",
+            SitCRects.well,
+            "DRAFT  live vs proposed\n" +
+                "Field Objective · Field Next\n" +
+                "Next live: ${clipPreview(live, 80)}\n" +
+                "Next proposed: ${clipPreview(prop, 80)}\n" +
+                "not CURRENT · GATE plate on chassis",
         )
     }
 
@@ -481,13 +518,15 @@ class SitRackView @JvmOverloads constructor(
     private fun drawSendOverlay(canvas: Canvas) {
         dimPaint.color = SitCRects.Dim
         canvas.drawRect(mapPack(PackRect(0, 0, SitCRects.PACK_W, SitCRects.PACK_H)), dimPaint)
-        drawCrtModule(canvas, SitCRects.sendPanel)
+        dimPaint.color = 0xE6E8DCC8.toInt()
+        canvas.drawRect(mapPack(SitCRects.sendPanel), dimPaint)
         val status = sendStatus.ifBlank { "idle" }
         val note = sendNote.ifBlank { "(no offer)" }
+        val listing = folderList.ifBlank { "(empty folder)" }
         drawPackText(
             canvas,
-            SitCRects.glassIn(SitCRects.sendPanel),
-            "SEND  folder\nstatus: $status\n$note\nnot Yes · not FILES · tap outside to dismiss",
+            SitCRects.sendPanel,
+            "FOLDER  dest\nstatus: $status\n$note\n$listing\nOEM FILES strip · not Yes · tap outside to dismiss",
         )
     }
 
@@ -566,16 +605,8 @@ class SitRackView @JvmOverloads constructor(
             }
             return SitHit.DismissZoom
         }
-        if (isolated == IsolatedMode.DRAFT) {
-            if (SitCRects.well.contains(x, y) || opaque(wellDraftBmp, x, y)) {
-                return wellHit(x, y)
-            }
-            if (SitCRects.glassIn(SitCRects.isolatedCrt).contains(x, y)) {
-                return SitHit.Lcd
-            }
-            return SitHit.DismissZoom
-        }
         if (sendOverlay) {
+            if (SitCRects.folderOem.contains(x, y)) return SitHit.Files
             return if (SitCRects.sendPanel.contains(x, y)) SitHit.Send else SitHit.DismissZoom
         }
         if (zoomed) {

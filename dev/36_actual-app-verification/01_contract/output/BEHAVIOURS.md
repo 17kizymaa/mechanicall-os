@@ -18,10 +18,10 @@ Walk: bind → show-plan → propose → gate → (do after Yes) → receipt.
 | B8 receipt-tomorrow | Receipt is what they already said. Empty is honest | Fake agree on open | source |
 | B9 window-honest | `resizeableActivity`. No painted 92% card. OEM pop-up optional | Fake traffic-light VST filling the glass as “windowed” | source |
 | B10 bind-not-repo | Phone bind ≠ this operator tree | Binding mechanicall-os | source + tests |
-| B11 crt-isolated | Tap STATUS CRT → maximised **dark** terminal, **no** millwork overlay | Zoom-stretch of chassis glass; LcdViewer host | uidump + look PNG |
-| B12 send-overlay | Tap Send-folder → overlay panel of **Send module** | Send is Yes; Send writes CURRENT; Send = FILES | uidump + CURRENT bytes |
-| B13 draft-workshop-page | Draft bank → isolated page; live vs proposed fields; fluency proposes | Chat bubbles as the product; Draft writes CURRENT | uidump + tests |
-| B14 send-folder-smoke | One lab smoke: Send overlay opens, offer/staging honest, dismiss returns to rack | Smoke as Play receipt; USB as LTE | script + look |
-| B15 receipt-honest | RECEIPT bank shows `receiptText`; empty is empty | Fake agree; plan millwork as receipt | uidump + source |
+| B11 crt-dest | Tap STATUS → darkened-room `sit_crt` dest; chassis glass is a truncated peek; dest is the reader | Entire file on chassis glass; preview nav; zoom-stretch; LcdViewer | uidump + look PNG |
+| B12 folder-dest | Send lamp **and** FILES open one dest; OEM FILES button on dest | Send is Yes; Send writes CURRENT; CRT-as-send | uidump + CURRENT bytes |
+| B13 draft-dest | Draft bank → chassis millwork + GATE plate; live vs proposed | IsolatedDark dest; chat bubbles; Draft writes CURRENT | uidump + tests |
+| B14 folder-smoke | Folder dest opens, listing/status honest, dismiss returns to rack | Smoke as Play receipt; USB as LTE | script + look |
+| B15 receipt-honest | RECEIPT bank shows `receiptText`; empty is empty; not a CRT page | Fake agree; printer this halt | uidump + source |
 
 Walkers **never** tap Confirm. Models **never** `aether approve`.

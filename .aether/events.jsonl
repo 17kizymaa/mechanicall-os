@@ -120,3 +120,775 @@
 {"ts":"2026-08-04T17:24:32.084Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
 {"ts":"2026-08-04T17:24:34.235Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
 {"ts":"2026-08-04T17:24:45.274Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:25:36.440Z","kind":"note","message":"commit-hygiene: A+B committed, PR#3 merged to master","by":"human"}
+{"ts":"2026-08-04T17:33:12.674Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:33:16.798Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:33:22.032Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:34:15.299Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:34:15.421Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:37:28.874Z","kind":"note","message":"peer-review: legacy critique archived; Opus5 call 401; host adjudication CONDITIONAL filed","by":"human"}
+{"ts":"2026-08-04T17:53:19.093Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:53:27.598Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T17:56:04.730Z","kind":"note","message":"peer-review: Opus5 LIVE CONDITIONAL filed PEER-REVIEW-OPUS5-2026-08-04.md","by":"human"}
+{"ts":"2026-08-04T17:58:08.213Z","kind":"note","message":"peer-review: Opus5 LIVE CONDITIONAL complete (continuation joined)","by":"human"}
+{"ts":"2026-08-04T18:01:06.959Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:01:14.979Z","kind":"preflight","action":"commit-hygiene","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:01:18.550Z","kind":"next_selected","from":"commit-hygiene","to":"next-01-unknown-cmd","by":"human","reason":""}
+{"ts":"2026-08-04T18:01:18.714Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:01:18.834Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:01:40.739Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:01:46.140Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:01:48.405Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:01:51.134Z","kind":"approve","reason":"next-01-unknown-cmd","by":"human"}
+{"ts":"2026-08-04T18:01:51.291Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:01:51.411Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:01:58.469Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:02:00.984Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:02:07.373Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:04:16.814Z","kind":"note","message":"next-01-unknown-cmd: unknown verbs exit 2; tests green","by":"human"}
+{"ts":"2026-08-04T18:04:38.514Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:04:40.395Z","kind":"preflight","action":"next-01-unknown-cmd","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:05:12.666Z","kind":"next_selected","from":"next-01-unknown-cmd","to":"next-02-negative-tests","by":"human","reason":""}
+{"ts":"2026-08-04T18:05:12.821Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:05:12.942Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:05:52.862Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:05:56.736Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:05:59.463Z","kind":"approve","reason":"next-02-negative-tests","by":"human"}
+{"ts":"2026-08-04T18:05:59.620Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:05:59.742Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:06:30.096Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:06:32.653Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:06:40.026Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:06:40.073Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T18:06:54.242Z","kind":"preflight","action":"not-the-next","result":"refused","reason":"not-the-next is not the next allowed action (next-02-negative-tests). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:06:54.340Z","kind":"preflight","action":"smoke-verify","result":"refused","reason":"smoke-verify is not the next allowed action (next-02-negative-tests). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:08:32.490Z","kind":"note","message":"next-02-negative-tests: tests/negative.sh wired; suite green","by":"human"}
+{"ts":"2026-08-04T18:08:44.007Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:08:45.601Z","kind":"preflight","action":"next-02-negative-tests","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:09:26.807Z","kind":"next_selected","from":"next-02-negative-tests","to":"next-03-license","by":"human","reason":""}
+{"ts":"2026-08-04T18:09:26.965Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:09:27.085Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:12:17.339Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:12:19.896Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:12:22.727Z","kind":"approve","reason":"next-03-license","by":"human"}
+{"ts":"2026-08-04T18:12:22.885Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:12:23.007Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:22:38.962Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:22:47.101Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:22:52.717Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:23:43.495Z","kind":"note","message":"next-03-license: Apache-2.0 confirmed; PRODUCT/README Session terms","by":"human"}
+{"ts":"2026-08-04T18:24:28.703Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:24:30.976Z","kind":"preflight","action":"next-03-license","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:24:35.166Z","kind":"next_selected","from":"next-03-license","to":"next-04-exit-codes","by":"human","reason":""}
+{"ts":"2026-08-04T18:24:35.322Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:24:35.444Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:24:40.246Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:24:42.591Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:24:45.866Z","kind":"approve","reason":"next-04-exit-codes","by":"human"}
+{"ts":"2026-08-04T18:24:46.025Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:24:46.172Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:25:01.974Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:25:04.692Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:25:16.784Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:27:12.684Z","kind":"preflight","action":"not-next","result":"refused","reason":"not-next is not the next allowed action (next-04-exit-codes). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:27:12.782Z","kind":"preflight","action":"not-next","result":"refused","reason":"not-next is not the next allowed action (next-04-exit-codes). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:27:39.742Z","kind":"note","message":"next-04-exit-codes: 0/1/2/3 table live; tests green","by":"human"}
+{"ts":"2026-08-04T18:27:58.092Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:01.827Z","kind":"preflight","action":"next-04-exit-codes","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:05.069Z","kind":"next_selected","from":"next-04-exit-codes","to":"next-05-loc-decision","by":"human","reason":""}
+{"ts":"2026-08-04T18:28:05.233Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:28:05.354Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:28:16.904Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:28:18.996Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:28:22.230Z","kind":"approve","reason":"next-05-loc-decision","by":"human"}
+{"ts":"2026-08-04T18:28:22.389Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:22.511Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:28.359Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:30.677Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:28:36.473Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:29:15.193Z","kind":"note","message":"next-05-loc-decision: retired ≤220/one-screen; SPEC-v0.2 size doctrine; CHANGELOG","by":"human"}
+{"ts":"2026-08-04T18:29:51.019Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:29:54.706Z","kind":"preflight","action":"next-05-loc-decision","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:29:58.094Z","kind":"next_selected","from":"next-05-loc-decision","to":"next-06-preflight-receipt","by":"human","reason":""}
+{"ts":"2026-08-04T18:29:58.261Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:29:58.384Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:35:12.764Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:35:20.570Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:35:24.768Z","kind":"approve","reason":"next-06-preflight-receipt","by":"human"}
+{"ts":"2026-08-04T18:35:24.926Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:35:25.047Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:36:04.757Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:36:07.371Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:36:16.403Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:37:50.147Z","kind":"approve","reason":"abs /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:37:50.341Z","kind":"approve","reason":"pass /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:37:50.535Z","kind":"approve","reason":"stale /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:38:52.516Z","kind":"note","message":"next-06-preflight-receipt: PASS/STALE/ABSENT on approve; tests green","by":"human"}
+{"ts":"2026-08-04T18:51:18.878Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:26.946Z","kind":"preflight","action":"next-06-preflight-receipt","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:30.500Z","kind":"next_selected","from":"next-06-preflight-receipt","to":"next-07-shellcheck","by":"human","reason":""}
+{"ts":"2026-08-04T18:51:30.659Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:51:30.809Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:51:34.886Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:51:37.320Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:51:40.219Z","kind":"approve","reason":"next-07-shellcheck","by":"human"}
+{"ts":"2026-08-04T18:51:40.378Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:40.525Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:43.990Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:46.375Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:51:50.140Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:53:42.433Z","kind":"note","message":"next-07-shellcheck: shellcheck gate green; 0 findings","by":"human"}
+{"ts":"2026-08-04T18:54:55.592Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:54:58.430Z","kind":"preflight","action":"next-07-shellcheck","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:55:01.614Z","kind":"next_selected","from":"next-07-shellcheck","to":"next-08-normative-docs","by":"human","reason":""}
+{"ts":"2026-08-04T18:55:01.773Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:55:01.924Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:55:07.151Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:55:10.918Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T18:55:14.064Z","kind":"approve","reason":"next-08-normative-docs","by":"human"}
+{"ts":"2026-08-04T18:55:14.227Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:55:14.377Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:55:17.901Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:55:21.120Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:55:33.772Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T18:56:35.162Z","kind":"note","message":"next-08-normative-docs: DOC-AUTHORITY map; NORMATIVE headers on core docs","by":"human"}
+{"ts":"2026-08-04T19:01:41.902Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:01:51.604Z","kind":"preflight","action":"next-08-normative-docs","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:01:55.315Z","kind":"next_selected","from":"next-08-normative-docs","to":"next-09-verb-list","by":"human","reason":""}
+{"ts":"2026-08-04T19:01:55.476Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:01:55.626Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:02:00.232Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:02:03.091Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:02:08.663Z","kind":"approve","reason":"next-09-verb-list","by":"human"}
+{"ts":"2026-08-04T19:02:08.822Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:02:08.991Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:02:12.255Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:02:14.733Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:02:18.845Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:03:59.749Z","kind":"preflight","action":"deploy-production","result":"refused","reason":"deploy-production is not the next allowed action (next-09-verb-list). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:03:59.861Z","kind":"preflight","action":"write-tests","result":"refused","reason":"write-tests is not the next allowed action (next-09-verb-list). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:03:59.916Z","kind":"onboard_complete","objective":"Complete one authorized next action and refuse everything else."}
+{"ts":"2026-08-04T19:04:07.625Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T19:04:07.721Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-04T19:04:08.448Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:04:11.611Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:04:11.871Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:04:12.093Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:04:28.719Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:05:50.447Z","kind":"note","message":"next-09-verb-list: AETHER_VERBS+version+completion; tests green","by":"human"}
+{"ts":"2026-08-04T19:10:08.839Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:10:16.927Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:30:07.391Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:30:15.314Z","kind":"preflight","action":"next-09-verb-list","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:30:20.361Z","kind":"approve","reason":"next-09-verb-list","by":"human"}
+{"ts":"2026-08-04T19:30:20.513Z","kind":"next_selected","from":"next-09-verb-list","to":"next-10-lab-status","by":"human","reason":""}
+{"ts":"2026-08-04T19:30:20.670Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:30:20.818Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:30:33.402Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:30:36.667Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:30:39.854Z","kind":"approve","reason":"next-10-lab-status","by":"human"}
+{"ts":"2026-08-04T19:30:40.013Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:30:40.161Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:30:44.774Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:30:47.028Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:30:52.958Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:31:35.824Z","kind":"note","message":"next-10-lab-status: LAB-STATUS.md + dir status lines","by":"human"}
+{"ts":"2026-08-04T19:32:04.013Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:06.794Z","kind":"preflight","action":"next-10-lab-status","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:10.437Z","kind":"next_selected","from":"next-10-lab-status","to":"park-protocol-alpha","by":"human","reason":""}
+{"ts":"2026-08-04T19:32:10.594Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:32:10.741Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:32:20.918Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:32:23.811Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:32:27.062Z","kind":"approve","reason":"park-protocol-alpha","by":"human"}
+{"ts":"2026-08-04T19:32:27.221Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:27.371Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:34.277Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:36.410Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:41.015Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:41.165Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:41.459Z","kind":"preflight","action":"deploy-production","result":"refused","reason":"deploy-production is not the next allowed action (park-protocol-alpha). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:41.573Z","kind":"preflight","action":"write-tests","result":"refused","reason":"write-tests is not the next allowed action (park-protocol-alpha). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:32:41.627Z","kind":"onboard_complete","objective":"Complete one authorized next action and refuse everything else."}
+{"ts":"2026-08-04T19:32:49.537Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T19:32:49.635Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-04T19:32:50.374Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:32:53.292Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:32:53.551Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:32:53.766Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:33:11.172Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:34:38.423Z","kind":"note","message":"park-protocol-alpha: NEXT-01..10 done; tests green; handoff receipt filed; uncommitted","by":"human"}
+{"ts":"2026-08-04T19:35:07.384Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:37:02.727Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:37:05.054Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:39:39.625Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:39:42.201Z","kind":"preflight","action":"park-protocol-alpha","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-04T19:39:56.630Z","kind":"approve","reason":"park-protocol-alpha","by":"human"}
+{"ts":"2026-08-04T19:39:56.785Z","kind":"next_selected","from":"park-protocol-alpha","to":"commit-peer-waves","by":"human","reason":""}
+{"ts":"2026-08-04T19:39:56.940Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:39:57.088Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:40:14.144Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:40:16.703Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-04T19:40:49.757Z","kind":"approve","reason":"commit-peer-waves","by":"human"}
+{"ts":"2026-08-04T19:40:49.920Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:40:50.070Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:40:55.709Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:40:58.637Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:41:05.646Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-04T19:41:29.145Z","kind":"note","message":"commit-peer-waves: committed peer NEXT-01..10 (no push)","by":"human"}
+{"ts":"2026-08-05T08:26:55.013Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:26:55.286Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:26:56.709Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:26:56.966Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:49:17.027Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:49:21.814Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:49:40.664Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:50:16.048Z","kind":"preflight","action":"commit-peer-waves","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T08:51:55.131Z","kind":"note","message":"ci: SC2015 fix + 06c GPT peer filed; commit-peer-waves still Next","by":"human"}
+{"ts":"2026-08-05T09:21:53.609Z","kind":"next_selected","from":"commit-peer-waves","to":"package-alpha-2","by":"human","reason":""}
+{"ts":"2026-08-05T09:21:59.349Z","kind":"approve","reason":"package-alpha-2","by":"human"}
+{"ts":"2026-08-05T09:22:36.042Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:22:43.372Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:23:39.466Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:23:56.952Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:25:22.404Z","kind":"note","message":"package-alpha-2: CURRENT consistent; FIRST-PROJECT + RELEASE-NOTES-ALPHA-2; no tag","by":"human"}
+{"ts":"2026-08-05T09:46:06.709Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:46:17.635Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T09:46:25.806Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:06:28.392Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:58:07.832Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:58:23.781Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:59:20.036Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:59:20.177Z","kind":"preflight","action":"package-alpha-2","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T10:59:36.628Z","kind":"next_selected","from":"package-alpha-2","to":"defer-package-alpha-for-server-ops","by":"human","reason":"utility: playground distro Domain outside protocol packaging; server_ops owns eMachine+Geobook"}
+{"ts":"2026-08-05T11:00:00.807Z","kind":"note","message":"deferred package-alpha-2; Next=defer-package-alpha-for-server-ops PENDING; playground → server_ops","by":"human"}
+{"ts":"2026-08-05T11:21:10.106Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-05T11:21:10.372Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-05T11:21:10.616Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-05T11:21:17.734Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-05T11:23:33.129Z","kind":"approve","reason":"defer-package-alpha-for-server-ops","by":"human"}
+{"ts":"2026-08-05T11:25:26.693Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:25:28.697Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:25:40.629Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:25:41.123Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:26:45.725Z","kind":"note","message":"defer-package-alpha-for-server-ops: playground → ~/server_ops; packaging parked","by":"human"}
+{"ts":"2026-08-05T11:30:54.754Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:31:03.000Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:31:23.996Z","kind":"approve","reason":"--help","by":"human"}
+{"ts":"2026-08-05T11:43:51.561Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:43:58.776Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:49:56.760Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:50:17.366Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T11:50:28.237Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:12:25.592Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:12:25.863Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:12:26.076Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:12:38.939Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:15:12.693Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:15:14.899Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:18:32.395Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:18:34.283Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:26:36.831Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:26:43.955Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:33:16.103Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:33:24.955Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:33:32.975Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:38:44.944Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:38:53.016Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:48:46.104Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T12:48:53.298Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:08:55.848Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:09:03.662Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:19:21.017Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:19:28.454Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:24:23.157Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:24:24.985Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:28:34.690Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:28:36.298Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:44:16.179Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:44:23.961Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:48:14.250Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:48:15.525Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:49:43.447Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T13:49:44.740Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:00:54.783Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:01:02.137Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:03:56.543Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:03:57.809Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:04:58.398Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:05:00.383Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:05:40.625Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:05:42.155Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:07:54.030Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:07:56.053Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:08:35.896Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:08:38.769Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:09:57.733Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:10:00.208Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:10:40.065Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:10:41.786Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:27:22.386Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:27:29.634Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:29:33.734Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:29:36.764Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:31:31.836Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:31:33.184Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:42:33.648Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:42:41.294Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:48:23.934Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:48:31.952Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:48:39.580Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:48:39.845Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:50:33.386Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T14:50:36.156Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T15:53:54.337Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T15:54:05.108Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:04:57.563Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:05:06.791Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:14:35.433Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:14:43.526Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:24:47.655Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:24:55.171Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:34:05.491Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:34:13.589Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:39:04.460Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:39:07.841Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:48:41.940Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:48:50.295Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:51:37.933Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T16:51:42.020Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:25:06.043Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:25:16.984Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:35:31.619Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:35:39.660Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:43:05.603Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:43:18.402Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:43:20.285Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:45:53.464Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:45:55.137Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:46:23.758Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:46:29.671Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:47:30.932Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:47:32.470Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:50:06.589Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:50:08.013Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:50:11.829Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:50:13.086Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:57:40.013Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T17:57:46.762Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T18:03:25.689Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-05T18:03:32.156Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T17:29:02.957Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T17:29:03.225Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T17:48:46.631Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T17:48:50.144Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T17:49:23.249Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T18:29:53.766Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T18:30:06.727Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T18:31:34.626Z","kind":"next_selected","from":"defer-package-alpha-for-server-ops","to":"recommended-git-path","by":"human","reason":"Human 2026-08-08: Option B peer-waves onto master via open PR; no auto-merge; then polish-product-reciept-layer"}
+{"ts":"2026-08-08T18:31:34.780Z","kind":"preflight","action":"recommended-git-path","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:02:57.265Z","kind":"approve","reason":"recommended-git-path: PR #4 human-merged / accepted","by":"human"}
+{"ts":"2026-08-08T19:02:57.416Z","kind":"next_selected","from":"recommended-git-path","to":"polish-product-reciept-layer","by":"human","reason":""}
+{"ts":"2026-08-08T19:25:11.756Z","kind":"reject","reason":"merge peer-reviewed: narrative inconsistency with major coding bugs!","by":"human","phase":"SELECT"}
+{"ts":"2026-08-08T19:29:13.429Z","kind":"approve","reason":"listen-to-peer-review","by":"human"}
+{"ts":"2026-08-08T19:32:02.218Z","kind":"reject","reason":"listen-to-peer-review","by":"human","phase":"SELECT"}
+{"ts":"2026-08-08T19:33:35.554Z","kind":"approve","reason":"scaffold-encouraging-changes-with-valid-execution!","by":"human"}
+{"ts":"2026-08-08T19:33:41.810Z","kind":"preflight","action":"polish-product-reciept-layer","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T19:33:50.598Z","kind":"preflight","action":"polish-product-reciept-layer","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-08T19:34:53.596Z","kind":"next_selected","from":"polish-product-reciept-layer","to":"scaffold-encouraging-changes-with-valid-execution","by":"human","reason":"Human accepted before polish-product-reciept-layer; polish PR #4 using GPT56 phone-pack sessions digest + executive redraft"}
+{"ts":"2026-08-08T19:34:53.694Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:38:00.731Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:38:04.241Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:38:18.864Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:39:42.958Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:47:25.812Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:47:30.762Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:50:28.862Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-08T19:50:31.882Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T15:48:48.903Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T15:48:49.161Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T15:48:51.216Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T15:48:51.481Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T16:30:06.442Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T16:30:09.062Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T16:36:00.597Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T17:01:47.208Z","kind":"preflight","action":"scaffold-encouraging-changes-with-valid-execution","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T17:19:07.516Z","kind":"approve","reason":"PR #4 human-merged; scaffold-encouraging-changes-with-valid-execution complete","by":"human"}
+{"ts":"2026-08-09T17:19:07.669Z","kind":"next_selected","from":"scaffold-encouraging-changes-with-valid-execution","to":"polish-product-reciept-layer","by":"human","reason":"post-merge queue; human continue"}
+{"ts":"2026-08-09T17:19:07.769Z","kind":"preflight","action":"polish-product-reciept-layer","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T18:02:14.766Z","kind":"approve","reason":"polish-product-reciept-layer complete (PR #5 merged)","by":"human"}
+{"ts":"2026-08-09T18:02:14.918Z","kind":"next_selected","from":"polish-product-reciept-layer","to":"agent-agnostic-cold-start-checklist","by":"human","reason":"human: go with handoff follow-up"}
+{"ts":"2026-08-09T18:02:15.016Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T18:04:19.462Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"refused","reason":"defer-package-alpha-for-server-ops is not the next allowed action (agent-agnostic-cold-start-checklist). Phase=SELECT Status=ACTIVE.","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T18:04:19.596Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T18:04:32.505Z","kind":"preflight","action":"defer-package-alpha-for-server-ops","result":"refused","reason":"defer-package-alpha-for-server-ops is not the next allowed action (agent-agnostic-cold-start-checklist). Phase=SELECT Status=ACTIVE.","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T18:04:32.640Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T19:15:24.248Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-09T19:22:32.829Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T06:40:32.168Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T06:40:32.314Z","kind":"preflight","action":"personal-model-sandbox-bootstrap","result":"refused","reason":"personal-model-sandbox-bootstrap is not the next allowed action (agent-agnostic-cold-start-checklist). Phase=SELECT Status=ACTIVE.","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T06:41:23.264Z","kind":"preflight","action":"personal-model-sandbox-bootstrap","result":"refused","reason":"personal-model-sandbox-bootstrap is not the next allowed action (agent-agnostic-cold-start-checklist). Phase=SELECT Status=ACTIVE.","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T07:00:50.255Z","kind":"preflight","action":"agent-agnostic-cold-start-checklist","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T11:52:15.039Z","kind":"note","message":"HUMAN escalate: Next -> personal-model-dev-launchpad (dev launchpad)","by":"human"}
+{"ts":"2026-08-10T11:52:15.289Z","kind":"preflight","action":"personal-model-dev-launchpad","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T11:57:31.899Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:05:59.923Z","kind":"reject","reason":"Justttttt not coonfident that the plan is going to work. In the conversation I had, the        ageeeeeeent hasn't really addresseeeeeeeeeeeeeeeeeeeeeeeeeeeeed the overfitting issues that may occur when designing the product. I want something that isn't technically bouuuuuuuuund so                          thhhhhhhhhhhhhhhhhhhhhhhhhhat my device setup can handle it (review the codebase for more documentation on that + my/agreed opinions/observations/statements) and other users devices can handle it (preferably web apps via anphuni.com, android app, desktop app, and the full distro as the distributiooooooooon suiteeeeeeeee).","by":"human","phase":"SELECT"}
+{"ts":"2026-08-10T12:06:49.839Z","kind":"preflight","action":"personal-model-dev-launchpad","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-10T12:10:57.496Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:12:00.892Z","kind":"next_selected","from":"personal-model-dev-launchpad","to":"multi-surface-distribution-suite","by":"human","reason":"human: approve anti-overfit multi-surface distribution suite escalate (law not stack; web/android/desktop/full distro)"}
+{"ts":"2026-08-10T12:12:22.265Z","kind":"note","message":"HUMAN escalate body: multi-surface-distribution-suite (law not stack; suite web/android/desktop/distro)","by":"human"}
+{"ts":"2026-08-10T12:12:22.523Z","kind":"preflight","action":"multi-surface-distribution-suite","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T12:15:45.234Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:16:02.749Z","kind":"preflight","action":"multi-surface-distribution-suite","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-10T12:17:04.768Z","kind":"note","message":"multi-surface-distribution-suite: DISTRIBUTION-SUITE.md + PRODUCT suite + LAB-STATUS + SINGLE-APP banner","by":"human"}
+{"ts":"2026-08-10T12:17:04.876Z","kind":"artifact","path":"docs/DISTRIBUTION-SUITE.md","action":"multi-surface-distribution-suite","status":"done","checksum":"2904948108","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T12_17_04_817Z_DISTRIBUTION-SUITE.md.json"}
+{"ts":"2026-08-10T12:17:04.982Z","kind":"preflight","action":"multi-surface-distribution-suite","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-10T12:24:53.153Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:12:47.272Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:16:23.861Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-10T13:20:58.184Z","kind":"note","message":"DISTRIBUTION-SUITE: layers A seed first-class, B deferred creative, C employ personal+RAG job; ready for human approve","by":"human"}
+{"ts":"2026-08-10T13:20:58.383Z","kind":"preflight","action":"multi-surface-distribution-suite","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-10T13:21:06.471Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:21:33.983Z","kind":"approve","reason":"suite map + layers A/B/C (seed technique, deferred creative, employ personal+RAG job)","by":"human"}
+{"ts":"2026-08-10T15:40:00.699Z","kind":"next_selected","from":"multi-surface-distribution-suite","to":"meta-next-checkpoint","by":"human","reason":"human: pre-plan project next actions / timeline gauge before picking suite slices"}
+{"ts":"2026-08-10T15:40:42.596Z","kind":"note","message":"meta-next-checkpoint: META-NEXT-CHECKPOINT.md outline + CURRENT body","by":"human"}
+{"ts":"2026-08-10T15:40:42.710Z","kind":"artifact","path":"docs/META-NEXT-CHECKPOINT.md","action":"meta-next-checkpoint","status":"draft","checksum":"488329719","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T15_40_42_650Z_META-NEXT-CHECKPOINT.md.json"}
+{"ts":"2026-08-10T15:40:42.907Z","kind":"preflight","action":"meta-next-checkpoint","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T15:55:21.306Z","kind":"note","message":"suite-single-app-as-member: SINGLE-APP member rewrite + README suite pointer + LAB-STATUS","by":"human"}
+{"ts":"2026-08-10T15:55:21.423Z","kind":"artifact","path":"docs/SINGLE-APP-DISTRIBUTION.md","action":"suite-single-app-as-member","status":"done","checksum":"4032564675","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T15_55_21_360Z_SINGLE-APP-DISTRIBUTION.md.json"}
+{"ts":"2026-08-10T15:55:21.620Z","kind":"preflight","action":"suite-single-app-as-member","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T16:29:06.018Z","kind":"preflight","action":"suite-single-app-as-member","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T16:29:06.155Z","kind":"preflight","action":"suite-android-gap-brief","result":"refused","reason":"suite-android-gap-brief is not the next allowed action (suite-single-app-as-member). Phase=SELECT Status=ACTIVE.","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T16:30:13.154Z","kind":"note","message":"S1 amend: casual v0 file surface in scope; S4 SUITE-ANDROID-GAP-BRIEF.md","by":"human"}
+{"ts":"2026-08-10T16:30:13.271Z","kind":"artifact","path":"docs/SUITE-ANDROID-GAP-BRIEF.md","action":"suite-android-gap-brief","status":"done","checksum":"3793804938","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T16_30_13_207Z_SUITE-ANDROID-GAP-BRIEF.md.json"}
+{"ts":"2026-08-10T16:30:13.478Z","kind":"preflight","action":"suite-android-gap-brief","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T17:05:52.159Z","kind":"note","message":"suite-session-domain-honest: SUITE-SESSION-DOMAIN-HONEST.md + LAB/suite pointers","by":"human"}
+{"ts":"2026-08-10T17:05:52.265Z","kind":"artifact","path":"docs/SUITE-SESSION-DOMAIN-HONEST.md","action":"suite-session-domain-honest","status":"done","checksum":"2684476136","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T17_05_52_212Z_SUITE-SESSION-DOMAIN-HONEST.md.json"}
+{"ts":"2026-08-10T17:05:52.470Z","kind":"preflight","action":"suite-session-domain-honest","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T17:18:55.232Z","kind":"note","message":"seed-boot-identity-brief: SEED-BOOT-IDENTITY-BRIEF.md form notes","by":"human"}
+{"ts":"2026-08-10T17:18:55.346Z","kind":"artifact","path":"docs/SEED-BOOT-IDENTITY-BRIEF.md","action":"seed-boot-identity-brief","status":"done","checksum":"1537864383","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T17_18_55_287Z_SEED-BOOT-IDENTITY-BRIEF.md.json"}
+{"ts":"2026-08-10T17:18:55.545Z","kind":"preflight","action":"seed-boot-identity-brief","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:03:00.033Z","kind":"note","message":"suite-thin-backend-map: SUITE-THIN-BACKEND-MAP.md B1-B5 + prior art","by":"human"}
+{"ts":"2026-08-10T19:03:00.150Z","kind":"artifact","path":"docs/SUITE-THIN-BACKEND-MAP.md","action":"suite-thin-backend-map","status":"done","checksum":"658992144","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_03_00_088Z_SUITE-THIN-BACKEND-MAP.md.json"}
+{"ts":"2026-08-10T19:03:00.353Z","kind":"preflight","action":"suite-thin-backend-map","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:12:59.386Z","kind":"note","message":"b1-peer-serve-spike: B1-PEER-SERVE-SPIKE.md host *:11434 LAN TS personal tags","by":"human"}
+{"ts":"2026-08-10T19:12:59.503Z","kind":"artifact","path":"docs/B1-PEER-SERVE-SPIKE.md","action":"b1-peer-serve-spike","status":"done","checksum":"595919061","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_12_59_443Z_B1-PEER-SERVE-SPIKE.md.json"}
+{"ts":"2026-08-10T19:12:59.707Z","kind":"preflight","action":"b1-peer-serve-spike","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:15:48.482Z","kind":"note","message":"employ-personal-model-rag: EMPLOY-PERSONAL-MODEL-RAG.md G0 inject G1 optional B4/B1","by":"human"}
+{"ts":"2026-08-10T19:15:48.594Z","kind":"artifact","path":"docs/EMPLOY-PERSONAL-MODEL-RAG.md","action":"employ-personal-model-rag","status":"done","checksum":"3597174705","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_15_48_532Z_EMPLOY-PERSONAL-MODEL-RAG.md.json"}
+{"ts":"2026-08-10T19:15:48.796Z","kind":"preflight","action":"employ-personal-model-rag","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:33:28.981Z","kind":"note","message":"park-multi-surface-map: PARK-MULTI-SURFACE-MAP.md campaign index + open follow-ons","by":"human"}
+{"ts":"2026-08-10T19:33:29.096Z","kind":"artifact","path":"docs/PARK-MULTI-SURFACE-MAP.md","action":"park-multi-surface-map","status":"done","checksum":"3167281267","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_33_29_035Z_PARK-MULTI-SURFACE-MAP.md.json"}
+{"ts":"2026-08-10T19:33:29.302Z","kind":"preflight","action":"park-multi-surface-map","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:35:52.081Z","kind":"note","message":"suite-kiosk-path-note: SUITE-KIOSK-PATH-NOTE.md seat-workstation gaps K1-K8","by":"human"}
+{"ts":"2026-08-10T19:35:52.196Z","kind":"artifact","path":"docs/SUITE-KIOSK-PATH-NOTE.md","action":"suite-kiosk-path-note","status":"done","checksum":"203498406","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_35_52_137Z_SUITE-KIOSK-PATH-NOTE.md.json"}
+{"ts":"2026-08-10T19:35:52.398Z","kind":"preflight","action":"suite-kiosk-path-note","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:38:41.775Z","kind":"note","message":"suite-desktop-seat-slice: SUITE-DESKTOP-SEAT-SLICE.md fidelity; seat README-only","by":"human"}
+{"ts":"2026-08-10T19:38:41.891Z","kind":"artifact","path":"docs/SUITE-DESKTOP-SEAT-SLICE.md","action":"suite-desktop-seat-slice","status":"done","checksum":"2260581247","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_38_41_831Z_SUITE-DESKTOP-SEAT-SLICE.md.json"}
+{"ts":"2026-08-10T19:38:42.093Z","kind":"preflight","action":"suite-desktop-seat-slice","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:49:19.175Z","kind":"note","message":"suite-desktop-seat-slice: seat Tauri scaffold Domain seed files ollama human gates; cargo check OK","by":"human"}
+{"ts":"2026-08-10T19:49:19.288Z","kind":"artifact","path":"seat/src-tauri/src/lib.rs","action":"suite-desktop-seat-slice","status":"done","checksum":"2388928830","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T19_49_19_228Z_lib.rs.json"}
+{"ts":"2026-08-10T19:49:19.488Z","kind":"preflight","action":"suite-desktop-seat-slice","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T19:56:06.511Z","kind":"preflight","action":"suite-desktop-seat-slice","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T20:26:02.000Z","kind":"note","message":"GUI seat rejected; cold-start verify + continue no-GUI path","by":"human"}
+{"ts":"2026-08-10T20:26:02.114Z","kind":"artifact","path":"docs/GUI-SEAT-REJECT-AND-CONTINUE.md","action":"agent-agnostic-cold-start-verify","status":"done","checksum":"3578504174","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T20_26_02_054Z_GUI-SEAT-REJECT-AND-CONTINUE.md.json"}
+{"ts":"2026-08-10T20:26:02.226Z","kind":"artifact","path":"docs/AGENT-AGNOSTIC-COLD-START-VERIFY.md","action":"agent-agnostic-cold-start-verify","status":"done","checksum":"4074322387","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T20_26_02_166Z_AGENT-AGNOSTIC-COLD-START-VERIFY.md.json"}
+{"ts":"2026-08-10T20:26:02.431Z","kind":"preflight","action":"agent-agnostic-cold-start-verify","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T20:36:39.989Z","kind":"note","message":"continue-executions: board + entry docs wired; no GUI","by":"human"}
+{"ts":"2026-08-10T20:36:40.100Z","kind":"artifact","path":"docs/SUITE-EXECUTION-BOARD.md","action":"continue-executions","status":"done","checksum":"958966841","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T20_36_40_043Z_SUITE-EXECUTION-BOARD.md.json"}
+{"ts":"2026-08-10T20:36:40.296Z","kind":"preflight","action":"continue-executions","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T20:42:10.983Z","kind":"note","message":"employ-personal-model-rag-run: Recipe C receipt + B1 partial network smoke","by":"human"}
+{"ts":"2026-08-10T20:42:11.096Z","kind":"artifact","path":"dev/20_personal-model-sandbox/03_implement/output/EMPLOY-RAG-RUN-RECIPE-C.md","action":"employ-personal-model-rag-run","status":"done","checksum":"2570127507","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T20_42_11_037Z_EMPLOY-RAG-RUN-RECIPE-C.md.json"}
+{"ts":"2026-08-10T20:42:11.295Z","kind":"preflight","action":"employ-personal-model-rag-run","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T20:53:04.676Z","kind":"approve","reason":"recipe C + B1 network partial OK","by":"human"}
+{"ts":"2026-08-10T20:53:04.824Z","kind":"next_selected","from":"employ-personal-model-rag-run","to":"b1-second-device-uat","by":"human","reason":""}
+{"ts":"2026-08-10T20:54:05.631Z","kind":"approve","reason":"recipe C + B1 network partial OK // going to note-to-self to research the limits of RAG capabilities with my setup (mirrored from lab dev/20_* Domain)","by":"human"}
+{"ts":"2026-08-10T20:54:05.923Z","kind":"preflight","action":"b1-second-device-uat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-10T20:54:29.132Z","kind":"note","message":"MIRRORED human lab approves to root: recipe C + B1 partial OK; Next b1-second-device-uat APPROVED","by":"human"}
+{"ts":"2026-08-10T20:54:29.394Z","kind":"preflight","action":"b1-second-device-uat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-10T21:10:55.210Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T21:11:06.404Z","kind":"approve","reason":"Assuming it works!","by":"human"}
+{"ts":"2026-08-10T21:12:15.913Z","kind":"approve","reason":"continue-executions","by":"human"}
+{"ts":"2026-08-10T21:14:22.953Z","kind":"note","message":"b1-second-device-uat: mbp-edge TS to myarch Ollama PASS generate; receipt B1-SECOND-DEVICE-UAT.md","by":"human"}
+{"ts":"2026-08-10T21:14:23.060Z","kind":"artifact","path":"docs/B1-SECOND-DEVICE-UAT.md","action":"b1-second-device-uat","status":"done","checksum":"311288689","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T21_14_23_004Z_B1-SECOND-DEVICE-UAT.md.json"}
+{"ts":"2026-08-10T21:14:23.217Z","kind":"preflight","action":"b1-second-device-uat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-10T21:17:11.970Z","kind":"approve","reason":"aether already installed, and that should've been the stable part of this action's test!","by":"human"}
+{"ts":"2026-08-10T21:17:25.883Z","kind":"next_selected","from":"b1-second-device-uat","to":"seat-verify-kingston-run","by":"human","reason":""}
+{"ts":"2026-08-10T21:20:23.965Z","kind":"note","message":"continue: B1 mbp-edge aether thin Domain + seat-verify-kingston static","by":"human"}
+{"ts":"2026-08-10T21:20:24.074Z","kind":"artifact","path":"scripts/seat-verify-kingston.sh","action":"seat-verify-kingston-run","status":"done","checksum":"3456598420","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T21_20_24_017Z_seat-verify-kingston.sh.json"}
+{"ts":"2026-08-10T21:20:24.181Z","kind":"artifact","path":"docs/B1-SECOND-DEVICE-UAT.md","action":"b1-second-device-uat","status":"done","checksum":"818369163","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T21_20_24_123Z_B1-SECOND-DEVICE-UAT.md.json"}
+{"ts":"2026-08-10T21:20:24.374Z","kind":"preflight","action":"seat-verify-kingston-run","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T21:21:19.748Z","kind":"note","message":"seat-verify-kingston-run: static PASS receipt; continue no-GUI wave","by":"human"}
+{"ts":"2026-08-10T21:21:19.860Z","kind":"artifact","path":"docs/SEAT-VERIFY-KINGSTON-RECEIPT.md","action":"seat-verify-kingston-run","status":"done","checksum":"2702496558","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T21_21_19_800Z_SEAT-VERIFY-KINGSTON-RECEIPT.md.json"}
+{"ts":"2026-08-10T21:21:20.063Z","kind":"preflight","action":"seat-verify-kingston-run","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-10T21:21:42.033Z","kind":"note","message":"seat-menu.sh restored for seat-workstation foundation","by":"human"}
+{"ts":"2026-08-10T21:24:03.547Z","kind":"approve","reason":"seat-verify static + seat-menu OK","by":"human"}
+{"ts":"2026-08-10T21:27:38.680Z","kind":"approve","reason":"Let's finish off for tonight!","by":"human"}
+{"ts":"2026-08-10T21:31:00.515Z","kind":"next_selected","from":"seat-verify-kingston-run","to":"park-product-sprint","by":"human","reason":""}
+{"ts":"2026-08-10T21:31:16.285Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T21:32:30.677Z","kind":"note","message":"WRAP multi-surface execution wave; SESSION-WRAP-2026-08-10.md","by":"human"}
+{"ts":"2026-08-10T21:32:30.779Z","kind":"artifact","path":"docs/SESSION-WRAP-2026-08-10.md","action":"park-execution-wave-2026-08-10","status":"done","checksum":"3041449707","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_10T21_32_30_722Z_SESSION-WRAP-2026-08-10.md.json"}
+{"ts":"2026-08-11T07:10:39.069Z","kind":"note","message":"RESELECT Next xfce-claude-code-mech-extension — XFCE dual workspace + Claude Code mech frontend extension","by":"human"}
+{"ts":"2026-08-11T07:10:39.325Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-11T07:21:15.189Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-11T07:22:13.383Z","kind":"note","message":"LEAD: gsd-plan-phase subagent on dev/21_xfce-claude-code-extension for xfce-claude-code-mech-extension","by":"human"}
+{"ts":"2026-08-11T07:25:57.835Z","kind":"note","message":"LEAD: gsd-plan-phase child done; PLAN+EXTENSION-CONTRACT+XFCE map in dev/21_xfce-claude-code-extension","by":"human"}
+{"ts":"2026-08-11T07:31:55.108Z","kind":"approve","reason":"plan MVP: panel + CLAUDE.md + brief hooks + narrow deny (mirrored from lab dev/20_* 2026-08-11)","by":"human"}
+{"ts":"2026-08-11T07:31:55.270Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T07:33:37.377Z","kind":"note","message":"TARGET correction: geobook=playground; mbp-edge=display-node; TARGET-GEOBOOK.md","by":"human"}
+{"ts":"2026-08-11T10:56:07.897Z","kind":"note","message":"geobook: sshd up LAN 192.168.0.143; pubkey not authorized from myarch yet","by":"human"}
+{"ts":"2026-08-11T10:57:48.515Z","kind":"note","message":"Emilia-geobook SSH Emilia@ UP Alpine 3.24.1 LAN; mbp display-node only","by":"human"}
+{"ts":"2026-08-11T10:58:10.167Z","kind":"note","message":"Emilia-geobook: SSH Emilia OK; Alpine 3.24.1 minimal; no XFCE/tailscale/python yet; mbp=display only","by":"human"}
+{"ts":"2026-08-11T11:02:18.033Z","kind":"note","message":"geobook: playground Domain+hooks+aether skeleton as Emilia; no XFCE yet","by":"human"}
+{"ts":"2026-08-11T11:02:18.140Z","kind":"artifact","path":"dev/21_xfce-claude-code-extension/03_implement/output/GEOBOOK-SKELETON-RECEIPT.md","action":"xfce-claude-code-mech-extension","status":"partial","checksum":"3947029395","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_11T11_02_18_083Z_GEOBOOK-SKELETON-RECEIPT.md.json"}
+{"ts":"2026-08-11T11:14:59.528Z","kind":"note","message":"geobook: community repo disabled explains no such package; skip doas; root uncomment community","by":"human"}
+{"ts":"2026-08-11T11:25:49.055Z","kind":"note","message":"geobook XFCE installed; dual WS + autostart Domain front configured; lightdm needs start","by":"human"}
+{"ts":"2026-08-11T11:47:07.124Z","kind":"note","message":"pre-compact handoff documented; Emilia-geobook not deployment-ready","by":"human"}
+{"ts":"2026-08-11T11:47:07.238Z","kind":"artifact","path":"dev/21_xfce-claude-code-extension/03_implement/output/HANDOFF-PRE-COMPACT-2026-08-11.md","action":"xfce-claude-code-mech-extension","status":"partial","checksum":"1689141751","meta":"/mnt/kingston-nixos-sync/opt/mechanicall-os/.aether/artifacts/2026_08_11T11_47_07_180Z_HANDOFF-PRE-COMPACT-2026-08-11.md.json"}
+{"ts":"2026-08-11T11:51:27.782Z","kind":"approve","reason":"xfce-claude-code-mech-extension","by":"human"}
+{"ts":"2026-08-11T11:51:55.592Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T14:13:40.827Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:24:28.549Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:25:04.798Z","kind":"next_selected","from":"xfce-claude-code-mech-extension","to":"claim2-hyprland-habitat","by":"human","reason":"Human: patch over slash/WS1; Claim-1 foundation enough; proceed Claim-2 Hyprland habitat+dashboard"}
+{"ts":"2026-08-11T17:28:23.962Z","kind":"approve","reason":"finish Claim-1 residuals before Claim-2 Hyprland","by":"human"}
+{"ts":"2026-08-11T17:28:24.111Z","kind":"next_selected","from":"claim2-hyprland-habitat","to":"xfce-claude-code-mech-extension","by":"human","reason":"complete Claim-1; do not skip module"}
+{"ts":"2026-08-11T17:28:24.211Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-11T17:30:23.258Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-11T17:32:50.950Z","kind":"reject","reason":"ClaudeCode still should open under the repository Domains/playground (I think that's suitable // ?)","by":"human","phase":"SELECT"}
+{"ts":"2026-08-11T17:35:54.203Z","kind":"approve","reason":"It can be fixed later, let's continue!","by":"human"}
+{"ts":"2026-08-11T17:41:01.434Z","kind":"preflight","action":"xfce-claude-code-mech-extension","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:41:01.627Z","kind":"next_selected","from":"xfce-claude-code-mech-extension","to":"claim2-hyprland-habitat","by":"human","reason":"Human: Claim-1 all green (G1+B1+TS+plugin); residual WS placement is Hyprland class; proceed Claim-2 habitat+dashboard"}
+{"ts":"2026-08-11T17:43:53.967Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-11T17:44:04.624Z","kind":"approve","reason":"Claim-2 Hyprland habitat + dashboard — kickoff OK","by":"human"}
+{"ts":"2026-08-11T17:44:07.248Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:46:33.494Z","kind":"approve","reason":"Human: Let's go Claim-2 Hyprland; work only from mechanicall-os root — no sub-CURRENT overhead","by":"human"}
+{"ts":"2026-08-11T17:46:33.595Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:46:56.244Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T17:53:04.572Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T18:00:18.664Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T18:26:52.430Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T18:41:07.028Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T18:51:07.505Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T18:59:28.901Z","kind":"preflight","action":"claim2-hyprland-habitat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T19:13:33.148Z","kind":"next_selected","from":"claim2-hyprland-habitat","to":"casual-core-interface","by":"human","reason":"Human: park Claim-2 Hyprland; Next is interface reduced to actual casual core"}
+{"ts":"2026-08-11T19:14:55.807Z","kind":"approve","reason":"casual-core interface direction","by":"human"}
+{"ts":"2026-08-11T19:14:55.906Z","kind":"preflight","action":"casual-core-interface","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T19:15:14.743Z","kind":"approve","reason":"Human: Go — casual-core interface contract","by":"human"}
+{"ts":"2026-08-11T19:15:14.846Z","kind":"preflight","action":"casual-core-interface","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T19:28:16.289Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-11T19:28:44.934Z","kind":"preflight","action":"casual-core-interface","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T19:41:09.509Z","kind":"preflight","action":"casual-core-interface","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-11T19:48:37.420Z","kind":"preflight","action":"casual-core-interface","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-16T08:23:14.924Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T08:23:37.398Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T09:08:07.404Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-16T09:52:22.828Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T09:57:52.906Z","kind":"approve","reason":"Continue!","by":"human"}
+{"ts":"2026-08-17T16:38:58.679Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-17T16:53:41.649Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-17T16:53:41.785Z","kind":"preflight","action":"casual-core-interface","result":"refused","reason":"casual-core-interface is not the next allowed action (mobile-planning-demo). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-18T06:34:07.719Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T06:42:56.934Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T07:07:15.504Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T10:51:14.627Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T11:07:16.718Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T11:41:47.025Z","kind":"preflight","action":"mobile-planning-demo","result":"allowed","phase":"IMPLEMENT","status":"APPROVED"}
+{"ts":"2026-08-18T12:07:09.535Z","kind":"next_selected","from":"mobile-planning-demo","to":"icm-people-app","by":"human","reason":"leave sitting; people-app informed by failed stranger-send"}
+{"ts":"2026-08-18T12:13:01.129Z","kind":"preflight","action":"icm-people-app","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-18T12:33:20.239Z","kind":"approve","reason":"Good enough!","by":"human"}
+{"ts":"2026-08-18T12:35:15.713Z","kind":"approve","reason":"people-app factory is the Next; sitting is lab","by":"human"}
+{"ts":"2026-08-18T12:37:34.381Z","kind":"preflight","action":"icm-people-app","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-18T12:59:41.179Z","kind":"preflight","action":"icm-people-app","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-18T16:57:04.713Z","kind":"next_selected","from":"icm-people-app","to":"people-app-validation","by":"human","reason":""}
+{"ts":"2026-08-18T16:57:17.719Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-18T16:57:49.725Z","kind":"preflight","action":"people-app-validation","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-18T17:02:49.198Z","kind":"reject","reason":"We need to create an actual phone seat though; otherwise, this won't work with mate/","by":"human","phase":"SELECT"}
+{"ts":"2026-08-18T17:03:36.624Z","kind":"preflight","action":"people-app-validation","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-18T17:03:36.758Z","kind":"preflight","action":"icm-people-app","result":"refused","reason":"icm-people-app is not the next allowed action (people-app-validation). Phase=SELECT Status=REJECTED.","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-18T17:09:40.658Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-18T17:09:43.756Z","kind":"next_selected","from":"people-app-validation","to":"people-app-phone-seat","by":"human","reason":"phone seat so mate/ can be sat"}
+{"ts":"2026-08-18T17:14:02.788Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"ACTIVE"}
+{"ts":"2026-08-18T17:16:01.847Z","kind":"approve","reason":"phone seat is APK chrome so mate/ can be sat; pocket-face stays sibling not a second Next","by":"human"}
+{"ts":"2026-08-18T17:19:23.603Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-19T08:18:01.719Z","kind":"reject","reason":"I follow the laws myself too much; we need actual human operator approvement","by":"human","phase":"SELECT"}
+{"ts":"2026-08-19T08:34:12.634Z","kind":"reject","reason":"Refinement/reeval due","by":"human","phase":"SELECT"}
+{"ts":"2026-08-19T09:06:05.159Z","kind":"reject","reason":"I feel like we could still standardise this as an application? Like, we need something else... I need to pick from a llist. I am still getting impatient from the last turns completed: definition is gonna have to be something that rewards my actual hard work since late July in everything I've asked this repository to do. We should even deep research this using some sort of actual deep research skill for grok TUI to be able to draw some sort of explicit conclusion of my wants. Go!","by":"human","phase":"SELECT"}
+{"ts":"2026-08-19T10:03:49.332Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-19T10:29:23.850Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-19T14:26:52.320Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-19T14:44:43.821Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-19T15:33:15.584Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T08:28:50.037Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T08:39:52.310Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T08:47:04.769Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T09:14:45.794Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T09:14:52.792Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T09:18:18.300Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T09:37:17.281Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T11:07:33.208Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T11:33:51.461Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T11:33:52.955Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T12:18:18.060Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T12:47:15.240Z","kind":"preflight","action":"people-app-phone-seat","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T12:53:11.067Z","kind":"approve","reason":"Let us hand over authority to CURRENT.md so that this overfitting implementation phase does not drift into my opinionated tasks, here!","by":"human"}
+{"ts":"2026-08-20T12:53:51.045Z","kind":"preflight","action":"people-app-phone-seat","result":"refused","reason":"people-app-phone-seat is not the next allowed action (mechanicall-debug-window). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T12:53:51.182Z","kind":"preflight","action":"mechanicall-debug-window","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T13:10:22.664Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T13:11:49.913Z","kind":"reject","reason":"Philosophical reflection: ICM (arXiv:2603.16021) says the folder tree is the agent architecture. Today the operator used that architecture as a human: reject, re-SELECT, one action-id, “hand over authority to CURRENT.md so overfitting does not drift.” That is Mechanicall OS working as awareness + gate, not as a chat that keeps painting. The people-app tension in the paper’s terms is factory vs product: dev/25 configured a copyable walk (bind → plan → propose → gate → do → receipt) for a person with a folder. The phone stages (27–35) then spent days projecting operator chrome onto a demo pocket. The kid test is the same as Jake’s “workspace is the app”: if the child’s folder is not bound, later stages are empty theatre. Observability (screenshots, uidumps, events) made the hole visible: GATE IDLE, timeout, name-the-outcome. A long conclusion exists so that this comment is inspectable tomorrow the way a receipt is — not so that the kid has to read it.  Next-stage proposals (folders only if you say proceed; none created):  • 02_request-space/ — Purpose: name the missing slot in one page. Inputs: this comment, people-app 01_bind + 03_propose, pocket CURRENT, live CURRENT Limits (“phone bind ≠ this repo”). Outputs: REQUEST-SPACE.md (what a kid’s ask becomes on disk; where it lives; what it is not). Not a second live Next while mechanicall-debug-window is APPROVED. • 03_one-kid-folder/ — Purpose: a throwaway bound folder for one child (outside mechanicall-os, not the demo pocket). Inputs: ~/people-app-stranger-sit lessons, bind.py refuse list. Outputs: BIND.md, a one-line CURRENT they can hear read aloud. Human must apply any operator CURRENT change. • 04_desk-hop-prove/ — Purpose: the live Next’s first clause (anyone boots myarch; one Send returns a short say). Inputs: CURRENT.md action 1, scripts/desk-through-a33.sh, VERIFY timeout. Outputs: RECEIPT with a real GATE WARM → QUIET and a say bubble. This is the only proposal that is already the declared Next.","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T13:14:45.239Z","kind":"preflight","action":"mechanicall-debug-window","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T13:34:55.604Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T13:38:42.998Z","kind":"preflight","action":"mechanicall-debug-window","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T14:22:39.128Z","kind":"preflight","action":"mechanicall-debug-window","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T14:58:50.946Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T15:20:02.904Z","kind":"preflight","action":"mechanicall-debug-window","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-20T15:43:25.365Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T15:46:43.898Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T15:46:56.490Z","kind":"next_selected","from":"mechanicall-debug-window","to":"ACTUAL-APP-VERIFICATION","by":"human","reason":""}
+{"ts":"2026-08-20T15:47:01.886Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T15:48:16.336Z","kind":"preflight","action":"ACTUAL-APP-VERIFICATION","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T16:11:06.772Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T16:12:29.623Z","kind":"preflight","action":"ACTUAL-APP-VERIFICATION","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T18:57:36.115Z","kind":"preflight","action":"sit-join-workshop","result":"refused","reason":"sit-join-workshop is not the next allowed action (ACTUAL-APP-VERIFICATION). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T18:58:47.320Z","kind":"approve","reason":"one sit: stranger join (userspace) + wake + document workshop under hunk ICM","by":"human"}
+{"ts":"2026-08-20T18:58:47.435Z","kind":"preflight","action":"sit-join-workshop","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T19:04:05.417Z","kind":"preflight","action":"sit-join-workshop","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T20:33:14.276Z","kind":"preflight","action":"sit-join-workshop","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T21:41:18.054Z","kind":"next_selected","from":"sit-join-workshop","to":"sit-vst-headscale","by":"human","reason":"VST frame + Headscale + LOAD/STREAM GATE + twin + STORM iterate"}
+{"ts":"2026-08-20T21:41:21.504Z","kind":"approve","reason":"one Next: genuine VST rack, Headscale preauth, two-phase GATE, read-twin~","by":"human"}
+{"ts":"2026-08-20T21:52:22.523Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T21:55:40.396Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"SELECT","status":"DRAFT"}
+{"ts":"2026-08-20T21:57:00.956Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T21:57:37.271Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T22:03:29.678Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-20T22:04:53.845Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-08-20T22:06:13.289Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-21T07:45:46.013Z","kind":"preflight","action":"sit-vst-headscale","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-08-21T17:08:29.779Z","kind":"approve","reason":"original sit central; STORM factory persisted; EdubaWare cut","by":"human"}
+{"ts":"2026-08-21T17:09:25.747Z","kind":"reject","reason":"Final consideration needed: how are the headscaled folder uploads/downloads handled?","by":"human","phase":"SELECT"}
+{"ts":"2026-08-21T17:25:37.118Z","kind":"approve","reason":"inbox send is depreciated local offer; Headscale is mesh; FILES is the device manager","by":"human"}
+{"ts":"2026-08-21T17:26:27.885Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-21T17:52:06.962Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-21T18:09:06.991Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-21T18:30:54.971Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-21T18:31:34.676Z","kind":"preflight","action":"sit-leftover-one","result":"refused","reason":"sit-leftover-one is not the next allowed action (sit-storm-factory). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-21T18:31:34.809Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-21T18:44:45.512Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T05:04:58.316Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T05:29:01.706Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-23T06:40:38.415Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T06:50:56.269Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T07:32:34.272Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T08:13:29.327Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T08:50:58.210Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T09:08:38.049Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T09:19:25.166Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T09:21:05.032Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T09:57:54.236Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T10:01:05.713Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T11:03:47.419Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T11:19:23.564Z","kind":"preflight","action":"sit-storm-factory","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T11:32:12.608Z","kind":"approve","reason":"first-sit template, off-LAN then Play internal","by":"human"}
+{"ts":"2026-08-23T11:32:59.068Z","kind":"preflight","action":"sit-storm-factory","result":"refused","reason":"sit-storm-factory is not the next allowed action (sit-testers). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-23T11:32:59.219Z","kind":"preflight","action":"sit-testers","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T14:29:01.504Z","kind":"preflight","action":"sit-testers","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T14:52:35.845Z","kind":"approve","reason":"closed-tester distro gate: contain zip, stock-phone Publish, API 36, then Play internal","by":"human"}
+{"ts":"2026-08-24T14:56:12.614Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T15:45:39.565Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T16:28:53.824Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T16:51:36.169Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T16:55:32.983Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-24T17:20:51.166Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T11:52:13.973Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-25T11:52:36.192Z","kind":"approve","reason":"...real reason...","by":"human"}
+{"ts":"2026-08-25T11:53:42.170Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T12:15:30.236Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"EXECUTE","status":"BLOCKED-PENDING-HUMAN"}
+{"ts":"2026-08-25T12:22:56.194Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"EXECUTE","status":"BLOCKED-PENDING-HUMAN"}
+{"ts":"2026-08-25T12:25:16.293Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"EXECUTE","status":"BLOCKED-PENDING-HUMAN"}
+{"ts":"2026-08-25T12:36:52.810Z","kind":"approve","reason":"sit-conjure-desk: S3 / wol-pi doorbell / sitter WAKE","by":"human"}
+{"ts":"2026-08-25T12:37:08.241Z","kind":"preflight","action":"sit-conjure-desk","result":"refused","reason":"sit-conjure-desk is not the next allowed action (sit-distro-gate). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T12:37:08.393Z","kind":"preflight","action":"sit-distro-gate","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T12:41:43.692Z","kind":"next_selected","from":"sit-distro-gate","to":"sit-conjure-desk","by":"human","reason":""}
+{"ts":"2026-08-25T12:43:19.642Z","kind":"approve","reason":"Trying to get to the next stage: it's all just floating through my brain the information kind of (concurrent errors found on device application - cannot get past the initial bind page dialogue!)","by":"human"}
+{"ts":"2026-08-25T12:44:02.240Z","kind":"preflight","action":"sit-conjure-desk","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T12:44:02.395Z","kind":"preflight","action":"sit-distro-gate","result":"refused","reason":"sit-distro-gate is not the next allowed action (sit-conjure-desk). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T18:18:45.463Z","kind":"next_selected","from":"sit-conjure-desk","to":"sit-mvp-rack","by":"human","reason":"Cleaner naming - we have turned a new direction in the first official deployment of Mechanicall (first one nobody uses yet)."}
+{"ts":"2026-08-25T18:19:30.270Z","kind":"approve","reason":"I finally got verified Play Store dev account so we can make the first distribution now!","by":"human"}
+{"ts":"2026-08-25T18:21:17.437Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T18:27:25.129Z","kind":"approve","reason":"Didn't really read sh*t to be honest - let's wrap this up like a condom","by":"human"}
+{"ts":"2026-08-25T18:28:36.640Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T18:46:11.618Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T18:59:55.448Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T19:15:19.846Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T19:24:25.576Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T19:36:12.843Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T20:04:31.141Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-25T20:35:06.339Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-25T20:35:48.298Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-08-25T20:49:42.433Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-08-25T20:55:57.690Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-08-26T19:05:28.982Z","kind":"preflight","action":"sit-mvp-rack","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-08-26T19:05:29.107Z","kind":"preflight","action":"discuss-sit-ui","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-08-28T13:47:56.357Z","kind":"next_selected","from":"","to":"pr-rubric-as-check","by":"human","reason":"I think I could do with more scripts - helps define the ICM further as the 'project recovery service' tool"}
+{"ts":"2026-08-28T13:48:46.349Z","kind":"approve","reason":"This codebase reviewer session should be focused enoguh to carry out these proposed nexts it suggested","by":"human"}
+{"ts":"2026-08-28T13:51:42.983Z","kind":"approve","reason":"This codebase reviewer session should be focused enough to carry out these proposed nexts it suggested - the changes seem like it would make the next best PR before redrafting the APK again","by":"human"}
+{"ts":"2026-08-28T13:53:17.260Z","kind":"preflight","action":"pr-rubric-as-check","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-28T14:51:02.458Z","kind":"next_selected","from":"pr-rubric-as-check","to":"take-forward","by":"human","reason":""}
+{"ts":"2026-08-28T14:51:06.152Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-28T14:53:00.790Z","kind":"preflight","action":"take-forward","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-28T14:54:34.463Z","kind":"preflight","action":"take-forward","result":"allowed","phase":"EXECUTE","status":"APPROVED"}
+{"ts":"2026-08-28T14:55:32.233Z","kind":"next_selected","from":"take-forward","to":"leftover-compose-delete","by":"human","reason":""}
+{"ts":"2026-08-28T14:59:03.308Z","kind":"approve","reason":"Just want to get a clean slate to focus on a new implementation of the pocketAPK","by":"human"}
+{"ts":"2026-08-28T14:59:49.425Z","kind":"preflight","action":"leftover-compose-delete","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-28T15:01:36.582Z","kind":"next_selected","from":"leftover-compose-delete","to":"aether-mcp-projection","by":"human","reason":"Aether integration more solid"}
+{"ts":"2026-08-28T15:05:03.745Z","kind":"approve","reason":"Turn finished","by":"human"}
+{"ts":"2026-08-28T15:06:32.003Z","kind":"preflight","action":"aether-mcp-projection","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-31T17:59:12.461Z","kind":"reject","reason":"Just did a speech teasing the 'mechanicall-pocket' APK. Before playstore listing, 1. The UI should be fully executed finished, 2. Headscale should be up 'n' operable, 3. the UI should be fully executed 4. idkr","by":"human","phase":"SELECT"}
+{"ts":"2026-08-31T18:33:26.439Z","kind":"approve","reason":"speech ≠ listing; park MCP; UI other pocket; Headscale following; idkr unnamed","by":"human"}
+{"ts":"2026-08-31T18:34:57.264Z","kind":"preflight","action":"listing-bar-pin","result":"refused","reason":"listing-bar-pin is not the next allowed action (aether-mcp-projection). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-31T18:34:57.421Z","kind":"preflight","action":"aether-mcp-projection","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-31T18:43:39.986Z","kind":"next_selected","from":"aether-mcp-projection","to":"listing-bar-pin","by":"human","reason":""}
+{"ts":"2026-08-31T18:43:50.634Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-31T18:44:04.604Z","kind":"preflight","action":"listing-bar-pin","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-31T18:44:04.758Z","kind":"preflight","action":"aether-mcp-projection","result":"refused","reason":"aether-mcp-projection is not the next allowed action (listing-bar-pin). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-08-31T18:45:22.281Z","kind":"preflight","action":"listing-bar-pin","result":"allowed","phase":"EXECUTE","status":"APPROVED"}
+{"ts":"2026-09-03T11:02:02.244Z","kind":"preflight","action":"listing-bar-pin","result":"allowed","phase":"EXECUTE","status":"APPROVED"}
+{"ts":"2026-09-03T11:36:56.178Z","kind":"approve","reason":"Ignore the service frameworks introduced by '15-RAW-_SS-CLOSING-APK-THREAD.md' - don't agree with that, moving from now (since here)","by":"human"}
+{"ts":"2026-09-03T11:55:44.644Z","kind":"approve","reason":"We should also look at the 'external CURRENT.md' in making it an actual protocol convention that 'doesn't let that caveat weaken the philosophy, but identify the work still required to emboy it fully' (if that statement really does apply..) - also interested in, after post-APK-listing and MOS-git-tree-polish, to reflect on what 'a model' can do based on its capabilities in terms of running this repo ('models are already smart' - yeah, taht's what the repo is leveraging, but what models?).","by":"human"}
+{"ts":"2026-09-03T11:57:24.536Z","kind":"approve","reason":"We can revisit the 'service framework' later when clientelle gets super-diverse, like.","by":"human"}
+{"ts":"2026-09-03T14:43:02.758Z","kind":"approve","reason":"Last addition: an extra item on 'PROPOSED_CURRENT.md' should be added on a multi-language setting - matter of fact, that module can be the start of the settings tab!","by":"human"}
+{"ts":"2026-09-03T14:43:55.378Z","kind":"approve","reason":"Matter of fact, that last addition should be a parked item. Nevertheless, good luck developing!","by":"human"}
+{"ts":"2026-09-03T14:44:13.485Z","kind":"preflight","action":"appppprove","result":"refused","reason":"appppprove is not the next allowed action (listing-bar-pin). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-03T14:44:19.110Z","kind":"preflight","action":"approve","result":"refused","reason":"approve is prohibited while phase is APPROVE. Next allowed action is listing-bar-pin.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-03T16:13:49.145Z","kind":"preflight","action":"listing-bar-pin","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-03T16:13:49.320Z","kind":"preflight","action":"ss-closing-apk","result":"refused","reason":"ss-closing-apk is not the next allowed action (listing-bar-pin). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-03T16:13:49.492Z","kind":"preflight","action":"refine-sit-taste","result":"refused","reason":"refine-sit-taste is not the next allowed action (listing-bar-pin). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-03T16:31:24.096Z","kind":"next_selected","from":"listing-bar-pin","to":"ss-closing-apk","by":"human","reason":""}
+{"ts":"2026-09-03T16:31:24.248Z","kind":"approve","reason":"handoff ss-closing-apk; UI taste on wired 0.19.0-sit-rack; Play/web following not live","by":"human"}
+{"ts":"2026-09-03T16:55:39.879Z","kind":"preflight","action":"ss-closing-apk","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T10:07:19.637Z","kind":"reject","reason":"Just not confident that the pocket is going to fix the app the way I want it to. I have a few ideas I wanted to have executed but the preview-on-sdk doesn't feel like enough! How do I describe the behaviours I want the app to do without losing the bigger picture (MVP?).","by":"human","phase":"SELECT"}
+{"ts":"2026-09-04T10:36:34.957Z","kind":"reject","reason":"I literally just want the terminal to be clickable which shows it in an isolated preview (no overlay) of a maximised, dark panel, and want to make the send folder icon clickable to show an overlain panel of that module, I want the draft panel to reflect the changes suggested in \"15_...\" plus it should open its own isolated page, too, I want to smoke-test \"Send folder,\" I want to change receipt. Basically, propose a CURRENT.md for that sprint so we can get to action!","by":"human","phase":"SELECT"}
+{"ts":"2026-09-04T11:02:21.000Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-04T11:03:10.899Z","kind":"preflight","action":"sit-module-panels","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T11:15:56.071Z","kind":"preflight","action":"sit-module-panels","result":"allowed","phase":"EXECUTE","status":"APPROVED"}
+{"ts":"2026-09-04T11:28:24.338Z","kind":"next_selected","from":"sit-module-panels","to":"sit-glass-polish","by":"human","reason":""}
+{"ts":"2026-09-04T11:28:24.490Z","kind":"approve","reason":"polish millwork + isolated CRT/Send/Draft/Receipt plates; walk stays; not Play","by":"human"}
+{"ts":"2026-09-04T11:32:49.066Z","kind":"preflight","action":"sit-module-panels","result":"refused","reason":"sit-module-panels is not the next allowed action (sit-glass-polish). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T11:33:22.459Z","kind":"preflight","action":"sit-glass-polish","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T12:04:02.067Z","kind":"preflight","action":"sit-glass-polish","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T12:39:49.257Z","kind":"preflight","action":"sit-glass-polish","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-04T12:57:19.892Z","kind":"reject","reason":"Looks shittier than the freeze rack. Isolated CRT/Draft/Send dests recant. Start from zero. Draft a new CURRENT.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T07:15:38.872Z","kind":"approve","reason":"CURRENT.md is product! Nothing beats a single file of authority I can come back to after exhausting a failed sprint...","by":"human"}
+{"ts":"2026-09-05T10:24:19.653Z","kind":"approve","reason":"Big barrelled plan inquiry just filed....","by":"human"}
+{"ts":"2026-09-05T12:53:26.112Z","kind":"reject","reason":"I want to preview the dest / all visual millwork changes first. Maybe do that first!","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T12:54:27.498Z","kind":"reject","reason":"--help","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T12:55:07.152Z","kind":"reject","reason":"Copied proposal as CURRENT.md with a rejection request. Preview dest / all visual millwork first.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T13:00:50.866Z","kind":"reject","reason":"Just realised that there are more hits - dest are in multiple of the pages. I need grilling on the rest of the chassis modules, really, cos it don't look good. This will be part of the first Next.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T14:05:22.102Z","kind":"preflight","action":"sit-dest-preview","result":"allowed","phase":"SELECT","status":"PENDING"}
+{"ts":"2026-09-05T14:34:48.422Z","kind":"preflight","action":"sit-dest-preview","result":"allowed","phase":"SELECT","status":"PENDING"}
+{"ts":"2026-09-05T14:41:42.728Z","kind":"approve","reason":"Copy the right proposal to CURRENT.md and I'm approving now","by":"human"}
+{"ts":"2026-09-05T14:44:22.501Z","kind":"preflight","action":"sit-dest-preview","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-05T15:04:09.343Z","kind":"reject","reason":"The next Next will be 'first-sit-patching' and will merge with what I discussed with as the next action in the Grok session that executed this next","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T15:10:53.189Z","kind":"reject","reason":"sit-bound-draft is what I want to merge with to 'first-sit-patching but I think I want a new name all together","by":"human","phase":"SELECT"}
+{"ts":"2026-09-05T15:11:49.737Z","kind":"preflight","action":"sit-dest-preview","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-09-05T16:16:55.437Z","kind":"approve","reason":"score the visual coherency of the product","by":"human"}
+{"ts":"2026-09-05T16:16:55.579Z","kind":"preflight","action":"first-sit-look","result":"allowed","phase":"APPROVE","status":"APPROVED"}

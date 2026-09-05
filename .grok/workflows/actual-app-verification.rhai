@@ -59,8 +59,8 @@ for id in ids {
     let p = "";
     p += "Read-only app reviewer. Never edit files. Never aether approve. Never tap Confirm. ";
     p += "Read dev/36_actual-app-verification/01_contract/output/BEHAVIOURS.md. ";
-    p += "Score ONLY this id by reading the named source (SeatNav.kt, PlanModule.kt, ChatHome.kt, ";
-    p += "DecideModule.kt, aether_pocket.py, AndroidManifest.xml as needed): ";
+    p += "Score ONLY this id by reading the named source (SitRackView.kt, MainActivity.kt, ";
+    p += "aether_pocket.py, AndroidManifest.xml as needed). Do not read SeatNav.kt — it is deleted: ";
     p += id;
     p += " Verdict PASS or FAIL with a file quote. Empty verdict is invalid.";
     jobs.push(#{

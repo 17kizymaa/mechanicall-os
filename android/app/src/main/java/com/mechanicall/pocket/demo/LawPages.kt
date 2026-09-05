@@ -3,16 +3,15 @@ package com.mechanicall.pocket.demo
 data class LawPage(val id: String, val title: String, val body: String)
 
 object LawPages {
-    val order = listOf("objective", "next", "keep", "reject", "limits", "receipt")
+    val order = listOf("objective", "next", "keep", "reject", "limits")
 
-    fun of(plan: String, receipt: String): List<LawPage> {
+    fun of(plan: String, @Suppress("UNUSED_PARAMETER") receipt: String): List<LawPage> {
         return listOf(
             LawPage("objective", "OBJECTIVE", field(plan, "Objective").ifBlank { section(plan, "Product") }),
             LawPage("next", "NEXT", field(plan, "Next")),
             LawPage("keep", "KEEP", section(plan, "Keep")),
             LawPage("reject", "REJECT", section(plan, "Reject")),
             LawPage("limits", "LIMITS", section(plan, "Limits")),
-            LawPage("receipt", "RECEIPT", receipt.trim().ifBlank { "(empty receipt)" }),
         )
     }
 

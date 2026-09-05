@@ -38,7 +38,7 @@ Write the printed markdown to the current stage `output/VERIFICATION.md` (or ref
 
 ## Judgment layer (optional, parallel)
 
-If the user asked for a swarm, spawn **read-only** explore agents, one per failed (or all ten) behaviour ids. Each must read the named Kotlin/Python files and quote evidence. Synthesize; do not let a swarm PASS a mechanical FAIL.
+If the user asked for a swarm, spawn **read-only** explore agents, one per failed (or all) behaviour ids. Each must read `SitRackView.kt` / `MainActivity.kt` / `aether_pocket.py` and quote evidence. Do not read deleted Compose (`SeatNav.kt`). Synthesize; do not let a swarm PASS a mechanical FAIL. Look score is `python/look_verify.py`, not this skill.
 
 ## Not this skill
 
