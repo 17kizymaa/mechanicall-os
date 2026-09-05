@@ -798,6 +798,8 @@ if command -v python3 >/dev/null 2>&1; then
   pass "pocket unit tests"
   python3 "$ROOT/tests/test_app_verify.py" || fail "app_verify unit tests"
   pass "app_verify unit tests"
+  python3 "$ROOT/tests/test_look_verify.py" || fail "look_verify unit tests"
+  pass "look_verify unit tests"
   python3 "$ROOT/tests/test_aether_client.py" || fail "aether client unit tests"
   pass "aether client unit tests"
   python3 "$ROOT/tests/test_aether_pocket_serve.py" || fail "pocket serve tests"

@@ -16,6 +16,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
+import java.io.File
 import java.util.concurrent.Executors
 
 class MainActivity : ComponentActivity(), SitRackView.Host {
@@ -247,15 +248,27 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 "All files access. Allow, then bind."
             rack.plate == SitPlate.BIND ->
                 if (face.bound) "Tap the folder to rebind." else "Name a folder. One project."
-            rack.plate == SitPlate.PLAN -> "Tap a key. Glass holds law."
-            rack.plate == SitPlate.DRAFT -> "Tap a field. Type on glass."
+            rack.plate == SitPlate.PLAN -> "tap glass to read"
+            rack.plate == SitPlate.DRAFT -> "tap a field"
             rack.plate == SitPlate.DECIDE && decideArmed -> "Publish? tap plaque again."
             rack.plate == SitPlate.DECIDE -> "Why on glass. Two-tap plaque."
-            rack.plate == SitPlate.RECEIPT -> face.receipt.ifBlank { "(empty receipt)" }.take(48)
+            rack.plate == SitPlate.RECEIPT -> SitRackView.clipPreview(face.receipt.ifBlank { "(empty receipt)" }, 48)
             else -> "MECHANICALL"
         }
         if (rack.isolated == IsolatedMode.NONE && !rack.zoomed) {
-            rack.idleLine = "${rack.plate.name}  $phase\nNext: ${face.next.ifBlank { "(none)" }}\n$instruction"
+            val page = rack.pages.getOrNull(rack.pageIndex)
+            val peek = SitRackView.clipPreview(
+                page?.body?.ifBlank { face.next }.orEmpty().ifBlank { face.next },
+            )
+            val caption = page?.title?.ifBlank { "NEXT" } ?: "NEXT"
+            rack.idleLine = when (rack.plate) {
+                SitPlate.BIND ->
+                    "${rack.plate.name}  $phase\n$instruction"
+                SitPlate.DECIDE, SitPlate.RECEIPT ->
+                    "${rack.plate.name}  $phase\n$instruction"
+                else ->
+                    "STATUS  $phase\n$caption\n$peek\n$instruction"
+            }
         }
         if (rack.sendOverlay) {
             rack.contentDescription = "SEND overlay ${rack.sendStatus}"
@@ -281,24 +294,25 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                     rack.plate == SitPlate.BIND -> startBind()
                     rack.plate == SitPlate.DECIDE ->
                         rack.editOnCrt("Why", why, "why")
+                    rack.plate == SitPlate.RECEIPT -> refreshLcd()
                     rack.isolated == IsolatedMode.DRAFT -> rack.dismissEdit()
-                    else -> {
-                        rack.zoomed = false
-                        rack.isolated = IsolatedMode.CRT
-                        rack.contentDescription = "LCD isolated LAW"
-                        refreshLcd()
-                    }
+                    rack.isolated == IsolatedMode.CRT -> refreshLcd()
+                    else -> openTerminal()
                 }
             }
             SitHit.LcdPrev -> {
-                rack.pageIndex = rack.pageIndex - 1
-                refreshLcd()
+                if (rack.isolated == IsolatedMode.CRT) {
+                    rack.pageIndex = rack.pageIndex - 1
+                    refreshLcd()
+                }
             }
-            SitHit.LcdNext, SitHit.Gate -> {
-                rack.zoomed = false
-                rack.isolated = IsolatedMode.CRT
-                rack.pageIndex = rack.pageIndex + 1
-                rack.contentDescription = "LCD isolated LAW"
+            SitHit.LcdNext -> {
+                if (rack.isolated == IsolatedMode.CRT) {
+                    rack.pageIndex = rack.pageIndex + 1
+                    refreshLcd()
+                }
+            }
+            SitHit.Gate -> {
                 refreshLcd()
             }
             SitHit.DismissZoom -> {
@@ -325,11 +339,11 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 goBank(SitPlate.RECEIPT)
             }
             SitHit.BindPaper -> startBind()
-            SitHit.FieldObjective -> openPage(0)
-            SitHit.FieldNext -> openPage(1)
-            SitHit.FieldKeep -> openPage(2)
-            SitHit.FieldReject -> openPage(3)
-            SitHit.FieldLimits -> openPage(4)
+            SitHit.FieldObjective -> peekPage(0)
+            SitHit.FieldNext -> peekPage(1)
+            SitHit.FieldKeep -> peekPage(2)
+            SitHit.FieldReject -> peekPage(3)
+            SitHit.FieldLimits -> peekPage(4)
             SitHit.FieldAlpha -> rack.editOnCrt("Objective", rack.draftFields["Objective"].orEmpty(), "Objective")
             SitHit.FieldBeta -> rack.editOnCrt("Next", rack.draftFields["Next"].orEmpty(), "Next")
             SitHit.FieldGamma -> rack.editOnCrt("Baseline", rack.draftFields["Baseline"].orEmpty(), "Baseline")
@@ -340,17 +354,30 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             SitHit.DecidePaper -> decideTap()
             SitHit.Files -> {
                 rack.dismissEdit()
-                openBoundInFileManager(this, pocket)
+                if (rack.sendOverlay) {
+                    openBoundInFileManager(this, pocket)
+                } else {
+                    openSendOverlay()
+                }
             }
             SitHit.None -> Unit
         }
     }
 
-    private fun openPage(i: Int) {
+    private fun peekPage(i: Int) {
         rack.pageIndex = i
         rack.zoomed = false
+        if (rack.isolated != IsolatedMode.CRT) {
+            rack.isolated = IsolatedMode.NONE
+        }
+        refreshLcd()
+    }
+
+    private fun openTerminal() {
+        rack.zoomed = false
         rack.isolated = IsolatedMode.CRT
-        rack.contentDescription = "LCD isolated LAW"
+        val id = rack.pages.getOrNull(rack.pageIndex)?.id ?: "law"
+        rack.contentDescription = "LCD isolated $id"
         refreshLcd()
     }
 
@@ -361,6 +388,7 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         rack.sendOverlay = true
         rack.sendStatus = "idle"
         rack.sendNote = if (p.isBlank()) "Name a folder first." else "Send folder module. Not Yes."
+        rack.folderList = folderNames(p)
         rack.contentDescription = "SEND overlay ${rack.sendStatus}"
         if (p.isBlank()) return
         io.execute {
@@ -385,6 +413,14 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 rack.contentDescription = "SEND overlay $status"
             }
         }
+    }
+
+    private fun folderNames(path: String): String {
+        if (path.isBlank()) return "(empty folder)"
+        val dir = File(path)
+        val names = dir.listFiles()?.map { it.name }?.sorted().orEmpty()
+        if (names.isEmpty()) return "(empty folder)"
+        return names.take(16).joinToString("\n")
     }
 
     private fun decideTap() {

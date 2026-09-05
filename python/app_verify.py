@@ -124,7 +124,7 @@ def score_source(uidump: str = "") -> list[dict]:
         )
     )
 
-    draft_editor = "EditText" in rack and "Field Objective" in rack
+    draft_editor = "EditText" in rack
     draft_writes = "writeSchemaDraft" in nav
     b3 = draft_editor and draft_writes
     out.append(
@@ -136,15 +136,14 @@ def score_source(uidump: str = "") -> list[dict]:
         )
     )
 
-    has_fields = "Field Objective" in rack and "Field Next" in rack
     still_thread = "LazyColumn" in rack
-    b4 = has_fields and draft_writes and not still_thread
+    b4 = "IsolatedMode.DRAFT" in nav and draft_writes and not still_thread
     out.append(
         _row(
             "B4-draft-is-workshop",
             b4,
-            "PASS if draft wells exist and the rack is not a message thread. "
-            f"fields={has_fields} writes={draft_writes} thread={still_thread}",
+            "PASS if Draft dest exists and the rack is not a message thread. "
+            f"draft_dest={'IsolatedMode.DRAFT' in nav} writes={draft_writes} thread={still_thread}",
         )
     )
 
@@ -191,19 +190,28 @@ def score_source(uidump: str = "") -> list[dict]:
     b10 = "is_operator_tree" in pocket and "test_operator_tree_refused" in tests
     out.append(_row("B10-bind-not-repo", b10, "operator-tree refuse in engine + tests"))
 
-    b11 = "IsolatedMode.CRT" in nav and "IsolatedDark" in rack and "LcdViewer" not in leftover
-    b11 = b11 and "isolatedGlass" in crects
-    out.append(_row("B11-crt-isolated", b11, "CRT tap sets IsolatedMode.CRT; dark dest; no LcdViewer host"))
+    b11 = "IsolatedMode.CRT" in nav and "isolatedCrt" in crects and "LcdViewer" not in leftover
+    b11 = b11 and ("clipPreview" in rack or "PREVIEW_CHARS" in rack)
+    b11 = b11 and "sit_crt" in rack
+    out.append(
+        _row(
+            "B11-crt-isolated",
+            b11,
+            "CRT dest is IsolatedMode.CRT + sit_crt millwork; truncated peek; no LcdViewer host",
+        )
+    )
 
     b12 = "sendOverlay" in rack and "openSendOverlay" in nav
     b12 = b12 and "SitHit.Send -> openSendOverlay" in nav
     b12 = b12 and "sendProject" not in nav
     b12 = b12 and "SitHit.Files" in nav
+    b12 = b12 and "openSendOverlay()" in nav
+    b12 = b12 and "folderOem" in crects
     out.append(
         _row(
             "B12-send-overlay",
             b12,
-            "Send opens overlay via offerStatus; not yes(); not sendProject; FILES stays other hit",
+            "Send and FILES open one dest; OEM FILES strip on dest; not yes(); not sendProject",
         )
     )
 

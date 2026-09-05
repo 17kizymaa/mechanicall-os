@@ -261,3 +261,13 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-09-04T11:28:24.348Z NEXT_SELECTED: sit-module-panels -> sit-glass-polish
 - 2026-09-04T11:28:24.501Z APPROVED: polish millwork + isolated CRT/Send/Draft/Receipt plates; walk stays; not Play
 - 2026-09-04T12:57:19.903Z REJECTED: Looks shittier than the freeze rack. Isolated CRT/Draft/Send dests recant. Start from zero. Draft a new CURRENT. (returned to SELECT; no automatic rebuild)
+- 2026-09-05T07:15:38.883Z APPROVED: CURRENT.md is product! Nothing beats a single file of authority I can come back to after exhausting a failed sprint...
+- 2026-09-05T10:24:19.664Z APPROVED: Big barrelled plan inquiry just filed....
+- 2026-09-05T12:53:26.122Z REJECTED: I want to preview the dest / all visual millwork changes first. Maybe do that first! (returned to SELECT; no automatic rebuild)
+- 2026-09-05T12:54:27.508Z REJECTED: --help (returned to SELECT; no automatic rebuild)
+- 2026-09-05T12:55:07.163Z REJECTED: Copied proposal as CURRENT.md with a rejection request. Preview dest / all visual millwork first. (returned to SELECT; no automatic rebuild)
+- 2026-09-05T13:00:50.876Z REJECTED: Just realised that there are more hits - dest are in multiple of the pages. I need grilling on the rest of the chassis modules, really, cos it don't look good. This will be part of the first Next. (returned to SELECT; no automatic rebuild)
+- 2026-09-05T14:41:42.739Z APPROVED: Copy the right proposal to CURRENT.md and I'm approving now
+- 2026-09-05T15:04:09.354Z REJECTED: The next Next will be 'first-sit-patching' and will merge with what I discussed with as the next action in the Grok session that executed this next (returned to SELECT; no automatic rebuild)
+- 2026-09-05T15:10:53.200Z REJECTED: sit-bound-draft is what I want to merge with to 'first-sit-patching but I think I want a new name all together (returned to SELECT; no automatic rebuild)
+- 2026-09-05T16:16:55.447Z APPROVED: score the visual coherency of the product

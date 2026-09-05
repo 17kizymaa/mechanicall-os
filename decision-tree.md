@@ -1,14 +1,713 @@
-# Decision tree — M-series (actual MVP) then W / R
+# Decision tree — C-series (CURRENT rewrite, 2026-09-05) then M / W / R
 
-**Live law now:** header **Next:** `sit-mvp-rack` · **APPROVED** (old distro amendment — body still `sit-distro-gate`). Agents do **not** silently rewrite CURRENT. Dual-Next Reject. Propose file is not apply.
+**Live law now:** header **Next:** `one-next-contract-and-archive-freeze` · **APPROVED** (2026-09-05T07:15Z human: “CURRENT.md is product!”). Body **This Next** still names `sit-module-panels`. Two-clock. Agents do **not** silently rewrite CURRENT. Dual-Next Reject. This grill persists here; it is not apply.
 
-**Skill:** `/grill-me-store-decisions` (one question at a time + persist) · in-repo grilling (frontier; facts from disk).  
-**Premise:** Operator: “I feel like I've actually overprogrammed the app — grill me on the actual MVP.”  
-**2026-08-25 dump (not yet law):** Plan = typeset CURRENT (no md glyphs / nested scroll / Changes); Draft = interactive Plan + schemas + TBC; models deferred; login/preauth baked in APK not Compose window; SOS plugin as production chrome; one network = folder upload/download; JOIN/WAKE overlaid “under construction”; produce UI the same way the original plugin UI was produced.
+**Skill:** `/grill-me` → grilling (frontier rounds) + persist (`grill-me-store-decisions`).  
+**Premise (this sitting):** Operator: grill the CURRENT.md rewrite. “I kind of want to do things I've mentioned before, IDK, I just really want to push it from the commitment workspace APK ‘… One Next’ to the phone control surface for a bound project folder. Let's go!”
 
 ---
 
-# M-series (open) — what is the actual MVP
+# C-series (open) — CURRENT rewrite: One Next store vs bound-folder sit
+
+**Interview started:** 2026-09-05  
+**Interview status:** **OPEN. Round 18 — park phosphor-as-bug (C28 recant as this-halt Need); park receipt printer as visual-upgrade proposal (C27 CRect isolation flawed). CRT dest this halt = composition ADD, keep glow + hued text. Live CURRENT still names quieter phosphor + printer as Need — propose parks them; models do not apply.**
+
+## Facts (looked up — not asked)
+
+- Live CURRENT Objective is Play **Mechanicall: One Next** (commitment workspace) + freeze sit as lab. Typos in the file (`Mechnaicall`, `berification`, `receipts_`). Limits still say “Do not rewrite live operator CURRENT from this handoff until human Go” **while the file is already live and APPROVED**.
+- Body Action still `sit-module-panels` (isolated CRT/Send/Draft) — the sitting human **rejected** 2026-09-04 (“shittier than the freeze rack”).
+- `aether current validate`: OK with warning (Phase/Status/Approval all APPROVED; prefer a new Next or EXECUTE).
+- Two toys on disk + on A33 `sessions/16_GROK-RESEARCHER/`: `CURRENT-sit-one-rack.md` vs `CURRENT-one-next-contract.md`.
+- PRODUCT: core = filesystem protocol; **phone sit is the lab face, not a second product**.
+- BRAKE (2026-08-18): one screen Plan / Draft / Yes / Not yet / Receipt. GET ≠ Yes. Their folder.
+- Listing-bar (2026-08-31): speech ≠ Play listing. Bar = UI executed + Headscale operable + unnamed idkr.
+- Maya (researcher copy): five friends next week; Next “sideload to Alex”; permissions stuck → propose drop all-files. That is the **opposite** of bind-a-folder.
+- A33 still lab USB via mbp-edge. USB ≠ LTE. APK on device was `0.19.3-glass-polish` after dest millwork; freeze rollback `0.19.0-sit-rack` named, not this grill.
+
+## Guiding principles (C)
+
+1. CURRENT is law. This grill does not `aether next` / rewrite CURRENT.
+2. One Next. Dual-Next Reject.
+3. Models never approve. Silence ≠ permission.
+4. **Operator vector this sitting (C1=1):** bound-folder sit is **this** Next. Recant store-first. One Next Play stranger shell is following, not live.
+5. Phone bind ≠ this operator tree. Chrome without law on the bound folder is decoration (LESSONS).
+6. Listing bar **holds this halt.** Play Store is a **following** Next (C2b gloss). When that Next comes, the listing identity is the millwork sit, not the One Next stranger shell.
+7. Isolated dests **three looks:** Draft = chassis millwork + GATE, no darkened room. Send overlay = **simplified-chassis / settings-page**, not terminal. CRT dest lighting = **C13c** (was darkened-room terminal; operator may recant). Not IsolatedDark debug. Not zoom-stretch whole chassis.
+8. **C3=1:** one Action id, one halt. Not a six-bullet dump. Not sit-polish-plus-Play as one Next.
+9. Minimize paid third parties. Play $25 is not a reason to ship a second product this Next. OpenRouter is **desk QC only** (C17c=1): **cost-capped $10/week**, not “rate-limited”; never in the APK; never a second Generate host on the phone; never commit `~/Desktop/.env`.
+10. Thread 15 (`dev/50_ss-closing-apk/01_ingest/output/15_RAW-_SS-CLOSING-APK-THREAD.md`): inference proposes, authority disposes; RAG is **not** a vector DB in core; authority must stay `cat` / `grep` / `git diff`.
+11. `write_schema_draft` today **replaces** PROPOSE. C18=1 requires merge: prose stays.
+
+## Master cost map (C)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| Protocol (`aether`+CURRENT in a folder) | $0 | $0 | $0 | already the repo |
+| Bound-folder sit (SitRackView + SAF bind) | sideload hours; millwork already paid | tester bind-stuck | same walk | USB/sideload $0 |
+| One Next Play stranger shell | new applicationId; 2–6 engineer-weeks | Play listing + support | store ops | not self-host; it *is* the store face |
+| Archive-freeze You Decide | 1 lab loop (walk+verify+tag) | $0 after tag | lab-only | already archived APKs |
+| Testers next week, unbuilt Play APK | bounce / no install | 50 angry | — | slip the date |
+| Headscale/mesh as store front door | engineer-weeks + keys | support | fleet | Reject (listing bar + LESSONS) |
+| Dual-Next (sit polish + Play One Next) | 2× weeks; law broken | tester confusion | two products | forbidden |
+| OpenRouter frontier QC (desk, **$10/w spend cap**) | ≤ $10/w if ledger holds | still lab; testers fail-closed | not this halt | local-only QC = $0, weaker fidelity |
+| Chroma / vector RAG in core | MODEL+RAG Domain | ops + index | SaaS memory | **Reject** (thread 15 / NOT-IMPLEMENTED) |
+| Folder-walk RAG (cat/grep bound files into prompt) | $0 | $0 | $0 | already `_folder_names` / `_schema_lines` |
+
+## Summary of decisions (C)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **C1** | What this CURRENT rewrite authorizes as the phone face | **1 — bound-folder sit this Next** | decided | recant store-first; Play One Next following |
+| **C2** | Testers ~next week: real invite, or speech? | **3 — Play internal this week** | decided, **conflicts C1+C3** | listing-bar recant or dual-Next |
+| **C3** | One finishable Action vs 6-bullet fat Next | **1 — one Action, one halt** | decided | forbids C1+C2 in one sitting |
+| **C2b** | Resolve C1=1 vs C2=3 vs C3=1 | **1 + gloss: millwork this Next; Play another Next** | decided | listing-bar holds; Play identity = sit |
+| **C4** | Millwork vs post-millwork modules | **3 + Draft isolate exception** | decided, **C4b/C4c open** | hits on chassis; Draft dest-like |
+| **C8** | Listing-bar this halt | **keep** (Play is following) | decided | $0 this Next |
+| **C5** | Testers this halt install | **sideload millwork sit** (implied) | decided unless override | USB ≠ LTE |
+| **C4b** | Which banks isolate | **1 — CRT dest + Draft dest** | decided | Send overlay recant **overridden by C12=2** |
+| **C4c** | Isolated Draft surface this halt | **override: B whole-file paper first**; A schema is generated | decided | alpha/beta/gamma still recanted |
+| **C9** | Bind how (SAF / all-files) | **1 — SAF + all-files, tree refused** | decided | Play policy is Play Next |
+| **C13** | Isolate *look* (CRT+Draft dests) | **split: Draft=chassis millwork; CRT=darkened room** | decided | Round 8 override |
+| **C4d** | Other Draft formulations vs this halt | **B this halt** (whole-file). A via C4e. C/D/F following | decided | E = GATE, discussed in C4e |
+| **C14** | Name listing-bar `idkr` | — | **open** | still unnamed; website parked ≠ named |
+| **C4e** | Prose → schema “CI chat loop” | **2 — Generate writes PROPOSE schema only** | decided | GET≠Yes; fail-closed if desk down |
+| **C-park** | Ambitions parked this halt | **1 — park P1–P5** | parked | following ids, not live |
+| **C4f** | Where Generate inference runs | **1 — GATE desk; prefer `personal-llm-sft-v4`** | decided | already default in `aether_pocket.py` |
+| **C4g** | Generate this halt: Need vs stub | **Need — have a Generate actually**; secrets/output **following** | decided | fail-closed if desk down still |
+| **C4h** | GATE millwork on isolated Draft dest | **1 — sit_gate on Draft millwork as on chassis** | decided | no darkened room on Draft dest |
+| **C6** | Action id for this rewrite | **`sit-bound-draft`** | decided | header must match body |
+| **C16** | CRT dest composition quality | **1 — composed typeset this halt** | decided | not debug dump |
+| **C12** | Send overlay dest | **2 — keep overlay**; settings/simplified-chassis | decided | not terminal; not Yes; not FILES |
+| **C13c** | CRT dest lighting | **1 — darkened-room terminal; composed `sit_crt`** | decided | Send=settings; Draft=chassis+GATE |
+| **C17** | Generate job: prompt vs retrain | **2 + extras: few-shot + RAG + OpenRouter QC** | decided; shape C17b/C17c | no retrain; paid QC if Need |
+| **C18** | Generate output shape | **1 + diffs** (prose stays; schema block; diffs) | decided; shape C18b | `write_schema_draft` must merge, not replace |
+| **C19** | Launcher logo transparency void | **filled opaque `#12100E`** | decided (pixel) | `ic_launcher` + `logo_mechanicall`; not CURRENT apply |
+| **C17b** | What RAG is this halt | **1 — folder-walk** | decided | chroma = other Domain |
+| **C17c** | OpenRouter vs C4f=1 desk sft-v4 | **1 — two-pass desk; cost-cap $10/w** | decided | key stays on Desktop; not in git |
+| **C18b** | What “diffs” are this halt | **1 — visual field-diff for now** | decided | unified-diff appendix following; hunk millwork following |
+| **C15** | B11/B13 rewrite | dest millwork, not IsolatedDark | **in propose** | recant 0.19.3 Need text |
+| **C20** | Remaining chassis dests this halt | **1 + Send dest absorbs FILES; Receipt printer dest; title dim; Decide millwork** | decided; shape C20b/C27/C28 | 13:00 + Round 16 |
+| **C21** | CRT dest one look vs per page | **1 for now**; per-plate following | decided | many doors, one tube |
+| **C22** | Chassis GATE vs Generate | **0 — rack GATE = ETA/loading visual only** | decided | not CRT dest; Draft dest GATE still Generate (C4h) |
+
+## Per-decision (C)
+
+### C1 — Product this rewrite authorizes
+
+**Question:** The live APPROVED Objective is a stranger Play APK (**Mechanicall: One Next**, quiet home, no bind, app-private store). You just said you want to *push it from that* to **the phone as control surface for a bound project folder**. Those are two products. Which one is *this* CURRENT rewrite?
+
+**Options:**
+1. **Bound-folder sit is this Next.** Recant store-first. Phone binds a project folder (not mechanicall-os). Plan/Draft/Decide/Receipt on that folder. One Next Play is following, not live.
+2. **Keep One Next store-first.** Sit is archived lab (“You Decide”). Bound folder is *not* the store face. (Matches today’s APPROVED header; contradicts what you just said.)
+3. **Sequence, one id at a time.** This Next = bound-folder sit look (halt). Following id = One Next Play scaffold. Not both in one Action list.
+4. **One Next *is* the bound folder** (SAF/all-files on the store APK). Contradicts live Reject (`MANAGE_EXTERNAL_STORAGE` on One Next store build) and Maya “drop all-files”.
+
+**Selected:** **1** (2026-09-05 Round 2 answer). Bound-folder sit is this Next. Recant store-first. One Next Play following.  
+**Recommendation:** was **1** or **3**; operator picked **1**.  
+**Cost tradeoff:** (1)/(3) $0 sideload, millwork already exists, testers need a folder not a store page. (2) 2–6 weeks new shell + Play Console; sit polish stops. (4) Play review risk (all-files) + $25 + likely reject. Dual of 1+2 in one Next = two engineer-weeks and a broken gate.  
+**Dependencies:** none (root). Unlocks C4 millwork, C7 (do not archive sit as dead), C9 bind how. Conflicts C2=3 until C2b.  
+**Status:** decided
+
+### C2 — Testers next week
+
+**Question:** Live CURRENT says testers ~next week and Maya “sideload to Alex”. Listing-bar says a speech is not a Play listing. Are those testers a **hard invite**, or a hope?
+
+**Options:**
+1. **Hard invite next week** — they must install *something* that already exists (or can exist in days): sideload sit, bound folder, BRAKE walk.
+2. **Hope / speech** — date slips. Listing bar still holds. Do not let the date write a second product.
+3. **Play internal this week** — new One Next APK. Not on disk. Contradicts listing-bar unless you recant that bar in this rewrite.
+
+**Selected:** **3** (2026-09-05 Round 2 answer). Play internal this week.  
+**Recommendation:** was **not 3**. Operator overrode. **Conflicts C1=1 and C3=1.** Resolution is C2b.  
+**Cost tradeoff:** (1) $0 USB/sideload; bind-stuck is the known failure (Maya already hit it — that is evidence to *keep* bind honest, not delete it). (2) $0, calendar honesty. (3) weeks of work compressed into days = bounce; Play $25 does not buy a kernel. If C2=3 meant *Play the sit* not *Play One Next*, cost is Console hours + all-files policy + listing-bar recant — still not a new applicationId.  
+**Dependencies:** none (calendar constraint). Coupled with C1 at C2b/C5/C8.  
+**Status:** decided, **blocked on C2b**
+
+### C3 — Shape of the rewrite (one halt vs fat list)
+
+**Question:** The live Action list is six workstreams (N-behaviours, archive sit, kernel tests, new shell, assembleDebug CI, STORM). A CURRENT Next is one sitting with a halt. Do you want the rewrite to **name one finishable Action**, or keep the dump?
+
+**Options:**
+1. **One Action id, one halt.** Example: `sit-bound-control` or `sit-one-rack` — bind a folder, walk, look, stop.
+2. **Keep the six-bullet researcher list** as one fat Next (today’s file).
+3. **Two sequential ids already named in Limits/Following** — this Next one sitting; the rest listed as following, not live.
+
+**Selected:** **1** (2026-09-05 Round 2 answer). One Action id, one halt.  
+**Recommendation:** matched.  
+**Cost tradeoff:** (1) 1 sitting, inspectable. (2) 4–8 engineer-weeks pretending to be one Next; testers get a dump. (3) $0 extra; human `aether next` later.  
+**Dependencies:** none (CURRENT hygiene). Unlocks C6 Action id after C4. Forbids packing C1 sit-polish and C2 Play-listing into one Next.  
+**Status:** decided
+
+### C2b — Collision: bound-folder sit (C1) vs Play this week (C2) vs one halt (C3)
+
+**Question:** You cannot have all three. C1=1 recants store-first. C2=3 is Play internal this week (option text was *new One Next APK*). C3=1 is one halt. Which two survive? Did C2=3 mean list **the sit**, or ship **the stranger shell**?
+
+**Options:**
+1. **C2 was “Play the millwork sit”** — closed testers of the bound-folder SitRackView. Recant listing-bar and `ship-sit-rack-as-store-v1` in the rewrite. One Next stranger shell stays following. Headscale/idkr not this halt.
+2. **C2 stands as One Next stranger APK this week** — recant C1. Sit archived. Dual with millwork revival.
+3. **Recant C2 → sideload testers this week** (old C2=1). Listing-bar holds. Play following. C1+C3 survive.
+4. **Recant C3** — fat Next: millwork sit *and* Play listing this week. Operator already forbade this (C3=1).
+
+**Selected:** **1 with timing gloss** (2026-09-05 Round 3). Operator numbered 1 then said “Millwork can be Next, so we can let Play Store be another next.” Recorded as: **this Next = millwork bound-folder sit**; **following Next = Play Store of that sit** (not One Next stranger shell). C2=3 “Play internal *this week*” recanted in time. Listing-bar holds this halt. `ship-sit-rack-as-store-v1` recanted as *eventual* listing identity, not this Action.  
+**Recommendation:** was **3**; operator picked **1** then overrode timing toward 3. Synthesis matches C1=1 + C3=1.  
+**Cost tradeoff:** (3) $0 USB/sideload, millwork already in `drawable-nodpi/`. (1-this-week) $25 already paid; Console hours; Data safety form; `MANAGE_EXTERNAL_STORAGE` is a store fight; testers still bind-stuck. (2) 2–6 weeks new shell + you recant the millwork you just asked to revive. (4) two products, C3 broken, testers get neither. **Selected path:** millwork hours this halt + Play Console on a **later** Next.  
+**Dependencies:** C1, C2, C3. Unlocks C5 sideload, C8 keep listing-bar this halt, C9 as lab bind (Play policy later).  
+**Status:** decided
+
+### C4 — Millwork vs modules added after millwork
+
+**Question:** Freeze millwork is the SitRackView chassis (`sit_chassis` / wells / lamps / CRT bezel, CRects). *After* that freeze, `sit-module-panels` added IsolatedMode dests: CRT maximised dark tube, Send overlay plate, Draft isolated workshop. You called that look shittier (2026-09-04 reject). You now want millwork revived **and** you “added like some new modules again after millwork was already established.” Those modules *are* the dests. How do they sit on the chassis this Next?
+
+**Options:**
+1. **Freeze rack only** (`0.19.0-sit-rack` / sit-one-rack). CRT types on STATUS glass. Draft well on the rack. Send lamp reports on the CRT. Recant IsolatedMode dests in source. Modules = hits, not pages.
+2. **Keep 0.19.3 dests** (isolated CRT / Send overlay / Draft page) and paint millwork onto them — the sitting you rejected.
+3. **Millwork chassis + clickable modules as CRect hits only.** CRT/Send/Draft/Receipt/FILES/JOIN/WAKE work *on the rack*. No IsolatedMode dest, no Send overlay dest. New millwork plates only if a hit has no bitmap (not a new host).
+4. **BRAKE one-screen**, millwork gone (Plan/Draft/Yes/Not yet/Receipt). Recants M1=6 / M7=1 plates.
+5. **Paint new module plates** (more nodpi) for dest-like surfaces *without* IsolatedMode — a new millwork pass, still one View.
+
+**Selected:** **3 with exception** (2026-09-05 Round 3). Millwork chassis + modules as CRect hits. **Override:** Draft is a dynamic isolated panel like the terminal hit; recant bogus ALPHA/BETA/GAMMA; drafting modes/features under-dev. That exception is C4b/C4c — not silently 0.19.3 dests.  
+**Recommendation:** was **3** without dests. Operator kept 3 and reopened isolate **for Draft** (and analogized CRT).  
+**Cost tradeoff:** (1)/(3) recant Kotlin dests; millwork PNGs already in tree (~13 MiB nodpi); 1 look sitting. (2) you already paid a reject. Exception (Draft isolate) re-spends the dest look you rejected unless C4b names a different isolate (panel in millwork vs black dest). (4) throw away millwork. (5) Imagine/paint hours + another freeze.  
+**Dependencies:** C1=1. Unlocks C4b (who isolates), C4c (what Draft shows), C6 Action id.  
+**Status:** decided (exception open)
+
+### C4b — Which modules isolate this Next
+
+**Question:** C4=3 is hits-on-chassis. You then said Draft isolates **like the terminal hit**. On 2026-09-04 you rejected isolated CRT *and* isolated Draft as shittier than the freeze rack. IsolatedMode in source is already `CRT` and `DRAFT` (dark dest, chassis off). Send overlay is a third dest. What isolates **this** halt?
+
+**Options:**
+1. **CRT isolate + Draft isolate.** Send/JOIN/WAKE/FILES/Decide stay hits. Recant Send overlay dest. Closest to 0.19.3 minus Send dest minus alpha/beta/gamma. Reopens the look you rejected unless isolate *keeps millwork* (not IsolatedDark).
+2. **Draft isolate only.** CRT types on STATUS glass (sit-one-rack). Terminal-hit is the *interaction metaphor* (tap → fill the work), not a second dark dest. Draft is the one dest.
+3. **No dests.** Recant the isolate exception. Draft dynamic panel is the well on the rack (C4=3 as written). Alpha/beta/gamma still recanted.
+4. **CRT isolate only** (B11). Draft stays a well on the rack, just without bogus keys.
+
+**Selected:** **1** (2026-09-05 Round 4). CRT dest + Draft dest. Send overlay dest recanted. Recants the 2026-09-04 “isolated dests shittier” reject **as Need**, unless C13 makes isolate a millwork frame instead of IsolatedDark.  
+**Recommendation:** was **2**. Operator overrode.  
+**Cost tradeoff:** (2) one dest; millwork as frame; CRT law on PLAN. (1) two dests; repeats 0.19.3 FLAG stills unless C13 ≠ IsolatedDark. (3) cheapest. (4) ignores Draft. Engineer time: (1) two IsolatedMode paths + look recapture.  
+**Dependencies:** C4=3+exception. Unlocks C13 (look), C4c (already 1), C12 Send recant.  
+**Status:** decided
+
+### C4c — Isolated Draft surface this halt (no alpha/beta/gamma)
+
+**Question:** ALPHA/BETA/GAMMA/TBC are CRect rows on the draft well mapped to Objective/Next/Baseline/Tbc — millwork labels, not a workshop. You recant those. Isolated Draft today is amber text “live vs proposed” plus those keys (`drawDraftWorkshop`). Thread 15: Draft allows fluency. B4: live vs proposed, desk proposes, PROPOSE only. sit-join-workshop (parked): Docs-shaped Suggesting on whole `PROPOSE-CURRENT.md`. “Modes and features under-dev” cannot all ship (C3=1). What is **on the isolated Draft panel this halt**?
+
+**Options:**
+1. **One workshop:** live vs proposed for the CURRENT fields (Objective/Next/Keep/Reject/Limits — Plan’s names, not Alpha/Beta/Gamma). Type into proposed. Fluency may fill proposed. Save = `PROPOSE-CURRENT.md`. A line on the glass: other modes TBC / following. Dismiss → rack.
+2. **Whole-file paper:** isolated panel is the PROPOSE file (scroll + edit). No field keys. Closest to join-workshop without JOIN/7B.
+3. **Mode switcher** for under-dev features (hunks, dictation, desk suggest, schemas) as chrome this halt. Fat. Museum.
+4. **Placeholder isolate:** panel opens, copy says under-dev, no editor. Dishonest empty.
+
+**Selected:** **1 then override to B** (2026-09-05 Round 5). Starting chrome is **whole-file `PROPOSE-CURRENT.md` paper**. Schema fields (A) are not the first chrome — audience is expected to want schema **generated from their prose**. ALPHA/BETA/GAMMA still recanted.  
+**Recommendation:** was **1**; operator recanted the starting surface to B. A becomes an *output* of C4e, not the empty-state UI.  
+**Cost tradeoff:** (1) reuse `liveFields`/`draftFields`/`writeSchemaDraft`; recant four CRects; 1 look. (2) whole-file editor — more weeks. (3) mode switcher — fat. (4) empty theatre.  
+**Dependencies:** C4b=1. Unlocks C4d (formulations), C6 after C13.  
+**Status:** decided
+
+### C9 — Bind how (this halt is sideload)
+
+**Question:** C1=1 requires a bound project folder. Today: SAF picker + `MANAGE_EXTERNAL_STORAGE`. Maya “permissions stuck” was used to argue drop all-files. Play policy fights all-files — but Play is **following**, not this halt. How does bind work **this** Next?
+
+**Options:**
+1. **Keep today’s bind:** SAF directory + all-files. Operator tree refused. Protocol lives as files the person can open in FILES (system manager).
+2. **SAF only, drop all-files.** Some writes/reads break on Android 11+; FILES may still work; honest if you halt on the breakage.
+3. **App-private store + export.** That’s One Next’s store shape. Recants C1=1 (not a bound project folder they can `cat` outside the app).
+
+**Selected:** **1** (2026-09-05 Round 4). SAF directory + all-files. Operator tree refused. FILES = system manager. Play policy is the Play Next.  
+**Recommendation:** matched.  
+**Cost tradeoff:** (1) $0, already shipped; tester bind-stuck remains the known failure (teach the picker, don’t delete bind). (2) engineer-days + scoped-storage dead ends. (3) recants filesystem-as-truth.  
+**Dependencies:** C1=1, C2b Play-following. Unlocks tester UAT.  
+**Status:** decided
+
+### C13 — Isolate look (CRT dest + Draft dest)
+
+**Question:** C4b=1 brings dests back. 2026-09-04 reject was the *look*: IsolatedDark, chassis gone, floating keys, amber debug type. Millwork revival (C4=3) dies if dests are that black tube again. How do CRT and Draft isolate **this** halt?
+
+**Options:**
+1. **Millwork-frame dest.** Isolated panel is a maximised *module plate* (`sit_crt` tube / `sit_well_draft` well), chassis may dim or crop but the plate is millwork, not IsolatedDark debug type. Dismiss returns to full rack. Same SitRackView host.
+2. **IsolatedDark dest** (current `IsolatedMode`). Chassis off. The look you called shittier. Cheap (already code).
+3. **Zoom-stretch chassis** (`zoomed`). Already Reject (overlay they recanted before dests).
+4. **Compose / LcdViewer dest.** Forbidden.
+
+**Selected:** **1–2 hybrid then Round 8 split.** Isolated modules, not full-rack overlay. **Draft dest:** chassis millwork (GATE as on chassis); **no darkened room**. **CRT dest:** darkened-room terminal aesthetic; quality composition (C16). Own millwork each. Not IsolatedDark debug. Not zoom-stretch whole chassis.  
+**Recommendation:** was **1**; operator wanted 1 *and* 2 as illusion vs architecture. Recorded as hybrid. Chassis-preview CRT roughness parked (C-park).  
+**Cost tradeoff:** millwork dest plates already exist (`sit_crt`, `sit_well_draft`); 0.19.3 failed because chassis was *gone* and type was debug. Hybrid = crop/maximise the *module* millwork on a dark field, phosphor honest. Engineer: 1 look sitting + lighting (dim surround), not a new host. Recant IsolatedDark fill.  
+**Dependencies:** C4b=1. Unlocks dest paint. C6 after C4e.  
+**Status:** decided
+
+### C4d — Other Draft formulations: this halt vs following
+
+**Question:** C4c=1 is the halt workshop (schema live vs proposed). On disk, other Draft formulations already exist as *parked* Nexts or engine hooks — not as this Action. C3=1 forbids shipping them all. Which extra formulation is **in** this halt, vs named following / TBC on the glass?
+
+Noted (facts, not new ideas):
+- **A** Schema live vs proposed (C4c=1) — already this halt.
+- **B** Whole-file `PROPOSE-CURRENT.md` paper (C4c option 2; join-workshop Docs/Suggesting).
+- **C** Hunk accept/reject — `FaceBridge` already has `list_hunks` / `apply_hunk` / `acceptHunk` / `rejectHunk`. Chrome is leftover chips, not millwork.
+- **D** Dictation into focused field (`sit-draft-dictation`; RECORD_AUDIO; not Yes).
+- **E** Desk fluency into proposed (GATE LOAD→STREAM; thread 15 “Draft allows model fluency”).
+- **F** Mode switcher chrome (museum).
+
+**Options:**
+1. **This halt = A only.** B–E named in Limits as following. Glass line: `modes TBC`. Not buttons.
+2. **This halt = A + E.** Fluency may fill proposed (desk already streams). Still no hunk UI, no dictation, no whole-file editor.
+3. **This halt = A + B.** Isolated Draft pages schema *and* whole file (two pages, one dest). Bigger sitting.
+4. **This halt = A + C.** Hunk IN/OUT on Draft (Decide stays Publish — B6). Needs millwork for hunks, not Compose chips.
+5. **Pull D or F into this halt.** Fat / Play-audio / museum.
+
+**Selected:** **B this halt** (2026-09-05 Round 5). Isolated Draft dest opens empty-or-typed `PROPOSE-CURRENT.md`. C/D/F following. E (fluency) folded into C4e. A (schema) is generated-from-prose, not first chrome.  
+**Recommendation:** was **1** or **2**; operator picked **B** as the begin state (C4d option 3’s B, not A+B shipped together).  
+**Cost tradeoff:** whole-file editor in SitRackView or overlay EditText — 1–2 weeks; still one View host. Hunks/dictation/mode-switcher stay following.  
+**Dependencies:** C4c override. Unlocks C4e.  
+**Status:** decided
+
+### C4e — Prose → schema “CI chat loop” (audience want)
+
+**Question:** Isolated Draft begins as empty PROPOSE paper (B). Operator: the audience will tap it and say they want to **generate the schema from their own prose in a CI chat loop**. GET ≠ Yes. Generate ≠ Decide. M1=6 deferred on-device model as TBC. GATE already LOAD→STREAM. Personal LLM = propose only. What is that loop, and is it **this** halt?
+
+**What “CI” might mean (facts, not picks):** GitHub Actions in this repo; conversational iteration; ICM numbered factory; desk 7B on GATE. Do not assume GitHub.
+
+**Options (when / where):**
+1. **This halt = paper only.** Type prose into PROPOSE. No generate. Glass: `schema-from-prose TBC`. Following Next owns the loop. Matches C3=1.
+2. **This halt = paper + Generate that writes PROPOSE schema only.** Human types prose, taps Generate (not Yes). Desk/GATE or a named local model fills Objective/Next/Keep/Reject/Limits **into the same PROPOSE file** (or a schema block). CURRENT bytes unchanged. Empty open does **not** generate.
+3. **This halt = chat thread on the dest** (composer+bubbles). Recants B4 “not a chat-app identity.” Forbidden unless you recant B4.
+4. **GitHub Actions / repo CI** as the loop. Phone is not that CI. Recants bound-folder-on-phone as the surface. Following (operator tree), not testers’ folders.
+5. **Auto-on-open / auto-on-empty-tap.** GET-as-generate. Recants GET≠Yes.
+
+**Selected:** **2** (2026-09-05 Round 6). Paper + Generate → PROPOSE schema only. Type first. Tap Generate (not Yes, not open). CURRENT unchanged. Empty tap does not fire. Fail-closed if desk down. Not a chat thread. Not GitHub CI this halt. Operator: dynamic not polished; personal-llm heuristics complicated but they can give a **short**.  
+**Recommendation:** matched **2**.  
+**Cost tradeoff:** GATE/Ollama already in lab (`_ollama_stream`, `write_gate`, `write_schema_draft`, `_refuse_public_ollama`). Wire STREAM → schema block in PROPOSE. Paper still works offline. Cloud $0 if local.  
+**Dependencies:** C4d=B, C3=1, B5, GET≠Yes. Unlocks C4f (host), C4g (Need vs stub).  
+**Status:** decided
+
+### C-park — Ambitions named, not this halt
+
+**Parked (operator: “feel free to park”):**
+
+| Park id | Thing | Honest later slot |
+|---------|--------|-------------------|
+| P1 | Chassis **preview** CRT looks rough | follow-up grill / millwork paint Next after dest look |
+| P2 | anphuni.com redesign / “gauntlet loop” | following website Next — **not** `idkr` unless you say it is |
+| P3 | Headscale, zip carry, public project libraries, EdubaWare-look | following; EdubaWare clone still Reject as **core**; look-not-core stands |
+| P4 | GATE asset + **local model** setup | following; GATE instrument already Need (B7); model deploy was M1=6 TBC |
+| P5 | MECHANICALL title less overbearing; temporary; turns off as if never bound; animation | following chrome Next. Plaque is **U17 never a control**. Motion is paint, not Yes. |
+| P6 | Model output / secrets / redaction after Generate | following sprint. B5 still this halt: Generate does not write CURRENT. |
+
+**Title animation ideas (parked, not spec, Imagine=Photoshop):**
+1. **Latch release** — plaque is a sprung nameplate; on bind-complete (or after splash) the clips retract, plate drops/slides into the bezel seam and the wood reads continuous. Not a button.
+2. **Lamp cool-down** — gold MECHANICALL is phosphor; it idles, then the tube bias dies, lettering ghosts, the bar is just millwork grain. Inverse of GATE warm.
+3. **False fascia** — title is a construction cover; a hairline split, the plate is lifted *out of the world* (scale down / into letterbox) so the chassis never had a brand bar. Temporary like a shipping sticker.
+
+**Selected:** **1 — park all P1–P5** (2026-09-05 Round 6).  
+**Recommendation:** matched.  
+**Cost tradeoff:** $0 to park. Unparking recants C3=1.  
+**Status:** parked
+
+### C4f — Where Generate inference runs
+
+**Question:** C4e=2 needs a substrate. On disk: pocket already streams Ollama for GATE (`_ollama_stream`); public bind refused; `deskProbe` / `wake_desk`; personal-llm tags are **propose/taste only** (`docs/PERSONAL-LLM-DEFINITION.md`) — never approve, never tools. Heuristics/system prompts are a long file (`references/personal-llm-system.txt`). Operator will give a **short**. Testers’ phones are not myarch. Fail-closed if none.
+
+**Options:**
+1. **GATE desk Ollama on myarch** (wake if needed, Tailscale, not Funnel). Prefer `personal-llm-*` tag if present, else local tag. Generate uses existing STREAM. Short system: prose in PROPOSE → schema fields into PROPOSE only. Tester without desk: fail-closed, paper still works.
+2. **On-device model in the APK.** Recants M1=6 deferred. Fat. Play-later RECORD/size.
+3. **Cloud / public Ollama.** Already refused (`_refuse_public_ollama`). Funnel Reject.
+4. **No inference this halt** — Generate hit exists, always fail-closed with honest copy. Loop discussed; short collected for a following Next.
+5. **Personal-llm only** — refuse if the tag is missing (no generic llama). Stricter than 1.
+
+**Selected:** **1** (2026-09-05 Round 7). GATE desk Ollama on myarch. Prefer `personal-llm-*`. Short SYSTEM when pasted. Fail-closed if desk down; paper still works. Public Ollama refused. Operator: GATE should **show** on isolated Draft dest → C4h (implied as STREAM, not currently drawn).  
+**Recommendation:** matched.  
+**Cost tradeoff:** $0 metal already running; testers without desk fail-closed.  
+**Dependencies:** C4e=2. Unlocks C4h (GATE on dest), short still pending paste.  
+**Status:** decided
+
+### C4g — Generate this halt: working Need vs honest stub
+
+**Question:** C4e=2 says the *dynamic* you want. You also said it is not polished and we **start discussion**. C3=1 is one halt. Dest millwork + whole-file paper is already a sitting. Is working Generate (desk up, schema lands in PROPOSE) **Need** this Next, or a fail-closed stub plus Limits/following?
+
+**Options:**
+1. **Need.** Halt = dest look + paper + one successful Generate on a bound folder (lab desk up) writing schema into PROPOSE, CURRENT bytes unchanged, empty tap did not fire.
+2. **Stub.** Halt = dest look + paper + Generate hit that fail-closes honestly (`desk quiet` / `no prose`). Short + real loop are following. Discussion lives in CURRENT Limits, not as a second product.
+3. **Need in lab, stub on stranger sideload.** Same APK; no desk → honest fail-closed. Lab receipt is the STREAM look.
+
+**Selected:** **Need — have a Generate actually** (2026-09-05 Round 7). Not a stub hit. Model-output / secrets discussion **after this sprint** (P6). Fail-closed if desk down still stands (C4e=2). Halt includes dest look + paper + Generate that can land schema in PROPOSE when desk is up.  
+**Recommendation:** was **3**; operator overrode toward **1** with secrets parked. Lab STREAM is the receipt; stranger without desk still gets paper + honest fail-closed (same APK).  
+**Cost tradeoff:** blocks halt on a lab Generate with myarch up; does not block stranger sideload. Secrets/redaction following = $0 this Next.  
+**Dependencies:** C4e=2, C4f=1, C3=1. Unlocks C6, C4h.  
+**Status:** decided
+
+### C4h — GATE on isolated Draft dest
+
+**Question:** C4f=1 uses GATE STREAM. Isolated Draft **today** fills IsolatedDark, draws CRT+well, **returns before `gateBmp`**. Hits: well / CRT glass / dismiss — **Gate is not hittable**. STREAM was mentioned; **sit_gate millwork on the dest was not**. You want GATE to show on the isolated Draft module. How?
+
+**Options:**
+1. **sit_gate millwork on the dest** at the same pack CRect as the rack (bottom). Darkened room around it. Generate **is** SitHit.Gate on that dest. One instrument (B7).
+2. **STREAM only on the dest CRT phosphor** (LOAD/STREAM text). No sit_gate plate on the dest. Generate is a paper control (new hit) — two instruments.
+3. **Both:** sit_gate plate + STREAM on the dest CRT. Generate = Gate hit. Phosphor reports state.
+4. **GATE only on full chassis.** Isolated dest has Generate as a paper key. Contradicts “GATE should show on the dest.”
+
+**Selected:** **1** (2026-09-05 Round 8) **with dest split:** `sit_gate` on Draft millwork **as on the chassis** (same pack CRect). Generate = `SitHit.Gate`. **No darkened room on Draft dest** — that aesthetic is terminal-only. Isolated Draft is still a separate module (not the full rack overlay), but lit like the chassis millwork.  
+**Recommendation:** was **3**; operator picked **1** and split C13.  
+**Cost tradeoff:** stop early `return` on Draft dest; blit well + CRT millwork + `sit_gate`; hit Gate. Draft dest ≠ IsolatedDark. CRT dest keeps darkened room.  
+**Dependencies:** C4f=1, IsolatedMode.DRAFT. Unlocks C16 (CRT composition).  
+**Status:** decided
+
+### C6 — Action id (this rewrite)
+
+**Question:** Live header Next is still `one-next-contract-and-archive-freeze`. This grill’s halt is: bound-folder sit; millwork chassis; CRT+Draft dests as darkened-room module millwork; Draft = whole-file PROPOSE; Generate via GATE desk → schema in PROPOSE; bind SAF+all-files; Play following; P1–P6 parked. One string. Header must match body.
+
+**Options:**
+1. **`sit-bound-draft`** — folder + Draft dest + Generate.
+2. **`sit-dest-generate`** — dest millwork + GATE Generate.
+3. **`sit-one-rack`** — too small (recanted dests; this grill brought dests back).
+4. **`sit-millwork-dests`** — look-first; Generate as Limits not the id.
+5. **You type an id.**
+
+**Selected:** **1 — `sit-bound-draft`** (2026-09-05 Round 8).  
+**Recommendation:** matched folder-first.  
+**Cost tradeoff:** $0 to name. Propose must set header Next **and** body Action id to this string.  
+**Dependencies:** C1–C4g. Unlocks propose after C12/C16.  
+**Status:** decided
+
+### C16 — CRT dest composition (not debug font)
+
+**Question:** Isolated CRT today is IsolatedDark + `sit_crt` + `drawLcd` typeset. Operator: darkened room is **terminal** aesthetic; want **quality composition**, not just text-font. P1 parked chassis-*preview* CRT roughness. This is the **dest** tube. This halt or following?
+
+**Options:**
+1. **This halt.** CRT dest = darkened room + `sit_crt` millwork glass + **composed law pages** (layout, phosphor hierarchy, not a debug dump). Still Kotlin/text on millwork, not a new host. Imagine=Photoshop if extra plates needed later.
+2. **Following (fold into P1).** This halt: darkened room + existing `sit_crt` + current typeset. Composition pass after dest look.
+3. **Paint new CRT dest plates this halt.** Extra nodpi. Bigger sitting; FACE-SPEC freeze after human review.
+
+**Selected:** **1** (2026-09-05 Round 9). Composed law pages this halt, not debug font dump. Aesthetic of the dest (darkened-room terminal vs simplified chassis) is **C13c** — operator also said “not terminal-based / settings-page vibes,” which is recorded on **C12** for Send; CRT lighting not assumed recanted without a pin.  
+**Recommendation:** matched **1** for composition.  
+**Cost tradeoff:** layout pass in dest draw.  
+**Dependencies:** C13. Unlocks C13c.  
+**Status:** decided
+
+### C12 — Send overlay dest this halt
+
+**Question:** C4b=1 text recanted Send overlay dest. Send lamp is not Yes, not FILES. Overlay code still exists (`sendOverlay`). This halt?
+
+**Options:**
+1. **Recant overlay dest.** Send on chassis reports status on CRT (and/or GATE). Overlay off. Matches C4=3 hits-on-rack.
+2. **Keep overlay dest** as a third isolate. Fat; you already split Draft vs terminal aesthetics.
+3. **Send lamp on chassis only; overlay parked.** Same as 1 in product; leave code until a delete sitting.
+
+**Selected:** **2** (2026-09-05 Round 9) **with look:** not terminal-based; **simplified-chassis-aesthetic panel**; **settings-page vibes**. Send overlay dest stays. Not Yes. Not FILES. Overrides C4b=1 “recant overlay dest.”  
+**Recommendation:** was recant; operator overrode. Third dest this halt.  
+**Cost tradeoff:** compose a settings millwork dest (reuse chassis grain, not IsolatedDark, not sit_crt tube). B12 stays Need. Fat vs C3=1 — operator accepted.  
+**Dependencies:** C4b override. Unlocks B12 as overlay-settings.  
+**Status:** decided
+
+### C13c — CRT dest lighting (terminal vs settings)
+
+**Question:** Round 8: darkened room is **terminal** aesthetic; Draft dest has **no** darkened room. C16=1: CRT dest gets composed pages this halt. C12=2: Send overlay is **settings / simplified chassis, not terminal**. Operator: “make it not terminal-based but more of a simplified-chassis-aesthetic panel (settings page vibes).” Was **it** only Send, or CRT dest too?
+
+**Options:**
+1. **CRT dest stays darkened-room terminal** (composed phosphor on `sit_crt`). Send overlay is the settings panel. Two lighting models. Matches Round 8 split.
+2. **CRT dest also simplified-chassis / settings-like** — law as a settings page, no darkened room. Darkened-room terminal **recanted**. CRT isolate is a chassis panel of CURRENT pages, not a tube in a dark room.
+3. **CRT dest = composed `sit_crt` millwork, no darkened room** (tube plate, chassis-lit). Middle: still a CRT module, not settings, not IsolatedDark.
+
+**Selected:** **1** (2026-09-05 Round 10). CRT dest stays darkened-room terminal; composed phosphor on `sit_crt`. Send overlay is the settings panel. Draft dest is chassis millwork + GATE.  
+**Recommendation:** matched.  
+**Cost tradeoff:** three dest looks this halt (accepted with C12=2).  
+**Dependencies:** C16=1, C12=2. Look tree empty.  
+**Status:** decided
+
+### C17 — Generate job card (sft-v4): prompt vs retrain
+
+**Facts (MODEL+RAG, not asked):**
+- Tag **`personal-llm-sft-v4`**: Qwen2.5-7B-Instruct QLoRA, train 1463, loss ~1.18, Ollama Q4_K_M, GTX 1660 taste **critical 3/3** (secret echo, approve refuse, silence≠permission).
+- Personal-llm CURRENT: **SERVE**; Next `serve-smoke-sft-v4`; **do not retrain** until new logos export + human fire.
+- SYSTEM file 1231 bytes (`references/personal-llm-system.txt`) — operator wanted a **short**.
+- Pocket already: `agent_edit_propose` (full PROPOSE doc), `draft_chat` / `_CHAT_SYS_TEMPLATE` (schema **Field:** from prose, never CURRENT).
+- Outer wrappers still required (taste report). S5 synthetics = 36 rows (doctrine targets, not a schema-from-prose corpus).
+- P6: secrets/output discussion **after this sprint**. B6 already refuses secret echo.
+
+**Question:** This halt’s Generate (C4e=2, C4f=1, C4g Need) is a **job** on sft-v4. Retrain?
+
+**Options:**
+1. **Prompt job only.** Short SYSTEM + parser into `write_schema_draft`. No QLoRA. Fail-closed if Ollama down. Reuse `_CHAT_SYS_TEMPLATE` shape.
+2. **Prompt + few-shot** (3–8 prose→schema examples in the call). Still no retrain. Bigger context on 7B Q4.
+3. **Retrain sft-v5** on prose→schema. Violates personal-llm CURRENT unless they fire a new train Next there. Not this sit halt.
+
+**Selected:** **2 + extras** (2026-09-05 Round 12). Operator: C17=2 (few-shot) **and** RAG-enabled **and** OpenRouter API with a **rate-limited frontier model** as a **quality-control pass** for operational fidelity. Not retrain (not 3).  
+**Recommendation:** was **1**. Operator overrode to 2 and added two substrates that were not in the option text. Shape forks: **C17b** (RAG), **C17c** (OpenRouter vs C4f=1).  
+**Cost tradeoff:** (1) hours wrapper. (2) +tokens on 1660 Q4; few-shot is cheap if 3–8 short examples. RAG-as-folder-walk $0; RAG-as-chroma is another Domain + NOT-IMPLEMENTED. OpenRouter: paid/rate-limited; key on desk; testers without desk still fail-closed on Generate (paper works). (3) weeks + recants personal-llm SERVE.  
+**Dependencies:** C4e=2, C4f=1. Unlocks C17b, C17c, C18.  
+**Status:** decided (shape open)
+
+### C18 — Generate output contract (what lands in PROPOSE)
+
+**Question:** Pocket has two shapes: full `PROPOSE-CURRENT.md` document (`agent_edit_propose`) vs `SAY:` + `**Field:**` lines (`draft_chat` / first-sit template). Isolated Draft dest is **whole-file paper** (C4d=B). Generate fills schema from that prose.
+
+**Options:**
+1. **Schema block only.** Parser takes **Field:** Objective/Next/Keep/Reject/Limits (and Baseline if present) → `write_schema_draft`. Prose body of the paper **stays**. Model must not replace the user’s prose with a novel.
+2. **Replace the paper** with a full propose-current document (Observations / Inferences / Proposed CURRENT). Matches `agent_edit_propose`. User prose can vanish.
+3. **SAY + CHANGE only** (chat bubble). Recants whole-file paper dest.
+
+**Selected:** **1 + diffs** (2026-09-05 Round 12). Schema block only; user prose stays; **plus diffs**. Operator: check thread 15 for sprint preferences. Thread: authority must be `cat` / `grep` / `git diff`; RAG is not a vector memory in core; Draft allows fluency; Decide is stamp. S-series already picked Suggesting hunks (S5c=1); C4d parked hunk chrome this halt. Shape of diffs is **C18b**.  
+**Recommendation:** matched **1**; diffs were extra. `write_schema_draft` today **replaces** PROPOSE — recant that for this halt (merge schema into paper).  
+**Cost tradeoff:** (1) parse + merge. File-diff is `difflib` + `list_hunks` already. Hunk millwork is a week (following). (2) eats paper. (3) chat identity.  
+**Dependencies:** C4d=B, C17. Unlocks C18b.  
+**Status:** decided (shape open)
+
+### C17b — What “RAG-enabled” means this halt
+
+**Facts:** Thread 15 comparison table: RAG/memory systems retrieve history; Mechanicall **separates retrieved context from binding authority**; **no vector database or semantic-memory subsystem in core**. Compact formulation: *A model walks the folder. It proposes. You stamp.* MODEL+RAG sibling has `rag-archive-manager` chromaDB-v0.2 — **other Domain**. Pocket already has `_folder_names`, `_schema_lines`, `list_hunks`.
+
+**Question:** RAG this halt?
+
+**Options:**
+1. **Folder-walk.** Generate prompt includes bound CURRENT + PROPOSE excerpts + receipts names (cat/grep, token-capped). Retrieved text is **evidence**, not law. Matches thread 15. Not chroma.
+2. **Vector RAG** (chroma / MODEL+RAG archive). Recants NOT-IMPLEMENTED and thread 15 “no vector DB in core.” Other Domain.
+3. **RAG following.** This halt = few-shot only (literal C17=2). Operator already said RAG-enabled — 3 recants that unless they recant.
+
+**Selected:** **1** (2026-09-05 Round 13). Operator: “C17:1 sounds interesting” on Q1 of this round (**C17b**). Folder-walk RAG. Not chroma. Not RAG-following.  
+**Note:** If they meant recant **C17=2 few-shot** back to prompt-only, that was not this round’s Q1. Few-shot (C17=2) **stands** until they recant it by name.  
+**Recommendation:** matched **1**.  
+**Cost tradeoff:** (1) $0; already almost in `draft_chat`. (2) ops + index + another CURRENT. (3) cheaper halt, recants the extra.  
+**Dependencies:** C17=2+RAG. Unlocks prompt budget.  
+**Status:** decided
+
+### C17c — OpenRouter QC vs desk sft-v4 (C4f=1)
+
+**Facts:** `python/aether_llm.py` already routes `OPENROUTER_API_KEY`. Pocket Generate today is Ollama STREAM (`_ollama_stream`). Public Ollama refused. Keys from env/files, not git, not APK. C4f=1 = GATE desk `personal-llm-sft-v4`. Guiding principle: minimize paid third parties. P6 secrets following — an API key on the phone would unpark P6 as an incident.
+
+**Question:** How does the frontier QC pass sit next to local Generate?
+
+**Options:**
+1. **Two-pass on the desk.** Pass 1: sft-v4 + few-shot + folder-walk → schema fields. Pass 2: OpenRouter **rate-limited** frontier QC (operational fidelity: fields match prose? CURRENT-shaped dump? missing Limits?). QC may revise the **schema block in PROPOSE only**. Phone never holds the key. If OpenRouter down: keep pass-1 + honest `qc skipped`. If Ollama down: fail-closed (paper still works).
+2. **OpenRouter IS Generate.** Recant C4f=1. Cloud is the brain. Local sft-v4 unused this halt. Recants local-first default for fluency.
+3. **QC following (P7).** This halt = sft-v4 + few-shot + folder-walk only. OpenRouter named in Limits.
+4. **OpenRouter from the APK.** Forbidden (secret in binary / stranger network).
+
+**Selected:** **1 with correction** (2026-09-05 Round 13). Two-pass on the desk. Operator: the forgotten word is **cost-limit / spend cap / budget**, not rate-limit. Cap **$10/week**. Fifth line on `~/Desktop/.env` is **not** that budget — it is a second `sk-or-` secret (first `sk-or-` already wins in `aether_fs.load_dotenv_files`). File also holds other raw secrets (GitHub / Google / qwen). **Not copied into the repo.** Safe in-repo copy = `.env.example` (`OPENROUTER_WEEKLY_BUDGET_USD=10`) + `.gitignore` `.env`.  
+**Recommendation:** matched **1**; cost-cap replaces rate-limit in law.  
+**Cost tradeoff:** v1 ≤ $10/w if the ledger holds; alpha/growth still lab-only this halt (testers fail-closed without desk). Exceed cap → `qc skipped`, pass-1 schema stands. Key never in APK.  
+**Dependencies:** C17 extras, C4f=1, P6. Unlocks spend ledger + QC model slug (Limits, not a new product).  
+**Status:** decided
+
+### C18b — What “diffs” are this halt
+
+**Facts:** Thread 15: *If you can’t cat it, grep it, or git diff it, it should not be the source of truth.* S5c=1 (parked M/S-series): Draft is Suggesting on PROPOSE; hunks mutate PROPOSE; Decide publishes. C4d parked hunk chrome this halt. `list_hunks` already diffs live vs proposed fields. Decide is not hunk pick (B6).
+
+**Question:** Diffs on the dest / in the file?
+
+**Options:**
+1. **Visual field-diff only** on dest (live vs proposed Objective/Next/Keep/Reject/Limits). No hunk accept. SAVE writes whole paper + schema.
+2. **Inline hunk accept/reject millwork** (S5c=1). Recants C4d park. Fat. Decide still Publish.
+3. **Unified diff appendix in PROPOSE** (`difflib` of Field lines vs live CURRENT) plus optional visual fields. `cat`-able. No hunk buttons this halt.
+4. **Diffs following.** Schema block only; no diff chrome.
+
+**Selected:** **1** (2026-09-05 Round 13) **for now**. Visual field-diff on the dest (live vs proposed Objective/Next/Keep/Reject/Limits). No hunk accept. Operator: that is their reading of thread 15 **Draft** as of now (*Draft allows model fluency*; fields constrain interpretation; asymmetric “model had more words / human still had the decision”). Unified-diff appendix (rec 3) and hunk millwork (2) **following**.  
+**Recommendation:** was **3**; operator overrode to **1** as the APK-now interpretation.  
+**Cost tradeoff:** (1) dest typeset hours; `cat` of PROPOSE still has schema+prose; `git diff` of the file is following chrome. (2) week. (3) hours + file appendix.  
+**Dependencies:** C18=1+diffs, C4d, thread 15 Draft bullets. Unlocks B13 visual live-vs-proposed.  
+**Status:** decided
+
+### C15 — B11/B13/B12 rewrite (consequence, not a new product)
+
+**Question:** BEHAVIOURS B11 is “maximised **dark** terminal, **no** millwork overlay.” That is the 0.19.3 Need they rejected as look. This halt’s dests are millwork-framed (C13 split). Propose rewrites B11/B12/B13.
+
+**Selected:** **in propose** — B11 = darkened-room composed `sit_crt` millwork dest (not IsolatedDark debug). B12 = Send overlay as settings/simplified-chassis (not Yes, not FILES). B13 = Draft dest chassis millwork + GATE + whole-file paper + Generate→schema merge.  
+**Status:** recorded in propose; human apply
+
+### P6 — Model output / secrets (following, not this sprint)
+
+**Parked:** redaction, secret leakage in STREAM, what Generate may write into PROPOSE, logging. After this sprint. Generate still must not write CURRENT (B5) this halt.  
+**Status:** parked
+
+### C14 — Name listing-bar item 4 (`idkr`)
+
+**Question:** 2026-08-31 reject: before Play listing, (1) UI executed, (2) Headscale operable, (3) UI executed again, (4) **idkr**. Listing-bar law: *item 4 unnamed; do not fill it from a model.* You said you remember what it could be. **You name it.** These are only things *you* have already said in this repo/grill — pick or type the real one.
+
+**Options:**
+1. **Stranger “I didn’t say yes” receipt** (BRAKE / LESSONS) — a person who is not you walks bind→draft→not-yet and still has an honest receipt.
+2. **Closed testers of the millwork sit** (Maya / friends) — sideload, not production listing.
+3. **Off-LAN / LTE receipt** — USB-on-mbp-edge is not that bar; a testers path that is not the lab cable.
+4. **anphuni.com / website pitch** — following copy, not the APK.
+5. **You type it.** Model does not invent a sixth.
+
+**Selected:** —  
+**Recommendation:** **none from me as law.** If it must be one of 1–4: **1** is the worth-test this product actually claimed and never collected. **2** is already C5 (sideload this halt) — don’t make testers a *Play bar* item if Play is following. **3** is honest relative to USB≠LTE. **4** is a different pocket. You remember — say the word.  
+**Cost tradeoff:** Naming it is $0. Filling it from a model recants listing-bar Limits. (1) costs a real stranger sitting. (2) sideload hours. (3) radio + Play-internal or LTE adb — engineer-days and a truthful receipt. (4) website Next.  
+**Dependencies:** listing-bar Keep. Does **not** recant listing-bar this halt (C8). Unlocks the Play *following* Next’s bar.  
+**Status:** open
+
+### C20 — Remaining chassis hits this first Next (13:00 reject)
+
+**Facts (SitCRects / MainActivity, not asked):** Dest already opens from **several plates**, not three unique rooms.
+
+| Hit | Today | Dest? |
+|-----|-------|-------|
+| LCD on PLAN / DRAFT / RECEIPT | `IsolatedMode.CRT` | yes |
+| LCD on BIND | SAF bind | system |
+| LCD on DECIDE | Why IME on CRT | not IsolatedMode |
+| Plan field rows | `openPage` → CRT dest | yes |
+| GATE / LcdNext (chassis) | CRT dest | yes — **not** Generate |
+| Draft bank | `IsolatedMode.DRAFT` | yes |
+| Send lamp (any plate) | `sendOverlay` | yes |
+| JOIN / WAKE | `ioNote` status | no dest |
+| FILES | system manager | no dest |
+| BIND paper | SAF | system |
+| Decide well | two-tap Why | no dest |
+| Receipt well | receipt text | no dest |
+| Title | U17 never a control | no dest |
+| Banks | switch plate | not dests |
+
+Plates on disk: `sit_well_{bind,plan,draft,decide}`, `sit_plan_*`, `sit_draft_*`, `sit_lamp_{join,send,wake}`, `sit_gate`, `sit_banks`, `sit_bind_folder`. No `sit_well_receipt` nodpi.
+
+**Question:** 13:00: dests on multiple pages; grill the rest of the chassis; that is the first Next. Which extra hits isolate **this** halt?
+
+**Options:**
+1. **Millwork the dests that already isolate** — CRT (from every plate that already opens it), Draft dest, Send overlay. JOIN/WAKE/FILES/BIND/Decide/Receipt stay rack or system. “Multiple pages” = CRT dest look is IsolatedDark **wherever** you enter it.
+2. **Every bank well isolates** — Plan dest, Draft dest, Decide dest, Receipt dest, Bind dest. Fat. New IsolatedMode values.
+3. **Lamps dest too** — JOIN dest, WAKE dest. Mesh TBC. Fat.
+4. **You name extras.**
+
+**Selected:** **1 + extras** (2026-09-05 Round 16). Millwork dests that already isolate, **plus:**
+- Send-folder dest **combines FILES dest** (one dest, two hits) — shape **C20b**. Recants SHARING “in-app FILES overlay is cut” **as the FILES hit**; Send still not Yes, not Decide.
+- MECHANICALL **title kept**, dim/desaturate/unilluminate in-theme. Recants P5 unbind. Still U17 **not a control**. Title is painted on `sit_chassis`, not a separate PNG.
+- Decide millwork “tragic” — chassis well paint (`sit_well_decide` exists). Not a Decide dest.
+- Receipt is **not** CRT dest. Isolated **printer dest** from the receipt plate — **C27**.
+- Website millwork + blog/newsletter **following** (P2). Not `idkr`.
+- CRT amber/yellow typeset is a **patch** this halt — **C28**. `lcdPaint` is `LcdAmber` monospace fake-bold today.
+
+JOIN/WAKE stay notes. Bind stays SAF. LCD on Receipt must **not** open CRT dest (C27).  
+**Recommendation:** was **1** without extras. Operator expanded the first Next.  
+**Cost tradeoff:** dest millwork + combined folder dest + receipt printer + title dim + Decide well + CRT ink. Fat vs C3=1 — operator accepted as the look sitting. Generate/QC following.  
+**Dependencies:** 13:00 reject. Unlocks C20b, C21, C22, C27, C28.  
+**Status:** decided (shape open)
+
+### C21 — Same CRT dest from every plate, or a dest per page?
+
+**Question:** LCD/fields/GATE already dump you into the same `IsolatedMode.CRT`. Does millwork CRT stay **one** dest, or does each bank get its own CRT plate?
+
+**Options:**
+1. **One CRT dest.** Same darkened-room `sit_crt` composed phosphor from Plan, Draft chassis, Receipt, GATE. Bank is how you got there, not a second tube.
+2. **Per-plate CRT dests.** Plan-CRT vs Receipt-CRT vs GATE-CRT as different millwork. Paint farm.
+3. **Recant LCD-isolate on some plates.** CRT dest only from Plan fields (or only from LCD on PLAN). Other plates type on-rack STATUS glass.
+
+**Selected:** **1 for now** (2026-09-05 Round 16). One CRT dest, many doors. Per-plate CRT dests **following**. Receipt is **not** a CRT door (C27). Chassis GATE is **not** a CRT door (C22=0). Remaining doors: Plan LCD, Plan fields, Draft-chassis LCD.  
+**Recommendation:** matched **1**.  
+**Cost tradeoff:** (1) one look. Customisation later = another Next.  
+**Dependencies:** C20. Unlocks dest paint.  
+**Status:** decided
+
+### C22 — Chassis GATE vs Draft-dest GATE (Generate)
+
+**Facts:** `SitHit.Gate` / `LcdNext` on the **rack** sets `IsolatedMode.CRT`. C4h=1: GATE on **Draft dest** is Generate. Two meanings, one hit enum.
+
+**Question:** This halt?
+
+**Options:**
+1. **Context.** Chassis GATE → CRT dest (today). Draft-dest GATE → Generate (C4h). Copy on glass so it is not a second Yes.
+2. **GATE always Generate.** Recant chassis GATE→CRT. Fat vs dest-preview-first.
+3. **GATE always CRT dest.** Generate is a paper control on Draft dest. Recants C4h.
+
+**Selected:** **0 — none of 1/2/3** (2026-09-05 Round 16). Operator: on the **rack**, GATE is **only a visual loading feature** for viewing proposal-response **ETAs from outside the Draft dest**. Not CRT dest. Not Generate on the rack. Recant `SitHit.Gate` → `IsolatedMode.CRT` on chassis. Draft-dest GATE remains Generate (C4h) unless later recanted. Chassis GATE = B7 LOAD/STREAM millwork + ETA copy.  
+**Recommendation:** was **1**; operator overrode.  
+**Cost tradeoff:** recant GATE-as-CRT-door is a small MainActivity change; ETA copy needs STREAM state on the gate plate. Generate stays off the rack.  
+**Dependencies:** C4h, B7. Unlocks chassis GATE as instrument-only.  
+**Status:** decided
+
+### C20b — Send dest + FILES dest combined
+
+**Facts:** Send lamp → `sendOverlay`. FILES → `openBoundInFileManager` (SHARING: in-app FILES overlay **cut**). B12 Need: Send overlay is **not** FILES. Reject `files-equals-send`. Operator: folder hit mapped to Send lamp should **combine** the FILES dest.
+
+**Question:** One dest, two doors — what does FILES hit do, and is system manager still a door?
+
+**Options:**
+1. **Same dest, two hits.** Send lamp and FILES both open the combined dest (folder listing + send status / settings). System manager is a **control on that dest** (“open in system FILES”), not a second dest. Send still not Yes.
+2. **Send dest shows files; FILES hit stays system manager.** Combine only the Send surface. FILES hit unchanged.
+3. **FILES hit = Send dest; drop system manager this halt.** Recants SHARING cut completely.
+
+**Selected:** **1** (2026-09-05 Round 17). Same dest, two hits. OEM FILES button on the dest. Send still not Yes.  
+**Recommendation:** matched.  
+**Cost tradeoff:** recant SHARING “in-app FILES overlay is cut” for the hit; keep OEM as escape.  
+**Dependencies:** C20 extras. Unlocks B12 rewrite.  
+**Status:** decided
+
+### C27 — Receipt printer dest (not CRT)
+
+**Facts:** No `sit_well_receipt` nodpi. Receipt well is `drawReceiptWell` amber text on `sit_well` / decide-sized well. LCD on RECEIPT plate today opens **CRT dest** — recant that (operator: no CRT dest for receipt). Isolated dest: tap receipt plate → scroll. (1) chassis **extends** as it prints out of the plate. (2) at screen height, frame **fixes** and content **fixed-scrolls** (print animation). Zoom-stretch of whole chassis is already Reject.
+
+**Millwork required? (looked up, not asked):**
+- **Yes, a printer slot / paper tongue plate** if the chassis visibly grows. Stretching `sit_chassis` is zoom-stretch (Reject). Need a paper strip + slot millwork (or a receipt well that already has a mouth).
+- **Inner scroll after lock** is code (clip + scroll), not a new full chassis. Frame millwork stays; typeset is the receipt (not CRT yellow).
+- Empty receipt stays empty (B15). Print animation of blank is honest: nothing comes out.
+
+**Question:** This halt’s Receipt dest?
+
+**Options:**
+1. **Need full printer.** Slot millwork + extend-then-sticky-scroll this halt. Human reviews plate PNG before freeze.
+2. **Code-first, millwork later.** Isolated receipt dest = scrollable paper in the existing well, no chassis extend yet. Slot/tongue following. Honest if glass says `print millwork TBC`.
+3. **Following.** Receipt stays on-rack text this halt. Recants the printer as first Next.
+
+**Selected:** **1** (2026-09-05 Round 17) — full printer this halt. Spec in `.aether/proposals/CURRENT-proposal-20260905-sit-dest-preview.md` (idle mouth → extend tongue → lock+feed). New plates required; do not stretch chassis. Empty honest.  
+**Recommendation:** matched.  
+**Cost tradeoff:** slot+tongue millwork + nested scroll. Human PNG review before freeze.  
+**Dependencies:** C20 extras, B15. Unlocks receipt plates.  
+**Status:** decided
+
+### C28 — Patch CRT yellow/amber text
+
+**Facts:** `lcdPaint.color = LcdAmber` (`#E6C14A`), monospace, fake-bold. Isolated CRT `lcdBody()` is `LAW  {title}\n{text}`. EditText on CRT is the same amber. Operator: CRT-and-yellow-text is a problem to **patch over**.
+
+**Question:** What replaces amber dump **this** halt?
+
+**Options:**
+1. **Composed phosphor, quieter ink.** Keep `sit_crt` millwork; type law pages in a dimmer phosphor (not neon amber dump). Hierarchy, not `LAW` prefix. Same tube.
+2. **Paper ink on the tube.** Dark text on the CRT glass (workshop paper, not terminal yellow). Still one CRT dest.
+3. **No typeset on CRT dest.** Millwork only; law lives on Plan well. Recants CRT as readable dest.
+4. **You name the ink.**
+
+**Selected:** **1 then recanted as this-halt Need** (2026-09-05 Round 18). Operator: phosphor **is not a bug**. Keep millwork glow **and** hued CRT text (`#E6C14A`). Colour/ink change only on an **explicit later visual-upgrade Next**. This halt may **add composition** (C30), not recant the hue.  
+**Recommendation:** Round 17 was 1; Round 18 park matches “keep the intent of the fx and colour scheme.”  
+**Cost tradeoff:** $0 to park ink. Composition add is the dest look.  
+**Dependencies:** C16. Unlocks C30.  
+**Status:** decided (this-halt ink patch recanted; hue kept)
+
+### C27 park — receipt print as visual upgrade (CRect revised)
+
+**Round 17:** C27=1 full printer this halt.  
+**Round 18:** operator parks receipt printing + farm painting as a **proposed visual upgrade**. CRect isolation as a CRT-like dest was **not technically flawless**.
+
+**Revised CRect (proposal only):** pack never grows; chassis never scales; tongue is a PackRect from `well.b` clipped to `PACK_H`; then lock + `contentOffset`. See `.aether/proposals/CURRENT-proposal-20260905-park-visual-upgrades.md`.
+
+**Status:** parked following (`sit-receipt-print` / visual-upgrade bundle). Not live Need until human applies the park to CURRENT.
+
+### C30 — Chassis preview-terminal composition (this halt, keep glow + hue)
+
+**Question:** Isolated CRT dest is a maximised `sit_crt` in a darkened room. Millwork glass already glows. Kotlin dumps `LAW  TITLE\\nbody` in the same amber, pad 8, no relationship to the bezel/STATUS label. Operator: problem is **composition vs reality**, not phosphor. Add more than text borders. Keep FX (glitch/tear) and colour. Portray the cool terminal artistically.
+
+**Options:**
+1. **Glass as instrument.** Keep amber + glow + glitch. Drop `LAW ` prefix. Caption = field name as phosphor header aligned to millwork STATUS. Body inset to `glassIn` inner lip (already a CRect). Light scanline/vignette in the **same hue**. Dest and on-rack STATUS share this typeset so dest is a focus of the same tube.
+2. **Raster / character-cell CRT.** Same hue. Glyphs sit on a coarse grid so the tube *generates* the text. Bloom behind glyphs (same `#E6C14A`). Heavier code. Stronger “real CRT” portrayal.
+3. **Farm-paint a new dest plate** (Imagine the composed glass). Following with receipt farm. Not this halt unless you unpark paint.
+4. **Borders only.** Operator said not enough.
+
+**Selected:** **1 now, 2 following** (2026-09-05 Round 19). Chassis glass = truncated peek, **no preview nav**. Tap STATUS → isolated dest (full read). Dest composition: caption + body, same hue/glow/glitch, scanlines. Raster CRT (2) later. Phosphor colour not recanted.  
+**Recommendation:** matched 1-now / 2-later.  
+**Cost tradeoff:** layout in `drawLcd`; field keys peek only; Gate no longer opens CRT.  
+**Dependencies:** C28 park, C22=0.  
+**Status:** decided
+
+## Open branches not yet asked (C)
+
+- **C30** CRT dest **1 now / 2 following** — decided Round 19. Preview truncated; dest is the reader.
+- **C7** Archive You Decide — implied no.
+- **C14** `idkr` still unnamed.
+- **C17d** OpenRouter QC model slug — following `sit-bound-draft`.
+- **C15** B11–B15 after dest look; live CURRENT still names printer/quieter phosphor until park is applied.
+
+**Live CURRENT:** `sit-dest-preview` SELECT / PENDING. Still includes parked items as Need until human edits. Validate OK. Models do not apply the park.
+
+---
+
+# M-series (parked under C) — what is the actual MVP
+
+**Skill (historical):** `/grill-me-store-decisions` (one question at a time + persist) · in-repo grilling (frontier; facts from disk).  
+**Premise (2026-08-25):** Operator: “I feel like I've actually overprogrammed the app — grill me on the actual MVP.”  
+**2026-08-25 dump (not yet law):** Plan = typeset CURRENT (no md glyphs / nested scroll / Changes); Draft = interactive Plan + schemas + TBC; models deferred; login/preauth baked in APK not Compose window; SOS plugin as production chrome; one network = folder upload/download; JOIN/WAKE overlaid “under construction”; produce UI the same way the original plugin UI was produced.
 
 **Interview started:** 2026-08-25  
 **Interview status:** **OPEN (M4/M5 parked).** M-series product locked. **M3=2** (`sit-mvp-rack`). Human already re-SELECT’d header Next. Body still distro-gate. Propose: `.aether/proposals/CURRENT-proposal-20260825-1821.md`.  
