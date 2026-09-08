@@ -99,13 +99,16 @@ class TestFaceHttp(unittest.TestCase):
         self.assertIn("**Approval:** APPROVED", fields)
 
     def test_post_not_yet_receipt(self) -> None:
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
         req = Request(self._url("/not-yet"), data=b"", method="POST")
         with urlopen(req) as resp:
             self.assertIn(resp.status, (200, 303))
         rec = (self.pocket / "RECEIPT.md").read_text(encoding="utf-8")
         self.assertIn("You said Not yet", rec)
         self.assertIn("name-plants", rec)
-        self.assertIn("**Status:** REJECTED", (self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+        after = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        self.assertEqual(before, after)
+        self.assertNotIn("**Status:** REJECTED", after)
 
 
 class TestYesHelperStillReceipts(unittest.TestCase):
