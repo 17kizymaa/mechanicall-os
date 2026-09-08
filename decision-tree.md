@@ -1,9 +1,216 @@
-# Decision tree — C-series (CURRENT rewrite, 2026-09-05) then M / W / R
+# Decision tree — C-series (CURRENT rewrite, 2026-09-05) then M / W / R / G-chassis
 
-**Live law now:** header **Next:** `one-next-contract-and-archive-freeze` · **APPROVED** (2026-09-05T07:15Z human: “CURRENT.md is product!”). Body **This Next** still names `sit-module-panels`. Two-clock. Agents do **not** silently rewrite CURRENT. Dual-Next Reject. This grill persists here; it is not apply.
+**Live law now:** header **Next:** `you-decide-ritual` · **APPROVED**. Product **Mechanicall: You Decide**. Schema OK (Phase/Status/Approval all APPROVED — prefer EXECUTE). Agents do **not** silently rewrite CURRENT. Dual-Next Reject. This grill persists here; it is not apply.
 
 **Skill:** `/grill-me` → grilling (frontier rounds) + persist (`grill-me-store-decisions`).  
 **Premise (this sitting):** Operator: grill the CURRENT.md rewrite. “I kind of want to do things I've mentioned before, IDK, I just really want to push it from the commitment workspace APK ‘… One Next’ to the phone control surface for a bound project folder. Let's go!”
+
+**Premise (2026-09-08 chassis recant):** The freeze photo (`sit_chassis.png`) is **inspiration**, not the chassis. Compact `.continue-here.md`. Dump `dev/60_day-synthesis/09_augment/output/CHASSIS-CONCEPT.md`.
+
+---
+
+# G-chassis (2026-09-08) — instrument concept vs freeze PNG
+
+**Interview status:** **OPEN. Sitter S=1** (new session sits vc 42). FIT Go landed `0.19.17-fit`. Archive chassis identity. L4 parked. Quiet Next room recanted. Send lamp→overlay.
+
+## Facts (looked up — not asked)
+
+- Live CURRENT: Next `you-decide-ritual` APPROVED. Preflight ALLOW. `aether current validate` OK with WARN.
+- APK on disk: `0.19.16-layers` vc 41. SitRackView blits `sit_field` then alpha `sit_chassis` / `sit_splash`, then send / banks / well / gate. Law 15/15. Look is still the specimen photograph with wood knocked out.
+- `sit_skin.png` **is byte-identical to** `sit_plan.png` (sha256 `dcc19de8…`). It is **not** a live output of `scripts/render-sit-skin.py`. Chassis is RGBA 1080×2138; field is RGBA.
+- Generator exists: `scripts/render-sit-skin.py` — cream / gold / purple overlapping plates into one CBitmap. Layout in `dev/39_sit-storm-factory/15_binary-skin/output/SKIN-LAYOUT.md` is FACE-SPEC rooms (title / lcd / gate / desk / tabs / paper), **not** the freeze rack (plaque / three lamps / four banks / well / gate).
+- FRAMEWORK.md (`dev/45_sit-mvp-rack/02b_native-rack/output/FRAMEWORK.md`) rejected **multiple runtime-composited PNGs**; live SitRackView already recanted that (many nodpi blits).
+- FACE-SPEC: rack around paper. OEM hosts. Fill the activity. Phosphor kept (`phosphor-as-bug` Reject).
+- Camel Space SOS is grammar reference only (`camel-png-theft`). Photo in-tree: `dev/39_sit-storm-factory/13_camel-sos-check/references/camel-space-sos.jpg`.
+- Pins already: F1=2 SitRackView host; F2=1 first sit = cycle; F4 later (website); F5=APK; S=3 Generate following. P3 cream-pills **paused**.
+
+## Guiding principles (G-chassis)
+
+1. CURRENT is law. This grill does not `aether next` / rewrite CURRENT.
+2. Chassis = **concept** (FACE-SPEC + VSTGUI blit + C rooms). Freeze PNG = mood board.
+3. Farm-paint recanted. No Pillow glyph boxes on the specimen as the design method.
+4. G1=2\*: C owns first sit; millwork **augmented**, not dimmed/covered.
+5. G2=1+3: new millwork plates **and** re-lay allowed. Still millwork, not Material/Compose.
+6. Imagine = paint, not spec. USB ≠ LTE. Models never Yes.
+
+## Master cost map (G-chassis)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| `render-sit-skin.py` millwork | hours–1 day; $0 vendor | same PNG in APK | same | already the repo |
+| Imagine plates + human stamp | faster pretty; stamp hours | same | same | Imagine ≠ spec until stamp |
+| Keep freeze photo as face | $0 today; look stays specimen | testers see a desk photo | store identity is a JPEG | contradicts recant |
+| Farm-paint specimen | already recanted | scars as identity | — | forbidden |
+| Compose second host | weeks; CURRENT Reject | two faces | two products | forbidden |
+
+## Summary of decisions (G-chassis)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **G1** | Which grammar owns first sit | **2\*** C owns; millwork augmented not dimmed | decided | recants dim/cover and PNG-as-chassis |
+| **G2** | New plates vs freeze pixels vs re-lay | **1+3** new plates **and** re-lay | decided | archive pixels are reference |
+| **G3** | How we paint the *real* face this sitting | **1** generator + Imagine-on-preview | decided | inspectable layout; Imagine ≠ spec |
+| **F3** | Send folder placement | **3** chassis LED + Decide ritual | decided | one lamp; Decide addition grilled as **S** |
+| **L** | Which plate stack the generator draws | **1 identity** (archive frame). **4 parked** (study only) | decided | operator: do not make them fit rooms into a new UI |
+| **S** | How Send lands on Decide | **1** optional packing-slip **popup** / quick-send | decided | not a second LED; not Yes |
+| **QN** | Quiet Next millwork room | **recant room** | decided | protocol One Next stays on Plan ticket; models do not paste CURRENT |
+
+## Per-decision (G-chassis)
+
+### G1 — Which grammar owns first sit
+
+**Question:** When rack millwork (R) and commitment walk (C) conflict, which owns first sit?
+
+**Options presented:** 1 R is the face; 2 C is the face and R is dimmed; 3 two modes; 4 dual on purpose keep these plates.
+
+**Selected:** **2\*** (2026-09-08). Not menu G1=2. C owns first sit; millwork is **augmented**, not covered/dimmed. Chassis is the **concept**, not the PNG.
+
+**Rationale / recommendation:** Matched operator pin.
+
+**Cost tradeoff:** $0 protocol. Engineer time is millwork hours this sprint (CURRENT: millwork this sprint). Dim/cover would have been cheaper paint and the wrong instrument.
+
+**Dependencies:** F1=2 SitRackView. Unlocks G2, G3.
+
+**Status:** `decided`
+
+### G2 — New plates vs freeze pixels
+
+**Question:** “Augment the concept, not the PNG” still splits.
+
+**Options presented:** 1 new millwork plates same pack; 2 archive pixels stay overlays only; 3 re-lay the instrument as millwork.
+
+**Selected:** **1+3** (2026-09-08). New plates **and** re-lay. Not G2=2.
+
+**Rationale / recommendation:** Was 1; operator added 3.
+
+**Cost tradeoff:** (1+3) paint + CRect remap this sprint. (2) cheaper and freezes the photo as law. (re-lay into Material) forbidden.
+
+**Dependencies:** G1=2\*. Unlocks G3 (how to paint).
+
+**Status:** `decided`
+
+### G3 — How we paint the real chassis this sitting
+
+**Question:** The freeze photo is not the chassis. How do we produce the face **today** so the APK is up to standard?
+
+**Options presented:**
+
+1. **Re-land `scripts/render-sit-skin.py`** → one (or few) CBitmap of overlapping plates, OUR cream/gold/purple, C rooms. Photo = reference only. Inspectable. Hours–day. **Recommended if “today” means a real millwork panel.**
+2. **Imagine = Photoshop** — generate plates into `output/`, human stamps, freeze nodpi. Same CRects. Faster pretty; Imagine ≠ spec until you stamp.
+3. **Grill more / no paint today.** Compact only. Honest if G3 isn’t pinned.
+4. **Keep the photo as face;** only field/layers. Contradicts “the chassis isn’t that image.”
+
+**Selected:** **1** (2026-09-08). Operator: generator preview so millwork can be Imagine'd. Gloss: labeled `render-sit-skin.py` preview → Imagine paints → human stamps nodpi. Imagine ≠ spec. Not ship 15_binary-skin layout as-is (that is **L**).
+
+**Rationale / recommendation:** Was **G3=1**. Operator pinned it. Next round is **L** (which stack) then G3b (one blit vs overlays).
+
+**Cost tradeoff:**
+
+- **v1 (solo):** (1) hours–1 engineer-day, $0 vendor, inspectable millwork. (2) minutes–hours of Imagine + stamp loop; look may win faster, authority stays human stamp. (3) $0, APK stays specimen. (4) $0 and recants the recant.
+- **alpha (50):** testers see whatever CBitmap we freeze. A desk photo at 50 is a product identity, not a placeholder.
+- **growth (1,000):** store face is this panel. Generator (1) can iterate without a new photo shoot. Imagine (2) needs a stamp ritual every pass.
+- **SaaS vs self-host:** none. Paint lives in-repo.
+- **Engineer-time:** (1) ~4–8h to retarget the script at C rooms + SitCRects + assemble. (2) ~1–3h pretty + stamp + CRect patch. (3) 0h paint. (4) 0h, wrong.
+- **Crossover:** pick (2) if the generator’s metal still looks like “Python brushed noise” after one pass and you would rather stamp Photoshop. Pick (3) if today is grill-only. Never (4) after this recant.
+
+**Dependencies:** G1=2\*, G2=1+3, farm-paint recant. Unlocks **L** (which stack), then G3b (one CBitmap vs overlays).
+
+**Status:** `decided`
+
+### F3 — Send folder placement in MVP chrome
+
+**Question:** Send folder is in the walk. Accept ≠ Yes. Where does the bag sit?
+
+**Options presented:**
+
+1. **Primary action near Draft/Plan** — Offer folder equal weight to Save draft (still ≠ Yes). **Recommended** (compact).
+2. **Decide-adjacent** — After Yes, share on quiet One Next.
+3. **Both** — Offer anytime + post-Yes nudge. Day-synthesis original recommend if hours.
+
+**Selected:** **3** (2026-09-08). Operator override of compact rec (was 1): “send was originally on the chassis (now-moodboard; LED icon. Can be a useful addition to the Decide part of the ritual.” Gloss: **keep moodboard Send LED** (anytime offer) **and** add Send to **Decide**. Accept ≠ Yes. Not a second Yes.
+
+**Rationale / recommendation:** Was **F3=1**. Operator picked **3** with a chassis-LED constraint. Double-copy FLAG on stills is why **S** (how Decide shows the bag) is the next pin — do not invent a second LED.
+
+**Cost tradeoff:**
+
+- **v1:** (1) one CRect. (2) one CRect after Yes. (3) two *surfaces* if we are careless; **one lamp + Decide pit** (S=1) stays one dest.
+- **alpha / growth:** $0 vendor. Wrong placement trains “Send = Yes.”
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** hours after a real face exists.
+- **Crossover:** if Decide pit reads as Yes, recant to F3=1 (lamp only).
+
+**Dependencies:** F2=1 cycle includes send. Unlocks **S** (Decide shape). Independent of L except the lamp hole lives in L=1/L=4 freeze slots.
+
+**Status:** `decided`
+
+### L — Which plate stack the generator draws
+
+**Question:** C rooms are already named (WALK / PEEK-REDAFT / SitCRects / AUDIT). Which **geometry** does `render-sit-skin.py` emit so Imagine has a preview?
+
+**Options presented:**
+
+1. **Recycle freeze slots** — SitCRects holes (plaque, phosphor, lamp row, banks, well, gate); new millwork in those boxes. Moodboard = hole diagram. **Recommended.**
+2. **FACE-SPEC as written** — title / lcd / gate / desk / tabs / paper (`SKIN-LAYOUT.md`). Fights live hits and the Send LED.
+3. **Till as the pack** — 19 prune visual as geometry. Steals interaction *as layout*. Risks dropping the instrument (recanted by G1=2\*).
+4. **One full CBitmap per SitPlate** — FRAMEWORK swap. Several Imagine stamps.
+
+**Selected:** **1+4** (2026-09-08). Operator: preview freeze-slot set **and** plates without frozen elements. Quiet Next room recanted; after Yes = Plan labour feet.
+
+**Rationale / recommendation:** Was L=1. Operator added 4 so we can compare moodboard holes vs paper-forward till. Previews: `10_interaction_preview/output/preview/`.
+
+**Cost tradeoff:**
+
+- **v1:** (1) retarget generator ~2–4h + Imagine stamp. (2) rewrite SitCRects + walk. (3) new pack + recant risk. (4) 5–6 Imagine passes.
+- **alpha / growth:** $0. Wrong stack becomes store identity.
+- **SaaS vs self-host:** n/a. Paint in-repo.
+- **Engineer-time:** (1) today-shaped. (4) if you want VST plate-swap honesty and have the stamps.
+- **Crossover:** L=1 → L=4 later if overlays stay ugly. L=2 if you recant the moodboard lamp row.
+
+**Dependencies:** G3=1, G2=1+3. Unlocks generator preview + Imagine. G3b (one blit vs overlays) after a stamped preview.
+
+**Status:** `decided`
+
+### S — How Send lands on Decide (F3=3 shape)
+
+**Question:** Chassis Send LED is settled. What is the Decide-ritual addition?
+
+**Options presented:**
+
+1. **Packing-slip pit on the Decide well** — offer folder, ≠ Yes. Same dest as the lamp. No second LED. **Recommended.**
+2. **After Yes only** (quiet Next). Chassis LED still anytime. Misses “Decide part of the ritual.”
+3. **Second Send LED on the Decide plaque** — two lamps; Send≈Yes.
+
+**Selected:** **1** (2026-09-08). Operator gloss: **popup / optional / quick-send**. Packing slip over Decide. Not a second LED. Dismiss = not now. Files only, not Yes.
+
+**Rationale / recommendation:** Was S=1 pit. Operator made it a **popup**, not a well pit. Preview: `l1-decide_send.png` / `l4-decide_send.png`.
+
+**Cost tradeoff:**
+
+- **v1:** (1) one extra CRect in the well. (2) copy-only after Yes. (3) second bitmap + FLAG.
+- **alpha / growth:** Send-as-Yes is the tester bug.
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** hours inside L=1 well millwork.
+- **Crossover:** if the pit is still read as Yes, drop to lamp-only (recant F3 toward 1).
+
+**Dependencies:** F3=3. Couples to L=1 (well exists) or L=4 decide plate.
+
+**Status:** `decided`
+
+### QN — Quiet Next millwork room
+
+**Question:** After Yes, is there a `SitPlate.NEXT` / “Your One Next” room?
+
+**Options presented:** (operator recant, not a menu.) The room leaked from `20_DAY-SYNTHESIS-2026-09-08.md` via a research assistant into walk_hits.
+
+**Selected:** **Recant the room.** Protocol One Next (authorized action) stays as the Plan ticket SKU after Yes. Labour feet **I did it / Not yet** live on **Plan**, not a 5th bank. Models do not paste CURRENT (loop text still names quiet One Next).
+
+**Rationale / recommendation:** Interaction grammar (till ticket + paid) does not need a plugin NEXT page. BRAKE was Plan / Draft / Yes / Receipt.
+
+**Cost tradeoff:** $0. Saves a plate. SitRackView still has `SitPlate.NEXT` in code until a later millwork land — previews do not ship that room.
+
+**Dependencies:** G1=2\*, L=1+4. Unlocks plan_labour previews.
+
+**Status:** `decided`
 
 ---
 

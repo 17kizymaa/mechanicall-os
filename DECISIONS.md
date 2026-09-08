@@ -271,3 +271,10 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-09-05T15:04:09.354Z REJECTED: The next Next will be 'first-sit-patching' and will merge with what I discussed with as the next action in the Grok session that executed this next (returned to SELECT; no automatic rebuild)
 - 2026-09-05T15:10:53.200Z REJECTED: sit-bound-draft is what I want to merge with to 'first-sit-patching but I think I want a new name all together (returned to SELECT; no automatic rebuild)
 - 2026-09-05T16:16:55.447Z APPROVED: score the visual coherency of the product
+- 2026-09-05T17:10:47.573Z APPROVED: Accepted
+- 2026-09-06T11:50:09.549Z APPROVED: I want cool fx, tbh, like I feel that being creative could be fun but I also want to not forget the casual use of it.
+- 2026-09-07T09:32:36.530Z APPROVED: I am lagging so just going with this since I can't really navigate my dev sh*t rn
+- 2026-09-08T08:03:13.398Z APPROVED: recycle millwork; actions then millwork this sprint; discuss on '20_...' and ritual expectations before action!
+- 2026-09-08T08:41:06.806Z APPROVED: I kinda wanna wire the thingy in (err, theeeee model into the APK). Lot more managable, rate-abuse-wise!
+- 2026-09-08T08:48:49.009Z APPROVED: Found a project-related chat response showing a comparative analysis that really elevated the framework's lessons - imma go for that as 05c
+- 2026-09-08T09:42:12.975Z APPROVED: We apply the draft 'feature-pull' part later - includes website (all in post)

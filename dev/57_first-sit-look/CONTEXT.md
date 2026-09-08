@@ -12,5 +12,10 @@
 | `04_one_plate` | **one** millwork or blit named in FLAG | diff + RECEIPT |
 | `05_assemble` | debug APK archive | versionName |
 | `06_still_again` | same walker | FLAG recant or budget=0 |
+| `07_folder_preview` | Send-folder dest millwork previews | PREVIEW.md |
+| `08_gauntlet` | stateful disk+uidump play; never Confirm | GAUNTLET.md |
+| `09_draft_writer` | Draft dest = whole-file text editor of PROPOSE-CURRENT.md | RECEIPT + dest-draft stills |
+| `10_send_folder` | Send dest stages bound folder (not Yes; FILES = OEM) | RECEIPT + dest-folder stills |
+| `11_mum_benchmarks` | Mum-class statements on the review loop (M0–M9) | BENCHMARKS.md + MUM.md |
 
-A33 USB look after storm FLAG is boring. Never testers. USB ≠ LTE.
+A33 USB look after storm FLAG is boring. Never testers. USB ≠ LTE. Live Next is `you-decide-sit`. Generate following. Confirm not tapped.

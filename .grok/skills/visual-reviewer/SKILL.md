@@ -39,9 +39,10 @@ Mechanical look score (required when PNGs exist):
 
 ```bash
 python3 python/look_verify.py --png-dir <stills-dir>
+python3 python/mum_verify.py --png-dir <stills-dir> --gauntlet-md <optional-GAUNTLET.md>
 ```
 
-Exit 2 = one or more FAIL. Exit 0 may still be FLAG. FLAG is iterate. PASS is not human Yes.
+`look_verify` is millwork grammar. `mum_verify` is mother–son benchmark statements (she stamps, he runs; no CLI required of her; language of the house, not a plugin). Exit 2 = one or more FAIL. Exit 0 may still be FLAG. FLAG is iterate. PASS is not human Yes.
 
 ## Rubric
 
@@ -63,7 +64,9 @@ FACE-SPEC V-rows (rack grammar). Dest millwork is an addendum, not a silent V4 r
 
 FAIL closed: V2, V5 (`…`), V3, or L0 (launcher). FLAG is iterate. PASS is not human Yes.
 
-Write `VISUAL.md` into the current stage `output/`. Copy `look_verify.py` table into it.
+Mum-class (M0–M9): copy `mum_verify.py` table into `MUM.md`. M9-casual-language FLAGs while SitRackView millwork is the face. That FLAG is not a protocol FAIL.
+
+Write `VISUAL.md` into the current stage `output/`. Copy `look_verify.py` table into it. Copy mum table into `MUM.md`.
 
 ## Never
 

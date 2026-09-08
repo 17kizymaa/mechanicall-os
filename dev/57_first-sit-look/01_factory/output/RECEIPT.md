@@ -7,6 +7,7 @@
 - visual-reviewer Inputs → `SitRackView.kt` / `SitCRects.kt` / nodpi. SeatNav deleted.
 - `python/look_verify.py` L0–L8. Launcher PNG fail-closes. IsolatedDark CRT FLAGs.
 - `python/sit_dest_walk.py` + `scripts/sit-dest-walk.sh` (storm-0 only).
+- `python/you_decide_plate_cycle.py` + `scripts/you-decide-plate-cycle.sh` — assemble+walk+score; FLAG is iterate. See `CYCLE.md`.
 - `app_verify` B3/B4/B11/B12 recanted (no Field Objective Need; no IsolatedDark Need; Send+FILES one dest). Law still 15/15.
 - actual-app-verification workflow + app-reviewer no longer name SeatNav as the host.
 

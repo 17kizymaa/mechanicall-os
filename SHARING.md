@@ -33,10 +33,10 @@ Opt-in. Not EdubaWare upload-to-cloud. Not syncthing dual-CURRENT.
 Steal: **AirDrop / Nearby Share / Taildrop / ChatGPT “Download when ready”**.
 
 1. **Offer** — a folder is staged. `NOTICE.json` with `notify: true`, `not_yes: true`, `status: offered`.
-2. **Notify** — operator sees `.inbox/sitters/<id>/`; sitter sees an incoming-offer lamp (not Decide).
+2. **Notify** — operator sees `inbox/sitters/<id>/`; sitter sees an incoming-offer lamp (not Decide).
 3. **Accept / Decline** — like AirDrop. Decline is not reject-CURRENT. Accept copies files.
 4. **Never auto-apply CURRENT.md.** Accept **skips** live `CURRENT.md`. A “new application” folder is still an offer (user installs/opens; not Yes).
-5. **Gitignore** — `.inbox/sitters/` and `.inbox/outbox/` are local. Not law. Not this repo’s CURRENT.
+5. **Gitignore** — `inbox/sitters/` and `inbox/outbox/` are local. Not law. Not this repo’s CURRENT.
 
 ```
 python3 -c "from aether_inbox import upload_sitter, offer_outbound, accept_offer, decline_offer"
@@ -44,8 +44,8 @@ python3 -c "from aether_inbox import upload_sitter, offer_outbound, accept_offer
 
 | Path | Direction |
 |------|-----------|
-| `.inbox/sitters/<id>/` | sitter **upload** (depreciated opt-in) → operator looks |
-| `.inbox/outbox/<id>/` | operator **send back** → sitter Accept/Decline |
+| `inbox/sitters/<id>/` | sitter **upload** (lab drop or opt-in) → operator looks |
+| `inbox/outbox/<id>/` | operator **send back** → sitter Accept/Decline |
 
 Headscale may carry the tarball later (JNI leftover). The **store** is always a local gitignored directory, never the control plane.
 
@@ -55,7 +55,7 @@ In-app FILES overlay is **cut**. FILES opens the **device file manager** on the 
 
 ## Bind
 
-Phone bind ≠ this repo (B10). Uploading a *copy* into `.inbox/sitters/` is not binding mechanicall-os. Operator must not `aether approve` from an inbox copy.
+Phone bind ≠ this repo (B10). Uploading a *copy* into `inbox/sitters/` is not binding mechanicall-os. Operator must not `aether approve` from an inbox copy.
 
 ## Not this standard
 
