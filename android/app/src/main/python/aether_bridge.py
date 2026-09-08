@@ -32,6 +32,7 @@ def _wrap(fn, *args):
             face_state_json,
             gate_state,
             not_yet,
+            did_it,
             project_shortcuts,
             read_propose,
             read_receipt,
@@ -72,6 +73,7 @@ def _wrap(fn, *args):
                 "face_state_json": face_state_json,
                 "gate_state": gate_state,
                 "not_yet": not_yet,
+                "did_it": did_it,
                 "project_shortcuts": project_shortcuts,
                 "read_propose": read_propose,
                 "read_receipt": read_receipt,
@@ -186,6 +188,10 @@ def yes(path: str, reason: str) -> str:
 
 def not_yet(path: str, reason: str) -> str:
     return _wrap(lambda m, p, r: m["not_yet"](p, r).text, path, reason)
+
+
+def did_it(path: str, reason: str) -> str:
+    return _wrap(lambda m, p, r: m["did_it"](p, r).text, path, reason)
 
 
 def agent_edit(path: str, host: str) -> str:

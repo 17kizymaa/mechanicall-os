@@ -19,9 +19,9 @@ data class PackRect(val l: Int, val t: Int, val r: Int, val b: Int) {
     }
 }
 
-enum class SitPlate { SPLASH, BIND, PLAN, DRAFT, DECIDE, RECEIPT }
+enum class SitPlate { SPLASH, BIND, PLAN, DRAFT, DECIDE, NEXT, RECEIPT }
 
-/** SitRackView modes: isolated = maximised dark dest, no millwork overlay. */
+/** CRT dest = leftover-lab tube. DRAFT dest = paper writer. */
 enum class IsolatedMode { NONE, CRT, DRAFT }
 
 enum class SitHit {
@@ -47,6 +47,10 @@ enum class SitHit {
     Send,
     Wake,
     DecidePaper,
+    WhyStrip,
+    DecideNotYet,
+    DidIt,
+    NotYetFeet,
     Files,
     DismissZoom,
     None,
@@ -62,6 +66,8 @@ object SitCRects {
     val title = PackRect(131, 38, 949, 185)
 
     val lcd = PackRect(146, 254, 934, 767)
+    /** Inner phosphor of the chassis STATUS hole. Peek text stays in this glass. */
+    val lcdGlass = PackRect(176, 292, 904, 728)
     val lcdFill = PackRect(131, 185, 949, 1864)
 
     /**
@@ -90,6 +96,10 @@ object SitCRects {
     val banksDest = PackRect(135, 1144, 953, 1288)
 
     val well = PackRect(109, 1316, 971, 1836)
+    /** Live receipt paper inside sit_well_receipt metal frame. Interchangeable inner. */
+    val receiptPaper = PackRect(117, 1380, 965, 1813)
+    /** Decide No / Not yet — blank plate under YES. */
+    val decideNotYet = PackRect(160, 1688, 920, 1832)
     val bindPad = PackRect(262, 1405, 818, 1713)
     val files = PackRect(150, 1720, 938, 1830)
 
@@ -98,6 +108,10 @@ object SitCRects {
     val fieldKeep = well.row(5, 2)
     val fieldReject = well.row(5, 3)
     val fieldLimits = well.row(5, 4)
+
+    /** After Yes, Plan well: two feet. I did it is labour, not Yes. Not a 5th bank. */
+    val didIt = well.row(2, 0)
+    val notYetFeet = well.row(2, 1)
 
     val fieldAlpha = well.row(4, 0)
     val fieldBeta = well.row(4, 1)
@@ -110,23 +124,37 @@ object SitCRects {
     val isolatedGlass = PackRect(40, 40, 1040, 2098)
 
     /**
-     * Maximised STATUS tube. 504×382 aspect of sit_crt.png.
-     * Isolated dest millwork is the tube, not a chassis overlay.
+     * Dest CRT: sit_crt bezel borders the dest. Dark field, no chassis.
+     * Glass is glassIn(this). Text pads inside that glass.
      */
-    val isolatedCrt = PackRect(40, 200, 1040, 958)
+    val isolatedCrt = PackRect(16, 48, 1064, 2040)
 
-    /** Send overlay plate = STATUS module, not a filled rectangle. */
-    val sendPanel = PackRect(90, 640, 990, 1322)
+    /** Draft writer paper below the title plaque. Keyboard overlays chassis. */
+    val isolatedScreen = PackRect(48, 196, 1032, 1860)
+    /** IME field inside dest CRT glass (Why / peek). Keyboard overlays. */
+    val isolatedEdit = PackRect(88, 360, 992, 620)
+    val DraftPaper = 0xFFF3E6C8.toInt()
+    val DraftInk = 0xFF2A2418.toInt()
 
+    /** Send-folder settings panel. */
+    val sendPanel = PackRect(70, 640, 1010, 1680)
+    /** FOLDER plaque — tap to stage/send. Not Yes. */
+    val folderSend = PackRect(110, 650, 970, 850)
+    val folderList = PackRect(110, 860, 970, 1480)
     /** OEM FILES strip on the combined Send+FILES dest. */
-    val folderOem = PackRect(120, 1208, 960, 1310)
+    val folderOem = PackRect(110, 1508, 970, 1648)
 
     val Letterbox = 0xFF12100E.toInt()
     val IsolatedDark = 0xFF0A0A0C.toInt()
     val Dim = 0xCC0A0A0C.toInt()
+    /** Darkened-room surround. Screen maximises over this night chassis. */
+    val CrtRoom = 0xC80A0A0C.toInt()
     val LcdAmber = 0xFFE6C14A.toInt()
     val LcdFlash = 0x59E6C14A.toInt()
     val Hint = 0x99E6C14A.toInt()
     val TearRed = 0x80FF4444.toInt()
     val TearCyan = 0x8066DDFF.toInt()
+    /** House ink on millwork paper. Violet = NOT ACTIVE. */
+    val Violet = 0xFF5C3D8A.toInt()
+    val QuietInk = 0xFF6A6458.toInt()
 }

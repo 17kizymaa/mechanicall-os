@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Depreciated folder send/receive — local inbox, not Headscale-as-Drive.
+"""Lab folder send/receive — mechanicall-os/inbox, not Headscale-as-Drive.
 
 Not Yes. Not Decide. Not CURRENT of mechanicall-os.
 
-Steal: AirDrop / Nearby Share / Taildrop — offer → notify → Accept/Decline.
-Upload (sitter → operator) lands under .inbox/sitters/<id>/ (gitignored).
-Download (operator → sitter) stages under .inbox/outbox/<id>/ and is an
+Steal: AirDrop / Nearby Share / Taildrop / DownloadManager progress —
+offer → notify → Accept/Decline. GATE shows upload/download percent.
+Upload (sitter → operator) lands under inbox/sitters/<id>/ (gitignored).
+Download (operator → sitter) stages under inbox/outbox/<id>/ and is an
 *offer* on the phone until they Accept. Accept copies files; it never
 writes live CURRENT.md. A folder of a new application is still an offer.
 
@@ -44,8 +45,8 @@ def inbox_root(repo: str | Path | None = None) -> Path:
     if env:
         return Path(env).expanduser().resolve()
     if repo:
-        return Path(repo).expanduser().resolve() / ".inbox"
-    return Path(__file__).resolve().parent.parent / ".inbox"
+        return Path(repo).expanduser().resolve() / "inbox"
+    return Path(__file__).resolve().parent.parent / "inbox"
 
 
 def _slug(name: str) -> str:
@@ -231,7 +232,7 @@ def stage_upload(pocket: str | Path) -> dict:
         dest,
         direction="sitter-to-operator",
         files=count,
-        note="Staged upload. Operator copies into .inbox/sitters/.",
+        note="Staged upload. Operator copies into inbox/sitters/.",
     )
     return {
         "ok": True,
@@ -261,6 +262,56 @@ def project_preview(pocket: str | Path) -> dict:
         "not_yes": True,
         "note": "Project in the works.",
     }
+
+
+def write_pocket_transfer(
+    pocket: str | Path,
+    direction: str,
+    percent: int,
+    note: str = "",
+) -> dict:
+    """Honest GATE percent. Not Yes. Empty pocket is a no-op."""
+    payload = {
+        "direction": direction if direction in {"up", "down"} else "",
+        "percent": max(0, min(100, int(percent))),
+        "note": note,
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "not_yes": True,
+    }
+    if not str(pocket).strip():
+        return payload
+    try:
+        root = refuse_if_operator(pocket)
+    except PocketError:
+        return payload
+    dest = root / ".aether"
+    dest.mkdir(parents=True, exist_ok=True)
+    (dest / "transfer.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    return payload
+
+
+class _ProgressReader(io.RawIOBase):
+    """File-like zip body that reports GATE percent while POSTing."""
+
+    def __init__(self, data: bytes, on_progress) -> None:
+        self._buf = io.BytesIO(data)
+        self._total = len(data)
+        self._got = 0
+        self._on = on_progress
+
+    def readable(self) -> bool:
+        return True
+
+    def __len__(self) -> int:
+        return self._total
+
+    def read(self, n: int = -1) -> bytes:  # noqa: A003
+        chunk = self._buf.read(n)
+        self._got += len(chunk)
+        if self._total and self._on:
+            pct = 40 + int(55 * self._got / self._total)
+            self._on(min(95, pct))
+        return chunk
 
 
 def drop_hosts() -> list[str]:
@@ -376,12 +427,15 @@ def _drop_request(
 
 def send_project(pocket: str | Path, from_id: str = "") -> dict:
     """Stage + post to the lab drop. Local stage still happens if drop is quiet. Not Yes."""
+    write_pocket_transfer(pocket, "up", 5, "staging")
     staged = stage_upload(pocket)
     root = refuse_if_operator(pocket)
     slug = from_id.strip() or root.name or "pocket"
     if not SLUG_RE.match(slug):
         slug = "pocket"
+    write_pocket_transfer(pocket, "up", 25, "zip")
     blob = _zip_tree(root)
+    write_pocket_transfer(pocket, "up", 40, "post")
     last = "drop quiet"
     for host in drop_hosts():
         url = host.rstrip("/") + "/offer?" + urllib.parse.urlencode(
@@ -391,12 +445,18 @@ def send_project(pocket: str | Path, from_id: str = "") -> dict:
             status, body, _hdrs = _drop_request(
                 url,
                 method="POST",
-                data=blob,
-                headers={"Content-Type": "application/zip"},
-                timeout=6,
+                data=_ProgressReader(
+                    blob,
+                    lambda pct: write_pocket_transfer(pocket, "up", pct, "post"),
+                ),
+                headers={
+                    "Content-Type": "application/zip",
+                    "Content-Length": str(len(blob)),
+                },
+                timeout=12,
             )
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            last = f"drop quiet ({exc})"
+        except (urllib.error.URLError, TimeoutError, OSError):
+            last = "drop quiet"
             continue
         if status and status < 300:
             note = "In the works. Other seat can receive."
@@ -408,11 +468,13 @@ def send_project(pocket: str | Path, from_id: str = "") -> dict:
             staged["note"] = note
             staged["drop"] = host
             staged["from"] = slug
+            write_pocket_transfer(pocket, "up", 100, note)
             return staged
-        last = f"drop refused HTTP {status}"
+        last = "drop quiet"
     staged["note"] = f"Staged locally. {last}."
     staged["drop"] = ""
     staged["from"] = slug
+    write_pocket_transfer(pocket, "up", 0, staged["note"])
     return staged
 
 
@@ -428,8 +490,8 @@ def poll_incoming(pocket: str | Path, for_id: str = "") -> dict:
         meta_url = host.rstrip("/") + "/offer.json?" + urllib.parse.urlencode({"not": slug})
         try:
             status, body, _hdrs = _drop_request(meta_url, timeout=1.2)
-        except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            last = f"drop quiet ({exc})"
+        except (urllib.error.URLError, TimeoutError, OSError):
+            last = "drop quiet"
             continue
         if status == 204 or not body:
             last = "no offer"
@@ -451,11 +513,14 @@ def poll_incoming(pocket: str | Path, for_id: str = "") -> dict:
             if not stored_id or stored_id == meta_id:
                 return existing
         blob_url = host.rstrip("/") + "/offer.zip"
+        write_pocket_transfer(pocket, "down", 10, "pull")
         try:
-            _st, blob, _h = _drop_request(blob_url, timeout=4)
+            _st, blob, _h = _drop_request(blob_url, timeout=8)
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             last = f"drop blob quiet ({exc})"
+            write_pocket_transfer(pocket, "down", 0, last)
             continue
+        write_pocket_transfer(pocket, "down", 70, "unpack")
         dest = pocket_offer_dir(root)
         if dest.exists():
             shutil.rmtree(dest)
@@ -465,6 +530,7 @@ def poll_incoming(pocket: str | Path, for_id: str = "") -> dict:
             if dest.exists():
                 shutil.rmtree(dest)
             last = "drop zip refused"
+            write_pocket_transfer(pocket, "down", 0, last)
             continue
         _notice(
             dest,
@@ -475,6 +541,7 @@ def poll_incoming(pocket: str | Path, for_id: str = "") -> dict:
             id=str(meta.get("id") or ""),
             note="Incoming folder via lab drop.",
         )
+        write_pocket_transfer(pocket, "down", 100, "incoming folder")
         return offer_status(root)
     existing["note"] = last
     return existing
