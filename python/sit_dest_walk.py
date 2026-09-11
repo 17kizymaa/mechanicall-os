@@ -29,6 +29,7 @@ HITS = {
     "well": (540, 1576),
     "outside_send": (80, 400),
     "iso_top": (540, 80),
+    "folder_send": (540, 750),
 }
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -141,7 +142,13 @@ def seed(serial: str, out: Path) -> None:
         "## Prohibited\n- automatic-approve\n",
         encoding="utf-8",
     )
+    (local / "PROPOSE-CURRENT.md").write_text(
+        "# Proposed CURRENT update (draft — not authority)\n\n"
+        "Type here. This file is PROPOSE-CURRENT.md. Not CURRENT.\n",
+        encoding="utf-8",
+    )
     adb(serial, "push", str(local / "CURRENT.md"), f"{path}/CURRENT.md")
+    adb(serial, "push", str(local / "PROPOSE-CURRENT.md"), f"{path}/PROPOSE-CURRENT.md")
 
 
 def grant(serial: str) -> None:
@@ -191,11 +198,19 @@ def main(argv: list[str] | None = None) -> int:
     tap(serial, "bank_draft", sw, sh)
     time.sleep(0.5)
     shot(serial, out, "dest-draft")
+    tap(serial, "lcd", sw, sh)
+    time.sleep(0.7)
+    shot(serial, out, "dest-draft-edit")
+    tap(serial, "iso_top", sw, sh)
+    time.sleep(0.4)
     tap(serial, "title", sw, sh)
     time.sleep(0.35)
     tap(serial, "send", sw, sh)
     time.sleep(0.55)
     shot(serial, out, "dest-folder")
+    tap(serial, "folder_send", sw, sh)
+    time.sleep(1.2)
+    shot(serial, out, "dest-folder-staged")
     tap(serial, "outside_send", sw, sh)
     time.sleep(0.35)
     tap(serial, "bank_decide", sw, sh)

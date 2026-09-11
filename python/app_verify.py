@@ -124,25 +124,26 @@ def score_source(uidump: str = "") -> list[dict]:
         )
     )
 
-    draft_editor = "EditText" in rack
-    draft_writes = "writeSchemaDraft" in nav
+    draft_editor = "EditText" in rack and "editDraftWriter" in rack
+    draft_writes = "savePropose" in nav and "write_propose" in _read(PY / "aether_pocket.py")
     b3 = draft_editor and draft_writes
     out.append(
         _row(
             "B3-plan-manual-edit",
             b3,
-            "Draft EditTexts write PROPOSE via writeSchemaDraft. "
+            "Draft writer EditText saves PROPOSE via savePropose/write_propose. "
             f"draft_editor={draft_editor} draft_writes={draft_writes}",
         )
     )
 
     still_thread = "LazyColumn" in rack
     b4 = "IsolatedMode.DRAFT" in nav and draft_writes and not still_thread
+    b4 = b4 and "IME_FLAG_NO_ENTER_ACTION" in rack
     out.append(
         _row(
             "B4-draft-is-workshop",
             b4,
-            "PASS if Draft dest exists and the rack is not a message thread. "
+            "PASS if Draft dest is a text editor (not a message thread). "
             f"draft_dest={'IsolatedMode.DRAFT' in nav} writes={draft_writes} thread={still_thread}",
         )
     )
@@ -151,7 +152,7 @@ def score_source(uidump: str = "") -> list[dict]:
     b5 = b5 and "test_show_plan_cannot_write_propose" in tests
     out.append(_row("B5-propose-not-current", b5, "local stage owns PROPOSE write; test present"))
 
-    b6 = "decideArmed" in nav or "Publish? tap paper again" in nav
+    b6 = "decideArmed" in nav
     b6 = b6 and "why required" in nav
     b6 = b6 and "FaceBridge.yes" in nav
     b6 = b6 and "HunkPickRow" not in nav
@@ -160,7 +161,7 @@ def score_source(uidump: str = "") -> list[dict]:
         _row(
             "B6-decide-only-yes",
             b6,
-            "two-tap paper + Why-required; Decide is Publish not hunk pick",
+            "two-tap paper + Why-required; Decide is Yes not hunk pick",
         )
     )
 
@@ -201,23 +202,31 @@ def score_source(uidump: str = "") -> list[dict]:
         )
     )
 
+    send_block = nav.split("SitHit.Send")[-1].split("SitHit.")[0] if "SitHit.Send" in nav else ""
     b12 = "sendOverlay" in rack and "openSendOverlay" in nav
-    b12 = b12 and "SitHit.Send -> openSendOverlay" in nav
-    b12 = b12 and "sendProject" not in nav
+    b12 = b12 and "stageSendFolder" in nav and "sendFolder" in nav
+    b12 = b12 and "yes(" not in send_block and "FaceBridge.yes" not in send_block
     b12 = b12 and "SitHit.Files" in nav
     b12 = b12 and "openSendOverlay()" in nav
-    b12 = b12 and "folderOem" in crects
+    b12 = b12 and "folderOem" in crects and "folderSend" in crects
     out.append(
         _row(
             "B12-send-overlay",
             b12,
-            "Send and FILES open one dest; OEM FILES strip on dest; not yes(); not sendProject",
+            "Send and FILES open one dest; FOLDER plaque stages; OEM FILES; not yes()",
         )
     )
 
-    b13 = "IsolatedMode.DRAFT" in nav and "live vs proposed" in rack and "writeSchemaDraft" in nav
+    b13 = "IsolatedMode.DRAFT" in nav and "editDraftWriter" in rack and "savePropose" in nav
     b13 = b13 and "LazyColumn" not in rack
-    out.append(_row("B13-draft-workshop-page", b13, "Draft bank opens isolated workshop; PROPOSE only"))
+    b13 = b13 and "DRAFT writer" in nav and "NOT ACTIVE" in nav
+    out.append(
+        _row(
+            "B13-draft-workshop-page",
+            b13,
+            "Draft bank opens isolated whole-file writer; PROPOSE only",
+        )
+    )
 
     b14 = "SEND overlay" in nav and "tap outside to dismiss" in rack
     b14 = b14 and "sit-send-smoke" in _read(ROOT / "scripts" / "sit-send-smoke.sh")

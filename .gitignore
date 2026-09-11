@@ -25,7 +25,11 @@ venv/
 # Local inbox/sparks if stored in-tree by mistake
 /inbox.md
 
-# Depreciated sitter folder send/receive (E7). Not law. Not CURRENT.
+# Lab folder send/receive. Bytes gitignored. README stays. Not CURRENT.
+/inbox/sitters/
+/inbox/outbox/
+/inbox/drop/
+/inbox/tickets/
 /.inbox/sitters/
 /.inbox/outbox/
 /.inbox/drop/

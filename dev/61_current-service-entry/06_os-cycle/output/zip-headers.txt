@@ -1,0 +1,13 @@
+HTTP/2 200 
+date: Wed, 09 Sep 2026 14:43:19 GMT
+content-type: application/zip
+cache-control: no-store
+content-disposition: attachment; filename="ticket.zip"
+rndr-id: a21a9151-7d4c-44df
+server: cloudflare
+x-content-type-options: nosniff
+x-render-origin-server: Render
+cf-cache-status: DYNAMIC
+cf-ray: a386f6ee4bad3784-LHR
+alt-svc: h3=":443"; ma=86400
+
