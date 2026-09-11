@@ -1,6 +1,1079 @@
-# Decision tree — C-series (CURRENT rewrite, 2026-09-05) then M / W / R / G-chassis
+# Decision tree — F-series (faith probe / one CURRENT Yes) then Y / C / M / W / R
 
-**Live law now:** header **Next:** `you-decide-ritual` · **APPROVED**. Product **Mechanicall: You Decide**. Schema OK (Phase/Status/Approval all APPROVED — prefer EXECUTE). Agents do **not** silently rewrite CURRENT. Dual-Next Reject. This grill persists here; it is not apply.
+**Live law now:** disk `CURRENT.md` is the 14:48 **proposal paste** (schema **FAIL**: no Objective/Phase/Next/Keep). Header Status/Approval **APPROVED** from `aether approve` *Demo is gonna happen now*. Models do **not** overwrite CURRENT this grill. Chat door live (`40376d3`). Generate parked. Sequential ids following.
+
+**Skill:** grilling (frontier rounds) + persist (`grill-me-store-decisions`).  
+**Premise (this sitting):** “Update CURRENT.md. This stage probes *faith in the system*. Comments are baseline suggestions until fluent dialogue. Target: one CURRENT.md Yes — they fully read a Mechanicall-level CURRENT and say Yes. Redirection needed. /grill-me”
+
+Factory: `dev/61_current-service-entry/` (chat rooms live).
+
+---
+
+# F-series (open) — faith probe; one CURRENT Yes
+
+**Interview started:** 2026-09-09 (evening)  
+**Interview status:** Round 1 **F1=1**. Round 2 asked (F2–F5).
+
+## Facts (looked up — not asked)
+
+- Disk CURRENT is proposal-not-law with **Status/Approval: APPROVED**. `aether current validate` FAIL.
+- Last human approve: 15:02 *Demo is gonna happen now: lets go.*
+- Apex chat: `be67bf7` / `40376d3`. Send ≠ Yes. `?as=anthony` is operator suffix. No web Yes (Y-series `web-yes-splits-authority` Reject).
+- Live rooms (Render seats `/var/data/seats/you-decide`):
+  - `e745d275…` Mum: “Hi 👋 its mother” → Anthony replies; no Mum reply after business-idea ask.
+  - `2b48071d…` “Hi Anthony” → “Ok this works” (20:09).
+  - `e9b16791…` “Happy birthday” only.
+  - Three empty/lab tickets including operator zip on `4ee13598…`.
+- Y-series decided: concierge this halt, capability URL, 8 MiB, inbox/tickets, Generate following, sequential ids following.
+- PRODUCT: You decide. Plan you can `cat`. Yes only you can give. Chat is ephemeral unless it lands as CURRENT.
+
+## Guiding principles (F) — from operator, pending F1 lock
+
+1. CURRENT is law. Grill writes `decision-tree.md` + a **proposal file** later. Models do not paste CURRENT.
+2. One Next. Dual-Next Reject.
+3. Models never approve. Silence ≠ permission. Send / comment ≠ Yes.
+4. This stage probes **faith in the system**.
+5. Chat **comments** are baseline suggestions until fluent dialogue.
+6. Target per project: **one CURRENT.md Yes** after they fully read a Mechanicall-level CURRENT.
+7. Redirection of the live Next (os-cycle plumbing) into this faith halt.
+8. Minimize paid third parties. No accounts this halt.
+
+## Master cost map (F)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| Restamp CURRENT (faith / one Yes) | hours of law; $0 vendor | same law | same law | already the repo |
+| Chat comments as baseline | $0; already on seats disk | 50 threads | 1,000 threads | gitignored blobs |
+| Fluent dialogue (later) | OpenRouter via Desktop/.env if unparked | token $ | token $ | desk model parked (Y21b) |
+| Web Yes button | forbidden (splits authority) | same | same | Yes stays human, off Send |
+| One Mechanicall CURRENT they can `cat` | operator hours per project | 50 CURRENT files | 1,000 | filesystem is the product |
+
+## Summary of decisions (F)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **F1** | What this CURRENT rewrite authorizes | **1** faith probe; one CURRENT Yes | decided | hours of law; $0 vendor |
+
+## Per-decision (F)
+
+### F1 — What this CURRENT rewrite authorizes
+
+**Question:** Live CURRENT is an invalid proposal paste. Demo + chat rooms exist. You asked to update CURRENT: faith probe, comments as baseline until fluent dialogue, target = one person fully reads a Mechanicall CURRENT and says Yes, redirection. What does *this* rewrite authorize as the one Next?
+
+**Options presented:**
+
+1. **Faith probe.** Plumbing and chat door are baseline. This Next: one live person fully reads a Mechanicall-level CURRENT (NOT ACTIVE until Yes) and says **Yes**. Chat comments are baseline suggestions until fluent dialogue. Success = that Yes, not zip-for-its-own-sake. New Action id (header = body). Sequential ids / Generate still following.
+2. **Restamp os-cycle only.** Faith / CURRENT-Yes is following. This rewrite only makes CURRENT schema-valid for the shipped door + chat.
+3. **Fluent dialogue first.** Do not aim at a CURRENT Yes this halt. Comments stay comments; build fluency. Yes following.
+4. Dual faith-probe AND sequential ids / Generate / APK millwork. **Forbidden.**
+
+**Selected:** **1** (2026-09-09 Round 1). Operator `1.`
+
+**Rationale / recommendation:** **1.** You already named faith, one CURRENT Yes after a full read, comments as baseline, and redirection. (2) ducks the product test. (3) more millwork before the thing that *is* Mechanicall. (4) Dual-Next Reject.
+
+**Cost tradeoff:**
+
+- **v1 (solo):** (1) hours of law + one honest CURRENT in a live room; $0 extra SaaS. (2) cheaper *text* but the demo already happened — restamping plumbing does not test faith. (3) OpenRouter/dialogue hours before any Yes. (4) two Nexts; law broken.
+- **alpha (50):** (1) 50 people × one CURRENT Yes is the service. (2) 50 chats with no plan. (3) 50 fluent chats still without authority.
+- **growth (1,000):** hosted chat is cheap on 1 GB disk; the scarce thing is operator CURRENT-writing. SaaS Help Scout still Reject (Y19).
+- **SaaS vs self-host:** rooms already on Render seats + Kingston pull. No new vendor.
+- **Engineer-time:** (1) grill + propose + one room this sitting/next. (2) an hour of schema. (3) dialogue millwork days. (4) forbidden.
+
+**Dependencies:** Y1=1 (concierge this halt), Y19g (capability URL), web-yes-splits-authority Reject.  
+**Unlocks if 1:** F2 where they say Yes; F3 what “Mechanicall-level CURRENT” they must read; F4 which live room is the probe; F5 how comments stay baseline vs fluent.  
+**Status:** `decided`
+
+### F2 — Where they say Yes (not Send)
+
+**Question:** F1=1: they fully read a Mechanicall CURRENT and say Yes. Send / comment is not Yes (`web-yes-splits-authority` Reject). Where does that Yes happen this halt?
+
+**Options presented:**
+
+1. **In-person** (or a voice they already use with Anthony). You record it (`aether approve` / receipt). No Yes button on the site.
+2. **Decide plate on the ticket** — a control that is obviously not Send. Web Yes; fights the Reject.
+3. **They type “Yes” in the chat.** Send-as-Yes. Worse split.
+4. **They stamp CURRENT in a folder they own** (protocol Yes on their disk). Portable, heavy for this demo.
+
+**Selected:** —
+
+**Rationale / recommendation:** **1.** Demo is in-person. Web Yes stays Reject. Chat stays a hello.
+
+**Cost tradeoff:**
+
+- **v1:** (1) $0; you are already in the room. (2) a day of millwork + law risk. (3) $0 and a confused Yes. (4) teach them `aether` this sitting.
+- **alpha (50):** (1) does not scale; following halt needs a Decide plate that is not Send. (2) 50 web Yeses split authority unless CURRENT stays on *their* disk. (4) 50 local CURRENT files is the protocol.
+- **growth (1,000):** in-person cannot be the product. Protocol Yes on client disk stays $0 self-host.
+- **Engineer-time:** (1) hours. (2) days + SPEC fight. (4) onboarding week.
+
+**Dependencies:** F1=1, Y-series web-yes-splits-authority Reject.  
+**Unlocks:** F6 Action id; how the receipt records the Yes.  
+**Status:** `open`
+
+### F3 — What they must read
+
+**Question:** “Mechanicall-level CURRENT” they fully read before Yes. What object?
+
+**Options presented:**
+
+1. **SPEC-valid CURRENT for *their* project** (Objective, Phase, Next, Keep, Reject, Limits, Next allowed action, Approval condition, Prohibited). Short sentences, their voice. Still `aether current validate` OK. NOT ACTIVE until Yes.
+2. **Short card** — Objective + Next + Limits only. Readable; not Mechanicall-level.
+3. **This repo’s live CURRENT.md** (mechanicall-os). Wrong project.
+4. **Chat transcript as the plan.** Not `cat`-able law.
+
+**Selected:** —
+
+**Rationale / recommendation:** **1.** You said fully read a Mechanicall-level CURRENT. Schema is the faith test. Length is operator craft, not a missing section.
+
+**Cost tradeoff:**
+
+- **v1:** (1) one file, hours to write well. (2) faster, fails your bar. (3) $0 and nonsense. (4) $0 and no authority.
+- **alpha (50):** (1) 50 CURRENT files in `inbox/tickets/<id>/` or their disk. (2) 50 cards that never gate.
+- **growth (1,000):** filesystem CURRENT is the product; cards do not scale as law.
+- **Engineer-time:** (1) 1–3 hours per first Yes. (2) minutes. (4) zero, zero faith.
+
+**Dependencies:** F1=1.  
+**Unlocks:** F8 how that CURRENT is shown in the room (paper vs link vs zip).  
+**Status:** `open`
+
+### F4 — Which room is this halt
+
+**Question:** One bounded transition (Limits). Which live chat is the faith probe?
+
+**Options presented:**
+
+1. **Mum** `e745d275…` — demo started; business idea asked; no reply yet.
+2. **Ok this works** `2b48071d…` — faith in the *door*, not yet a project.
+3. **Happy birthday** `e9b16791…` — greeting only.
+4. **New mint.**
+5. **Whoever is ready first** — still one Yes; pick at the moment of plan, not now.
+
+**Selected:** —
+
+**Rationale / recommendation:** **1.** That is the demo you are in. (2) proves Send, not CURRENT. (5) delays F6 and the rewrite. Other rooms keep comments as baseline (your principle).
+
+**Cost tradeoff:**
+
+- **v1:** one room is free. Two rooms as one Next is Dual-Next. (5) costs another grill later.
+- **alpha (50):** one Yes per project is the service; this halt is still *one*.
+- **Engineer-time:** (1) continue tonight. (4) lose the Mum thread.
+
+**Dependencies:** F1=1.  
+**Unlocks:** which URL the CURRENT sits on.  
+**Status:** `open`
+
+### F5 — Comments vs fluent this halt
+
+**Question:** Comments are baseline suggestions until fluent dialogue. This halt still has Generate parked (Y17 / Y21). Who writes the suggestions and the CURRENT they read?
+
+**Options presented:**
+
+1. **Anthony types** (`?as=anthony`). Comments stay baseline. Generate stays parked. Your opinions are the suggestions.
+2. **Unpark Generate / OpenRouter in the room** this halt (Y21 recant).
+3. **Heuristics only** — lines of chat → CURRENT schema, no model (Y21=4 parked).
+4. **They write the CURRENT** themselves; you only Yes-gate.
+
+**Selected:** —
+
+**Rationale / recommendation:** **1.** Fluent dialogue is following. This halt is faith: they read *your* Mechanicall CURRENT and Yes. (2) is the parked Next. (4) skips the concierge.
+
+**Cost tradeoff:**
+
+- **v1:** (1) $0 tokens; your time. (2) OpenRouter $ + unpark risk. (3) a parser week. (4) $0, no service.
+- **alpha (50):** (1) does not scale; that’s why fluent/Generate is following. (2) token bill. (3) brittle.
+- **growth (1,000):** opinions-as-model is the following personal-llm story (Y17f).
+- **Engineer-time:** (1) tonight. (2) days + key hygiene. (3) week.
+
+**Dependencies:** F1=1, Y21b parked Ollama, Y17 Generate following.  
+**Unlocks:** F6 Action id copy.  
+**Status:** `open`
+
+## Open branches not yet asked (F)
+
+- **F6** Action id (after F2–F5).
+- **F7** Header Phase/Status on apply.
+- **F8** How the CURRENT is shown in the room (depends F3).
+- **F9** Receipt / zip after that Yes (depends F2).
+
+---
+
+# Y-series (closed for this sitting) — complete the concierge CURRENT draft
+
+**Interview started:** 2026-09-09  
+**Interview status:** **Apex door live.** Y22=1 commit/push `6b2e77f`. Chat later (`40376d3`). Generate talk still parked. F-series now owns the CURRENT rewrite. Models do not `aether next`.
+
+## Facts (looked up — not asked)
+
+- Disk CURRENT is an uncommitted rewrite of HEAD (`first-sit-look` dest millwork).
+- Header Next `publish-pilot-page`; body Action id `you-decide-ritual`; Next allowed action body is `...`.
+- Round 1 operator: `1. 1 (already is reject). 1.` → **Y1=1 Y2=1 Y3=1**. Dual door (Y1=4) stays Reject.
+- Round 2 operator: `1. 1. 1 - needs further elaboration; ongoing CI page element. 1.` → **Y5=1 Y8=1 Y10=1 Y11=1**. Y10 shape = Y10b. C4e: do not assume GitHub for “CI”.
+- Round 3 operator: `1. 1.` → **Y10b=1 Y6=1**. Stateless standing CI widget. Keep recast: client Yes / operator runs; returned files. Mum-son copy APK-following.
+- Round 4 operator: `1. 1. 1; LLM should copy the APK-planned version that I'm still kinda rejecting (self-hosted + openrouter).` → **Y15=1 Y16=1 Y17=1**. Following LLM (**Y17f**) copies APK-planned self-hosted + OpenRouter and stays unstamped (kinda-rejected). Not this halt. Not a key in the page.
+- Round 5 operator: `3 - I want to look at actual interactions to steal for the propose feature. But actually, make this the next NEXT` → **Y12=3**. Branch **Y18**.
+- Round 6 operator: `1. 1. Ignored last two …` → **Y18a=1 Y18b=1**. Y18c/d deferred.
+- Human applied toy, **approved** 13:03 (*email gonna be flooded*), **rejected** 13:04 (*how do I give them the zip back?*).
+- Round 8 operator: `1 - I like self-host - can go straight to my .inbox. 1.` → **Y19=1** (ticket grammar, **self-host**, not Help Scout SaaS) **Y19b=1** (door mints the object).
+- `.inbox/` in-tree is **depreciated** folder send (README). Live Python store is `inbox/` (`aether_inbox.py`: sitters/ in, outbox/ out, Accept ≠ Yes, skip CURRENT). `.inbox/drop/offer.zip` already exists. `aether_drop.py` is lab-only 127.0.0.1. Steal already on disk: AirDrop/Taildrop offer → Accept/Decline.
+- Mailto facts (not asked): no ticket id, no guaranteed attachment, no return path, flood is unstructured. Tickets: id, thread, attachments both ways, status ≠ Yes.
+- Prior sit steal **S5b=2** (Google Docs Suggesting / Track Changes / Overleaf / HackMD) was Plan+Draft chrome, **not** the concierge service loop. Do not assume that shortlist here.
+- Draft dest stills (looked up): `dev/60_day-synthesis/07_sdk_stills/output/04-draft.png` and `13_sit_sitter/output/stills/04-draft.png` — paper writer, heading matches `PROPOSE-TEMPLATE.md` (“Proposed CURRENT update (draft – not authority)”), body “NOT ACTIVE. Not the plan.”, GATE WAIT. Generate parked (S=3 / A9). B3/B4/B5: edit proposal, workshop, PROPOSE only. This grill does **not** start sit-sitter (that would be executing a Next that is not live).
+- Known anphuni.com paths (docs, not fetched live): `/protocol` literacy, `/session` capped seats, `/privacy`. Do not clobber.
+- After Round 1, disk header is **SELECT / REJECTED / REJECTED** (human `aether reject` twice: reason `REJECTED`, then `Just don't feel like it.`). Phase already SPEC-valid SELECT. SERVICE ENTRY is no longer in **Phase:**.
+- `aether current validate` OK. `aether probe publish-pilot-page` still **ALLOW** (matches Next even when Approval=REJECTED).
+- Offer says go to anphuni.com; leftover Limits say anphuni.com later; PRODUCT.md says Session is not core. Y1=1 recants “anphuni.com later” *for this Domain*.
+- Two Limits blocks, two Prohibited blocks. Keep ends `/grill-me`.
+- Offer 500MB per-user vs Prohibited accounts / multi-client infrastructure.
+- Prior proposal 2026-09-08: `you-decide-ritual`, APK sprint, website later. Parked as following (Y1=1), not deleted (`archive-you-decide-this-halt` still Reject).
+- No anphuni.com tree on this Kingston `opt/` mount.
+
+## Guiding principles (Y)
+
+1. CURRENT is law. This grill does not `aether next` / rewrite CURRENT.
+2. One Next. Dual-Next Reject.
+3. Models never approve. Silence ≠ permission.
+4. Completing the *draft* ≠ executing `publish-pilot-page`.
+5. Header Next and body Action id must match after apply.
+6. Minimize paid third parties. No billing infrastructure this halt (already Prohibited).
+7. PRODUCT core remains the filesystem protocol. **Y1=1** authorizes a service instance on anphuni.com *for this Domain*; that does not rewrite PRODUCT.md.
+8. Leftover APK millwork is **following** (Y1=1). Archive not deleted.
+
+## Master cost map (Y)
+
+| Line | v1 (solo) | alpha (50) | growth (1,000) | Self-host alt |
+|------|-----------|------------|----------------|---------------|
+| Finish CURRENT draft + propose file | hours; $0 vendor | same law | same law | already the repo |
+| Concierge pilot page on existing anphuni.com | 1–3 engineer-days if host exists | bounce if offer unclear | support load | static page + email intake |
+| Per-user 500MB hosted storage | host disk; accounts | 25 GB | 500 GB | client-owned folders (protocol) |
+| Continue APK millwork this halt | millwork hours already paid | testers on USB | store identity is APK | sideload $0 |
+| Dual APK + web as one Next | two products; law broken | tester confusion | two faces | forbidden |
+| Extend aether Phase/Status schema | protocol week | all Domains inherit | — | keep SPEC enums |
+| Following LLM: desk self-host + OpenRouter QC | $0–10/w if C17c ever stamps | still lab | not in the page | key on Desktop; not git |
+
+## Summary of decisions (Y)
+
+| ID | Decision | Selected | Status | Cost impact |
+|----|----------|----------|--------|-------------|
+| **Y1** | What this CURRENT rewrite authorizes | **1** concierge this halt | decided | APK millwork following; dual door Reject |
+| **Y2** | Draft-in-slot vs already stamped | **1** + disk already REJECTED | decided | not a false APPROVED; probe still ALLOW on Next match |
+| **Y3** | SPEC-valid header vs custom labels | **1** SPEC enums | decided | SERVICE ENTRY in Objective/Offer only |
+| **Y4** | Header Next vs body Action id | **both `publish-pilot-page`** | decided (auto) | leftover `you-decide-ritual` body is a bug |
+| **Y9** | Leftover APK Limits | **park as following** | decided (auto) | millwork-this-sprint not live Need |
+| **Y5** | What `publish-pilot-page` is | **1** public offer + one intake | decided | Session untouched; submit ≠ Yes |
+| **Y8** | Who operates bounded work | **1** you run; models propose; client Yes | decided | $0 hire; no unattended model |
+| **Y10** | Steal APK interactions vs form | **1** steal the loop as copy | decided | shape = Y10b (CI page element) |
+| **Y11** | Success bar this halt | **1** front door | decided | encounter = one-month; 12–100 later |
+| **Y10b** | Ongoing CI page element | **1** standing, stateless | decided | no per-user store; Generate ≠ Yes |
+| **Y6** | Keep recast (Send folder / she-stamps) | **1** client Yes, operator runs; returned files | decided | mum-son copy APK-following |
+| **Y7** | 500MB / accounts this halt | **park** (auto) | decided (auto) | Offer must not promise hosted quota |
+| **Y15** | Intake shape | **1** mailto | decided, **recanted by Y19** | raw mailto not the product |
+| **Y16** | URL path | **1** new path `/you-decide` | decided | don’t clobber `/session` `/protocol` `/privacy` |
+| **Y17** | Widget brain this halt | **1** paper/fields only | decided | Generate/LLM following |
+| **Y17f** | Following LLM shape | **copy APK-planned** self-host + OpenRouter; still kinda-rejected | decided | not this halt; not a third stack; not in the page |
+| **Y12** | Confirm assembled Action / Keep | **3** keep grilling | decided | branch Y18; confirm later |
+| **Y18a** | Sequence | **1** following after `publish-pilot-page` | decided | not dual; not swap |
+| **Y18b** | Where to look | **1** disk stills only | decided | no storm-0/A33 look Next |
+| **Y18c** | Halt of look Next | **deferred** | parked | define when propose hits the webpage |
+| **Y18d** | Action id for look | **deferred** | parked | name at that later Next |
+| **Y18f** | Following webpage propose | **add propose-with-model; adapt testing agents; define then** | decided | not this halt; not look-apk-propose as a specified halt |
+| **Y12b** | Confirm amended assembly | **1** confirm | decided | toy applied; then human reject (zip) |
+| **Y19** | Steal loop grammar | **1** ticket, **self-host into inbox** | decided | recants Y15 raw mailto; not Help Scout SaaS |
+| **Y19b** | How much this halt | **1** door mints the object | decided | zip later, same object; Y11 holds |
+| **Y19c** | Which folder | **`inbox/` live** (`.inbox` depreciated) | decided (auto) | operator named `.inbox`; code uses `inbox/` |
+| **Y19d** | How bytes enter this halt | **2** public drop on anphuni.com | decided | website for now; not mailto transport |
+| **Y19e** | How zip goes back | **website download** (gloss on 2) | decided | not reply-mail; APK outbox Accept following |
+| **Y19f** | Blob cap this halt | **8 MiB** (`aether_drop.py` MAX) | decided (auto) | not 500MB; not accounts |
+| **Y19g** | Ticket URL | **1** unguessable capability URL | decided | `/you-decide/t/<secret>`; no login |
+| **Y20** | Confirm recanted loop | **1** confirm | decided | door shipped; then human reject 13:58 |
+| **Y21** | Propose-with-model schema | **4** one line of prose → full CURRENT schema (heuristics + assistant) | decided | not chat; not JSON-only |
+| **Y21b** | Where the model runs | **PARK Ollama** · **OpenRouter via Desktop/.env** (server, not page) | decided | recant desk-now; no key in git/browser |
+| **Y21f** | Steal which Generate interaction | **1** type, tap Generate | decided | **output shape parked** until door finished |
+| **Y21c** | Sequence vs apex send | **2 recant** finish `publish-pilot-page` (apex) first | decided | model talk after |
+| **Y22** | Deploy you-decide to anphuni.com now | **1** commit+push | decided | `6b2e77f`; apex 200; drop received |
+
+## Per-decision (Y)
+
+### Y1 — What this CURRENT rewrite authorizes
+
+**Question:** The uncommitted Objective is a concierge web-app / project recovery service. Git HEAD is dest millwork. Yesterday’s proposal is APK `you-decide-ritual` with website later. PRODUCT.md says anphuni.com Session is not core. Which is *this* CURRENT rewrite?
+
+**Options presented:**
+
+1. Concierge / project-recovery service is this halt. Next after apply = `publish-pilot-page`. Park APK millwork as following. Recant “anphuni.com later” for this Domain.
+2. APK ritual is still this halt. Recant the concierge Objective. Restore `you-decide-ritual`. Website following.
+3. Sequence, one id. This conversation only finishes the CURRENT draft. After stamp, Next = `publish-pilot-page`. APK parked, not deleted. Not both in one Action list.
+4. Dual door. Pilot page and APK millwork as one Next. Forbidden.
+
+**Selected:** **1** (2026-09-09 Round 1). Operator override of rec 3. Gloss: dual door (4) “already is reject”.
+
+**Rationale / recommendation:** Was **3** (finish draft this sitting, then stamp). Operator picked **1**: concierge *is* this halt, not a drafting-only sequence. APK millwork following. Dual-Next stays Reject.
+
+**Cost tradeoff:**
+
+- **v1 (solo):** (1) hours of law + a page, $0 extra SaaS if anphuni.com already exists. (2) millwork hours already in-tree; website wait. (3) cheaper *process* (grill only) but delays the door. (4) two engineer-weeks and a broken gate.
+- **alpha (50):** (1) need an intake that is not “accounts” if that stays Prohibited. (2) 50 USB sideloads. (4) two faces.
+- **growth (1,000):** hosted 500MB×N is a storage product; protocol folders stay $0 self-host.
+- **SaaS vs self-host:** concierge on anphuni.com is hosted. Core protocol stays self-host. Dollar delta at v1: ~$0 if the domain already runs; at 1,000 users storage dominates unless files stay in the client’s folder.
+- **Engineer-time:** (1) as execute = days after stamp. (3) this sitting = grill + propose (hours). (2) continues the APK sprint. (4) forbidden.
+- **Crossover:** recant to (2) only if the Objective is withdrawn. Recant to (3) only if this sitting must not name `publish-pilot-page` as live Next until a later stamp.
+
+**Dependencies:** none (root). Unlocks Y4 (auto), Y5, Y8, Y9 (auto), Y10, Y11. Parks APK millwork.
+
+**Status:** `decided`
+
+### Y2 — Draft-in-slot vs already stamped
+
+**Question:** Header Approval is APPROVED while Baseline is `needs /grill`, Keep is incomplete, Next allowed action is `...`, and the Approval condition still says copy onto live Domain. `preflight publish-pilot-page` would ALLOW. Is this file stamped law, or a draft sitting in the CURRENT slot?
+
+**Options presented:**
+
+1. Draft in the slot. SELECT / DRAFT / PENDING until you stamp a complete file. **Recommended.**
+2. Already live law. Keep APPROVED. Completing Keep is a patch. Agents may execute header Next.
+3. Wrapper only. Move text to `.aether/proposals/` and restore HEAD CURRENT until stamp.
+
+**Selected:** **1** (2026-09-09 Round 1) with operator gloss **already REJECTED**. Rec was PENDING; disk is SELECT / REJECTED / REJECTED after human `aether reject` (“Just don't feel like it.”). Already-stamped APPROVED is Reject.
+
+**Rationale / recommendation:** Was **1** (PENDING). Operator picked 1 and had already rejected the unfinished stamp. Completing the draft is a new SELECT after reject, then a later Yes. Not option 2.
+
+**Cost tradeoff:**
+
+- **v1:** (1) $0; honest gate. REJECTED is stronger than PENDING for “do not treat as Yes.” Probe still ALLOW on Next match — that is a protocol quirk, not a Yes. (2) accidental execute. (3) git restore hours.
+- **alpha / growth:** a false stamp at 50–1,000 is a service running without a Keep.
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** already spent (human reject). Completing Keep still required before a real approve.
+- **Crossover:** move to PENDING on the *proposal* when the draft is complete; live disk stays REJECTED until the human stamps.
+
+**Dependencies:** independent of Y1. Couples to when `aether approve` is honest.
+
+**Status:** `decided`
+
+### Y3 — SPEC-valid header vs custom labels
+
+**Question:** Phase `SERVICE ENTRY` and Status `ACTIVE ― NOT YET VALIDATED` are not SPEC-v0.2 enums. Validate is OK because the parser is lenient. Do we keep custom labels, map to SPEC, or extend aether this halt?
+
+**Options presented:**
+
+1. SPEC-valid header. SERVICE ENTRY lives in Objective/Offer. Phase/Status/Approval stay in the enum. **Recommended.**
+2. Keep custom labels. Lifecycle mapping is informal.
+3. Extend schema this halt. Teach aether new tokens.
+
+**Selected:** **1** (2026-09-09 Round 1). Disk Phase already SELECT. SERVICE ENTRY stays a human label in Objective/Offer, not **Phase:**.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) minutes of header edit (already done for Phase). (2) $0, future `aether next` confusion. (3) protocol engineer-days + tests.
+- **alpha / growth:** every Domain inherits schema. Custom labels at 1,000 Domains = unparseable law.
+- **SaaS vs self-host:** n/a. Parser is in-tree.
+- **Engineer-time:** (3) is a protocol Next, not `publish-pilot-page`.
+- **Crossover:** pick (3) only as a *following* protocol Next, never this halt.
+
+**Dependencies:** independent of Y1. Unlocks the exact header of the completed draft.
+
+**Status:** `decided`
+
+### Y4 — Header Next vs body Action id (auto)
+
+**Question:** Cold start: if header Next and body Action id differ, stop. Y1=1 names `publish-pilot-page`. Body still says `you-decide-ritual`.
+
+**Options presented:** (not asked — forced by Y1=1 + SPEC)
+
+1. Both `publish-pilot-page`.
+2. Both `you-decide-ritual` (contradicts Y1=1).
+3. Leave mismatch.
+
+**Selected:** **1** both `publish-pilot-page` (auto, 2026-09-09).
+
+**Rationale / recommendation:** Mechanical. Mismatch is a bug, not a product choice.
+
+**Cost tradeoff:** $0. Leaving the mismatch costs a stopped agent every cold start.
+
+**Dependencies:** Y1=1. Unlocks Y12 prose under that id.
+
+**Status:** `decided` (auto)
+
+### Y9 — Leftover APK Limits (auto)
+
+**Question:** Second Limits block is APK millwork (sideload, F3, SitRackView, millwork this sprint, applicationId, anphuni.com later, copy-to-mum). Y1=1 parks APK as following.
+
+**Options presented:** (not asked — forced by Y1=1)
+
+1. Park APK Limits as following. Keep service Limits (one bounded transition, no emergency, no medical/legal/financial, no unstable APK download). Keep protocol Prohibited (automatic-approve, secrets, dual-Next, web-yes-splits-authority, family-mascot). Recant live Need `millwork-later-than-this-sprint` / SitRackView-this-sprint. Do not delete the millwork archive (`archive-you-decide-this-halt` stays Reject).
+2. Keep APK Limits live (dual-Next).
+3. Delete millwork archive.
+
+**Selected:** **1** (auto, 2026-09-09).
+
+**Rationale / recommendation:** Mechanical from Y1=1. Dual Limits was the incomplete draft.
+
+**Cost tradeoff:** $0 law. Engineer-time: APK millwork hours already paid stay in-tree as following, not a second Next.
+
+**Dependencies:** Y1=1. Unlocks a single Limits section in the proposal.
+
+**Status:** `decided` (auto)
+
+### Y5 — What `publish-pilot-page` is
+
+**Question:** Y1=1 recants “anphuni.com later” for this Domain. Offer says “Go to anphuni.com.” Host is chromium. Session already exists as a capped lab (not core). What does this Next actually publish?
+
+**Options presented:**
+
+1. Public offer + Limits on anphuni.com. One intake (mailto or one form). Submit ≠ Yes. Session seats untouched.
+2. Replace Session with a logged-in concierge (500MB per user).
+3. Chromium-local only; anphuni.com still later.
+4. Full stolen APK walk in the browser.
+
+**Selected:** **1** (2026-09-09 Round 2).
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) 1–3 engineer-days if anphuni.com already hosts pages; mailto/form is hours. (2) Session rewrite + accounts weeks. (3) $0 and recants Y1. (4) weeks and Prohibited.
+- **alpha (50):** (1) bounce if offer unclear; no login. (2) 50 accounts / 25 GB if 500MB. (4) two faces (APK+web millwork).
+- **growth (1,000):** (1) still a page + inbox. (2) 500 GB hosted. Self-host alt: client-owned folders.
+- **SaaS vs self-host:** (1) uses existing domain. Core protocol stays self-host.
+- **Engineer-time:** (1) days. (2) weeks. (3) contradicts Y1. (4) forbidden.
+- **Crossover:** recant to (3) only if the domain cannot take a page this halt.
+
+**Dependencies:** Y1=1. Unlocks Y12 after Y10b. Session seats not this Next.
+
+**Status:** `decided`
+
+### Y8 — Who operates the bounded work
+
+**Question:** Objective says human-operated project recovery. Prohibited: autonomous arbitrary project execution. Who runs the one bounded piece of approved work?
+
+**Options presented:**
+
+1. You (the operator) run it. Models propose. Client Yes.
+2. A model runs it after Yes, unattended.
+3. A hired runner / bench this halt.
+
+**Selected:** **1** (2026-09-09 Round 2). You run it. Models propose. Client Yes.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) your hours per bounded job; $0 vendor. (2) unattended model = Prohibited autonomous execution; one bad run is the product. (3) contractor $/job + another Yes surface.
+- **alpha (50):** (1) you are the bottleneck (honest for a concierge). (2) still forbidden. (3) bench cost; still your stamp.
+- **growth (1,000):** (1) does not scale — that is the one-year review point, not this halt. (3) becomes a firm.
+- **SaaS vs self-host:** n/a. Labour is the service.
+- **Engineer-time:** $0 product code. (3) hiring is not `publish-pilot-page`.
+- **Crossover:** hire only after one real encounter (Y11 one-month), not this Next.
+
+**Dependencies:** Y1=1. Unlocks Y6.
+
+**Status:** `decided`
+
+### Y10 — Steal APK interactions vs ritual-as-copy
+
+**Question:** Success evidence says “proposal model is smartly interactable (steal interactions).” Prohibited: rebuilding the APK in browser.
+
+**Options presented:**
+
+1. Steal the *loop* as copy/forms (brief, proposed Next, boundary, Yes, receipt, following NOT ACTIVE). Not SitRackView millwork on the web.
+2. Rebuild the sit walk in the browser (rack, wells, millwork).
+3. No interactable proposal this Next — static offer only.
+
+**Selected:** **1** (2026-09-09 Round 2) with operator gloss: **needs further elaboration; ongoing CI page element.** Not (2) rebuild APK. Not (3) static-only.
+
+**Rationale / recommendation:** Was **1**. Operator matched and opened **Y10b**. Fact: in C4e, “CI” is conversational iteration (or GitHub, or ICM factory) — **do not assume GitHub**.
+
+**Cost tradeoff:**
+
+- **v1:** (1) copy/forms or a page widget; hours–days. (2) rebuild sit in browser: weeks + Prohibited. (3) cheapest and drops success-evidence item 1.
+- **alpha / growth:** (2) becomes a second product face. (1) stays the ritual on the web.
+- **SaaS vs self-host:** widget on anphuni.com is hosted copy of a file ritual; protocol stays files.
+- **Engineer-time:** shape is Y10b, not this pin.
+- **Crossover:** never (2).
+
+**Dependencies:** Y1=1, Y5=1. Unlocks Y10b. Y12 waits on Y10b.
+
+**Status:** `decided` (shape open as Y10b)
+
+### Y11 — Success bar this halt
+
+**Question:** Immediate milestone lists 12–100 requests. Validation milestone is one complete encounter. Review points already say one week = front door, one month = one encounter. Prohibited: adding features before completing a real session; accounts.
+
+**Options presented:**
+
+1. This halt = front door (offer understandable + intake submit ≠ authorize). One encounter = one-month review, not this Next. 12–100 later.
+2. This halt includes one complete external encounter (brief → Yes → work → receipt).
+3. This halt includes 12–100 handled requests.
+
+**Selected:** **1** (2026-09-09 Round 2). This halt = front door. One encounter = one-month review. 12–100 later.
+
+**Rationale / recommendation:** Was **1**. Operator matched. Tension: Y10 gloss wants an ongoing CI page element *on* that door — resolved in Y10b, not by recanting Y11.
+
+**Cost tradeoff:**
+
+- **v1:** (1) days for a door. (2) door + a full concierge job in the same Next (fat). (3) accounts/ops.
+- **alpha (50):** (3) is 50 jobs; not this halt. (2) is the validation milestone already in Review points.
+- **growth (1,000):** 12–100 is a quarter-scale ops number, not a page.
+- **SaaS vs self-host:** n/a this halt if no accounts.
+- **Engineer-time:** (1) matches `publish-pilot-page`. (2)/(3) are later Nexts.
+- **Crossover:** recant to (2) only after the door exists and you want the first paid/real job as the *same* Action — dual-fat.
+
+**Dependencies:** Y1=1. Unlocks Y7 after Y10b (durable widget would recant accounts).
+
+**Status:** `decided`
+
+### Y10b — Ongoing CI page element (Y10 shape)
+
+**Question:** Y10=1 with gloss “needs further elaboration; ongoing CI page element.” C4e: “CI” may mean conversational iteration, GitHub Actions, or ICM factory — do not assume GitHub. P2 parked anphuni.com “gauntlet loop” as a following website Next. Y5=1 public offer. Y11=1 this halt = front door. Prohibited: rebuild APK in browser; accounts; adding features before a real session.
+
+**Options presented:**
+
+1. Standing page component, **stateless this halt.** Always on the pilot page. Conversational iteration (C4e sense) on a NOT ACTIVE proposal. Tab/session only; copy/download to keep. Generate ≠ Yes. Submit ≠ authorize. No per-user store.
+2. Standing + **durable per visitor** (identity / 500MB). Recants Prohibited accounts this halt.
+3. **Following** — not this halt. This Next = offer + mailto/form only. Name the CI element as next Need.
+4. **GitHub Actions / CI-green badge** as the page element.
+5. **Operator agent-CI swarm** embed as the client face.
+
+**Selected:** **1** (2026-09-09 Round 3). Standing, stateless. Tab/session only. Generate ≠ Yes. Submit ≠ authorize. No per-user store.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) a page widget, hours–days, $0 accounts. (2) identity + 500MB = a storage product. (3) cheaper door, drops the CI element. (4) a badge, not steal-interactions. (5) operator surface as client face.
+- **alpha (50):** (1) 50 empty tabs, no disk. (2) 25 GB hosted. (5) swarm cost per visitor.
+- **growth (1,000):** (1) still stateless. (2) 500 GB. Self-host alt: client-owned folders (protocol).
+- **SaaS vs self-host:** widget is hosted copy; files stay with the visitor unless they submit.
+- **Engineer-time:** (1) days inside `publish-pilot-page`. (2) accounts Next. (5) forbidden-ish (wrong sitter).
+- **Crossover:** recant to (3) only if the widget blows the halt. Recant to (2) only with a later accounts Next.
+
+**Dependencies:** Y10=1, Y5=1, Y11=1. Unlocks Y17 (brain) and Y12. Forces Y7 park.
+
+**Status:** `decided`
+
+### Y6 — Keep recast (Send folder / she-stamps)
+
+**Question:** Y8=1 you run, client Yes. Keep still says “Send folder is in the loop” and “She stamps; he runs.” Family-mascot-as-face is Reject. Offer already lists returned files.
+
+**Options presented:**
+
+1. Recast: **client Yes, operator runs**; **returned files** (Accept ≠ Yes). Mum-son copy stays APK-following, not on the pilot page.
+2. Publish mum-son language (“she stamps; he runs”) on the pilot page.
+3. Drop both lines from Keep.
+
+**Selected:** **1** (2026-09-09 Round 3). Client Yes, operator runs. Returned files, Accept ≠ Yes. Mum-son copy APK-following, not on the pilot page.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) copy-only; $0. (2) mascot risk on the public door (Reject family-mascot-as-face). (3) loses the stamp/run split the service is built on.
+- **alpha / growth:** published mum-son copy becomes brand; hard to recant.
+- **SaaS vs self-host:** n/a.
+- **Engineer-time:** minutes of Keep prose.
+- **Crossover:** never (2) while family-mascot-as-face is Reject.
+
+**Dependencies:** Y8=1. Independent of Y10b.
+
+**Status:** `decided`
+
+### Y7 — 500MB / accounts this halt (auto)
+
+**Question:** Offer says per-user 500MB. Prohibited: accounts and multi-client infrastructure. Y10b=1 is stateless (not durable). Y11=1 is front door, not 12–100.
+
+**Options presented:** (not asked — forced by Y10b=1 + Y11=1 + Prohibited accounts)
+
+1. Park 500MB and accounts as following. This halt’s Offer does **not** promise hosted per-user quota. Portable files: visitor keeps a copy; returned files after a later Yes.
+2. Promise 500MB on the door without building it (lying offer).
+3. Build 500MB/accounts this halt (contradicts Y10b=1, Y11=1, Prohibited).
+
+**Selected:** **1** (auto, 2026-09-09).
+
+**Rationale / recommendation:** Mechanical. Honest door. Recant only if Y10b moves to 2.
+
+**Cost tradeoff:** $0 this halt. Hosted 500MB×N is the later storage Next. Self-host alt is the protocol folder the visitor already owns.
+
+**Dependencies:** Y10b=1, Y11=1. Unlocks honest Offer copy in the proposal.
+
+**Status:** `decided` (auto)
+
+### Y15 — Intake shape
+
+**Question:** Y5=1 is one intake, submit ≠ Yes. Mailto vs form was left open. No accounts this halt (Y7).
+
+**Options presented:**
+
+1. Mailto (or form-to-mail) to the operator. No login. Submit ≠ Yes.
+2. A stored form/inbox on the host (still not an account, but a server mailbox).
+3. No intake this halt (contradicts Y5=1 and Y11).
+
+**Selected:** **1** (2026-09-09 Round 4). Mailto or form-to-mail. No login. Submit ≠ Yes.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) $0 mailbox you already have. (2) host inbox + ops. (3) no door.
+- **alpha (50):** (1) 50 emails; you are the queue. (2) a mailbox product.
+- **growth (1,000):** (1) does not scale — one-year review, not this halt.
+- **SaaS vs self-host:** mailto is self-host (your mail). Form-to-mail still avoids accounts.
+- **Engineer-time:** hours. (2) days.
+- **Crossover:** stored inbox only after a real encounter, not this Next.
+
+**Dependencies:** Y5=1, Y7=park. Unlocks Y12.
+
+**Status:** `decided`
+
+### Y16 — URL path
+
+**Question:** Docs name `anphuni.com/protocol` (literacy), `/session` (capped seats), `/privacy`. Concierge must not clobber those. Root unknown (site tree not on this mount).
+
+**Options presented:**
+
+1. New path (e.g. `/you-decide`). Leave `/`, `/session`, `/protocol`, `/privacy` alone.
+2. Root `/` becomes the concierge door.
+3. Reuse `/protocol` (literacy page). Mixes operator commands with client offer.
+
+**Selected:** **1** (2026-09-09 Round 4). New path. Example in the option was `/you-decide` — that is the path unless the operator names another.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** (1) one route; $0. (2) may clobber whatever root is. (3) mixes literacy with the offer.
+- **alpha / growth:** wrong path becomes the public identity.
+- **SaaS vs self-host:** n/a. DNS already exists.
+- **Engineer-time:** minutes of routing + copy.
+- **Crossover:** move to root only as a later Next if `/` is intentionally empty.
+
+**Dependencies:** Y5=1. Unlocks Y12.
+
+**Status:** `decided`
+
+### Y17 — Widget brain this halt
+
+**Question:** Y10b=1 is a standing CI element in the C4e sense. C4e on the APK was paper + Generate → PROPOSE only. Y11=1 is front door. Offer still says optional LLM refine (APK-configured backend steal). Prohibited: features before a real session; secrets in git; OpenRouter-in-APK was a prior Reject.
+
+**Options presented:**
+
+1. **Paper/fields only this halt.** Type/paste/iterate by hand. Copy/download the NOT ACTIVE proposal. Generate/LLM following. Fail-closed without a model because there is no model.
+2. **C4e-on-web this halt.** Type first. Generate writes NOT ACTIVE proposal/schema only. Generate ≠ Yes. Fail-closed if backend down. Steal existing desk/APK-configured backend if it exists; do not put a new key in the page. No accounts.
+3. **OpenRouter (or other hosted LLM) in the browser this halt.** New paid line; key/secrets risk.
+
+**Selected:** **1** (2026-09-09 Round 4). Paper/fields only this halt. Gloss: following LLM **copies the APK-planned version** (self-hosted + OpenRouter) that the operator is **still kinda rejecting** — recorded as **Y17f**, not this Need, not option 3.
+
+**Rationale / recommendation:** Was **1**. Operator matched and bound the following stack so the web does not invent a third inference architecture.
+
+**Cost tradeoff:**
+
+- **v1:** (1) hours of fields; $0 model. (2) wire desk backend days; fail-closed. (3) new key in the page; Reject-shaped.
+- **alpha / growth:** (1) stays a form. (2)/(3) become the service brain on a later Next.
+- **SaaS vs self-host:** following (Y17f) is desk self-host + OpenRouter QC (C17c $10/w **if** that plan ever stamps). Not in the browser this halt.
+- **Engineer-time:** (1) this Next. (2) a Generate Next. (3) forbidden this halt.
+- **Crossover:** recant to (2) only after the door exists and you stamp the APK-planned LLM (you have not).
+
+**Dependencies:** Y10b=1, Y11=1. Unlocks Y17f + Y12.
+
+**Status:** `decided`
+
+### Y17f — Following LLM (not this halt)
+
+**Question:** Operator: “LLM should copy the APK-planned version that I'm still kinda rejecting (self-hosted + openrouter).” C17c (APK, following): two-pass desk + OpenRouter QC, cost-cap $10/w, key on Desktop, never in git, never in the APK.
+
+**Options presented:** (stated, not a menu)
+
+1. Following LLM for the web widget **copies that APK plan** (self-hosted desk + OpenRouter QC). Stays **kinda-rejected / unstamped**. Not this halt. Not a third stack. Not a key in the page. Not a recant of the APK reject.
+2. Invent a new web-only LLM.
+3. Stamp OpenRouter-in-page now (Y17=3). Contradicts Y17=1.
+
+**Selected:** **1** (2026-09-09 Round 4 gloss).
+
+**Rationale / recommendation:** Copy the plan so web and APK do not fork. Do not stamp it. Do not run it this Next.
+
+**Cost tradeoff:** $0 this halt. If a later Next stamps C17c: ≤$10/w OpenRouter QC + existing desk. Browser-hosted keys are the expensive/wrong line.
+
+**Dependencies:** Y17=1. Must not leak into `publish-pilot-page` Need.
+
+**Status:** `decided`
+
+### Y12 — Confirm assembled draft
+
+**Question:** Frontier else is empty. Confirm the assembled Offer / Keep / Limits / Next allowed action below as the CURRENT *proposal* (still not apply).
+
+**Options presented:**
+
+1. Confirm. Then 02_plan writes `.aether/proposals/CURRENT-proposal-…md` only. Live CURRENT stays REJECTED until you stamp.
+2. Amend (name the hole).
+3. Keep grilling (name a new branch).
+
+**Selected:** **3** (2026-09-09 Round 5). Keep grilling. Named branch: look at actual APK interactions to steal for propose; make that the **next** Next.
+
+**Rationale / recommendation:** Was **1**. Operator overrode. Dual-Next still Reject — look is not this halt.
+
+**Cost tradeoff:** (3) more grill hours; delays 02_plan. Correct if the following Next must be named in the proposal.
+
+**Dependencies:** all prior Y pins. Unlocks Y18. Blocks 02_plan until Y12 is confirmed later.
+
+**Status:** `decided` (branch open as Y18)
+
+**Assembled (not law):**
+
+Header (proposal toy, not disk): Objective stays concierge / project-recovery / SERVICE ENTRY as a label in Objective. Phase SELECT. Status DRAFT. Approval PENDING. Baseline 2026-09-09 Y-series grill. Next `publish-pilot-page`. Host: myarch · chromium. A33 USB following.
+
+Offer: Go to anphuni.com/you-decide. Bring one messy or stalled digital project. Standing paper CI element (NOT ACTIVE proposal). Mailto intake; submit ≠ Yes. Receive (after a later Yes, not this halt): brief, proposed Next, decision boundary, one bounded piece of approved work, returned files, truthful receipt, following proposal inactive until approved. No 500MB promise this halt. Optional LLM refine = following (Y17f).
+
+Keep: You Decide; models never approve; silence ≠ permission. Draft NOT ACTIVE until Yes. One Next. Returned files; Accept ≠ Yes. Client Yes; operator runs. Portable project state. Human control over commitments, not every operation. Standing CI element is paper this halt; Generate ≠ Yes; submit ≠ authorize. web-yes-splits-authority. Header Next = body Action id.
+
+Limits: one bounded transition per pilot; no emergency/deadline-critical; no medical/legal/financial; no unstable APK download; no secrets in git; no accounts/500MB this halt; Session untouched; do not clobber `/session` `/protocol` `/privacy`.
+
+Following: add propose-with-model to `/you-decide` (id/halt deferred; adapt real-case testing agents when that Next is selected); APK millwork / `you-decide-ritual`; one complete encounter; 12–100; 500MB/accounts; Generate/LLM = APK-planned self-host + OpenRouter (kinda-rejected, unstamped); durable CI; disk draft stills as evidence not a look Next.
+
+Reject/Prohibited (keep): automatic-approve; commit-secrets; dual-concurrent-next; play-production-this-next; funnel-this-next; model-auto-write-current; archive-you-decide-this-halt; web-yes-splits-authority; son-stamps-the-house; nag-to-yes; family-mascot-as-face; rebuild APK in browser; accounts; proprietary file-transfer; autonomous execution; generalized RAG; billing; features before a real session; OpenRouter-in-page this halt.
+
+Next allowed action `publish-pilot-page`: (1) public offer+Limits at `/you-decide`; (2) standing stateless paper CI stub (NOT ACTIVE); (3) mailto intake, submit ≠ Yes; (4) chromium look; (5) halt. No client job. No Generate. No accounts. No APK-in-browser. Steal of APK propose hits is **not** this Action.
+
+### Y18 — Following Next: look APK propose to steal
+
+**Question:** Operator Y12=3: look at actual interactions to steal for the propose feature; make that the next Next. Dual-Next Reject. Live Next stays `publish-pilot-page` until they stamp. This sitting does not start sit-sitter.
+
+**Facts (not asked):** Draft dest stills already on disk show the writer: PROPOSE-TEMPLATE heading, “NOT ACTIVE. Not the plan.”, GATE WAIT, chassis around paper. Generate parked. B3/B4/B5. Desktop analogue: `examples/propose-current/PROPOSE-TEMPLATE.md`.
+
+---
+
+#### Y18a — Sequence
+
+**Options presented:**
+
+1. **Following Next** after `publish-pilot-page`. This halt stays the door (paper stub). Look/steal is the next Next. Matches “next NEXT.”
+2. **Swap:** look/steal is *this* Next; `publish-pilot-page` follows. Recants Y1 execute-now door.
+3. **Dual:** look and publish as one Next. Forbidden.
+
+**Selected:** **1** (2026-09-09 Round 6). Following after `publish-pilot-page`. Not swap. Not dual.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:** (1) door this halt; propose-with-model later. (2) delays the door. (3) forbidden.
+
+**Dependencies:** Y12=3. Unlocks Y18b. Y18c/d then deferred.
+
+**Status:** `decided`
+
+#### Y18b — Where to look (when that Next runs)
+
+**Options presented:**
+
+1. **Disk stills only** — `04-draft.png` (07 + 13), FIT draft rows, B3–B5. $0. May be stale.
+2. **New storm-0 sit-sitter** focused on Draft well + dest writer. Never Yes. Never A33. Never Confirm. Fresh stills + FLAGS + STEAL.md.
+3. **A33 USB look.** USB ≠ LTE. Not testers.
+
+**Selected:** **1** (2026-09-09 Round 6). Disk stills only. No new storm-0 sit-sitter Next. No A33.
+
+**Rationale / recommendation:** Was **2** (fresh walk). Operator picked **1**. Stills on disk are the evidence if a later Next wants them.
+
+**Cost tradeoff:** (1) $0 this halt. (2) a look Next + storm-0 hours. (3) USB ≠ LTE, not testers.
+
+**Dependencies:** Y18a=1.
+
+**Status:** `decided`
+
+#### Y18c — Halt of that following Next
+
+**Options presented:**
+
+1. **Look only.** Stills + FLAGS + `STEAL.md` (which APK hits copy onto the web propose widget). Do not implement the widget. Do not millwork.
+2. **Look and land** stolen hits on the `/you-decide` CI element in the same Next.
+3. **Look and millwork the APK draft.** Recants Y1 (APK following) and dual-fat.
+
+**Selected:** **deferred** (2026-09-09 Round 6). Operator ignored Y18c/Y18d: define propose-with-model when it is added to the webpage as a Next, adapted from real-case testing agents.
+
+**Rationale / recommendation:** Was **1** (look-only halt). Operator parked the look-Next halt. Do not invent `look-apk-propose` as live following id.
+
+**Cost tradeoff:** $0 now. Cost lands on the later webpage-propose Next.
+
+**Dependencies:** Y18a=1. Blocks naming Y18d.
+
+**Status:** `parked`
+
+#### Y18d — Action id
+
+**Selected:** **deferred** (Round 6). Same gloss as Y18c.
+
+**Status:** `parked`
+
+#### Y18f — Following webpage propose (operator gloss)
+
+**Question:** Create a solid propose interaction **with the model**; defer definition until it is added to the webpage as a Next; adapt real-case testing agents.
+
+**Facts:** Real-case testing agents in-tree: `app-reviewer` / workflow `actual-app-verification` (`app_verify.py` + read-only reviewers, never Confirm), `storm-review`, `sit-sitter`, `visual-reviewer`. B5 propose-not-current. Which adapt is **not** pinned.
+
+**Selected:** Following Next (unnamed) = add propose-with-model to `/you-decide`. Definition + id + agent-adapt when that Next is selected. Not this halt. Not a specified look-apk-propose halt. Disk stills remain evidence.
+
+**Rationale:** Operator. Dual-Next still Reject. Y17=1 paper this halt still holds.
+
+**Cost tradeoff:** $0 this halt. Later Next: engineer-days for a web propose widget + an adapted reviewer; OpenRouter/self-host still Y17f (kinda-rejected).
+
+**Status:** `decided` (shape deferred)
+
+### Y19 — Steal loop grammar (intake + handle + zip back)
+
+**Question:** Mailto was Y15=1 as “thin.” Human then approved (*email gonna be flooded*) and rejected (*how do I give them the zip back?*). Operator: redefine the loop; maybe tickets; steal interaction grammar from another software. S5b=2 (Docs Suggesting) was sit Plan+Draft chrome — different steal.
+
+**Options presented:**
+
+1. **Help Scout / shared-inbox ticket grammar.** Inbound mail becomes a numbered ticket. Thread + attachments both ways (zip rides the same object). Status open/pending/solved ≠ Mechanicall Yes. Client can still write email. You do not live in a raw inbox. SaaS or self-host (RT / osTicket / mailbox + folder-per-id).
+2. **GitHub Issue + PR.** Issue = intake. PR = NOT ACTIVE proposal. Merge = Yes. Release asset / comment = zip. Client typically needs a GitHub account (fights accounts-this-halt unless you file on their behalf).
+3. **Document-workshop (S5b=2).** Google Docs Suggesting / Track Changes. Propose ≠ publish. **No zip grammar.** Already stolen for sit chrome.
+4. **APK packing-slip / WeTransfer.** Files only, not Yes. No project/ticket handle.
+5. **Keep raw mailto** (Y15=1). Contradicts the reject reason.
+6. **You name 1–3 products** and we steal *their* loop.
+
+**Selected:** **1** (2026-09-09 Round 8) with gloss **self-host, straight to my .inbox**. Not Help Scout SaaS. Recants Y15 raw mailto as the product intake. Email may still be *transport*.
+
+**Rationale / recommendation:** Was **1** (SaaS-or-self-host). Operator pinned self-host + `.inbox`.
+
+**Cost tradeoff:**
+
+- **v1:** $0 vendor. Reuse `inbox/` + NOTICE.json + outbox Accept. Engineer hours to mint an id on `/you-decide` and file bytes. Help Scout SaaS avoided.
+- **alpha (50):** 50 ticket folders on disk; you are the queue. No 500MB hosted quota (Y7).
+- **growth (1,000):** does not scale — one-year review, not this halt.
+- **SaaS vs self-host:** self-host. Dollar delta vs Help Scout: ~$0 vs ~$20+/mo.
+- **Engineer-time:** hours–days to wire door→inbox slug. Public drop is extra threat model.
+- **Crossover:** never SaaS this halt (operator). Recant to mail-only transport if public write is too hot.
+
+**Dependencies:** Y15 recant. Unlocks Y19b (picked same round), Y19d/e.
+
+**Status:** `decided`
+
+### Y19b — How much of that grammar is this halt
+
+**Question:** Y11=1 this halt is the front door, not a complete encounter. If we steal a ticket/PR loop, what does `publish-pilot-page` actually ship?
+
+**Options presented:**
+
+1. **Door mints the object.** `/you-decide` opens/numbers a ticket (or equivalent). Submit ≠ Yes. Zip still after a later Yes, *on that same object*. Recant Y15 mailto. Keep Y11 (not a full job this Next).
+2. **Page only; stolen loop following.** Keep mailto or drop intake. Tickets named as next Need.
+3. **Full loop this halt** (intake → propose → Yes → zip). Recants Y11. Fat.
+
+**Selected:** **1** (2026-09-09 Round 8). Door mints the ticket object. Submit ≠ Yes. Zip later on the **same** object. Y11 front door holds. Full encounter not this Next.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:** (1) door + id this halt; zip path named, not executed as a job. (2) leaves the zip hole that caused reject. (3) fat.
+
+**Dependencies:** Y19=1. Unlocks Y19d/e.
+
+**Status:** `decided`
+
+### Y19c — Which folder (auto)
+
+**Question:** Operator said `.inbox`. In-tree `.inbox/` is depreciated; live `aether_inbox.py` uses `inbox/` (sitters / outbox / drop). Gitignore covers both.
+
+**Selected:** **`inbox/`** as the live store. `.inbox` is the name they used; treat as the same grammar. Recant only if they insist on the dot path.
+
+**Cost tradeoff:** $0. Using the dead path would fork two stores.
+
+**Status:** `decided` (auto)
+
+### Y19d — How bytes enter this halt
+
+**Question:** Y19b=1 the door mints an id. How do client files land in `inbox/` without accounts and without a proprietary transfer product?
+
+**Options presented:**
+
+1. Page mints id; **mailto with subject [id]**; you or a local filter file into `inbox/tickets/<id>/` (or sitters/). Email is transport. Inbox is the ticket. **Recommended** this halt (no public write daemon).
+2. **Public drop** on anphuni.com (reuse `aether_drop.py` shape, not 127.0.0.1-only). Writes `inbox/tickets/<id>/`. No login. Write surface on the host.
+3. You file by hand with no id on the page (contradicts door-mints).
+
+**Selected:** **2** (2026-09-09 Round 9). Public drop on the website for now. Operator: “we could just do it on website for now.”
+
+**Rationale / recommendation:** Was **1** (mailto-to-id). Operator overrode: website write, not mail transport this halt.
+
+**Cost tradeoff:**
+
+- **v1:** host write surface; reuse drop shape; lab `127.0.0.1` must not be the public bind. Hours–days. $0 SaaS.
+- **alpha (50):** 50 ticket blobs on disk, cap Y19f. Abuse risk if URLs are guessable (Y19g).
+- **growth (1,000):** not this halt.
+- **SaaS vs self-host:** files on anphuni.com, land in self-host `inbox/`. Not Help Scout.
+- **Engineer-time:** public HTTPS drop > mailto-to-id. Threat model is the cost.
+- **Crossover:** recant to Y19d=1 if you will not put a write daemon on the site this halt.
+
+**Dependencies:** Y19b=1. Unlocks Y19g. Recants Y15 as product intake.
+
+**Status:** `decided`
+
+### Y19e — How zip goes back
+
+**Question:** Reject reason was zip back. Outbox Accept already exists: `inbox/outbox/<id>/`, NOTICE.json, Accept copies files, **skips CURRENT**, Accept ≠ Yes. Stolen AirDrop/Taildrop.
+
+**Options presented:**
+
+1. Zip back = **existing outbox offer / Accept**. Same ticket id. Accept ≠ Yes. **Recommended.**
+2. Reply-mail attachment on the same id only.
+3. Both.
+
+**Selected:** **website download on the same ticket, this halt** (2026-09-09 Round 9). Operator picked **2** with gloss “on website for now” — that is **not** reply-mail (menu 2). Reply-mail and APK `inbox/outbox` Accept are **following**.
+
+**Rationale / recommendation:** Was **1** (outbox Accept). Operator: both directions on the website this halt.
+
+**Cost tradeoff:**
+
+- **v1:** same ticket page: drop in, zip slot out (empty until later Yes). $0 SaaS. Phone Accept not this Next.
+- **alpha / growth:** hosted blobs; cap Y19f. Guessable URLs leak zips (Y19g).
+- **SaaS vs self-host:** still `inbox/` on the host.
+- **Engineer-time:** hours on `/you-decide` ticket page. Outbox Accept already exists for a later APK Next.
+- **Crossover:** add mail zip only if a client has no browser.
+
+**Dependencies:** Y19d=2. Unlocks honest “returned files” = download on the ticket, after a later Yes (Y11).
+
+**Status:** `decided`
+
+### Y19f — Blob cap (auto)
+
+**Selected:** **8 MiB** this halt (`python/aether_drop.py` `MAX`). Not 500MB (Y7). Not a per-user quota.
+
+**Status:** `decided` (auto)
+
+### Y19g — Ticket URL (no accounts)
+
+**Question:** Public drop + public zip on the website with no login. Sequential ids are enumerable. Capability URLs are the usual steal (secret link = the key).
+
+**Options presented:**
+
+1. **Unguessable capability URL** (`/you-decide/t/<secret>`). No login. Link is the ticket. **Recommended.**
+2. Sequential public `T-1`, `T-2`. Anyone who guesses can read/write.
+3. Mint on the site, **deliver the link by mail**. Files still on the website.
+
+**Selected:** **1** (2026-09-09 Round 10). Unguessable capability URL. Link is the ticket. No login.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:**
+
+- **v1:** $0. Secret in the URL; lose the link = lose the ticket (honest, no accounts).
+- **alpha (50):** sequential would leak 50 zips. Capability does not.
+- **growth (1,000):** still not this halt.
+- **SaaS vs self-host:** still `inbox/` on the host.
+- **Engineer-time:** minutes of id mint (random). Mail-the-link (3) is support load you already rejected.
+- **Crossover:** never 2 on a public drop.
+
+**Dependencies:** Y19d=2, Y19e=website. Unlocks Y20.
+
+**Status:** `decided`
+
+### Y20 — Confirm recanted loop
+
+**Question:** Mailto recanted. Door mints a capability ticket on the website. Drop in / zip out on that page, 8 MiB, store `inbox/`. Submit ≠ Yes. Zip empty until a later Yes. One Next still `publish-pilot-page`.
+
+**Options presented:**
+
+1. Confirm. 02_plan writes a **new** `.aether/proposals/CURRENT-proposal-…md`. Live stays REJECTED until you paste and stamp.
+2. Amend (name the hole).
+3. Keep grilling.
+
+**Selected:** **1** (2026-09-09 Round 11). Confirm recanted loop. Proposal written. Live not applied.
+
+**Rationale / recommendation:** Was **1**. Operator matched.
+
+**Cost tradeoff:** $0 vendor. Human paste + approve still required.
+
+**Dependencies:** Y19–Y19g.
+
+**Status:** `decided`
+
+### Y21 — Propose-with-model: fluent schema
+
+**Question:** Operator: self-hosted propose-with-model; *chunks into a fluent schema*; discuss. C4e = Generate writes PROPOSE only. C18 = prose stays + schema fields. `personal-llm-sft-v4` via Ollama. Generate ≠ Yes. Fail-closed if desk down. OpenRouter-in-page still Prohibited.
+
+**Options presented:**
+
+1. Stream/chunk model output into the ticket paper as CURRENT fields (Objective / Next / Keep / Reject / Limits) while the file stays **NOT ACTIVE**. Prose can remain. Same `propose.md`. **Recommended.**
+2. Schema-only JSON; discard the paper.
+3. Chat bubbles on the ticket (recants B4).
+
+**Selected:** **4** (2026-09-09 Round 12, operator-named). One line of prose, **basic heuristics**, model (as a **local assistant**) expands to a **full CURRENT.md schema**. Not menu 1/2/3.
+
+**Rationale / recommendation:** Was **1** (stream into fields). Operator: chunks = heuristics + translate a line into schema. Model self-image = local assistant, not a hosted chatbot.
+
+**Cost tradeoff:** Heuristics are cheap and inspectable; model fill is the fluent part. JSON-only (2) drops the paper. Chat (3) recants B4.
+
+**Dependencies:** Unlocks Y21b, Y21f.
+
+**Status:** `decided`
+
+### Y21b — Where the model runs
+
+**Options presented:**
+
+1. **Desk Ollama on myarch** (`personal-llm-sft-v4` or the live local tag). Site calls the desk, not a public model. Fail-closed if down. No key in the page. **Recommended.**
+2. Model in the browser.
+3. OpenRouter from the ticket page (Prohibited / kinda-rejected).
+
+**Selected:** **PARK desk Ollama** (unstable now). **OpenRouter** using a raw key from `~/Desktop/.env`, loaded **server-side** (same pattern as compare.html). Not a key in the page. Not git. Personal-llm / Ollama **following** when stable.
+
+**Rationale / recommendation:** Was **1** (desk now). Operator recanted timing, not the eventual self-host. Narrow recant of `openrouter-in-page-this-halt`: **browser key** still Reject; **desk .env proxy** allowed this Next.
+
+**Cost tradeoff:** v1 OpenRouter $ (existing compare path). Ollama $0 when unparked. Key stays on Desktop.
+
+**Dependencies:** Y21=4. Unlocks Y21f. Park is not delete.
+
+**Status:** `decided`
+
+### Y21c — Sequence: model infra vs real sending
+
+**Question:** Reject: sending should work; test on the real website? Infrastructure first then launch on anphuni.com. Chat: website looks good; next = self-hosted model.
+
+**Options presented:**
+
+1. **Self-host Generate on the ticket first** (local `:8787` / desk). Apex deploy of sending is a following Next. **Recommended** (matches this chat).
+2. **Deploy sending to real anphuni.com first**, then Generate.
+3. One fat Next: deploy + Generate.
+
+**Selected:** **2 recant** (2026-09-09). Finish `publish-pilot-page` (real anphuni.com sending) first. Propose-with-model / what Generate writes: **after**.
+
+**Status:** `decided`
+
+### Y21d — Sequential ids (from reject)
+
+**Question:** Reject: “Sequential ID next is a good idea.” Y19g=1 is capability URL (unguessable). Sequential public T-n leaks zips.
+
+**Options presented:**
+
+1. **Following Next** — keep capability URLs on the door; sequential as a later id (operator-only alias, not public enumerable). **Recommended.**
+2. Recant Y19g now; sequential public ids this Next.
+3. Ignore.
+
+**Selected:** —
+
+**Rationale / recommendation:** **1**. Do not recant capability on a public drop.
+
+**Status:** `open`
+
+### Y21f — Steal Generate interaction (grounded fluency)
+
+**Question:** Operator: steal interactions that fit propose-with-model in the loop; **grounded fluency**. One line of prose → CURRENT schema. Ticket already has drop + paper. Generate ≠ Yes. Fail-closed if OpenRouter/.env down.
+
+**Facts:** GATE: type, tap Generate, STREAM, NOT ACTIVE. `write_schema_draft` writes propose-current shape, never CURRENT. `_AGENT_SYSTEM` = Mechanicall peer, full PROPOSE document. Compare.html already proxies OpenRouter from env. Pocket `AUTHORITY_FIELDS` = Objective/Phase/Status/Baseline/Next/Approval; concierge schema is the SPEC CURRENT (Objective/Next/Keep/Reject/Limits at least).
+
+**Options presented:**
+
+1. **APK GATE Generate** — one line (or short prose), tap Generate, stream into NOT ACTIVE propose. Fail-closed. **Recommended** as the *hit*.
+2. **propose-current document** — Observations / Inferences / fenced Proposed CURRENT change. Grounding = ticket drop filenames + offer limits in the prompt.
+3. **compare.html plan-chat** — OpenRouter already; refuse outside the plan. Risk: chat identity.
+4. **You name 1–3 products** (Docs “turn into”, Linear issue→spec, etc.).
+
+**Selected:** **1** (2026-09-09). Type, tap Generate. Operator: what it **produces** (CURRENT.md vs NOT ACTIVE propose) — **talk after finishing `publish-pilot-page`**. Parked.
+
+**Rationale / recommendation:** Was **1+2**. Operator took the GATE hit only and deferred the file shape.
+
+**Status:** `decided` (output parked)
+
+## Open branches not yet asked (Y)
+
+Y22=1 done. Apex `/you-decide` live; drop received. Generate output still parked. Live CURRENT REJECTED. Models do not `aether next`.
+
+---
+
+# C-series (CURRENT rewrite, 2026-09-05) then M / W / R / G-chassis
+
+**Live law then (stale vs 2026-09-09 disk):** header **Next:** `you-decide-ritual` · **APPROVED**. Product **Mechanicall: You Decide**. Schema OK (Phase/Status/Approval all APPROVED — prefer EXECUTE). Agents do **not** silently rewrite CURRENT. Dual-Next Reject. This grill persists here; it is not apply.
 
 **Skill:** `/grill-me` → grilling (frontier rounds) + persist (`grill-me-store-decisions`).  
 **Premise (this sitting):** Operator: grill the CURRENT.md rewrite. “I kind of want to do things I've mentioned before, IDK, I just really want to push it from the commitment workspace APK ‘… One Next’ to the phone control surface for a bound project folder. Let's go!”
