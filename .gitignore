@@ -29,6 +29,7 @@ venv/
 /inbox/sitters/
 /inbox/outbox/
 /inbox/drop/
+/inbox/tickets/
 /.inbox/sitters/
 /.inbox/outbox/
 /.inbox/drop/
