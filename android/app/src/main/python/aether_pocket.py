@@ -329,6 +329,9 @@ def write_receipt(
     if said_l in {"yes", "approved"}:
         headline = "You said Yes."
         said_label = "Yes"
+    elif said_l in {"i did it", "did it"}:
+        headline = "What happened."
+        said_label = "I did it"
     else:
         headline = "You said Not yet. The machine did not pretend you agreed."
         said_label = "Not yet"
@@ -619,17 +622,16 @@ def yes(
     )
 
 
-def not_yet(pocket: str | Path, reason: str = "not yet from demo sitting", **kw) -> PocketResult:
+def did_it(pocket: str | Path, reason: str = "", **kw) -> PocketResult:
+    """Son ran the Next. Writes receipt only. Never CURRENT. Never Yes."""
     del kw
-    rejected = pocket_reject(pocket, reason)
-    rec = write_receipt(pocket, said="Not yet", reason=reason)
-    text = rejected.text + "\n" + rec.text
-    return PocketResult(
-        ok=rejected.ok,
-        code=rejected.code,
-        text=text.strip(),
-        extra={"reject": rejected.text, "receipt": rec.text},
-    )
+    return write_receipt(pocket, said="I did it", reason=reason)
+
+
+def not_yet(pocket: str | Path, reason: str = "not yet from demo sitting", **kw) -> PocketResult:
+    """Not yet keeps Next. Receipt only. Never CURRENT. Never Yes."""
+    del kw
+    return write_receipt(pocket, said="Not yet", reason=reason)
 
 
 def next_action(pocket: str | Path, action_id: str, **kw) -> PocketResult:
@@ -1418,8 +1420,43 @@ def write_gate(
     return payload
 
 
+def _merge_transfer(root: Path, base: dict) -> dict:
+    """GATE overlay: upload/download percent from inbox transfer. Not Yes."""
+    path = root / ".aether" / "transfer.json"
+    if not path.is_file():
+        return base
+    try:
+        obj = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return base
+    if not isinstance(obj, dict):
+        return base
+    direction = str(obj.get("direction") or "")
+    if direction not in {"up", "down"}:
+        return base
+    try:
+        percent = int(obj.get("percent") or 0)
+    except (TypeError, ValueError):
+        return base
+    percent = max(0, min(100, percent))
+    if percent <= 0:
+        return base
+    out = dict(base)
+    out["percent"] = percent
+    out["direction"] = direction
+    return out
+
+
 def gate_state(pocket: str | Path) -> dict:
-    empty = {"state": "idle", "step": 0, "steps": GATE_STEPS, "desk": "", "queue": 0}
+    empty = {
+        "state": "idle",
+        "step": 0,
+        "steps": GATE_STEPS,
+        "desk": "",
+        "queue": 0,
+        "percent": 0,
+        "direction": "",
+    }
     if _blank_pocket(pocket):
         return empty
     try:
@@ -1428,7 +1465,7 @@ def gate_state(pocket: str | Path) -> dict:
         return empty
     path = root / GATE_REL
     if not path.is_file():
-        return empty
+        return _merge_transfer(root, empty)
     try:
         obj = json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
@@ -1446,13 +1483,16 @@ def gate_state(pocket: str | Path) -> dict:
         qn = int(obj.get("queue") or 0)
     except (TypeError, ValueError):
         qn = 0
-    return {
+    out = {
         "state": st,
         "step": max(0, min(GATE_STEPS, step)),
         "steps": GATE_STEPS,
         "desk": str(obj.get("desk") or ""),
         "queue": max(0, qn),
+        "percent": 0,
+        "direction": "",
     }
+    return _merge_transfer(root, out)
 
 
 def _queue_path(root: Path) -> Path:

@@ -20,6 +20,7 @@ from aether_inbox import (  # noqa: E402
     accept_offer,
     accept_pocket_offer,
     decline_offer,
+    inbox_root,
     offer_outbound,
     offer_status,
     poll_incoming,
@@ -27,8 +28,9 @@ from aether_inbox import (  # noqa: E402
     send_project,
     stage_upload,
     upload_sitter,
+    write_pocket_transfer,
 )
-from aether_pocket import PocketError  # noqa: E402
+from aether_pocket import PocketError, gate_state  # noqa: E402
 
 
 def _zip_bytes(entries: dict[str, bytes], *, symlink: str | None = None) -> bytes:
@@ -239,6 +241,55 @@ class TestInbox(unittest.TestCase):
                 (receiver / "CURRENT.md").read_text(encoding="utf-8"),
                 "# CURRENT\n**Next:** keep\n",
             )
+        finally:
+            httpd.shutdown()
+            os.environ.pop("MECHANICALL_DROP", None)
+
+    def test_inbox_root_defaults_to_repo_inbox(self) -> None:
+        os.environ.pop("MECHANICALL_INBOX_ROOT", None)
+        self.assertEqual(inbox_root(), ROOT / "inbox")
+        self.assertEqual(inbox_root(self.home), self.home / "inbox")
+        os.environ["MECHANICALL_INBOX_ROOT"] = str(self.home / "inbox")
+
+    def test_gate_state_shows_transfer_percent(self) -> None:
+        write_pocket_transfer(self.pocket, "up", 47, "post")
+        g = gate_state(self.pocket)
+        self.assertEqual(g["direction"], "up")
+        self.assertEqual(g["percent"], 47)
+        self.assertEqual(g["state"], "idle")
+
+    def test_lab_drop_lands_in_inbox_sitters(self) -> None:
+        import threading
+        from aether_drop import DropHandler, ThreadingHTTPServer
+
+        os.environ["MECHANICALL_INBOX_ROOT"] = str(self.home / "inbox")
+        httpd = ThreadingHTTPServer(("127.0.0.1", 0), DropHandler)
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        os.environ["MECHANICALL_DROP"] = f"http://127.0.0.1:{port}"
+        sender = self.home / "carol"
+        sender.mkdir()
+        (sender / "CURRENT.md").write_text("# CURRENT\n**Next:** carol-live\n", encoding="utf-8")
+        (sender / "brief.md").write_text("carol notes\n", encoding="utf-8")
+        before = (ROOT / "CURRENT.md").read_text(encoding="utf-8")
+        try:
+            sent = send_project(sender, from_id="carol")
+            self.assertTrue(sent["not_yes"])
+            self.assertTrue(sent.get("drop"))
+            landed = self.home / "inbox" / "sitters" / "carol" / "brief.md"
+            self.assertTrue(landed.is_file(), landed)
+            self.assertIn("carol notes", landed.read_text(encoding="utf-8"))
+            notice = self.home / "inbox" / "sitters" / "carol" / "NOTICE.json"
+            self.assertTrue(notice.is_file())
+            prog = self.home / "inbox" / "drop" / "progress.json"
+            self.assertTrue(prog.is_file())
+            data = json.loads(prog.read_text(encoding="utf-8"))
+            self.assertEqual(data.get("percent"), 100)
+            self.assertEqual((ROOT / "CURRENT.md").read_text(encoding="utf-8"), before)
+            g = gate_state(sender)
+            self.assertEqual(g["direction"], "up")
+            self.assertEqual(g["percent"], 100)
         finally:
             httpd.shutdown()
             os.environ.pop("MECHANICALL_DROP", None)

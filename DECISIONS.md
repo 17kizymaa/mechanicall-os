@@ -271,3 +271,31 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-09-05T15:04:09.354Z REJECTED: The next Next will be 'first-sit-patching' and will merge with what I discussed with as the next action in the Grok session that executed this next (returned to SELECT; no automatic rebuild)
 - 2026-09-05T15:10:53.200Z REJECTED: sit-bound-draft is what I want to merge with to 'first-sit-patching but I think I want a new name all together (returned to SELECT; no automatic rebuild)
 - 2026-09-05T16:16:55.447Z APPROVED: score the visual coherency of the product
+- 2026-09-05T17:10:47.573Z APPROVED: Accepted
+- 2026-09-06T11:50:09.549Z APPROVED: I want cool fx, tbh, like I feel that being creative could be fun but I also want to not forget the casual use of it.
+- 2026-09-07T09:32:36.530Z APPROVED: I am lagging so just going with this since I can't really navigate my dev sh*t rn
+- 2026-09-08T08:03:13.398Z APPROVED: recycle millwork; actions then millwork this sprint; discuss on '20_...' and ritual expectations before action!
+- 2026-09-08T08:41:06.806Z APPROVED: I kinda wanna wire the thingy in (err, theeeee model into the APK). Lot more managable, rate-abuse-wise!
+- 2026-09-08T08:48:49.009Z APPROVED: Found a project-related chat response showing a comparative analysis that really elevated the framework's lessons - imma go for that as 05c
+- 2026-09-08T09:42:12.975Z APPROVED: We apply the draft 'feature-pull' part later - includes website (all in post)
+- 2026-09-09T11:20:18.794Z REJECTED: REJECTED (returned to SELECT; no automatic rebuild)
+- 2026-09-09T11:20:31.746Z REJECTED: Just don't feel like it. (returned to SELECT; no automatic rebuild)
+- 2026-09-09T13:03:11.967Z APPROVED: I would love to get this finished for today! The peeps are waiting; proposal layer is interesting; it could plan like me; my email is gonna be flooded!
+- 2026-09-09T13:04:03.836Z REJECTED: Wait, how do I give them the zip back? What? (returned to SELECT; no automatic rebuild)
+- 2026-09-09T13:39:19.596Z APPROVED: I just want the website now
+- 2026-09-09T13:40:49.438Z APPROVED: Go — capability ticket door
+- 2026-09-09T13:58:04.679Z REJECTED: It's important that sending works - is it better to test on the real website? Plus, I am interested in discussing a propose-with-model thingy (self-hosted, chunks into a fluent schema - *discuss this with me*), also. We could do the infrastructure first then publish/launch on anphuni.com and then . Sequential ID next is a good idea! Remove 500MB mention from limitations (mistake - I made that edit from CURRENT.md to emphasise website storage amount). (returned to SELECT; no automatic rebuild)
+- 2026-09-09T14:35:20.995Z REJECTED: Need to validate that the website can handle around 10 requests in a day. Does the website even have a logical backend for this? I feel like its stupid! (returned to SELECT; no automatic rebuild)
+- 2026-09-09T14:48:49.750Z REJECTED: OK - lets do a client demo. I'll demo it to them, they'll plan something to approve, and we send something back. Hopefully this workflow can still pend requests to the user when myarch (desktop) is offline; sequential IDs is up soon as Next. Redo CURRENT.md. (returned to SELECT; no automatic rebuild)
+- 2026-09-09T15:02:10.232Z APPROVED: Demo is gonna happen now: lets go.
+- 2026-09-11T10:17:33.602Z REJECTED: Forgot CURRENT.md - I remember that its about enforcing the mechanicall protocol. I have very specific inspiration for each project. 'Happy birthday' will be a paper-trading site, 'Hi  its mother' will be an open invitation to collaborate, and 'This works' will be a food-tasting app (returned to SELECT; no automatic rebuild)
+- 2026-09-11T10:26:44.535Z REJECTED: The deliverables (offer) should be determined by the objectives! Not zip-onlyy (returned to SELECT; no automatic rebuild)
+- 2026-09-11T10:46:27.979Z REJECTED: Park sequential ids (didn't see it explicitly), and let us revise the two 'plan' objectives. I want to let their 'Yes' agree to the direct offer, not a plan. Does that make sense? (returned to SELECT; no automatic rebuild)
+- 2026-09-11T10:53:00.235Z APPROVED: I think this plan covers the shape of what I want to do today! A great outline-style contract ensuring that the 3 sprints go in the right direction!
+- 2026-09-11T10:56:33.391Z REJECTED: OOPS - forgot about the 'app' and 'site' identifications. Let us unidentify them for now. (returned to SELECT; no automatic rebuild)
+- 2026-09-11T10:59:45.933Z APPROVED: APPROVED
+- 2026-09-11T11:00:08.339Z APPROVED: Ok - literally just forgot that one reject point from earlier.
+- 2026-09-11T11:12:08.809Z REJECTED: I have loads more inspiration and I want you to find a skill that will help write it out right! (returned to SELECT; no automatic rebuild)
+- 2026-09-11T11:16:09.632Z REJECTED: Wait, I want to actually reflect on what I'm doing - I was expecting the CURRENT.md's to be more conversation or at least contractual. I did also ask for a mechanicall-style CURRENT, so just let's make something for each alias that has actual emotional impact. (returned to SELECT; no automatic rebuild)
+- 2026-09-11T11:37:15.118Z APPROVED: 'Food tasting' will be patched, once ready, as something less insulting to the user (he's fat)
+- 2026-09-11T12:45:14.224Z REJECTED: OK - the aether project is really about my approval. It gates my covenants to protect my intent. That's its purpose! We need to rewrite CURRENT.md so that we can explicitly review what that means for these projects in terms of what good I can make out of them. Go! (returned to SELECT; no automatic rebuild)

@@ -69,6 +69,8 @@ data class GateState(
     val steps: Int = 16,
     val desk: String = "",
     val queue: Int = 0,
+    val percent: Int = 0,
+    val direction: String = "",
 )
 
 data class DeskProbe(
@@ -115,6 +117,15 @@ data class WakeState(
     val ok: Boolean = false,
     val status: String = "sleeping",
     val note: String = "",
+)
+
+data class SendFolderResult(
+    val ok: Boolean = false,
+    val note: String = "",
+    val dest: String = "",
+    val files: Int = 0,
+    val notYes: Boolean = true,
+    val drop: String = "",
 )
 
 data class OfferState(
@@ -248,6 +259,15 @@ object FaceBridge {
         return pyCall("write_schema_draft", path, payload.toString())
     }
 
+    fun readPropose(path: String): String {
+        val raw = pyCall("read_propose", path)
+        if (isError(raw)) return ""
+        val text = asText(raw)
+        return if (isError(text)) "" else text
+    }
+
+    fun savePropose(path: String, text: String): String = pyCall("save_propose", path, text)
+
     fun projectShortcuts(path: String): List<ProjectShortcut> {
         val raw = pyCall("project_shortcuts", path)
         return parseShortcuts(raw)
@@ -293,6 +313,8 @@ object FaceBridge {
             steps = o.optInt("steps", 16),
             desk = o.optString("desk", ""),
             queue = o.optInt("queue", 0),
+            percent = o.optInt("percent", 0),
+            direction = o.optString("direction", ""),
         )
     }
 
@@ -400,6 +422,20 @@ object FaceBridge {
 
     fun sendProject(path: String): String = pyCall("send_project", path)
 
+    fun sendFolder(path: String): SendFolderResult {
+        val raw = sendProject(path)
+        if (isError(raw)) return SendFolderResult(ok = false, note = raw, notYes = true)
+        val o = jsonObject(raw) ?: return SendFolderResult(ok = false, note = raw, notYes = true)
+        return SendFolderResult(
+            ok = o.optBoolean("ok", true),
+            note = o.optString("note", "Staged locally. Not Yes."),
+            dest = o.optString("dest", ""),
+            files = o.optInt("files", 0),
+            notYes = o.optBoolean("not_yes", true),
+            drop = o.optString("drop", ""),
+        )
+    }
+
     fun pollIncoming(path: String): OfferState {
         val raw = pyCall("poll_incoming", path)
         if (isError(raw)) return OfferState(ok = false, note = raw)
@@ -479,6 +515,8 @@ object FaceBridge {
     fun yes(path: String, reason: String): String = pyCall("yes", path, reason)
 
     fun notYet(path: String, reason: String): String = pyCall("not_yet", path, reason)
+
+    fun didIt(path: String, reason: String): String = pyCall("did_it", path, reason)
 
     fun planText(path: String): String = asText(pyCall("plan_text", path))
 

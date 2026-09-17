@@ -162,11 +162,12 @@ def score_source() -> dict[str, str]:
         and "IsolatedDark" in rack
         and "if (isolated == IsolatedMode.DRAFT)" in rack
         and "drawColor(SitCRects.IsolatedDark)" in rack.split("IsolatedMode.DRAFT")[0][-400:],
-        "alpha_chrome": "SitHit.FieldAlpha" in nav or '"ALPHA"' in rack,
+        "alpha_chrome": "SitCRects.fieldAlpha.contains" in rack,
         "field_dump": "Field Objective" in rack,
         "law_prefix": '"LAW ' in rack or "LAW  {" in rack or "LAW {" in rack,
-        "same_folder_dest": "SitHit.Send -> openSendOverlay" in nav
+        "same_folder_dest": "SitHit.Send" in nav
         and "openSendOverlay()" in nav
+        and "stageSendFolder" in nav
         and "SitHit.Files" in nav,
         "folder_oem": "folderOem" in crects,
         "gate_opens_crt": "openTerminal"
@@ -283,7 +284,7 @@ def score(png_dir: Path | None = None) -> list[dict]:
         rows.append(_row("L3-draft-dest", "FLAG", "no dest-draft still"))
     else:
         dfr = _fracs(draft_png)
-        if dfr["dark"] > 0.72 and dfr["millwork"] < 0.04:
+        if dfr["dark"] > 0.72 and dfr["millwork"] < 0.04 and dfr["amber"] < 0.005:
             rows.append(
                 _row(
                     "L3-draft-dest",
@@ -292,7 +293,13 @@ def score(png_dir: Path | None = None) -> list[dict]:
                 )
             )
         else:
-            rows.append(_row("L3-draft-dest", "PASS", f"{draft_png.name} millwork={dfr['millwork']:.2f}"))
+            rows.append(
+                _row(
+                    "L3-draft-dest",
+                    "PASS",
+                    f"{draft_png.name} millwork={dfr['millwork']:.2f} amber={dfr['amber']:.2f}",
+                )
+            )
 
     if not src["same_folder_dest"]:
         rows.append(_row("L4-folder-dest", "FAIL", "Send/FILES do not share openSendOverlay"))

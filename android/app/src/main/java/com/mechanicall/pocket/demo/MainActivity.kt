@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
     private var decideArmed: Boolean = false
     private var armToken: Int = 0
     private var why: String = ""
+    /** Plan well key is a TOC peek, not a form. */
+    private var planToc: Boolean = false
 
     private var awaitingAllFiles: Boolean = false
 
@@ -71,6 +73,10 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         @Suppress("DEPRECATION")
         window.navigationBarColor = Color.parseColor("#12100E")
         pocket = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(PREF_POCKET, "").orEmpty()
+        val debugPocket = intent.getStringExtra("pocket").orEmpty()
+        if (debugPocket.isNotBlank()) {
+            pocket = debugPocket
+        }
         rack = SitRackView(this).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -82,7 +88,11 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         setContentView(rack)
         rack.plate = SitPlate.SPLASH
         rack.idleLine = "MECHANICALL"
-        ui.postDelayed({ land() }, 2000)
+        if (debugPocket.isNotBlank()) {
+            ui.postDelayed({ bindPath(debugPocket) }, 2200)
+        } else {
+            ui.postDelayed({ land() }, 2000)
+        }
         ui.post(gateTick)
     }
 
@@ -192,9 +202,11 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
 
     private fun goBank(p: SitPlate) {
         decideArmed = false
+        planToc = false
         rack.zoomed = false
         rack.sendOverlay = false
         rack.dismissEdit()
+        if (p != SitPlate.PLAN) rack.labour = false
         rack.plate = p
         rack.pages = LawPages.of(face.planText, face.receipt)
         rack.liveFields = mapOf(
@@ -205,11 +217,9 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         )
         if (p == SitPlate.DRAFT) {
             rack.draftFields = FaceBridge.readSchemaDraft(pocket, face)
-            rack.isolated = IsolatedMode.DRAFT
-            rack.contentDescription = "Field Objective DRAFT workshop live vs proposed"
-        } else {
-            rack.isolated = IsolatedMode.NONE
         }
+        // Bank selects the suggestion well. Well tap opens the writer dest.
+        rack.isolated = IsolatedMode.NONE
         if (p == SitPlate.RECEIPT) {
             val path = pocket
             io.execute {
@@ -221,15 +231,16 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             }
         }
         refreshLcd()
-        if (p != SitPlate.DRAFT) {
-            rack.contentDescription = when (p) {
-                SitPlate.BIND -> "Choose your folder"
-                SitPlate.PLAN -> "PLAN published CURRENT.md in LCD. Field plates open zoom."
-                SitPlate.DECIDE -> "DECIDE"
-                SitPlate.RECEIPT -> "RECEIPT"
-                SitPlate.SPLASH -> "sit millwork"
-                else -> rack.contentDescription
-            }
+        rack.contentDescription = when (p) {
+            SitPlate.BIND -> "Choose your folder"
+            SitPlate.PLAN ->
+                if (rack.labour) "PLAN. I did it or Not yet."
+                else "PLAN. This is the plan."
+            SitPlate.DRAFT -> "DRAFT. NOT ACTIVE. not the plan."
+            SitPlate.DECIDE -> "DECIDE. Why, then Yes."
+            SitPlate.NEXT -> "PLAN. I did it or Not yet."
+            SitPlate.RECEIPT -> "RECEIPT. What happened."
+            SitPlate.SPLASH -> "sit millwork"
         }
     }
 
@@ -243,32 +254,47 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             else -> "IDLE"
         }
         rack.pages = LawPages.of(face.planText, face.receipt)
+        rack.gatePercent = gate.percent
+        rack.gateDirection = gate.direction
+        val wait = if (phase == "IDLE") "" else phase
+        val proposed = rack.draftFields["Next"].orEmpty().ifBlank { "(none)" }
         val instruction = when {
             rack.plate == SitPlate.BIND && !hasAllFiles() ->
                 "All files access. Allow, then bind."
             rack.plate == SitPlate.BIND ->
-                if (face.bound) "Tap the folder to rebind." else "Name a folder. One project."
-            rack.plate == SitPlate.PLAN -> "tap glass to read"
-            rack.plate == SitPlate.DRAFT -> "tap a field"
-            rack.plate == SitPlate.DECIDE && decideArmed -> "Publish? tap plaque again."
-            rack.plate == SitPlate.DECIDE -> "Why on glass. Two-tap plaque."
-            rack.plate == SitPlate.RECEIPT -> SitRackView.clipPreview(face.receipt.ifBlank { "(empty receipt)" }, 48)
+                if (face.bound) houseName() else "Name a folder."
+            rack.plate == SitPlate.PLAN && rack.labour ->
+                face.next.ifBlank { "(unset)" }
+            rack.plate == SitPlate.PLAN -> {
+                val page = rack.pages.getOrNull(rack.pageIndex)
+                if (planToc && page != null) {
+                    SitRackView.clipPreview("${page.title} ${page.body}")
+                } else {
+                    listOf(
+                        "This is the plan.",
+                        SitRackView.clipPreview("Next ${face.next.ifBlank { "(unset)" }}", 48),
+                        SitRackView.clipPreview(face.objective, 72),
+                        wait,
+                    ).filter { it.isNotBlank() }.joinToString("\n")
+                }
+            }
+            rack.plate == SitPlate.DRAFT ->
+                listOf(
+                    "NOT ACTIVE",
+                    "live ${SitRackView.clipPreview(face.next.ifBlank { "(none)" }, 40)}",
+                    "proposed ${SitRackView.clipPreview(proposed, 40)}",
+                    wait,
+                ).filter { it.isNotBlank() }.joinToString("\n")
+            rack.plate == SitPlate.DECIDE && decideArmed -> "Yes? tap again."
+            rack.plate == SitPlate.DECIDE -> "Why. Then Yes. Not yet is enough."
+            rack.plate == SitPlate.NEXT ->
+                face.next.ifBlank { "(unset)" }
+            rack.plate == SitPlate.RECEIPT ->
+                SitRackView.receiptStrip(face.receipt)
             else -> "MECHANICALL"
         }
-        if (rack.isolated == IsolatedMode.NONE && !rack.zoomed) {
-            val page = rack.pages.getOrNull(rack.pageIndex)
-            val peek = SitRackView.clipPreview(
-                page?.body?.ifBlank { face.next }.orEmpty().ifBlank { face.next },
-            )
-            val caption = page?.title?.ifBlank { "NEXT" } ?: "NEXT"
-            rack.idleLine = when (rack.plate) {
-                SitPlate.BIND ->
-                    "${rack.plate.name}  $phase\n$instruction"
-                SitPlate.DECIDE, SitPlate.RECEIPT ->
-                    "${rack.plate.name}  $phase\n$instruction"
-                else ->
-                    "STATUS  $phase\n$caption\n$peek\n$instruction"
-            }
+        if ((rack.isolated == IsolatedMode.NONE || rack.isolated == IsolatedMode.DRAFT) && !rack.zoomed) {
+            rack.idleLine = instruction
         }
         if (rack.sendOverlay) {
             rack.contentDescription = "SEND overlay ${rack.sendStatus}"
@@ -276,12 +302,21 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             val id = rack.pages.getOrNull(rack.pageIndex)?.id ?: "law"
             rack.contentDescription = "LCD isolated $id"
         } else if (rack.isolated == IsolatedMode.DRAFT) {
-            rack.contentDescription = "Field Objective DRAFT workshop live vs proposed"
+            rack.contentDescription = "DRAFT writer NOT ACTIVE. PROPOSE-CURRENT.md. Not the plan."
         } else if (rack.zoomed) {
             val id = rack.pages.getOrNull(rack.pageIndex)?.id ?: "law"
             rack.contentDescription = "LCD zoom $id"
+        } else if (rack.plate == SitPlate.PLAN) {
+            rack.contentDescription =
+                if (rack.labour) "PLAN. I did it or Not yet." else "PLAN. This is the plan."
+        } else if (rack.plate == SitPlate.DECIDE) {
+            rack.contentDescription = "DECIDE. Why, then Yes."
+        } else if (rack.plate == SitPlate.NEXT) {
+            rack.contentDescription = "PLAN. I did it or Not yet."
         } else if (rack.plate == SitPlate.RECEIPT) {
-            rack.contentDescription = "RECEIPT"
+            rack.contentDescription = "RECEIPT. What happened."
+        } else if (rack.plate == SitPlate.DRAFT) {
+            rack.contentDescription = "DRAFT. NOT ACTIVE. not the plan."
         } else if (rack.plate != SitPlate.BIND) {
             rack.contentDescription = "LCD idle"
         }
@@ -292,24 +327,35 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             SitHit.Lcd -> {
                 when {
                     rack.plate == SitPlate.BIND -> startBind()
+                    rack.plate == SitPlate.DRAFT -> openDraftWriter()
                     rack.plate == SitPlate.DECIDE ->
                         rack.editOnCrt("Why", why, "why")
+                    rack.plate == SitPlate.NEXT -> refreshLcd()
+                    rack.plate == SitPlate.PLAN && rack.labour -> refreshLcd()
                     rack.plate == SitPlate.RECEIPT -> refreshLcd()
-                    rack.isolated == IsolatedMode.DRAFT -> rack.dismissEdit()
+                    rack.plate == SitPlate.PLAN -> {
+                        planToc = false
+                        peekPage(0)
+                    }
+                    rack.isolated == IsolatedMode.DRAFT -> openDraftWriter()
                     rack.isolated == IsolatedMode.CRT -> refreshLcd()
-                    else -> openTerminal()
+                    else -> peekPage(0)
                 }
             }
             SitHit.LcdPrev -> {
                 if (rack.isolated == IsolatedMode.CRT) {
                     rack.pageIndex = rack.pageIndex - 1
                     refreshLcd()
+                } else if (rack.isolated == IsolatedMode.DRAFT) {
+                    openDraftWriter()
                 }
             }
             SitHit.LcdNext -> {
                 if (rack.isolated == IsolatedMode.CRT) {
                     rack.pageIndex = rack.pageIndex + 1
                     refreshLcd()
+                } else if (rack.isolated == IsolatedMode.DRAFT) {
+                    openDraftWriter()
                 }
             }
             SitHit.Gate -> {
@@ -339,19 +385,37 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 goBank(SitPlate.RECEIPT)
             }
             SitHit.BindPaper -> startBind()
-            SitHit.FieldObjective -> peekPage(0)
-            SitHit.FieldNext -> peekPage(1)
-            SitHit.FieldKeep -> peekPage(2)
-            SitHit.FieldReject -> peekPage(3)
-            SitHit.FieldLimits -> peekPage(4)
-            SitHit.FieldAlpha -> rack.editOnCrt("Objective", rack.draftFields["Objective"].orEmpty(), "Objective")
-            SitHit.FieldBeta -> rack.editOnCrt("Next", rack.draftFields["Next"].orEmpty(), "Next")
-            SitHit.FieldGamma -> rack.editOnCrt("Baseline", rack.draftFields["Baseline"].orEmpty(), "Baseline")
-            SitHit.Tbc -> rack.editOnCrt("Tbc", rack.draftFields["Tbc"].orEmpty(), "TBC")
-            SitHit.Join -> ioNote { FaceBridge.joinStatus(pocket).note.ifBlank { FaceBridge.joinStatus(pocket).status } }
-            SitHit.Send -> openSendOverlay()
-            SitHit.Wake -> ioNote { FaceBridge.wakeDesk(pocket).note.ifBlank { FaceBridge.wakeDesk(pocket).status } }
+            SitHit.FieldObjective -> {
+                planToc = true
+                draftOrPeek("Objective", 0)
+            }
+            SitHit.FieldNext -> {
+                planToc = true
+                draftOrPeek("Next", 1)
+            }
+            SitHit.FieldKeep -> {
+                planToc = true
+                draftOrPeek("Keep", 2)
+            }
+            SitHit.FieldReject -> {
+                planToc = true
+                draftOrPeek("Reject", 3)
+            }
+            SitHit.FieldLimits -> {
+                planToc = true
+                draftOrPeek("Limits", 4)
+            }
+            SitHit.FieldAlpha, SitHit.FieldBeta, SitHit.FieldGamma, SitHit.Tbc -> Unit
+            SitHit.Join, SitHit.Wake -> Unit
+            SitHit.Send -> if (rack.sendOverlay) stageSendFolder() else openSendOverlay()
             SitHit.DecidePaper -> decideTap()
+            SitHit.DecideNotYet -> {
+                leaveDecideWithoutYes()
+                if (face.bound) goBank(SitPlate.PLAN)
+            }
+            SitHit.DidIt -> didItTap()
+            SitHit.NotYetFeet -> notYetFeet()
+            SitHit.WhyStrip -> rack.editOnCrt("Why", why, "why")
             SitHit.Files -> {
                 rack.dismissEdit()
                 if (rack.sendOverlay) {
@@ -361,6 +425,32 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
                 }
             }
             SitHit.None -> Unit
+        }
+    }
+
+    private fun draftOrPeek(_key: String, page: Int) {
+        if (rack.plate == SitPlate.DRAFT) {
+            openDraftWriter()
+            return
+        }
+        peekPage(page)
+    }
+
+    private fun openDraftWriter() {
+        val p = pocket
+        rack.isolated = IsolatedMode.DRAFT
+        rack.contentDescription = "DRAFT writer NOT ACTIVE. PROPOSE-CURRENT.md. Not the plan."
+        if (p.isBlank()) {
+            rack.editDraftWriter("")
+            return
+        }
+        io.execute {
+            val text = try {
+                FaceBridge.readPropose(p)
+            } catch (_: Exception) {
+                ""
+            }
+            ui.post { rack.editDraftWriter(text) }
         }
     }
 
@@ -387,7 +477,11 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         rack.isolated = IsolatedMode.NONE
         rack.sendOverlay = true
         rack.sendStatus = "idle"
-        rack.sendNote = if (p.isBlank()) "Name a folder first." else "Send folder module. Not Yes."
+        rack.sendNote = if (p.isBlank()) {
+            "Name a folder first."
+        } else {
+            "Tap FOLDER to send."
+        }
         rack.folderList = folderNames(p)
         rack.contentDescription = "SEND overlay ${rack.sendStatus}"
         if (p.isBlank()) return
@@ -402,11 +496,11 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             } catch (_: Exception) {
                 ProjectPreview(ok = false, note = "")
             }
-            val status = offer.status.ifBlank { "idle" }
+            val status = offer.status.ifBlank { "idle" }.let { if (it == "none") "idle" else it }
             val note = listOf(offer.note, preview.note)
                 .filter { it.isNotBlank() }
                 .joinToString("\n")
-                .ifBlank { "idle · folder-out · not FILES" }
+                .ifBlank { "Tap FOLDER to send. Files only. Not the live plan. Not Yes." }
             ui.post {
                 rack.sendStatus = status
                 rack.sendNote = note
@@ -415,12 +509,58 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
         }
     }
 
+    /** Dest FOLDER plaque. Stages the bound pocket. Not Yes. Quiet drop is honest. */
+    private fun stageSendFolder() {
+        val p = pocket
+        if (p.isBlank()) {
+            rack.sendStatus = "idle"
+            rack.sendNote = "Name a folder first. Not Yes."
+            rack.contentDescription = "SEND overlay idle"
+            return
+        }
+        rack.sendStatus = "staging"
+        rack.sendNote = "Staging folder. Not Yes."
+        rack.contentDescription = "SEND overlay staging"
+        io.execute {
+            val r = try {
+                FaceBridge.sendFolder(p)
+            } catch (e: Exception) {
+                SendFolderResult(ok = false, note = e.message.orEmpty(), notYes = true)
+            }
+            ui.post {
+                rack.sendStatus = when {
+                    r.drop.isNotBlank() -> "offered"
+                    r.ok -> "staged"
+                    else -> "idle"
+                }
+                rack.sendNote = r.note.ifBlank { "Staged locally. Not Yes." }
+                rack.folderList = folderNames(p)
+                rack.contentDescription = "SEND overlay ${rack.sendStatus}"
+            }
+        }
+    }
+
+    private fun houseName(): String {
+        val p = face.path.ifBlank { pocket }
+        val n = File(p).name.trim()
+        return n.ifBlank { "Name a folder." }
+    }
+
     private fun folderNames(path: String): String {
         if (path.isBlank()) return "(empty folder)"
         val dir = File(path)
         val names = dir.listFiles()?.map { it.name }?.sorted().orEmpty()
         if (names.isEmpty()) return "(empty folder)"
         return names.take(16).joinToString("\n")
+    }
+
+    /** Decide Not yet: receipt only. Banks are not this. Never Confirm. Never CURRENT. */
+    private fun leaveDecideWithoutYes() {
+        if (rack.plate != SitPlate.DECIDE) return
+        val p = pocket
+        if (p.isBlank()) return
+        val reason = rack.whyNow().ifBlank { why }.ifBlank { "not yet" }
+        io.execute { FaceBridge.notYet(p, reason) }
     }
 
     private fun decideTap() {
@@ -434,7 +574,7 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             decideArmed = true
             armToken += 1
             val token = armToken
-            rack.idleLine = "Publish? tap plaque again"
+            rack.idleLine = "Yes? tap plaque again"
             ui.postDelayed({
                 if (token == armToken) {
                     decideArmed = false
@@ -450,9 +590,34 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             val next = FaceBridge.faceState(p)
             ui.post {
                 face = next
+                rack.labour = true
+                goBank(SitPlate.PLAN)
+            }
+        }
+    }
+
+    /** Labour after Yes. Never FaceBridge.yes. Never Confirm. */
+    private fun didItTap() {
+        if (!rack.labour || rack.plate != SitPlate.PLAN) return
+        val p = pocket
+        if (p.isBlank()) return
+        val nxt = face.next.ifBlank { "(unset)" }
+        io.execute {
+            FaceBridge.didIt(p, nxt)
+            val next = FaceBridge.faceState(p)
+            ui.post {
+                face = next
+                rack.labour = false
                 goBank(SitPlate.RECEIPT)
             }
         }
+    }
+
+    /** After Yes, Not yet does not un-stamp. The Next stays. */
+    private fun notYetFeet() {
+        if (!rack.labour || rack.plate != SitPlate.PLAN) return
+        rack.idleLine = "Not yet. The Next stays."
+        refreshLcd()
     }
 
     private fun ioNote(block: () -> String) {
@@ -475,6 +640,16 @@ class MainActivity : ComponentActivity(), SitRackView.Host {
             val live = FaceBridge.readSchemaDraft(p, face).toMutableMap()
             live.putAll(fields)
             FaceBridge.writeSchemaDraft(p, live)
+            val next = FaceBridge.faceState(p)
+            ui.post { face = next }
+        }
+    }
+
+    override fun onDraftTextChanged(text: String) {
+        val p = pocket
+        if (p.isBlank()) return
+        io.execute {
+            FaceBridge.savePropose(p, text)
             val next = FaceBridge.faceState(p)
             ui.post { face = next }
         }

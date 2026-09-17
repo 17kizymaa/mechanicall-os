@@ -892,3 +892,69 @@
 {"ts":"2026-09-05T15:11:49.737Z","kind":"preflight","action":"sit-dest-preview","result":"allowed","phase":"SELECT","status":"REJECTED"}
 {"ts":"2026-09-05T16:16:55.437Z","kind":"approve","reason":"score the visual coherency of the product","by":"human"}
 {"ts":"2026-09-05T16:16:55.579Z","kind":"preflight","action":"first-sit-look","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-05T17:10:47.562Z","kind":"approve","reason":"Accepted","by":"human"}
+{"ts":"2026-09-05T17:10:47.708Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T10:02:47.578Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T10:19:15.327Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T11:50:09.538Z","kind":"approve","reason":"I want cool fx, tbh, like I feel that being creative could be fun but I also want to not forget the casual use of it.","by":"human"}
+{"ts":"2026-09-06T13:21:53.655Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T14:06:42.196Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T15:02:29.658Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T15:02:29.812Z","kind":"preflight","action":"you-decide-function","result":"refused","reason":"you-decide-function is not the next allowed action (you-decide-sit). Phase=APPROVE Status=APPROVED.","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T15:04:54.600Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-06T15:39:21.606Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-07T08:07:22.195Z","kind":"preflight","action":"you-decide-sit","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-07T09:32:36.519Z","kind":"approve","reason":"I am lagging so just going with this since I can't really navigate my dev sh*t rn","by":"human"}
+{"ts":"2026-09-07T09:38:05.972Z","kind":"preflight","action":"you-decide-casual","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-09-07T09:38:06.089Z","kind":"preflight","action":"you-decide-sit","result":"allowed","warn":"no_next_pin","status":"APPROVED"}
+{"ts":"2026-09-08T08:03:13.387Z","kind":"approve","reason":"recycle millwork; actions then millwork this sprint; discuss on '20_...' and ritual expectations before action!","by":"human"}
+{"ts":"2026-09-08T08:04:54.212Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T08:10:52.200Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T08:34:38.606Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T08:41:06.796Z","kind":"approve","reason":"I kinda wanna wire the thingy in (err, theeeee model into the APK). Lot more managable, rate-abuse-wise!","by":"human"}
+{"ts":"2026-09-08T08:48:48.998Z","kind":"approve","reason":"Found a project-related chat response showing a comparative analysis that really elevated the framework's lessons - imma go for that as 05c","by":"human"}
+{"ts":"2026-09-08T09:23:41.352Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T09:26:17.776Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T09:42:12.964Z","kind":"approve","reason":"We apply the draft 'feature-pull' part later - includes website (all in post)","by":"human"}
+{"ts":"2026-09-08T09:47:02.695Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T10:16:37.496Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T10:36:08.263Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T11:17:32.118Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T11:44:51.482Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T12:15:55.153Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T12:53:15.569Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T13:50:22.250Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T14:23:00.482Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T14:35:50.234Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T15:00:45.850Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T15:40:25.254Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T15:54:59.803Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T16:07:29.462Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T16:22:10.522Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-08T16:39:33.466Z","kind":"preflight","action":"you-decide-ritual","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-09T11:20:18.782Z","kind":"reject","reason":"REJECTED","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T11:20:31.735Z","kind":"reject","reason":"Just don't feel like it.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T13:03:11.957Z","kind":"approve","reason":"I would love to get this finished for today! The peeps are waiting; proposal layer is interesting; it could plan like me; my email is gonna be flooded!","by":"human"}
+{"ts":"2026-09-09T13:04:03.825Z","kind":"reject","reason":"Wait, how do I give them the zip back? What?","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T13:39:19.586Z","kind":"approve","reason":"I just want the website now","by":"human"}
+{"ts":"2026-09-09T13:40:49.428Z","kind":"approve","reason":"Go — capability ticket door","by":"human"}
+{"ts":"2026-09-09T13:41:32.935Z","kind":"preflight","action":"publish-pilot-page","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-09T13:58:04.669Z","kind":"reject","reason":"It's important that sending works - is it better to test on the real website? Plus, I am interested in discussing a propose-with-model thingy (self-hosted, chunks into a fluent schema - *discuss this with me*), also. We could do the infrastructure first then publish/launch on anphuni.com and then . Sequential ID next is a good idea! Remove 500MB mention from limitations (mistake - I made that edit from CURRENT.md to emphasise website storage amount).","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T14:35:20.985Z","kind":"reject","reason":"Need to validate that the website can handle around 10 requests in a day. Does the website even have a logical backend for this? I feel like its stupid!","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T14:36:12.504Z","kind":"preflight","action":"you-decide-os-cycle","result":"allowed","phase":"SELECT","status":"REJECTED"}
+{"ts":"2026-09-09T14:48:49.740Z","kind":"reject","reason":"OK - lets do a client demo. I'll demo it to them, they'll plan something to approve, and we send something back. Hopefully this workflow can still pend requests to the user when myarch (desktop) is offline; sequential IDs is up soon as Next. Redo CURRENT.md.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-09T15:02:10.222Z","kind":"approve","reason":"Demo is gonna happen now: lets go.","by":"human"}
+{"ts":"2026-09-11T10:17:33.591Z","kind":"reject","reason":"Forgot CURRENT.md - I remember that its about enforcing the mechanicall protocol. I have very specific inspiration for each project. 'Happy birthday' will be a paper-trading site, 'Hi  its mother' will be an open invitation to collaborate, and 'This works' will be a food-tasting app","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T10:26:44.525Z","kind":"reject","reason":"The deliverables (offer) should be determined by the objectives! Not zip-onlyy","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T10:46:27.969Z","kind":"reject","reason":"Park sequential ids (didn't see it explicitly), and let us revise the two 'plan' objectives. I want to let their 'Yes' agree to the direct offer, not a plan. Does that make sense?","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T10:53:00.225Z","kind":"approve","reason":"I think this plan covers the shape of what I want to do today! A great outline-style contract ensuring that the 3 sprints go in the right direction!","by":"human"}
+{"ts":"2026-09-11T10:53:41.648Z","kind":"preflight","action":"hand-client-current","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-11T10:56:33.381Z","kind":"reject","reason":"OOPS - forgot about the 'app' and 'site' identifications. Let us unidentify them for now.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T10:59:45.923Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-11T11:00:08.329Z","kind":"approve","reason":"Ok - literally just forgot that one reject point from earlier.","by":"human"}
+{"ts":"2026-09-11T11:12:08.798Z","kind":"reject","reason":"I have loads more inspiration and I want you to find a skill that will help write it out right!","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T11:16:09.622Z","kind":"reject","reason":"Wait, I want to actually reflect on what I'm doing - I was expecting the CURRENT.md's to be more conversation or at least contractual. I did also ask for a mechanicall-style CURRENT, so just let's make something for each alias that has actual emotional impact.","by":"human","phase":"SELECT"}
+{"ts":"2026-09-11T11:37:15.107Z","kind":"approve","reason":"'Food tasting' will be patched, once ready, as something less insulting to the user (he's fat)","by":"human"}
+{"ts":"2026-09-11T11:38:42.969Z","kind":"preflight","action":"hand-client-current","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-11T12:12:07.544Z","kind":"preflight","action":"hand-client-current","result":"allowed","phase":"APPROVE","status":"APPROVED"}
+{"ts":"2026-09-11T12:45:14.214Z","kind":"reject","reason":"OK - the aether project is really about my approval. It gates my covenants to protect my intent. That's its purpose! We need to rewrite CURRENT.md so that we can explicitly review what that means for these projects in terms of what good I can make out of them. Go!","by":"human","phase":"SELECT"}

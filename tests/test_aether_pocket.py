@@ -39,6 +39,7 @@ from aether_pocket import (  # noqa: E402
     join_status,
     list_hunks,
     not_yet,
+    did_it,
     parse_field_alts,
     pick_hunk_alt,
     parse_fields,
@@ -236,16 +237,28 @@ class TestPocketAether(unittest.TestCase):
         self.assertIn("buy-starts", rec)
 
     def test_not_yet_select(self) -> None:
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
         r = not_yet(self.pocket, reason="hold")
         self.assertTrue(r.ok, r.text)
-        fields = parse_fields((self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
-        self.assertEqual(fields["Phase"], "SELECT")
-        self.assertEqual(fields["Status"], "REJECTED")
-        # Next unchanged on reject
+        after = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        self.assertEqual(before, after)
+        fields = parse_fields(after)
         self.assertEqual(fields["Next"], "name-plants")
+        self.assertNotEqual(fields["Status"], "REJECTED")
         rec = read_receipt(self.pocket)
         self.assertIn("You said Not yet", rec)
         self.assertIn("did not pretend you agreed", rec)
+
+    def test_did_it_receipt_not_yes(self) -> None:
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        r = did_it(self.pocket, reason="buy-starts")
+        self.assertTrue(r.ok, r.text)
+        after = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        self.assertEqual(before, after)
+        rec = read_receipt(self.pocket)
+        self.assertIn("I did it", rec)
+        self.assertIn("What happened", rec)
+        self.assertNotIn("You said Yes", rec)
 
     def test_yes_refuses_operator(self) -> None:
         with self.assertRaises(PocketError):
