@@ -25,6 +25,9 @@ venv/
 # Local inbox/sparks if stored in-tree by mistake
 /inbox.md
 
+# Desktop paper book / servant log (runtime). Source stays.
+/desktop/var/
+
 # Lab folder send/receive. Bytes gitignored. README stays. Not CURRENT.
 /inbox/sitters/
 /inbox/outbox/
@@ -79,3 +82,7 @@ python/*.bak*
 .aether/COMMANDS.md
 .aether/PANEL.md
 .planning/
+.aider*
+
+# Per-client drafts / paper books (names, personal words). Never in git — Limits.
+.aether/proposals/clients/
