@@ -65,13 +65,14 @@ Read-only check (no events/receipts): `aether probe <action-id>`.
 
 ```bash
 # human only:
+aether apply <proposal.md>      # fenced CURRENT body onto CURRENT.md; does not approve
 aether approve "…"
 aether next <new-action-id>     # after APPROVED — re-SELECT
 # or:
 aether reject "…"
 ```
 
-**Silence is never permission.** Models do not run `aether approve` as their own decision.
+**Silence is never permission.** Models do not run `aether approve` or `aether apply` as their own decision. After `apply`, Next is already the id in that body, so `aether next` of the same id refuses unchanged.
 
 ### 6. Leave a trail (when work matters)
 

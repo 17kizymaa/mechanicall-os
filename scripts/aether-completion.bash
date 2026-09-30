@@ -10,7 +10,7 @@ _aether_complete() {
     if command -v aether >/dev/null 2>&1; then
         verbs="$(aether verbs 2>/dev/null)"
     else
-        verbs="init onboard try panel shell app deinit status distill watch repair poke trust current preflight approve reject next demo brief drift probe event artifact seed spark session graph garden rival help version verbs"
+        verbs="init onboard try panel shell app deinit status distill watch repair poke trust current preflight approve reject next apply demo brief drift probe event artifact seed spark session graph garden rival help version verbs"
     fi
     # shellcheck disable=SC2207
     COMPREPLY=( $(compgen -W "${verbs} --help --version -h -V --no-hooks" -- "$cur") )

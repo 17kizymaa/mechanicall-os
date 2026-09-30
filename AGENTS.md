@@ -15,7 +15,7 @@ Before ICM stages, tools, or model taste:
 3. Perform **only** the declared **Next** (one action-id at a time).  
 4. Run **`aether preflight <action>`** before consequential work.  
 5. **Stop on refusal.**  
-6. Agents **never** `approve`, `reject`, or rewrite authority as their own decision.  
+6. Agents **never** `approve`, `reject`, `next`, or `apply`, and never rewrite authority as their own decision. `apply` copies a proposal's fenced CURRENT body; that hand stays the human's.  
 7. **Silence is never permission.**
 
 ```bash
