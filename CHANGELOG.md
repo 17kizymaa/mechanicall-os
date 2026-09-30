@@ -6,6 +6,14 @@
 All notable changes to Mechanicall OS / `aether` are recorded here.
 Format: newest first. Authority remains `CURRENT.md` + SPECs; this file is narrative.
 
+## 2026-09-30
+
+### `aether apply` — copy a proposal's fenced body onto CURRENT.md
+
+- Human command. Extracts the `# CURRENT` fence after `Proposed CURRENT`. Refuses the wrapper, a Next / Action-id split, and a Next that Prohibited would refuse.
+- Does not approve and does not re-SELECT. A backup lands in `.aether/current-before/`.
+- A proposal under `<project>/.aether/proposals/` writes that project, not whatever directory the shell happens to be in.
+
 ## 2026-08-05
 
 ### Package alpha-2 prep (`package-alpha-2`)

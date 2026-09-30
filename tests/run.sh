@@ -60,7 +60,7 @@ for v in $verbs; do
     case "$v" in
         # Never invoke interactive / long-running / mutating verbs bare.
         # Help-only coverage is enough for dispatch (second PR review).
-        approve|reject|next|preflight|probe|artifact|event|seed|rival|\
+        approve|reject|next|apply|preflight|probe|artifact|event|seed|rival|\
         shell|panel|watch|onboard|garden|try|demo|deinit|app)
             printf '%s\n' "$help_out" | grep -qw "$v" \
                 || fail "verb '$v' missing from help (safe list)"
@@ -554,6 +554,9 @@ pass "aether probe + brief"
 # Dedicated suite: unknown verbs, authority near-misses, missing args, no CURRENT.
 sh "$ROOT/tests/negative.sh" || fail "tests/negative.sh"
 pass "negative path suite (tests/negative.sh)"
+
+sh "$ROOT/tests/apply-proposal.sh" || fail "tests/apply-proposal.sh"
+pass "apply proposal (tests/apply-proposal.sh)"
 
 # drift: only if git available in temp (may not be a repo)
 cd "$ROOT"

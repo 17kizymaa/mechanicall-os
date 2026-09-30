@@ -27,6 +27,8 @@ Required output fields (from DISTRIBUTE alpha guidance):
 5. Conflicts with existing authority  
 6. Human decision required  
 
-Human then edits `CURRENT.md` and, when ready, runs `aether approve` themselves.
+The human lands that file with `aether apply <proposal.md>`. The command copies
+the fenced `# CURRENT` body and refuses the wrapper. It does not approve.
+When the body is what they want, they run `aether approve` themselves.
 
 See [docs/PERSONAL-LLM-LAYER.md](../../docs/PERSONAL-LLM-LAYER.md).

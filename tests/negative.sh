@@ -74,6 +74,7 @@ assert_usage() {
 
 assert_usage "preflight no-args" "$AETHER" preflight
 assert_usage "next no-args" "$AETHER" next
+assert_usage "apply no-args" "$AETHER" apply
 assert_usage "probe no-args" "$AETHER" probe
 assert_usage "event no-args" "$AETHER" event
 pass "missing required args exit 2 (usage)"

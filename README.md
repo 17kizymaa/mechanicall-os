@@ -109,8 +109,9 @@ aether current validate        # SPEC schema check
 aether preflight rough-v6      # refuse if prohibited
 aether preflight silent-proof  # allow if it is Next
 aether artifact artifacts/proof.mp4 --action silent-proof --status produced
+aether apply .aether/proposals/CURRENT-proposal-….md  # human only; fenced body; does not approve
 aether approve "KEEP"              # human only
-aether next other-action           # after APPROVED: re-SELECT
+aether next other-action           # after APPROVED: re-SELECT (refuses if Next is already that id)
 aether demo                        # refuse→allow→approve→next in temp root
 aether brief                       # paste for Grok/external TUI
 aether probe other-action          # read-only would-preflight?
@@ -126,8 +127,8 @@ cat .aether/events.jsonl
 (`aether trust`) unless disabled with `--no-hooks`. Inspect hooks with
 `cat .aether/hooks/*` before trusting.
 
-**Silence is never permission.** Only `aether approve` (or an explicit human
-edit of CURRENT) advances authority.
+**Silence is never permission.** `aether apply` copies a proposal's fenced body
+onto `CURRENT.md` and does not record Yes. Only `aether approve` does that.
 
 ### What preflight can and cannot enforce
 

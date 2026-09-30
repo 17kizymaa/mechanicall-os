@@ -121,6 +121,7 @@ CAPTURE → SELECT → COMMIT → EXECUTE → REVIEW → APPROVE/REJECT
 | `aether approve [reason] [path]` | Record human APPROVED; update Status/Approval |
 | `aether reject [reason] [path]` | Record human REJECTED; return Phase to SELECT |
 | `aether next <action-id> [path]` | After APPROVED: re-SELECT (refuse exit **3** if not approved / unchanged) |
+| `aether apply [--dry-run] <proposal.md> [path]` | Human copies the fenced `# CURRENT` body onto `CURRENT.md`. Refuses the wrapper, a Next / Action-id split, and a Next that Prohibited would refuse. Does not approve. Does not re-SELECT. |
 | `aether probe <action-id> [path]` | Read-only would-preflight (exit 0 allow / **3** refuse) |
 | `aether event <msg> [path]` | Append freeform transition to events.jsonl |
 | `aether artifact <path> [--action A] [--status S]` | Register an artifact metadata record |
@@ -135,7 +136,7 @@ Existing v0.1 commands (`init`, `status`, `distill`, `watch`, `seed`, …) remai
 | **0** | Success / allowed | `preflight` allow, `approve`, `demo` OK |
 | **1** | Internal error **or** report signal | Write failure; `aether drift` when dirty (not a crash) |
 | **2** | Usage error | Unknown verb, missing required args, invalid flags/ids |
-| **3** | Protocol refusal | `preflight` / `probe` refuse; `next` not approved or unchanged |
+| **3** | Protocol refusal | `preflight` / `probe` refuse; `next` not approved or unchanged; `apply` refuses the wrapper, a split pin, a schema-invalid body, or a prohibited Next |
 
 Wrappers and agent harnesses **must not** treat all non-zero as equal: **3** is a correct closed gate; **2** is a typo/bad invocation; **1** needs investigation (except documented `drift`).
 
@@ -231,7 +232,7 @@ LangGraph, no autonomous agent pool, no web dashboard, no “industrial OS” cl
 - Untrusted hooks never execute.
 - `--no-hooks` identical across watch/distill/poke.
 - Consequential actions require explicit permission (preflight).
-- Workers cannot approve their own outputs (`approve`/`reject` are human CLI).
+- Workers cannot approve their own outputs (`approve` / `reject` / `next` / `apply` are human CLI). `apply` writes the fenced proposal body only; it is not approval.
 - Rejection never automatically initiates another attempt.
 
 ### Control

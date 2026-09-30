@@ -19,7 +19,7 @@ Copy into the project's `AGENTS.md` (or equivalent):
 3. If preflight exits non-zero: **stop**. Do not work around it.
 4. After producing work product, register it:
    `aether artifact <path> --action <action-id> --status produced`
-5. **Never** run `aether approve` or `aether reject`.
+5. **Never** run `aether approve`, `aether reject`, `aether next`, or `aether apply`.
 6. Wait for a human to review and approve (or reject) explicitly.
 7. Silence is never permission. Seeds and chat history do not override CURRENT.
 ```
@@ -53,9 +53,11 @@ Even without preflight, agents should not:
 
 - invent a new **Next** action;
 - clear **Prohibited** entries;
-- call `approve` / `reject`;
+- call `approve` / `reject` / `next` / `apply`;
 - treat model proposals as authority.
 
-Optional personal LLM helpers may **draft** CURRENT changes only; a human
-applies them. See [PERSONAL-LLM-LAYER.md](./PERSONAL-LLM-LAYER.md) and
+Optional personal LLM helpers may **draft** CURRENT changes only. The human
+lands a draft with `aether apply <proposal.md>` (the fenced body, not the
+wrapper) and records Yes separately with `aether approve`. See
+[PERSONAL-LLM-LAYER.md](./PERSONAL-LLM-LAYER.md) and
 `examples/propose-current/`.
