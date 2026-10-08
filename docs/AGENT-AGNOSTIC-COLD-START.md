@@ -130,3 +130,5 @@ Maturity = make the contract so cheap that good agents **default into it**.
 
 PR #5 session note (multi-agent cold start):  
 https://github.com/17kizymaa/mechanicall-os/pull/5#issuecomment-5232860932
+
+| `.memory/` (if present) | Session memory from earlier agents. Sidecar, not authority; CURRENT wins |

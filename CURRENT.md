@@ -1,121 +1,144 @@
 # CURRENT
 
-**Objective:** Mechanicall is **my Yes**. Aether gates my approval so covenants protect my intent. I serve. They do not have to learn the system. This halt: name the good I Yes, then serve in the rooms — not collect their stamps. Kitchen/`this-works` as food is dead. Label: MY YES · SERVE.
-**Phase:** SELECT
-**Status:** READY-FOR-REVIEW
-**Baseline:** 2026-09-11 · reject 12:45 covenants/intent · learnt: Mechanicall is my Yes; Mum good = servant; others’ approval is not the product
-**Next:** serve-the-rooms
-**Approval:** PENDING
-**Host:** myarch · rooms on apex. A33 USB not this halt.
+**Objective:** Mechanicall is my Yes. Give the client a downloadable APK, with a stable layer I use to develop the tester's version live. I still dispose.
+**Phase:** APPROVE
+**Status:** APPROVED
+**Baseline:** 2026-10-07 · share starts here · pin com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · closed-tester sit, not production · remote CI not considered
+**Next:** apk-share-24h
+**Approval:** APPROVED
+**Host:** myarch · local sit :8788 · apex after human deploy · branch `feat/share-urls-readiness`
+
+## What I want now
+
+The share of the pinned tester APK is where this starts. The pin stays `com.mechanicall.pocket.demo` `0.19.21-loop-from-20` versionCode 46. The share dies 24 hours after it starts.
+
+The primary user is me. They need not learn aether. Chat is hello. Their opener answers become that project's Limits — I write them, they never stamp.
 
 ## Product (non-negotiable identity)
-- **Is:** **Mechanicall: You Decide** — **my** decide. Inference proposes. I dispose. **My Yes** actualises a covenant. Models never approve. Silence is never permission.
-- **Aether’s job:** gate **my** approval. The file is my covenant. I do not become work I did not Yes.
-- **They:** do not have to learn aether, CURRENT, or Yes. Chat is hello. Send is not Yes. If they never stamp, the system still did its job — it gated *me*.
-- **The good:** what I can make, under a covenant I Yes. Mum: **servant**. Paper trading: room to try, no live money (I Yes that work). this-works: unnamed; serve in the chat; no product CURRENT until I know.
-- **This Next:** `serve-the-rooms` — my covenants, my Yes, then serve. Do not hunt their approval. Do not put kitchen CURRENT in this-works.
-- **Not this halt:** millwork, Play, OpenRouter, sequential ids, zip-only, their-Yes-as-the-product, teach-aether-as-the-price-of-help, app/site as the product, body as food.
+- **Is:** **Mechanicall: You Decide** — my decide. Inference proposes. I dispose. Models never approve. Silence is never permission.
+- **Aether's job:** gate my approval for covenants and for destructive or external actions. Ordinary personal edits to this file I may make myself.
+- **They:** do not learn aether, CURRENT, or Yes. The client gets the tester build. They do not stamp this file.
+- **This Next:** `apk-share-24h` — one loopback share of the pinned debug APK. It expires 24 hours after start. Then halt.
+- **Not this halt:** a remote CI layer, a CI vendor, a GitHub Android job, Play, apex deploy, messaging a person, teaching aether, a client CURRENT, the trading CURRENT, mint, renaming or deleting operator folders, the whole pocket-playtest loop.
 
-## Live rooms — my covenant / the good I Yes
+## Rooms (pointers live in the operator map, not here)
 
-| Alias | Room | What I Yes | The good |
-|-------|------|------------|----------|
-| `happy-birthday` | `e9b16791a12ac1ef521891b6eac3bf68` | Paper trading — room to try, no live money | They can think a market. Rent stays off the line. They need not stamp. |
-| `hi-its-mother` | `e745d275940fa06e191d9870ebbfa205` | I serve | **Servant.** Door open. I run and come back. I do not nag. She does not learn aether to receive help. |
-| `this-works` | `2b48071dd97502c311b7c5d923df2874` | **Parked as a named product.** I still answer the chat. | Not kitchen, not body, not food. “Ok this works” / “Son x” is the room. No CURRENT posted there until I know the good. |
+| Instance | Path | Next | Owns |
+|----------|------|------|------|
+| Tool (this file) | `mechanicall-os/CURRENT.md` | `apk-share-24h` | the 24-hour loopback share of the pinned tester APK |
+| Operator | `~/anphuni-project/CURRENT.md` | (that file's own header) | alias roster, mint, INTAKE, LINKS, who the share is handed to |
 
-Drafts (my working covenants, not their homework): `.aether/proposals/clients/<alias>/CURRENT.md`  
-Face: the **room** `https://anphuni.com/you-decide/t/<id>`. Not `/offers/`. Not a zip.
-
-## How to proceed (now that it is not their approval)
-
-1. I Yes **this** file. That is Mechanicall.
-2. I serve in the rooms as the table says. Receipts land here (`events.jsonl`, chat replies, work). They never have to `aether approve`.
-3. If someone later wants the system, they can learn it. That is extra. It is not the price of the door.
-4. this-works: reply as servant. Do not invent a product to make the room feel “done.”
-
-## Done (keep)
-- Protocol: one Next, preflight, human `aether approve` with a reason
-- Apex door · three live rooms · kitchen CURRENT **removed** from this-works
-- Learnt: Mechanicall is my Yes; servant; others’ stamp is not the product
+Paper: `happy-birthday` `e9b16791a12ac1ef521891b6eac3bf68` only. `DEFAULT_PAPER_TICKETS` stays that id.
 
 ## Keep
-- Mechanicall is **my Yes**
-- Aether gates my approval; covenants protect my intent
-- Models never approve; silence ≠ permission
-- One Next on this tree
-- **Servant** (Mum). Not nag. Not mascot. Not workshop-as-price
-- They need not learn the system
-- Handoff face = the ticket room. Zip is not the carrier. `/offers/` is not the room
-- Form (app / site) unnamed
-- Tickets are not operator law
-- Web Yes Reject
-- USB ≠ LTE
+- Plain, inspectable history; one useful Next; files + git to go back
+- Mechanicall is my Yes; models never approve; silence ≠ permission
+- They need not learn the system; Send is hello, not Yes
+- Paper only on birthday; not live money
+- Room URL is the face; steal grammar, never vendor bitmaps or vendor sites
+- Site-play FLAGS before paint
+- Pointers not copies; no client CURRENT; no nested CURRENT
+- Their opener answers → my Limits for that alias
+- Two instances, two Nexts, never merged
+- Explicit preview + Yes for destructive or external actions
+- Closed-tester debug APK, not a production store release
+- The stable layer stays pinned while later tester builds develop on it
+- A share of this APK has a deadline
+
+## Relax
+- The operator is not bound by this file's limits on handing the tester APK onward. Recipient, website, and store limits here do not bind the operator. The operator still disposes and still does not stamp a client CURRENT. This line does not edit or merge the operator CURRENT.
+- Approval ceremony for ordinary personal edits
+- Birthday two-app desk polish (done enough to share)
+- Prospectus ratios/timelines — evidence first
 
 ## Reject
 - dual-concurrent-next
-- proposal-wrapper-as-CURRENT
 - model-auto-write-current
+- proposal-wrapper-as-CURRENT
 - their-yes-as-the-product
 - teach-aether-as-the-price-of-help
 - stamp-client-current-for-them
-- client-law-in-operator-current
-- zip-only-offer
-- yes-to-a-plan-not-the-offer
-- app-site-identification-this-halt
-- schematic-factory-current-as-the-gift
-- agreement-sermon-as-current
-- body-as-food-product
-- kitchen-this-works-in-the-room
-- offers-page-as-the-room
-- nag-to-yes
-- family-mascot-as-face
-- web-yes-splits-authority
-- archive-you-decide-this-halt
-- generate-this-halt / openrouter-this-halt
-- millwork-this-halt
-- sequential-ids-this-halt
+- nested-current
+- intake-as-technical-questionnaire
+- form-instead-of-hello
+- framework-before-three-repeats
+- paint-before-sit
+- stocks-on-every-room
 - live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- agent-taste-steal-instead-of-crowd
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- deleting previous experiments because the direction changed
+- turning CURRENT into a backlog
+- protocol compliance as a substitute for making things
 
 ## Limits
-- These three rooms only. No emails or secrets in git.
-- **this-works:** no named product CURRENT in that room until I recast (not food, not body). Chat as servant is allowed.
-- Paper-trading is paper. Not a live brokerage.
-- Do not name app/site/APK/web as the product form.
-- Do not require their `aether approve`.
-- Do not wait on their stamp to serve.
+- I may revise this file directly; agent output is suggestion until I use it
+- This Next writes only under `mechanicall-os/` (`dev/76_apk-share-24h/` and the loopback share of the existing APK). It does not write `~/anphuni-project` or a trading tree
+- No emails, names, or secrets in git
+- Local `:8788` stays the room sit; apex only after human deploy. This share does not replace that sit and does not go on apex
+- No `aether approve` / `aether apply` / `aether next` by the model
+- The model does not invent a recipient, message a person, upload to Play, or deploy apex. The operator may hand the share on
+- The share binds `127.0.0.1` only and stops accepting downloads 24 hours after the receipt time
+- Signing keys stay off git (`~/.mechanicall/play-upload.jks`)
+- Rename/delete in `~/anphuni-project` or `~/clients` is the operator Next, with preview + Yes there
+- Remote CI is not this halt. Do not add a workflow and do not pick a vendor
 
 ## Parked (following — not this Next)
-- Teaching them Mechanicall (only if they ask)
-- **this-works named product**
-- App / site identification
-- Sequential ids
-- millwork, Generate, OpenRouter
-- `/offers/` as a public index
+- **remote CI layer** — not considered. `test.yml` is Python only. No Android job. No artifact upload
+- **tester-apk-live** — pin and debug APK already on disk
+- **apk-ci-prototype** — assemble-only Next; the miss before the pin
+- **legal-assimilation-report** — receipt 2026-09-19
+- **share-urls-kit** — alias links, not this APK
+- **telegram-grammar-paint** on `you-decide-ticket.html` (after wave-1 sit + FLAGS)
+- **tradingview-paper-paint** on birthday (after paint above)
+- **pocket-playtest-loop** — authority-disposal APK-servicing loop; not this halt
+- **session-memory** — .memory/ sidecar: append-only ledger + topics; stage 77
+- operator-auth dashboard
+- GTK desk; Webull widget desk; thinkorswim
+- Sequential ids; `/offers/` index; OpenRouter/Generate
+- `aether reject` → `aether next` sequence bug? (observed 08:05)
+- Eduwares / ICM templates — only after three repeats
+- this-works named product
+- Trading project on its own CURRENT — not opened from here
 
 ## Next allowed action
-**Action id:** `serve-the-rooms`
+**Action id:** apk-share-24h
 
-1. I `aether approve` this file with a reason — that is the gate.
-2. Mum’s room: serve (reply, fetch, come back). Good = servant. No aether lesson unless she asks.
-3. Happy-birthday: I Yes paper trading as work I will make; they need not stamp.
-4. this-works: answer the chat; do not post a CURRENT; do not invent kitchen.
-5. Stop hunting their Yes. Receipts of *my* work go on disk here.
+Share the pinned tester APK on loopback. The share expires 24 hours after it starts. Remote CI stays unconsidered.
+
+1. Use the existing file `dev/75_tester-apk-live/output/mechanicall-pocket-0.19.21-loop-from-20-vc46-debug.apk`. Confirm sha256 `44900cc0adc6b823a99bdca6a2992868e4017202d540b003dc31d31d66ac4d8f` and 62526130 bytes. If either differs, halt. Do not rebuild and do not bump the version.
+2. Serve that file on `127.0.0.1` only, on a free port, one path. Do not bind a public address. Do not use the room clip. Do not deploy apex.
+3. Write `dev/76_apk-share-24h/output/SHARE.md` with the URL, port, pid, byte size, sha256, started-at, and expires-at. expires-at is started-at plus 24 hours. The process exits at expires-at. This halt does not wait out the day.
+4. Receipt `dev/76_apk-share-24h/output/RECEIPT.md`. No recipient name, email, or inbox. The operator hands the share on. Halt.
+
+## Evidence sought
+1. Is the loopback share serving the pinned APK, same sha256?
+2. Does the receipt name a deadline 24 hours after start?
+3. Did `test.yml`, the operator CURRENT, and the version pin stay untouched?
 
 ## Approval condition
-Human `aether approve` with a real reason. That is Mechanicall. Silence is never permission.
+Human applies the proposal, then `aether approve` with a real reason. Apply is not a Yes. Do not `aether next` this same id after apply; the body already sets it. Ordinary personal edits without ceremony. Destructive or external actions still need an explicit Yes. Silence is never permission.
 
 ## Prohibited
 - automatic-approve
 - commit-secrets
 - dual-concurrent-next
 - model-auto-write-current
+- proposal-wrapper-as-CURRENT
 - their-yes-as-the-product
 - teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- paint-before-sit
+- intake-as-technical-questionnaire
 - kitchen-this-works-in-the-room
 - body-as-food-product
-- offers-page-as-the-room
-- nag-to-yes
-- live-money-as-paper-trading
-- millwork-this-halt
-- sequential-ids-this-halt
+- multi-agent-orchestration
+- agent-publish-delete-spend-message-deploy
