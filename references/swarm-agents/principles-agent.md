@@ -17,6 +17,6 @@
 - (free form)
 
 **Instructions when activated**:
-You are the Principles Agent in this filesystem-based swarm. Focus exclusively on whether the codebase lives the locked principles: Filesystem single source of truth, Markdown+Python only, active sidecars, low overhead + max inspectability.
+You are the Principles Agent in this filesystem-based swarm. Focus exclusively on whether the codebase lives the locked principles: Filesystem single source of truth, Markdown+Python only, active sidecars, low overhead + max inspectability. Include .aether/suggestions.toml. The team copy is ctx/teams/suggestions.toml. One turn. Not a Yes.
 
 Use the provided .context.md, doctrines excerpts, and source as your "shared context".

@@ -12,24 +12,26 @@
 #   aether preflight <action> [path]
 #   aether approve [reason] [path]
 #   aether reject [reason] [path]
-#   aether apply [--dry-run] <proposal.md> [path]
+#   aether apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [path]
+#   aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [path]
 #   aether event <msg> [path]
-#   aether artifact <path> [--action A] [--status S] [--project DIR]
+#   aether artifact <path> [--action A] [--status S]
+#   aether bookmark [label] [path] | <file.md> [label] | list [path]
+#   On a TTY, Rename: [stem] may replace the filename stem. Empty keeps it.
 #
-# Rhizome (docs/RHIZOME.md):
-#   aether seed | spark | session | graph | garden | rival
+# Pruned 2026-10-19 (prune-aether-verbs): seed spark session graph garden rival.
 #
 # See SPEC-v0.1.md + SPEC-v0.2.md
 
 set -e
 
 # Single version string (Opus next-09) — usage, --version, and tests share this.
-AETHER_VERSION="0.2"
+AETHER_VERSION="0.3"
 
 # Single verb list (Opus next-09) — help summary + known-command checks + completion.
 # Keep in sync with main() case arms (except removed desk|desk-serve aliases).
 # shellcheck disable=SC2034 # consumed via $AETHER_VERBS word-split loops
-AETHER_VERBS="init onboard try panel shell app deinit status distill watch repair poke trust current preflight approve reject next apply demo brief drift probe event artifact seed spark session graph garden rival help version verbs"
+AETHER_VERBS="init onboard try panel shell app deinit status distill watch repair poke trust current preflight approve reject next apply pre-apply demo brief drift probe event artifact bookmark desk help version verbs"
 
 # Exit codes (SPEC-v0.2 / Opus NEXT-04):
 #   0  success / allowed
@@ -139,6 +141,7 @@ hooks_dir()  { printf '%s/.aether/hooks\n' "$(project_root "$1")"; }
 current_file() { printf '%s/CURRENT.md\n' "$(project_root "$1")"; }
 events_file()  { printf '%s/.aether/events.jsonl\n' "$(project_root "$1")"; }
 artifacts_dir() { printf '%s/.aether/artifacts\n' "$(project_root "$1")"; }
+bookmarks_dir() { printf '%s/.aether/bookmarks\n' "$(project_root "$1")"; }
 preflight_last_file() { printf '%s/.aether/preflight-last\n' "$(project_root "$1")"; }
 preflight_log_file()  { printf '%s/.aether/preflight.jsonl\n' "$(project_root "$1")"; }
 
@@ -187,14 +190,14 @@ peel_reason_and_path() {
     if [ $# -eq 0 ]; then
         return 0
     fi
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
+    if [ $# -eq 1 ] && is_project_arg "$1"; then
         _peel_root="$(project_root "$1")"
         _peel_reason=""
         return 0
     fi
     if [ $# -gt 1 ]; then
         last=$(eval "printf '%s' \"\${$#}\"")
-        if [ -d "$last" ]; then
+        if is_project_arg "$last"; then
             _peel_root="$(project_root "$last")"
             i=1
             n=$#
@@ -855,15 +858,454 @@ apply_cleanup() {
 
 # Human copies a proposal's fenced CURRENT body onto CURRENT.md.
 # Does not approve. Does not re-SELECT. Refuses the wrapper.
-# Usage: aether apply [--dry-run] <proposal.md> [project]
-cmd_apply() {
+# A proposal body line is a slow hand when it is not a "do not".
+apply_slow_hand() {
+    _body="$1"
+    python3 - "$_body" << 'PY'
+import sys
+text = open(sys.argv[1], encoding="utf-8").read()
+start = text.find("## Next allowed action")
+end = text.find("## Evidence sought", start if start >= 0 else 0)
+chunk = text[start:end] if start >= 0 else ""
+kept = []
+for line in chunk.splitlines():
+    low = line.strip().lower()
+    if "do not" in low:
+        continue
+    kept.append(low)
+blob = "\n".join(kept)
+needles = (
+    "versioncode =",
+    "bump versioncode",
+    "adb install",
+    "phone install",
+    "play upload",
+    "upload to play",
+    "delete .grok/personas",
+    "rm .grok/personas",
+    "put `ctx` on",
+    "put ctx on",
+    "aether next",
+)
+for needle in needles:
+    if needle in blob:
+        print(needle)
+        sys.exit(0)
+sys.exit(1)
+PY
+}
+
+# The conversation session is the suggestion. A file is not.
+# AGENT_SESSION is the agent-agnostic pin. Otherwise exactly one client
+# *_SESSION_ID, excluding the desktop XDG_SESSION_ID. None means hidden.
+conversation_session() {
+    python3 - << 'PY'
+import os
+import re
+import sys
+pat = re.compile(r"^[A-Za-z0-9._-]+$")
+pin = os.environ.get("AGENT_SESSION", "").strip()
+if pin:
+    if pat.match(pin):
+        print(pin)
+        raise SystemExit(0)
+    raise SystemExit(1)
+found = []
+for key, val in os.environ.items():
+    if key == "XDG_SESSION_ID" or not key.endswith("_SESSION_ID"):
+        continue
+    val = val.strip()
+    if val and pat.match(val):
+        found.append(val)
+if len(found) == 1:
+    print(found[0])
+    raise SystemExit(0)
+raise SystemExit(1)
+PY
+}
+
+# A markdown proposal under .aether/proposals/. A slash in a reason is not one.
+is_proposal_arg() {
+    [ -f "$1" ] || return 1
+    case "$1" in
+        *.md) ;;
+        *) return 1 ;;
+    esac
+    _prop="$(abspath "$1")"
+    case "$_prop" in
+        */.aether/proposals/*.md) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# A project root is a directory that holds CURRENT.md. Not every slash path.
+is_project_arg() {
+    [ -d "$1" ] || return 1
+    [ -f "$1/CURRENT.md" ] || return 1
+    return 0
+}
+
+# Status and Approval both contain APPROVED. Prints nothing. Exit 0 is approved.
+proposal_is_approved() {
+    _body="$1"
+    _vdir="$(mktemp -d "${TMPDIR:-/tmp}/aether-preapply.XXXXXX")"
+    cp "$_body" "$_vdir/CURRENT.md" || {
+        rm -rf "$_vdir"
+        return 2
+    }
+    _appr=$(current_field "$_vdir" Approval 2>/dev/null || true)
+    _status=$(current_field "$_vdir" Status 2>/dev/null || true)
+    rm -rf "$_vdir"
+    _appr_u=$(printf '%s' "$_appr" | tr '[:lower:]' '[:upper:]')
+    _status_u=$(printf '%s' "$_status" | tr '[:lower:]' '[:upper:]')
+    case "$_appr_u" in
+        *APPROVED*) ;;
+        *) return 2 ;;
+    esac
+    case "$_status_u" in
+        *APPROVED*) return 0 ;;
+        *) return 2 ;;
+    esac
+}
+
+# One turn, or a mode for the rest of this visible session.
+# The mode does not stamp Approval. That was the per-turn commitment.
+# An approved proposal is applied for this session.
+pre_apply_turn() {
+    dry="$1"
+    reason="$2"
+    root_arg="$3"
+    proposal="$4"
+    mode="$5"
+    stop="$6"
+    if [ -z "$reason" ]; then
+        if [ "$mode" -eq 1 ]; then
+            reason="The operator allows this sequence."
+        else
+            reason="The operator allows approval for this turn."
+        fi
+    fi
+    if [ -n "$root_arg" ]; then
+        [ -d "$root_arg" ] || die "not a directory: $root_arg"
+        root="$(project_root "$root_arg")"
+    else
+        root="$(project_root "$(pwd -P)")"
+    fi
+    cf="$(current_file "$root")"
+    [ -f "$cf" ] || die "no CURRENT.md at $cf — run: aether current init"
+    set +e
+    session="$(conversation_session)"
+    session_ec=$?
+    set -e
+    if [ "$session_ec" -ne 0 ] || [ -z "$session" ]; then
+        printf 'session hidden; suggestion off\n'
+        printf '  Not written. The operator approval is not stamped.\n'
+        return 0
+    fi
+    if [ "$stop" -eq 1 ]; then
+        mode_path="$root/.aether/pre-apply-mode"
+        if [ -f "$mode_path" ]; then
+            mode_session=$(sed -n 's/^session=//p' "$mode_path" | head -1)
+            if [ "$mode_session" = "$session" ]; then
+                rm -f "$mode_path"
+            fi
+        fi
+        printf 'MODE OFF: session %s\n' "$session"
+        printf '  The sequence allowance has stopped. Nothing was stamped.\n'
+        return 0
+    fi
+    mode_on=0
+    if pre_apply_mode_matches "$root" "$session"; then
+        mode_on=1
+    fi
+    body=""
+    if [ -n "$proposal" ]; then
+        proposal="$(abspath "$proposal")"
+        body="$(aether_tmpfile "$root" preapply)"
+        py="$AETHER_ROOT/python/aether_apply_proposal.py"
+        [ -f "$py" ] || die "missing $py"
+        set +e
+        python3 "$py" --out "$body" "$proposal" >/dev/null 2>&1
+        extract_ec=$?
+        set -e
+        if [ "$extract_ec" -ne 0 ]; then
+            rm -f "$body"
+            printf 'refuse: a file is not the suggestion. The conversation session is.\n' >&2
+            return 2
+        fi
+        if ! proposal_is_approved "$body"; then
+            rm -f "$body"
+            printf 'refuse: the session applies an approved proposal. This one is not approved.\n' >&2
+            return 2
+        fi
+        set +e
+        slow=$(apply_slow_hand "$body")
+        slow_ec=$?
+        set -e
+        rm -f "$body"
+        if [ "$slow_ec" -eq 0 ]; then
+            printf 'refuse: pre-apply will not %s\n' "$slow" >&2
+            return 2
+        fi
+    fi
+    if [ "$dry" -eq 1 ]; then
+        if [ "$mode" -eq 1 ]; then
+            printf 'DRY-RUN: would start pre-apply mode for session %s\n' "$session"
+            printf '  The mode allows this sequence. It does not stamp Approval.\n'
+            printf '  Would write .aether/pre-apply-mode\n'
+        elif [ "$mode_on" -eq 1 ]; then
+            printf 'DRY-RUN: pre-apply mode is already on for session %s\n' "$session"
+            printf '  This turn is allowed. Approval would not be stamped again.\n'
+        else
+            printf 'DRY-RUN: would approve this turn of session %s\n' "$session"
+            printf '  The conversation session is the suggestion.\n'
+        fi
+        if [ -n "$proposal" ]; then
+            printf '  Would apply approved proposal %s\n' "$proposal"
+        fi
+        printf '  Would write .aether/suggestions.toml\n'
+        printf '  Not written. The operator approval is not stamped.\n'
+        return 0
+    fi
+    if [ -n "$proposal" ]; then
+        set +e
+        cmd_apply "$proposal" "$root"
+        apply_ec=$?
+        set -e
+        if [ "$apply_ec" -ne 0 ]; then
+            return "$apply_ec"
+        fi
+        printf '  Session %s applied the approved proposal.\n' "$session"
+    fi
+    if [ "$mode" -eq 1 ]; then
+        write_pre_apply_mode "$root" "$session" "$reason"
+        write_suggestions_sidecar "$root" "$session" "$reason"
+        append_event "$root" pre_apply_mode \
+            "$(printf '"reason":"%s","by":"operator","scope":"mode","suggestion":"%s","source":"conversation"' \
+                "$(json_escape "$reason")" \
+                "$(json_escape "$session")")"
+        printf 'MODE ON: session %s allows this sequence.\n' "$session"
+        printf '  File: .aether/pre-apply-mode\n'
+        printf '  Sidecar: .aether/suggestions.toml\n'
+        printf '  This is a mode for multiple turns. It does not stamp Approval.\n'
+        printf '  A slash in the reason is text. automatic-approve stays prohibited.\n'
+        return 0
+    fi
+    if [ "$mode_on" -eq 1 ]; then
+        printf 'MODE ON: session %s already allows this sequence.\n' "$session"
+        printf '  This turn is allowed. Approval is not stamped again.\n'
+        return 0
+    fi
+    write_suggestions_sidecar "$root" "$session" "$reason"
+    append_event "$root" turn_approval \
+        "$(printf '"reason":"%s","by":"operator","scope":"turn","suggestion":"%s","source":"conversation"' \
+            "$(json_escape "$reason")" \
+            "$(json_escape "$session")")"
+    printf 'TURN ALLOWED: session %s is the suggestion for this turn.\n' "$session"
+    printf '  Sidecar: .aether/suggestions.toml\n'
+    printf '  This is one turn. This is not a mode. A file is not the suggestion.\n'
+    printf '  --approve follows.\n'
+    cmd_approve "$reason" "$root"
+    return 0
+}
+
+# The verb writes the suggestions sidecar for this turn. Not a persona. Not a Yes.
+write_suggestions_sidecar() {
+    root="$1"
+    session="$2"
+    reason="$3"
+    ensure_aether_dirs "$root"
+    AETHER_SIDE_PATH="$root/.aether/suggestions.toml" \
+    AETHER_SIDE_SESSION="$session" \
+    AETHER_SIDE_REASON="$reason" \
+    python3 - << 'PY'
+import os
+from pathlib import Path
+
+def toml_basic(text):
+    out = ['"']
+    for ch in text:
+        if ch == "\\":
+            out.append("\\\\")
+        elif ch == '"':
+            out.append('\\"')
+        elif ch == "\n":
+            out.append("\\n")
+        elif ch == "\r":
+            out.append("\\r")
+        elif ch == "\t":
+            out.append("\\t")
+        elif ord(ch) < 32:
+            out.append("\\u%04x" % ord(ch))
+        else:
+            out.append(ch)
+    out.append('"')
+    return "".join(out)
+
+session = os.environ.get("AETHER_SIDE_SESSION", "")
+reason = os.environ.get("AETHER_SIDE_REASON", "")
+instructions = (
+    "You are the suggestions sidecar for one turn.\n"
+    "The conversation session is the suggestion. A file is not.\n"
+    "Session: " + session + "\n"
+    "Operator reason: " + reason + "\n"
+    "This file is written by aether pre-apply.\n"
+    "It does not approve. It does not edit CURRENT.md.\n"
+    "Silence is never permission.\n"
+)
+body = (
+    'description = "Suggestions sidecar. One turn. Not a Yes."\n'
+    "instructions = " + toml_basic(instructions) + "\n"
+)
+path = Path(os.environ["AETHER_SIDE_PATH"])
+path.write_text(body, encoding="utf-8")
+os.chmod(path, 0o600)
+PY
+}
+
+# The mode file is one sequence for this session. Not a Yes. Not a persona.
+pre_apply_mode_matches() {
+    _root="$1"
+    _session="$2"
+    _path="$_root/.aether/pre-apply-mode"
+    [ -f "$_path" ] || return 1
+    _got=$(sed -n 's/^session=//p' "$_path" | head -1)
+    [ "$_got" = "$_session" ]
+}
+
+write_pre_apply_mode() {
+    _root="$1"
+    _session="$2"
+    _reason="$3"
+    ensure_aether_dirs "$_root"
+    _path="$_root/.aether/pre-apply-mode"
+    (
+        umask 077
+        {
+            printf 'session=%s\n' "$_session"
+            printf 'scope=mode\n'
+            printf 'reason=%s\n' "$_reason"
+        } > "$_path"
+    )
+    chmod 600 "$_path"
+}
+
+# Operator allows one turn, or starts a mode for the rest of the session.
+# A slash, a quote, or a pipe inside a reason word stays text.
+# aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [project]
+cmd_pre_apply() {
     dry=0
-    proposal=""
+    mode=0
+    stop=0
     root_arg=""
+    reason=""
+    proposal=""
+    last_token=""
     while [ $# -gt 0 ]; do
         case "$1" in
             --dry-run)
                 dry=1
+                shift
+                ;;
+            --mode)
+                mode=1
+                shift
+                ;;
+            --stop)
+                stop=1
+                shift
+                ;;
+            --*)
+                die_usage "unknown flag: $1"
+                ;;
+            *)
+                last_token="$1"
+                if is_proposal_arg "$1"; then
+                    if [ -n "$proposal" ]; then
+                        die_usage "usage: aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [project]"
+                    fi
+                    proposal="$1"
+                elif [ -n "$reason" ]; then
+                    reason="$reason $1"
+                else
+                    reason="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+    if [ "$mode" -eq 1 ] && [ "$stop" -eq 1 ]; then
+        die_usage "usage: pass only one of --mode or --stop"
+    fi
+    if is_project_arg "$last_token"; then
+        root_arg="$last_token"
+        case "$reason" in
+            "$last_token") reason="" ;;
+            *" $last_token") reason=${reason% "$last_token"} ;;
+        esac
+        reason=$(printf '%s' "$reason" | sed 's/[[:space:]]*$//')
+    fi
+    case "$reason" in
+        \"*\")
+            reason=${reason#\"}
+            reason=${reason%\"}
+            ;;
+    esac
+    pre_apply_turn "$dry" "$reason" "$root_arg" "$proposal" "$mode" "$stop"
+    return $?
+}
+
+# Usage: aether apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [project]
+cmd_apply() {
+    dry=0
+    proposal=""
+    root_arg=""
+    approve_reason=""
+    want_approve=0
+    reject_reason=""
+    want_reject=0
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --dry-run)
+                dry=1
+                shift
+                ;;
+            --approve|--reject)
+                _flag="$1"
+                shift
+                _acc=""
+                # Words after the flag are the reason until a real file.
+                # Quotes are not syntax. A reason may contain them.
+                while [ $# -gt 0 ]; do
+                    case "$1" in
+                        --dry-run|-*) break ;;
+                    esac
+                    if is_proposal_arg "$1"; then
+                        break
+                    fi
+                    if [ -n "$_acc" ]; then
+                        _acc="$_acc $1"
+                    else
+                        _acc="$1"
+                    fi
+                    shift
+                done
+                if [ "$_flag" = "--approve" ]; then
+                    want_approve=1
+                    approve_reason="$_acc"
+                else
+                    want_reject=1
+                    reject_reason="$_acc"
+                fi
+                ;;
+            --approve=*)
+                want_approve=1
+                approve_reason="${1#--approve=}"
+                shift
+                ;;
+            --reject=*)
+                want_reject=1
+                reject_reason="${1#--reject=}"
                 shift
                 ;;
             -*)
@@ -875,14 +1317,36 @@ cmd_apply() {
                 elif [ -z "$root_arg" ]; then
                     root_arg="$1"
                 else
-                    die_usage "usage: aether apply [--dry-run] <proposal.md> [project]"
+                    die_usage "usage: aether apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [project]"
                 fi
                 shift
                 ;;
         esac
     done
-    [ -n "$proposal" ] || die_usage "usage: aether apply [--dry-run] <proposal.md> [project]"
-    [ -f "$proposal" ] || die "no proposal file: $proposal"
+    if [ "$want_approve" -eq 1 ] && [ "$want_reject" -eq 1 ]; then
+        die_usage "usage: pass only one of --approve or --reject"
+    fi
+    if [ "$want_approve" -eq 1 ] && [ -z "$approve_reason" ]; then
+        die_usage "usage: aether apply --approve reason <proposal.md>"
+    fi
+    if [ "$want_reject" -eq 1 ] && [ -z "$reject_reason" ]; then
+        die_usage "usage: aether apply --reject reason <proposal.md>"
+    fi
+    case "$approve_reason" in
+        \"*\")
+            approve_reason=${approve_reason#\"}
+            approve_reason=${approve_reason%\"}
+            ;;
+    esac
+    if [ -z "$proposal" ]; then
+        die_usage "usage: aether apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [project]"
+    fi
+    if [ ! -f "$proposal" ]; then
+        if [ "$want_approve" -eq 1 ] || [ "$want_reject" -eq 1 ]; then
+            die_usage "no proposal file: $proposal"
+        fi
+        die "no proposal file: $proposal"
+    fi
     proposal="$(abspath "$proposal")"
 
     apply_body=""
@@ -943,6 +1407,16 @@ cmd_apply() {
         printf '  preflight would refuse it even after the copy\n' >&2
         return 3
     fi
+    if [ "$want_approve" -eq 1 ] || [ "$want_reject" -eq 1 ]; then
+        set +e
+        slow=$(apply_slow_hand "$apply_body")
+        slow_ec=$?
+        set -e
+        if [ "$slow_ec" -eq 0 ]; then
+            printf 'refuse: --approve/--reject will not %s\n' "$slow" >&2
+            return 2
+        fi
+    fi
 
     if cmp -s "$cf" "$apply_body"; then
         printf 'already applied: %s\n' "$proposal"
@@ -986,6 +1460,16 @@ cmd_apply() {
     printf '  Phase: %s  Status: %s  Approval: %s\n' \
         "${phase:-(unset)}" "${status:-(unset)}" "${appr:-(unset)}"
     printf '  Backup: %s\n' "$backup"
+    if [ "$want_approve" -eq 1 ]; then
+        printf '  --approve follows. This is not a mode.\n'
+        cmd_approve "$approve_reason" "$apply_root"
+        return 0
+    fi
+    if [ "$want_reject" -eq 1 ]; then
+        printf '  --reject follows. This is not a mode.\n'
+        cmd_reject "$reject_reason" "$apply_root"
+        return 0
+    fi
     printf '  Not an approval. aether approve is still yours.\n'
     printf '  aether next %s refuses while Next is already that id.\n' "$next"
     return 0
@@ -1198,6 +1682,167 @@ cmd_artifact() {
             "$(json_escape "$status")" "$(json_escape "${csum:-}")" \
             "$(json_escape "$meta")")"
     printf 'artifact registered → %s\n' "$meta"
+}
+
+cmd_bookmark_list() {
+    root="$(project_root "$1")"
+    bdir="$(bookmarks_dir "$root")"
+    if [ ! -d "$bdir" ]; then
+        printf 'bookmark: none\n'
+        return 0
+    fi
+    set +e
+    listing=$(ls -1t "$bdir"/*.md 2>/dev/null)
+    set -e
+    if [ -z "$listing" ]; then
+        printf 'bookmark: none\n'
+        return 0
+    fi
+    printf '%s\n' "$listing"
+}
+
+cmd_bookmark() {
+    # aether bookmark [label] [path]
+    # aether bookmark <file.md> [label]
+    # aether bookmark list [path]
+    # Restore is parked. Not this verb.
+    label=""
+    root=""
+    src=""
+    mode="snapshot"
+
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -*)
+                die_usage "unknown flag: $1"
+                ;;
+            restore)
+                die_usage "restore is not this verb"
+                ;;
+            list)
+                [ -z "$label" ] && [ -z "$root" ] && [ -z "$src" ] || \
+                    die_usage "usage: aether bookmark [label] [path]"
+                mode="list"
+                shift
+                [ $# -le 1 ] || die_usage "usage: aether bookmark list [path]"
+                if [ $# -eq 1 ]; then
+                    [ -d "$1" ] || die "not a directory: $1"
+                    root="$(project_root "$1")"
+                fi
+                break
+                ;;
+            *)
+                if [ -f "$1" ]; then
+                    [ -z "$src" ] || die_usage "usage: aether bookmark [label] [path]"
+                    src="$(abspath "$1")"
+                elif [ -d "$1" ]; then
+                    [ -z "$root" ] || die_usage "usage: aether bookmark [label] [path]"
+                    root="$(project_root "$1")"
+                elif [ -z "$label" ]; then
+                    label="$1"
+                else
+                    die_usage "usage: aether bookmark [label] [path]"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    if [ -z "$root" ] && [ -n "$src" ]; then
+        home="$(proposal_home "$src")"
+        if [ -n "$home" ]; then
+            root="$home"
+        else
+            root="$(project_root "$(dirname "$src")")"
+        fi
+    fi
+    [ -n "$root" ] || root="$(pwd -P)"
+    root="$(project_root "$root")"
+
+    if [ "$mode" = "list" ]; then
+        cmd_bookmark_list "$root"
+        return 0
+    fi
+
+    if [ -n "$label" ]; then
+        case "$label" in
+            *[!A-Za-z0-9._-]*)
+                die_usage "invalid label: $label (use letters, digits, ._- )"
+                ;;
+        esac
+    fi
+
+    if [ -z "$src" ]; then
+        src="$(current_file "$root")"
+    fi
+    [ -f "$src" ] || die "no CURRENT.md at $src"
+
+    src_base="$(basename "$src")"
+    if [ "$src_base" = "CURRENT.md" ]; then
+        stem="CURRENT"
+        source_rel="CURRENT.md"
+    else
+        stem="$(basename "$src" .md)"
+        stem="$(printf '%s' "$stem" | tr -c 'A-Za-z0-9._-' '-')"
+        case "$src" in
+            "$root"/*) source_rel="${src#"$root"/}" ;;
+            *) source_rel="$src_base" ;;
+        esac
+    fi
+
+    # TTY only. Non-TTY keeps the stem and does not read stdin (no hang).
+    if [ -t 0 ]; then
+        printf 'Rename: [%s] ' "$stem" >&2
+        _nick=""
+        IFS= read -r _nick || _nick=""
+        _nick=$(printf '%s' "$_nick" | tr -d '\r')
+        if [ -n "$_nick" ]; then
+            case "$_nick" in
+                list|restore)
+                    die_usage "reserved stem: $_nick"
+                    ;;
+                *[!A-Za-z0-9._-]*)
+                    die_usage "invalid stem: $_nick (use letters, digits, ._- )"
+                    ;;
+            esac
+            stem="$_nick"
+        fi
+    fi
+
+    bdir="$(bookmarks_dir "$root")"
+    mkdir -p "$bdir" || die "cannot create $bdir"
+    stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    if [ -n "$label" ]; then
+        base="${stem}-${stamp}-${label}"
+    else
+        base="${stem}-${stamp}"
+    fi
+    dest="$bdir/${base}.md"
+    n=0
+    while [ -e "$dest" ]; do
+        n=$((n + 1))
+        dest="$bdir/${base}-${n}.md"
+    done
+    # Copy without -p so mtime is the snapshot time (newest-first list).
+    cp "$src" "$dest" || die "bookmark copy failed: $dest"
+    touch "$dest" || true
+    csum=$(cksum "$dest" | awk '{print $1}')
+    bytes=$(cksum "$dest" | awk '{print $2}')
+    rel=".aether/bookmarks/$(basename "$dest")"
+    append_event "$root" bookmark \
+        "$(printf '"path":"%s","source":"%s","label":"%s","stem":"%s","checksum":"%s","bytes":%s' \
+            "$(json_escape "$rel")" \
+            "$(json_escape "$source_rel")" \
+            "$(json_escape "$label")" \
+            "$(json_escape "$stem")" \
+            "$(json_escape "$csum")" \
+            "$bytes")"
+    printf 'BOOKMARK: %s\n' "$dest"
+    if [ "$src_base" = "CURRENT.md" ]; then
+        printf '  Not a Yes. CURRENT.md unchanged.\n'
+    else
+        printf '  Not a Yes. Source unchanged. Not apply.\n'
+    fi
 }
 
 # --- state ------------------------------------------------------------
@@ -1625,78 +2270,176 @@ cmd_repair() {
     cmd_distill "$@"
 }
 
-# --- rhizome: capture / spark / session / graph -----------------------
-# Doctrine: capture is sacred; structure is deferred. Seed never asks a
-# question, never fails on missing dirs, never files anything.
+# Pruned verbs (not dispatched): seed spark session graph garden rival.
 
-cmd_seed() {
-    # help flags must never land in the inbox
-    case "${1:-}" in
-        -h|--help|help) usage; return 0 ;;
-    esac
-    inbox="${AETHER_INBOX:-$HOME/inbox.md}"
-    if [ $# -gt 0 ]; then
-        text="$*"
-    else
-        text="$(cat | tr '\n' ' ')"
-    fi
-    # trim
-    text="$(printf '%s' "$text" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
-    [ -n "$text" ] || die_usage 'empty seed'
-    if [ ! -f "$inbox" ]; then
-        printf '# Inbox — seeds land here\n\nNever file at entry. distill sorts; you approve.\n\n' > "$inbox"
-    fi
-    printf -- '- %s %s\n' "$(now_iso)" "$text" >> "$inbox"
-    printf 'seed planted → %s\n' "$inbox"
-}
-
-cmd_spark() {
-    deck="${AETHER_SPARKS:-$HOME/prompts.md}"
-    [ -f "$deck" ] || die "no spark deck at $deck (create it: one oblique line per line)"
-    # Prefer bullet lines (- / *); else non-# non-empty lines. Never deal prose headers.
-    bullets="$(grep -E '^[[:space:]]*[-*][[:space:]]+' "$deck" 2>/dev/null | sed 's/^[[:space:]]*[-*][[:space:]]*//')"
-    if [ -n "$bullets" ]; then
-        lines="$bullets"
-    else
-        lines="$(grep -v '^#' "$deck" | grep -v '^[[:space:]]*$')"
-    fi
-    [ -n "$lines" ] || die "spark deck is empty: $deck"
-    if command -v shuf >/dev/null 2>&1; then
-        printf '%s\n' "$lines" | shuf -n1
-    else
-        printf '%s\n' "$lines" | awk 'BEGIN{srand()} {a[NR]=$0} END{print a[int(rand()*NR)+1]}'
-    fi
-}
-
-cmd_session() {
-    root="$(pwd -P)"
-    ledger="$root/.session.md"
-    if [ $# -eq 0 ]; then
-        [ -f "$ledger" ] && tail -20 "$ledger" || printf 'no session ledger here yet: aether session "listening: <track>"\n'
+cmd_desk() {
+    # aether desk [--index name|none] "prompt"
+    # CLI-native index is none. A named default belongs in ctx/CACHE.md.
+    root="$(project_root "$(pwd -P)")"
+    cache="$root/ctx/CACHE.md"
+    [ -f "$cache" ] || die_usage "ctx/CACHE.md missing"
+    if [ "${1:-}" = "indexes" ]; then
+        AETHER_DESK_CACHE="$cache" AETHER_DESK_LIST=1 python3 - << 'PY' || exit $?
+import os, sys
+from pathlib import Path
+cache = Path(os.environ["AETHER_DESK_CACHE"])
+chroma_path = ""
+configured = ""
+for raw in cache.read_text(encoding="utf-8").splitlines():
+    parts = raw.split()
+    if not parts or parts[0].startswith("#"):
+        continue
+    if parts[0] == "index" and len(parts) >= 2:
+        configured = parts[1]
+    if parts[0] == "chroma" and len(parts) >= 3 and parts[1] == "on":
+        chroma_path = os.path.expanduser(" ".join(parts[2:]))
+print("none")
+if not chroma_path:
+    sys.exit(0)
+import chromadb
+from chromadb.config import Settings
+client = chromadb.PersistentClient(path=chroma_path, settings=Settings(anonymized_telemetry=False))
+for col in client.list_collections():
+    name = col.name if hasattr(col, "name") else col
+    mark = " configured" if name == configured else ""
+    print(name + mark)
+PY
         return 0
     fi
-    if [ ! -f "$ledger" ]; then
-        printf '# Session ledger — %s\n\nInputs (what was playing) and outputs (what got made).\nThe middle stays unmanaged.\n\n' "$(basename "$root")" > "$ledger"
-    fi
-    printf -- '- %s %s\n' "$(now_iso)" "$*" >> "$ledger"
-    printf 'logged → %s\n' "$ledger"
-}
-
-graph_id() { printf '%s' "$1" | tr -c 'A-Za-z0-9' '_'; }
-
-cmd_graph() {
-    p=$(get_path_arg "$@")
-    root="$(project_root "$p")"
-    printf 'graph LR\n'
-    collect_files "$root" | grep '\.md$' | while IFS= read -r f; do
-        src="$(basename "$f" .md)"
-        grep -o '\[\[[^]]*\]\]' "$f" 2>/dev/null | sed 's/^\[\[//;s/\]\]$//' | sort -u \
-        | while IFS= read -r tgt; do
-            [ -n "$tgt" ] || continue
-            printf '  %s["%s"] --> %s["%s"]\n' \
-                "$(graph_id "$src")" "$src" "$(graph_id "$tgt")" "$tgt"
-        done
+    index_flag=""
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --index)
+                shift
+                [ $# -gt 0 ] || die_usage "usage: aether desk --index name|none \"prompt\""
+                index_flag="$1"
+                shift
+                ;;
+            --index=*)
+                index_flag="${1#--index=}"
+                shift
+                ;;
+            *) break ;;
+        esac
     done
+    prompt="$*"
+    if [ -z "$prompt" ]; then
+        prompt="$(cat | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+    fi
+    [ -n "$prompt" ] || die_usage "usage: aether desk [--index name|none] \"prompt\""
+    AETHER_DESK_PROMPT="$prompt" AETHER_DESK_CACHE="$cache" AETHER_DESK_INDEX="$index_flag" python3 - << 'PY' || exit $?
+import json, os, sys, urllib.request
+from pathlib import Path
+
+cache = Path(os.environ["AETHER_DESK_CACHE"])
+prompt = os.environ["AETHER_DESK_PROMPT"]
+index_flag = os.environ.get("AETHER_DESK_INDEX", "").strip()
+stores = {}
+selected = []
+configured_index = ""
+for raw in cache.read_text(encoding="utf-8").splitlines():
+    line = raw.strip()
+    if not line or line.startswith("#"):
+        continue
+    parts = line.split()
+    if parts[0] == "db" and len(parts) >= 2:
+        selected = [p.strip() for p in parts[1].replace("+", ",").split(",") if p.strip()]
+        continue
+    if parts[0] == "index" and len(parts) >= 2:
+        configured_index = parts[1]
+        continue
+    if len(parts) < 3 or parts[1] != "on":
+        continue
+    stores[parts[0]] = " ".join(parts[2:])
+legal = [name for name in ("ctx", "chroma") if name in stores]
+if not selected:
+    sys.stderr.write("aether: set db in ctx/CACHE.md before desk. Choices: " + " ".join(legal or ["ctx", "chroma"]) + "\n")
+    sys.exit(2)
+unknown = [name for name in selected if name not in ("ctx", "chroma")]
+if unknown or any(name not in stores for name in selected):
+    sys.stderr.write("aether: db " + ",".join(selected) + " is not an on store. On: " + " ".join(legal) + "\n")
+    sys.exit(2)
+if "ollama" not in stores or stores["ollama"] != "personal-llm-sft-v6:latest":
+    sys.stderr.write("aether: desk requires ollama on personal-llm-sft-v6:latest\n")
+    sys.exit(2)
+ollama_tag = stores["ollama"]
+print("selected:", ",".join(selected))
+print("stores:")
+for name in selected:
+    print(" ", name, stores[name])
+
+def post(path, payload, timeout):
+    body = json.dumps(payload).encode()
+    req = urllib.request.Request(
+        "http://127.0.0.1:11434" + path,
+        data=body,
+        headers={"Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode())
+
+index_name = index_flag or configured_index or "none"
+print("index:", index_name + (" flag" if index_flag else (" cache" if configured_index and not index_flag else " cli")))
+docs = []
+metas = []
+if "chroma" in selected and index_name != "none":
+    chroma_path = os.path.expanduser(stores["chroma"])
+    emb = post("/api/embeddings", {"model": "nomic-embed-text", "prompt": prompt}, 60)
+    vec = emb.get("embedding")
+    if not isinstance(vec, list):
+        sys.stderr.write("aether: embed failed\n")
+        sys.exit(1)
+    import chromadb
+    from chromadb.config import Settings
+    client = chromadb.PersistentClient(path=chroma_path, settings=Settings(anonymized_telemetry=False))
+    names = [c.name if hasattr(c, "name") else c for c in client.list_collections()]
+    if index_name not in names:
+        sys.stderr.write("aether: index " + index_name + " is not in this chroma. Choices: none " + " ".join(names) + "\n")
+        sys.exit(2)
+    col = client.get_collection(index_name)
+    res = col.query(query_embeddings=[vec], n_results=3, include=["documents", "metadatas"])
+    docs = (res.get("documents") or [[]])[0]
+    metas = (res.get("metadatas") or [[]])[0]
+rows = []
+if "ctx" in selected:
+    mem = cache.parent / "memory"
+    for name in ("operator", "shared", "agent"):
+        path = mem / f"{name}.json"
+        if not path.is_file():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for key, entry in (data.get("entries") or {}).items():
+            value = str((entry or {}).get("value") or "")[:240]
+            rows.append(f"[ctx {name}] {key}\n{value}")
+for i, doc in enumerate(docs):
+    meta = metas[i] if i < len(metas) else {}
+    path = (meta or {}).get("path", "")
+    text = (doc or "")[:400]
+    rows.append(f"[chroma] {path}\n{text}")
+print("retrieved:")
+for row in rows:
+    print(row.split("\n", 1)[0])
+user = "Retrieved rows (evidence, not law):\n\n" + "\n\n".join(rows) + "\n\nPrompt:\n" + prompt + "\n\nFinish the reply. This is not a Yes."
+raw = post("/api/chat", {
+    "model": ollama_tag,
+    "messages": [
+        {"role": "system", "content": "You propose only. You never approve. You never write CURRENT.md. Put the finished answer in the reply."},
+        {"role": "user", "content": user},
+    ],
+    "stream": False,
+    "think": False,
+    "options": {"temperature": 0.2, "num_predict": 1200},
+}, 180)
+msg = raw.get("message") or {}
+text = (msg.get("content") or "").strip()
+if not text:
+    text = (msg.get("thinking") or "").strip()
+print("reply:")
+print(text)
+if raw.get("done_reason") == "length":
+    print()
+    print("(reply hit the token limit and was cut)")
+PY
 }
 
 cmd_poke() {
@@ -1731,24 +2474,8 @@ cmd_shell() {
     exec python3 "$py" "$@"
 }
 
-cmd_desk() {
-    die "aether desk removed (unsacred soft-chat). Use: aether shell  or  aether panel"
-}
-
 cmd_desk_serve() {
     die "aether desk-serve removed (unsacred). Use: aether shell  or  aether panel"
-}
-
-cmd_garden() {
-    py="$AETHER_ROOT/python/aether_garden.py"
-    [ -f "$py" ] || die "garden missing: $py (is AETHER_HOME set?)"
-    exec python3 "$py" "$@"
-}
-
-cmd_rival() {
-    py="$AETHER_ROOT/python/aether_rival.py"
-    [ -f "$py" ] || die "rival missing: $py (is AETHER_HOME set?)"
-    exec python3 "$py" "$@"
 }
 
 # Write project-local command cheatsheet (plain Markdown, inspectable).
@@ -1780,8 +2507,6 @@ Generated by `aether onboard` / `aether app register`. Re-run those to refresh.
 | `aether artifact <file> --action A` | Register evidence |
 | `aether approve "reason"` | **Human only** — advances authority |
 | `aether reject "reason"` | **Human only** — no auto-rebuild |
-| `aether session "note"` | Project ledger note |
-| `aether seed "thought"` | Global inbox (never overrides CURRENT) |
 
 ## First-run / project
 
@@ -2124,9 +2849,16 @@ cat <<'U'
   reject [reason]        human REJECTED → Phase SELECT; no auto-rebuild
   next <action-id> [path] [--reason TEXT]
                          after APPROVED: re-SELECT with new Next (refuse if unapproved/unchanged)
-  apply [--dry-run] <proposal.md> [path]
+  apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [path]
                          human only: copy the fenced # CURRENT body onto CURRENT.md
                          (refuses the wrapper; does not approve; does not re-SELECT)
+  pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [path]
+                         one turn approves. --mode allows the rest of this visible session
+                         and does not stamp Approval. --stop ends that mode.
+                         A slash, a quote, or a pipe in a reason stays text.
+                         An approved proposal under .aether/proposals/ is applied for that session.
+                         Writes .aether/suggestions.toml. The mode file is .aether/pre-apply-mode.
+                         Hidden session: suggestion off, nothing stamped, nothing applied.
   demo [--quiet]         one-command protocol demo in temp root (never live CURRENT)
   brief [path]           short Next/gate/events/drift paste for external TUIs
   drift [path]           git dirty report (exit 1 if drift; never writes CURRENT)
@@ -2137,15 +2869,15 @@ cat <<'U'
   event <message> [path] append freeform note to .aether/events.jsonl
   artifact <file> [--action A] [--status S] [--project DIR]
                          register artifact metadata + event
+  bookmark [label] [path]
+                         copy CURRENT.md or a proposal file to .aether/bookmarks/
+                         On a TTY, Rename: [stem] may set a nickname stem. Empty keeps it.
+                         (not Yes, not apply)
+  bookmark list [path]   list snapshots newest first
 
-  Capture (Rhizome — never overrides CURRENT):
-  seed "thought"         capture to global inbox ($AETHER_INBOX or ~/inbox.md)
-  spark                  one random line from the spark deck
-  session ["note"]       append to ./.session.md (no arg: show tail)
-  graph [path]           wiki-link [[network]] as Mermaid
-  garden [apply|status]  propose seed destinations (LLM); apply only [x]
-  rival --track T --read "…"
-                         Rival Editor v0 (logs to ./.session.md)
+  desk indexes          list chroma indexes. none is the CLI default.
+  desk [--index name|none] "prompt"
+                         call the desk model. index comes from --index, else the index line in ctx/CACHE.md, else none. Not a Yes.
 
 LLM: OPENROUTER_API_KEY / GROQ_API_KEY (free), XAI_API_KEY, or Ollama.
   See docs/FREE-API.md + docs/RHIZOME.md + ADVERSARY.md.
@@ -2185,8 +2917,9 @@ main() {
         try)       cmd_try "$@" ;;
         panel)     cmd_panel "$@" ;;
         shell)     cmd_shell "$@" ;;
-        desk|desk-serve)
-            die "desk removed (unsacred). Use: aether shell  or  aether panel"
+        desk)      cmd_desk "$@" ;;
+        desk-serve)
+            die "desk-serve removed (unsacred). Use: aether shell  or  aether panel"
             ;;
         app)       cmd_app "$@" ;;
         deinit)    cmd_deinit "$@" ;;
@@ -2202,18 +2935,14 @@ main() {
         reject)    cmd_reject "$@" ;;
         next)      cmd_next "$@" ;;
         apply)     cmd_apply "$@" ;;
+        pre-apply) cmd_pre_apply "$@" ;;
         demo)      cmd_demo "$@" ;;
         brief)     cmd_brief "$@" ;;
         drift)     cmd_drift "$@" ;;
         probe)     cmd_probe "$@" ;;
         event)     cmd_event "$@" ;;
         artifact)  cmd_artifact "$@" ;;
-        seed)      cmd_seed "$@" ;;
-        spark)     cmd_spark "$@" ;;
-        session)   cmd_session "$@" ;;
-        graph)     cmd_graph "$@" ;;
-        garden)    cmd_garden "$@" ;;
-        rival)     cmd_rival "$@" ;;
+        bookmark)  cmd_bookmark "$@" ;;
         *)
             # Path shortcut only: `aether /some/dir` → status that project.
             # Unknown verbs must not print status and exit 0 (Opus peer 🔴-1 /

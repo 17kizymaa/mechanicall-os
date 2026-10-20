@@ -8,7 +8,7 @@
 **Builds on:** SPEC-v0.1 (awareness sidecars + `aether` shell CLI) — historical  
 **Mission (authorized):** filesystem-native authority and approval for human–agent projects.  
 **Not authorized:** PostgreSQL / pgvector / LangGraph / autonomous multi-agent studio.  
-**Tool alignment:** repo-root `./aether` POSIX CLI (header v0.2).
+**Tool alignment:** repo-root `./aether` POSIX CLI (header v0.2). The running CLI reports `0.3`.
 
 ## Goal
 
@@ -122,11 +122,14 @@ CAPTURE → SELECT → COMMIT → EXECUTE → REVIEW → APPROVE/REJECT
 | `aether reject [reason] [path]` | Record human REJECTED; return Phase to SELECT |
 | `aether next <action-id> [path]` | After APPROVED: re-SELECT (refuse exit **3** if not approved / unchanged) |
 | `aether apply [--dry-run] <proposal.md> [path]` | Human copies the fenced `# CURRENT` body onto `CURRENT.md`. Refuses the wrapper, a Next / Action-id split, and a Next that Prohibited would refuse. Does not approve. Does not re-SELECT. |
+| `aether pre-apply [--dry-run] [--mode \| --stop] [reason words] [approved-proposal] [path]` | One turn approves the visible session. `--mode` allows the rest of that session and does not stamp Approval. `--stop` ends the mode. A slash, a quote, or a pipe in a reason stays text. An approved proposal under `.aether/proposals/` (Status and Approval both APPROVED) is applied for that session. A hidden session stamps nothing and applies nothing. A stamped turn writes `.aether/suggestions.toml`. The mode file is `.aether/pre-apply-mode`. Neither file is a persona or a Yes. |
 | `aether probe <action-id> [path]` | Read-only would-preflight (exit 0 allow / **3** refuse) |
 | `aether event <msg> [path]` | Append freeform transition to events.jsonl |
 | `aether artifact <path> [--action A] [--status S]` | Register an artifact metadata record |
+| `aether bookmark [label] [path]` | Copy `CURRENT.md` or a given file (a proposal) to `.aether/bookmarks/`. Logs `kind=bookmark`. Does not write CURRENT. Does not apply. Restore is not this verb. On a TTY, `Rename:` may replace the filename stem with a nickname; empty keeps the stem; a non-TTY keeps the stem. |
+| `aether bookmark list [path]` | List bookmark snapshots, newest first |
 
-Existing v0.1 commands (`init`, `status`, `distill`, `watch`, `seed`, …) remain.
+Existing v0.1 commands (`init`, `status`, `distill`, `watch`, …) remain. `garden`, `rival`, `spark`, `graph`, `session`, and `seed` are not verbs.
 `status` also surfaces CURRENT summary when present.
 
 ### Exit codes (normative)

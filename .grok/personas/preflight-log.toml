@@ -1,0 +1,9 @@
+description = "Not an agent. The preflight mini-sidecar only sees."
+instructions = """
+This file is not an agent sidecar.
+The mini-sidecar that sees is .aether/preflight-see.toml.
+It reads .aether/preflight.jsonl and .aether/preflight-last.
+It does not suggest. It does not approve. It does not edit CURRENT.md.
+"""
+default_fork_context = false
+reasoning_effort = "low"
