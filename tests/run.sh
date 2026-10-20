@@ -908,7 +908,7 @@ grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "proposal word replaced the N
 [ ! -d .aether/sidecars ] || fail "proposal word made a sidecars folder"
 pass "pre-apply keeps a proposal path as reason text"
 
-# --- pre-apply mode: many turns, no second Approval stamp; slashes stay text ---
+# --- pre-apply mode is optional; a plain call is still one turn ---
 mkdir -p "$TMP/turn-mode/slashdir/nested"
 cd "$TMP/turn-mode"
 "$AETHER" init . >/dev/null || fail "init turn-mode"
@@ -935,15 +935,19 @@ grep -q '/current' .aether/pre-apply-mode || fail "mode reason lost the slash"
 [ "$(cksum CURRENT.md)" = "$mode_before" ] || fail "mode rewrote CURRENT"
 [ ! -d .aether/sidecars ] || fail "mode made a sidecars folder"
 out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "another turn" 2>&1) \
-    || fail "mode second turn failed: $out"
-printf '%s\n' "$out" | grep -q 'already allows this sequence' || fail "second turn text: $out"
-grep -q '"kind":"approve"' .aether/events.jsonl && fail "second turn stamped approve" || true
-[ "$(cksum CURRENT.md)" = "$mode_before" ] || fail "second turn rewrote CURRENT"
+    || fail "one-off during mode failed: $out"
+printf '%s\n' "$out" | grep -q 'TURN ALLOWED: session turn-1 is the suggestion for this turn.' \
+    || fail "one-off during mode text: $out"
+printf '%s\n' "$out" | grep -q 'APPROVED: another turn' || fail "one-off during mode did not stamp: $out"
+grep -q '"kind":"approve"' .aether/events.jsonl || fail "one-off during mode wrote no approve"
+grep -q '"scope":"turn"' .aether/events.jsonl || fail "one-off during mode wrote no turn scope"
+[ -f .aether/pre-apply-mode ] || fail "one-off cleared the mode file"
+grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "one-off during mode replaced the Next body"
 out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --stop 2>&1) \
     || fail "mode stop failed: $out"
 printf '%s\n' "$out" | grep -q 'MODE OFF: session turn-1' || fail "mode stop text: $out"
 [ ! -e .aether/pre-apply-mode ] || fail "stop left the mode file"
-pass "pre-apply mode allows the sequence without a second stamp"
+pass "pre-apply mode is optional and a plain call is still one turn"
 
 # --- source checkout unchanged by the suite (porcelain + authority hashes) ---
 AFTER_AUTH_SNAP=$(src_authority_snap)

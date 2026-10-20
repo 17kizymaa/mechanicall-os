@@ -1001,12 +1001,12 @@ pre_apply_turn() {
             printf '  The mode approves this session'"'"'s suggestions.\n'
             printf '  A proposal is not an argument.\n'
             printf '  Would write .aether/pre-apply-mode\n'
-        elif [ "$mode_on" -eq 1 ]; then
-            printf 'DRY-RUN: pre-apply mode is already on for session %s\n' "$session"
-            printf '  This turn is allowed. Approval would not be stamped again.\n'
         else
             printf 'DRY-RUN: would approve this turn of session %s\n' "$session"
             printf '  The conversation session is the suggestion.\n'
+            if [ "$mode_on" -eq 1 ]; then
+                printf '  Pre-apply mode stays on. This call is still one turn.\n'
+            fi
         fi
         printf '  Would write .aether/suggestions.toml\n'
         printf '  Not written. The operator approval is not stamped.\n'
@@ -1024,11 +1024,7 @@ pre_apply_turn() {
         printf '  Sidecar: .aether/suggestions.toml\n'
         printf '  This mode approves the session'"'"'s suggestions.\n'
         printf '  A proposal is not an argument. It does not stamp Approval again.\n'
-        return 0
-    fi
-    if [ "$mode_on" -eq 1 ]; then
-        printf 'MODE ON: session %s already allows this sequence.\n' "$session"
-        printf '  This turn is allowed. Approval is not stamped again.\n'
+        printf '  A later plain pre-apply is still one turn.\n'
         return 0
     fi
     write_suggestions_sidecar "$root" "$session" "$reason"
@@ -2783,9 +2779,10 @@ cat <<'U'
                          human only: copy the fenced # CURRENT body onto CURRENT.md
                          (refuses the wrapper; does not approve; does not re-SELECT)
   pre-apply [--dry-run] [--mode | --stop] [reason words] [path]
-                         --mode approves this session's suggestions for the sequence.
-                         It does not stamp Approval again. --stop ends that mode.
-                         One turn without --mode stamps Approval once.
+                         one turn stamps Approval. --mode is optional.
+                         A plain call still stamps when the mode is already on.
+                         --mode allows the rest of this session and does not stamp.
+                         --stop ends that mode.
                          A proposal is not an argument. A slash in a reason stays text.
                          Writes .aether/suggestions.toml. The mode file is .aether/pre-apply-mode.
                          Hidden session: suggestion off, nothing stamped.
