@@ -682,6 +682,28 @@ def read_schema_draft(pocket: str | Path) -> dict[str, str]:
     return out
 
 
+def propose_apply_fields(pocket: str | Path) -> dict[str, str]:
+    """Fields Yes would copy. Empty when the draft has nothing to merge.
+
+    Same extraction as apply_propose. A stored hunk list narrows the names.
+    Never falls back to live CURRENT. Never writes.
+    """
+    root = refuse_if_operator(pocket)
+    pf = root / PROPOSE_NAME
+    if not pf.is_file():
+        return {}
+    raw = pf.read_text(encoding="utf-8")
+    block = extract_propose_block(raw)
+    fields = parse_fields(block)
+    if not fields:
+        fields = parse_field_value_pairs(raw)
+    ordered = {name: fields[name] for name in AUTHORITY_FIELDS if name in fields}
+    only = hunk_included(root)
+    if only is None:
+        return ordered
+    return {name: ordered[name] for name in AUTHORITY_FIELDS if name in only and name in ordered}
+
+
 def write_schema_draft(pocket: str | Path, fields: dict) -> PocketResult:
     """Write PROPOSE-CURRENT.md from locked fields. Never writes CURRENT.md."""
     root = refuse_if_operator(pocket)

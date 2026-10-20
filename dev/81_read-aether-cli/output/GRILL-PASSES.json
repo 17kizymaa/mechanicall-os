@@ -1,0 +1,42 @@
+[
+  {
+    "pass": 1,
+    "eval": 639,
+    "chars": 1404,
+    "misses": [
+      "apply is not stated as not a Yes"
+    ]
+  },
+  {
+    "pass": 2,
+    "eval": 737,
+    "chars": 1597,
+    "misses": [
+      "drift may be deciding a commit",
+      "prune list not named"
+    ]
+  },
+  {
+    "pass": 3,
+    "eval": 603,
+    "chars": 1338,
+    "misses": [
+      "prune list not named"
+    ]
+  },
+  {
+    "pass": 4,
+    "eval": 777,
+    "chars": 1694,
+    "misses": [
+      "drift may be deciding a commit",
+      "apply is not stated as not a Yes"
+    ]
+  },
+  {
+    "pass": 5,
+    "eval": 771,
+    "chars": 1733,
+    "misses": []
+  }
+]

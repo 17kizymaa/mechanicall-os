@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mechanicall</title>
+  <link rel="stylesheet" href="/static/desk.css" />
+</head>
+<body data-app="trader">
+  <header class="top">
+    <div class="brand">Mechanicall</div>
+    <div class="disc" id="disc">Paper · simulated last · not live money</div>
+    <div class="acct" id="acct"></div>
+  </header>
+
+  <main id="work">
+    <section class="app trader" id="app-trader" aria-label="Paper trader">
+      <aside class="watch" id="watch"></aside>
+      <section class="last">
+        <div class="last-head">
+          <div>
+            <div class="sym" id="sym">BOLT</div>
+            <div class="name" id="name">Bolt</div>
+          </div>
+          <div class="px" id="px">—</div>
+        </div>
+        <div class="chg" id="chg"></div>
+        <div class="ba"><span id="bid">bid</span><span id="ask">ask</span></div>
+        <h2>Tape</h2>
+        <div class="tape" id="tape"></div>
+      </section>
+      <section class="ticket" aria-label="Ticket">
+        <h2>Ticket</h2>
+        <div class="sides">
+          <button type="button" class="side on" data-side="BUY" id="side-buy">Buy</button>
+          <button type="button" class="side" data-side="SELL" id="side-sell">Sell</button>
+        </div>
+        <label>Qty <input id="qty" type="number" min="1" step="1" value="10" /></label>
+        <div class="types">
+          <button type="button" class="typ on" data-type="MARKET">Market</button>
+          <button type="button" class="typ" data-type="LIMIT">Limit</button>
+        </div>
+        <label class="lim">Limit <input id="limit" type="number" step="0.01" /></label>
+        <button type="button" class="submit" id="submit">Submit</button>
+        <p class="note" id="ticket-note">Paper fill. Not a live order.</p>
+        <h2>Working</h2>
+        <div class="working" id="working"></div>
+      </section>
+      <section class="book">
+        <h2>Positions</h2>
+        <div id="positions"></div>
+      </section>
+    </section>
+
+    <section class="app serve hidden" id="app-serve" aria-label="Serve">
+      <div class="serve-col">
+        <h1>I'm here.</h1>
+        <p class="lede">Say what you need. You don't have to learn anything.</p>
+        <div class="msgs" id="msgs"></div>
+        <form id="serve-form">
+          <input id="serve-text" autocomplete="off" placeholder="Hello" />
+          <button type="submit">Send</button>
+        </form>
+        <p class="note">Send is hello. Send is not Yes.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="strip" id="strip">Chat is a strip. The trader is the desk.</footer>
+  <nav class="dock" aria-label="Apps">
+    <button type="button" class="dock-btn on" data-app="trader">Trader</button>
+    <button type="button" class="dock-btn" data-app="serve">Serve</button>
+  </nav>
+  <script src="/static/desk.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "ts": "2026-09-16T10:41:58.567Z",
+  "path": "dev/67_isolation-millwork/02_play/output/RECEIPT.md",
+  "action": "isolation-millwork",
+  "status": "review",
+  "baseline": "2026-09-11 · event 970 crowdsource steal; human Yes 18:38; wrapper killed",
+  "checksum": "212621477"
+}

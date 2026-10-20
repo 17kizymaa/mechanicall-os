@@ -1,0 +1,31 @@
+{
+  "type": "shared",
+  "version": "1",
+  "last_updated": "2026-10-19T14:47:46Z",
+  "entries": {
+    "current_focus": {
+      "value": "Small CTX spike in this repo, on the way to the APK stage today. CURRENT.md is the only Yes.",
+      "source": "operator",
+      "basis": "reported",
+      "scope": "global",
+      "tags": [
+        "spike"
+      ],
+      "created": "2026-10-19T14:26:01Z",
+      "timestamp": "2026-10-19T14:26:01Z",
+      "author": "operator"
+    },
+    "aether_clashes": {
+      "value": "A stale preflight can name the previous action. An allowed preflight is not a Yes. .context.md can lag the live Next.",
+      "source": "operator",
+      "basis": "reported",
+      "scope": "global",
+      "tags": [
+        "clash"
+      ],
+      "created": "2026-10-19T14:47:46Z",
+      "timestamp": "2026-10-19T14:47:46Z",
+      "author": "operator"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+session=01a153de-b30c-7210-a1b1-772d5441bf06
+scope=mode
+reason=pre-apply --mode isn't in the plugin: plus, IDEK why it has an argument for attaching proposals... (it's for pre-applying-approving suggestions - aether's auto-approve mode.)

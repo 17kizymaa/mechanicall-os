@@ -1,0 +1,217 @@
+# CURRENT proposal — aether personal verb — NOT LAW until you apply
+
+**NOT ACTIVE. Not Yes.**
+
+APPLY: `aether apply .aether/proposals/CURRENT-proposal-aether-personal.md`. That is not a Yes.
+
+`AGENT_SESSION` is unset, so this file stays in `.aether/proposals/` and is not filed under a session.
+
+Ollama on this machine, 2026-10-19: service active, nothing loaded (`/api/ps` empty). Last generate traffic was `/api/chat` from 13:34 to 13:44 local. Later hits were `/api/tags`, `/api/ps`, and `/api/show` only. The tag to call is `personal-llm-sft-v6:latest` (`ee279269b24a`). Databases are the following stage, not this verb.
+
+## Proposed CURRENT
+
+```markdown
+# CURRENT
+
+**Objective:** Mechanicall: You Decide is prototype-quality for one sit. Next is aether-personal: a verb that calls personal-llm-sft-v6 on localhost. It does not approve. Databases come after. I still dispose.
+**Phase:** SELECT
+**Status:** DRAFT
+**Baseline:** 2026-10-19 · pin com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · snapshot .aether/bookmarks/CURRENT-20261016T162428Z-this-current.md cksum 3532677481 · add-aether-bookmark shipped · ejected-verbs witness dev/80_aether-bookmark/output/EJECTED-VERBS.md · ollama has personal-llm-sft-v6:latest ee279269b24a · closed-tester, not production
+**Next:** aether-personal
+**Approval:** DRAFT
+**Host:** myarch · local sit :8788 · apex after human deploy · branch `feat/share-urls-readiness`
+
+## What I want now
+
+Add the verb `personal`. `aether personal "prompt"` calls `personal-llm-sft-v6:latest` at `127.0.0.1:11434` `/api/chat`. The tag comes from the `ollama` line in `ctx/CACHE.md`. If that file is missing or the line is off, exit 2 and call nothing.
+
+The reply is printed. It is not a Yes. The verb does not write CURRENT.md, does not approve, and does not apply. Do not read Chroma in this halt. Do not bump `AETHER_VERSION`. Do not build the APK.
+
+## Product (non-negotiable identity)
+- **Is:** **Mechanicall: You Decide** — my decide. Inference proposes. I dispose. Models never approve. Silence is never permission.
+- **Aether's job:** gate my approval for covenants and for destructive or external actions. Ordinary personal edits to this file I may make myself.
+- **They:** do not learn aether, CURRENT, or Yes. The client gets the tester build. They do not stamp this file.
+- **This Next:** `aether-personal` — one verb, one local model. Not the database. Not a Yes.
+- **Not this halt:** a smart hook, a daemon, a watcher, auto-apply, auto-approve, the APK assemble, the version bump, striking the stale verb-removal limit, deleting personas, putting `ctx` on `PATH`, editing `AGENTS.md`, a versionCode bump, a phone install, Play, installing Refly, installing Aegis, an npm CLI, a second Next.
+
+## Rooms (pointers live in the operator map, not here)
+
+| Instance | Path | Next | Owns |
+|----------|------|------|------|
+| Tool (this file) | `mechanicall-os/CURRENT.md` | `aether-personal` | local personal-llm call; no Yes |
+| Operator | `~/anphuni-project/CURRENT.md` | (that file's own header) | alias roster, mint, INTAKE, LINKS |
+
+Paper: `happy-birthday` `e9b16791a12ac1ef521891b6eac3bf68` only. `DEFAULT_PAPER_TICKETS` stays that id.
+
+## Keep
+- Plain, inspectable history; one useful Next; files + git to go back
+- Mechanicall is my Yes; models never approve; silence ≠ permission
+- They need not learn the system; Send is hello, not Yes
+- Paper only on birthday; not live money
+- Room URL is the face; steal grammar, never vendor bitmaps or vendor sites
+- Site-play FLAGS before paint
+- Pointers not copies; no client CURRENT; no nested CURRENT
+- Their opener answers → my Limits for that alias
+- Two instances, two Nexts, never merged
+- Explicit preview + Yes for destructive or external actions
+- Closed-tester debug APK, not a production store release
+- The stable layer stays pinned while later tester builds develop on it
+- A share of this APK has a deadline
+- The agent's smarts stay files and folders
+- The archive pin stays versionCode 46 until a later Next
+- "files only · not Yes" and "not the plan" stay on the glass
+- Plan keeps its heading tray: cream strip, one word, amber pip
+- YES stays the metal stamp. Not yet stays a refusal on the plate
+- Sidecar personalities quote the logs. A green score is not a Yes
+- The Draft desk model is `personal-llm-sft-v6:latest` on the host. The weight stays outside the APK
+- A host call writes `PROPOSE-CURRENT.md` only. It does not write `CURRENT.md`
+- A bookmark of CURRENT.md is a snapshot of bytes. It is not a Yes. It does not replace CURRENT.md. It is not apply.
+- A nickname on a bookmark is a filename stem. It is not a Yes.
+- `.aether/current-before/` stays apply's backup. Bookmark does not write there.
+- `add-aether-bookmark` shipped: snapshot + list. Restore still parked.
+
+## Relax
+- The operator is not bound by this file's limits on handing the tester APK onward. Recipient, website, and store limits here do not bind the operator. The operator still disposes and still does not stamp a client CURRENT. This line does not edit or merge the operator CURRENT.
+- Approval ceremony for ordinary personal edits
+- Birthday two-app desk polish (done enough to share)
+- Prospectus ratios/timelines — evidence first
+
+## Reject
+- dual-concurrent-next
+- model-auto-write-current
+- proposal-wrapper-as-CURRENT
+- their-yes-as-the-product
+- teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- intake-as-technical-questionnaire
+- form-instead-of-hello
+- framework-before-three-repeats
+- paint-before-sit
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- agent-taste-steal-instead-of-crowd
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- deleting previous experiments because the direction changed
+- turning CURRENT into a backlog
+- protocol compliance as a substitute for making things
+- bookmark-as-yes
+- restore-bookmark-by-model
+- nickname-as-yes
+
+## Limits
+- I may revise this file directly; agent output is suggestion until I use it
+- After this body is approved, the parent may add a snapshot-time Rename prompt to `cmd_bookmark`. Default stem stays `CURRENT` for CURRENT.md, or the source filename stem for a proposal.
+- Nickname charset is letters, digits, `.`, `_`, `-`. `list` and `restore` are reserved and are not stems. Duplicate nicknames are allowed. The UTC stamp is the unique id.
+- TTY: prompt `Rename: ` with the default stem shown. Empty keeps the default. Non-TTY: no prompt, keep the default stem.
+- A GUI helper (zenity/rofi) may be used when present and a TTY-or-display exists. It is not required. POSIX `read` is enough.
+- Event kind stays `bookmark`. Checksum is cksum. Do not store secrets in the event. Record the stem used.
+- Do not add restore. Do not add `aether snapshot` as a second verb. Do not write `.aether/current-before/` from bookmark.
+- Do not rewrite files already in `.aether/bookmarks/`. Do not copy a snapshot onto CURRENT.md as apply.
+- The snapshot at `.aether/bookmarks/CURRENT-20261016T162428Z-this-current.md` stays a copy. Do not copy it onto CURRENT.md.
+- The six rhizome verbs are already gone. Do not remove more verbs. Do not delete `.grok/personas/` files. This halt may set `AETHER_VERSION` to `0.3` only. Do not bump versionCode.
+- Do not copy a weight, a blob, or a Modelfile into `android/`. Do not add a model asset to the APK.
+- Do not draw a model on `sit_well_draft.png`. That plate stays the one sheet, NOT ACTIVE and "not the plan".
+- Do not edit `sit_well_plan.png`, `sit_well_receipt.png`, `sit_folder_dest.png`, the chassis, the title plaque, the three lamps, the four bank keys, or the gate.
+- Do not restyle `decideCopy` or `receiptStrip`. Do not change "not the plan", "NOT ACTIVE", or "files only · not Yes".
+- Wake may keep calling `desk_probe`. Do not draw QUIET, IDLE, LOAD, STREAM, QUEUE, or WARM on the gate. Join stays a no-op. Do not call `wake_desk`. Do not spend an Onyx call.
+- Sidecar personas may speak read-only. They do not edit this file.
+- Do not install Refly, Aegis, an npm CLI, or a policy package. Do not treat `approval: auto` as a Yes.
+- Do not add a workflow file. Do not pick a vendor. Do not install Maestro or Appium.
+- Do not bump versionCode. Do not assemble a store APK. Do not install on the phone. Do not boot a second storm. Do not tap Confirm. Do not tap Yes.
+- Do not write `~/anphuni-project` or a trading tree
+- No emails, names, or secrets in git
+- Local `:8788` stays the room sit; apex only after human deploy
+- No `aether approve` / `aether apply` / `aether next` by the model
+- The model does not invent a recipient, message a person, upload to Play, deploy apex, or spend an Onyx call
+- Signing keys stay off git (`~/.mechanicall/play-upload.jks`)
+- Rename/delete in `~/anphuni-project` or `~/clients` is the operator Next, with preview + Yes there
+- Remote CI is not this halt.
+
+## Parked (following — not this Next)
+- **prune-aether-verbs** — done. Receipt `dev/82_prune-aether-verbs/output/RECEIPT.md`. Not reopened.
+- **prune-agent-team-sidecars** — rejected 2026-10-19. `preflight-log.toml` stays. Not reopened here.
+- **apk-from-cli** — the aim after this spike, still today if you select it. Pin stays versionCode 46 until that Next.
+- **try-ctx** — spike done. Receipt `dev/83_try-ctx/output/RECEIPT.md`. Not reopened.
+- **4 aether-version-update** — bump `AETHER_VERSION` after the persona drop, if you still want that id. Not this halt.
+- **5 strike-stale-limit** — remove the leftover Limits wording that still forbids a verb removal that already happened. Not this halt.
+- **apk-from-cli** — build the APK only after I agree the CLI definition. Pin stays versionCode 46 until that Next.
+- **read-aether-cli** — suggestion on disk at `dev/81_read-aether-cli/output/CLI-SUGGESTION.md`. Not a Yes. Not reopened.
+- **bookmark-rename-nickname** — Rename prompt shipped. Receipt `dev/80_aether-bookmark/output/RENAME-RECEIPT.md`. Not reopened.
+- **personal-model-db** — deeper host model and databases. Tag stays v6. Weight stays outside the APK. Propose-only until a later Next.
+- **apk-sprint** — following, after prune. Pin stays versionCode 46 until that Next.
+- **advanced-local-model** — framework written at `dev/79_advanced-local-model/output/FRAMEWORK.md`. Host tag stays v6.
+- **aether-bookmark-restore** — copying a snapshot onto CURRENT.md. Human hand like apply. Not this halt.
+- **bookmark-relabel** — renaming a file already in `.aether/bookmarks/`. Not this halt.
+- **draft-millwork-rapid** — one host propose of v6 into a `/tmp` PROPOSE-CURRENT.md. Snapshot preserves the old split.
+- **desk-model-turn** — an Onyx reading stays parked.
+- **aether-run** — ollama-shaped `aether run` then approve or reject. Not this halt.
+- **cmd-aether-approve** — protect typed approve reasons. Not this halt.
+- **event-inject-hook** — on-toggle inject of events into conversations. Not this halt.
+- **draft-decide-millwork** — the Draft sheet is recorded. Decide's own-plate paint is not this call.
+- **page-chrome** — sat 2026-10-12 on emulator-5554. The gate stays painted WAIT.
+- **share-desk** — Wake already calls `desk_probe` in the dirty demo. The extra gate word and the bar stay off the glass.
+- **glass-prototype** — heading peek and the send-slip string drop are in the dirty demo. Not reopened.
+- **send-slip seam** — the folder's clear hole is plate cream, and a seam shows where the photograph ends. Not this halt.
+- **apk-share-24h** — the loopback share of the pinned APK. Not this week
+- **session-memory** — .memory/ sidecar receipt is stage 77. The Next was rejected. Not reopened here
+- **remote CI layer** — not considered. `test.yml` is Python only. No Android job. No artifact upload
+- **tester-apk-live** — pin and debug APK already on disk
+- **apk-ci-prototype** — assemble-only Next; the miss before the pin
+- **legal-assimilation-report** — receipt 2026-09-19
+- **share-urls-kit** — alias links, not this APK
+- **telegram-grammar-paint** on `you-decide-ticket.html` (after wave-1 sit + FLAGS)
+- **tradingview-paper-paint** on birthday (after paint above)
+- **pocket-playtest-loop** — authority-disposal APK-servicing loop; not this halt
+- operator-auth dashboard
+- GTK desk; Webull widget desk; thinkorswim
+- Sequential ids; `/offers/` index; OpenRouter/Generate
+- `aether reject` → `aether next` sequence bug? (observed 08:05)
+- Eduwares / ICM templates — only after three repeats
+- this-works named product
+- Trading project on its own CURRENT — not opened from here
+- Join and wol-pi wake — lamps may stay visible; the hits stay closed
+
+## Next allowed action
+**Action id:** aether-personal
+
+Add one verb that calls the local personal model. Do not query a database. Then halt.
+
+1. Add `personal` to `AETHER_VERBS`, `usage()`, and `main()`.
+2. `aether personal "prompt"` reads the `ollama` line in `ctx/CACHE.md`. Missing file or line off: exit 2. Otherwise POST `/api/chat` to `127.0.0.1:11434` with tag `personal-llm-sft-v6:latest`.
+3. Print the reply. Do not write CURRENT.md. Do not approve. Do not read Chroma. Do not bump `AETHER_VERSION`. Halt.
+
+## Evidence sought
+1. Does `aether verbs` contain `personal`?
+2. With `ctx/CACHE.md` missing the ollama line, does `aether personal "hi"` exit 2 and leave CURRENT.md unchanged?
+3. With the ollama line on, does one call hit `127.0.0.1:11434` and print a reply that is not a Yes?
+4. Did `AETHER_VERSION` stay 0.2, and did versionCode stay 46?
+5. Did `.aether/bookmarks/CURRENT-20261016T162428Z-this-current.md` still match cksum `3532677481`?
+
+## Approval condition
+Human applies the proposal, then `aether approve` with a real reason. Apply is not a Yes. Do not `aether next` this same id after apply; the body already sets it. The CTX files stay unwritten while Approval is DRAFT. Silence is never permission.
+
+## Prohibited
+- automatic-approve
+- commit-secrets
+- dual-concurrent-next
+- model-auto-write-current
+- proposal-wrapper-as-CURRENT
+- their-yes-as-the-product
+- teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- paint-before-sit
+- intake-as-technical-questionnaire
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- multi-agent-orchestration
+- agent-publish-delete-spend-message-deploy
+```

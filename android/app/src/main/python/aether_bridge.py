@@ -38,6 +38,7 @@ def _wrap(fn, *args):
             read_receipt,
             read_shortcut,
             read_schema_draft,
+            propose_apply_fields,
             refuse_if_operator,
             schema_fields,
             write_propose,
@@ -79,6 +80,7 @@ def _wrap(fn, *args):
                 "read_receipt": read_receipt,
                 "read_shortcut": read_shortcut,
                 "read_schema_draft": read_schema_draft,
+                "propose_apply_fields": propose_apply_fields,
                 "refuse_if_operator": refuse_if_operator,
                 "schema_fields": schema_fields,
                 "write_propose": write_propose,
@@ -208,6 +210,13 @@ def schema_fields(path: str) -> str:
 
 def read_schema_draft(path: str) -> str:
     return _wrap(lambda m, p: json.dumps(m["read_schema_draft"](p), ensure_ascii=False), path)
+
+
+def propose_apply_fields(path: str) -> str:
+    return _wrap(
+        lambda m, p: json.dumps(m["propose_apply_fields"](p), ensure_ascii=False),
+        path,
+    )
 
 
 def write_schema_draft(path: str, fields_json: str) -> str:

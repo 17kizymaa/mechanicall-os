@@ -1,0 +1,11 @@
+NeuralBridge android_get_ui_tree after millwork bind (no Compose essays)
+
+{"format":"compact","app":"com.mechanicall.pocket.demo","total":13,"shown":5,"filter":"interactive","elements":"IDX | resource_id | text | desc | flags | bounds
+0 |  |  | sit millwork |  | [0,80,1080,2281]
+1 |  |  |  | cf | [135,390,945,876]
+2 |  |  | LCD idle |  | [135,390,945,876]
+3 |  | Name your folder. One project. |  |  | [155,410,925,856]
+4 |  |  | Choose your folder | cf | [54,938,1037,2193]"}
+
+Before: 13 interactive nodes of Bind essays covering plates.
+After: millwork + LCD idle + paper hit only.

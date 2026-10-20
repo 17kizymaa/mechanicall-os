@@ -40,6 +40,7 @@ cd /path/to/project    # the tree that owns CURRENT.md
 | `CURRENT.md` | Objective, **one Next**, Prohibited, Limits — **INSTANCE law** |
 | `AGENTS.md` (if present) | Agent operating rules (CURRENT-first; models never approve) |
 | `PRODUCT.md` / `docs/ALPHA-LIMITATIONS.md` | What core is / is not (when making claims) |
+| `.memory/` (if present) | Session memory from earlier agents: `TAIL` + `tail -100 ledger.jsonl` + relevant `topics/`. Sidecar, not authority; CURRENT wins |
 
 Optional: `aether current` · `aether current validate` · `aether brief` (paste for external TUIs).
 

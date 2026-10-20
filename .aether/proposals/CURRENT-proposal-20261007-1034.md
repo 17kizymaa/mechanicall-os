@@ -1,0 +1,198 @@
+# CURRENT proposal — tester-apk-live — NOT LAW until you apply
+
+**NOT ACTIVE. Not Yes.**
+
+APPLY: human runs `/mechanicall-domain:apply` on this file (`aether apply .aether/proposals/CURRENT-proposal-20261007-1034.md`). That is not a Yes.
+
+**Author:** proposal only. You dispose.
+
+## Summary
+
+The landed Next `apk-ci-prototype` treated the APK as an in-repo assemble that must not be sent. You corrected that. The objective is to give the client a downloadable APK, with a stable layer you use to develop the tester's version live.
+
+This proposal sets one Next, `tester-apk-live`. Header `**Next:**` and body `**Action id:**` match.
+
+## What changed (before → after)
+
+| Field | Live file now | This proposal |
+| --- | --- | --- |
+| Objective | CI assemble check. You still dispose. | Client gets a downloadable tester APK. A stable layer stays pinned so you can develop that version live. You still dispose. |
+| Phase / Status / Approval | APPROVE / APPROVED / APPROVED | SELECT / READY-FOR-REVIEW / PENDING |
+| Next / Action id | `apk-ci-prototype` | `tester-apk-live` |
+| This halt | Assemble only. No send. | Pin the stable layer and produce the downloadable debug APK. |
+| Prohibited | 19 tokens, unchanged | Same 19 tokens |
+
+Applying this body clears APPROVED until you approve.
+
+## Observations
+
+- Prototype already in tree: `applicationId` `com.mechanicall.pocket.demo`, `versionName` `0.19.21-loop-from-20`, `versionCode` 46. Gradle root is `android/` (`:app:assembleDebug`).
+- `android/KNOWN-LIMITATIONS.md` calls this a closed-tester sit. Not production. Not a Play rollout.
+- No client address, inbox, or download host is in this repo. The downloadable file can be built here. A destination cannot be invented from the tree.
+- `pocket-playtest-loop` stays parked. This Next is the downloadable tester build and the pin, not that whole loop.
+- Trading stays on its own CURRENT. This file does not open it.
+
+## Fidelity checklist
+
+- One Next: `tester-apk-live`. One matching Action id.
+- Models never approve. This file does not approve by itself.
+- No secrets, emails, or personal names.
+- Silence is not permission. The fence stays PENDING until you approve.
+- Prohibited tokens are unchanged. The Next id is not one of them.
+- You dispose. The client gets a build. They do not stamp this CURRENT.
+
+## Conflicts with existing authority
+
+- `apk-ci-prototype` said the CI job must not send the APK. That line is the miss you named. It is replaced.
+- `agent-publish-delete-spend-message-deploy` stays a prohibited action id. This Next is the one allowed downloadable tester APK. Play production, apex deploy, spend, delete, and messaging a person are not this halt.
+- No recipient address is on disk. This halt produces the file and the pin. It does not choose a website, a store, or an inbox.
+
+## Human decision required
+
+- [ ] Apply this file
+- [ ] Reject and leave `CURRENT.md` unchanged
+- [ ] Revise and ask for another proposal
+
+After apply, `aether next tester-apk-live` refuses because Next is already that id.
+
+## Proposed CURRENT
+
+```markdown
+# CURRENT
+
+**Objective:** Mechanicall is my Yes. Give the client a downloadable APK, with a stable layer I use to develop the tester's version live. I still dispose.
+**Phase:** SELECT
+**Status:** READY-FOR-REVIEW
+**Baseline:** 2026-10-07 · replaces apk-ci-prototype · prototype com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · closed-tester sit, not production
+**Next:** tester-apk-live
+**Approval:** PENDING
+**Host:** myarch · local sit :8788 · apex after human deploy · branch `feat/share-urls-readiness`
+
+## What I want now
+
+The client can download the tester APK. The stable layer is the pin I develop that version on, live, after this halt. The pin is the prototype already in the tree. This halt does not move the pin.
+
+The primary user is me. They need not learn aether. Chat is hello. Their opener answers become that project's Limits — I write them, they never stamp.
+
+## Product (non-negotiable identity)
+- **Is:** **Mechanicall: You Decide** — my decide. Inference proposes. I dispose. Models never approve. Silence is never permission.
+- **Aether's job:** gate my approval for covenants and for destructive or external actions. Ordinary personal edits to this file I may make myself.
+- **They:** do not learn aether, CURRENT, or Yes. The client gets the tester build. They do not stamp this file.
+- **This Next:** `tester-apk-live` — pin the stable layer, assemble the closed-tester debug APK, leave that file as the download. Then I develop the tester version live from the pin.
+- **Not this halt:** teaching aether, a client CURRENT, the trading CURRENT, Play production, apex deploy, mint, renaming or deleting operator folders, Telegram/TradingView paint, GTK desk, the whole pocket-playtest loop.
+
+## Rooms (pointers live in the operator map, not here)
+
+| Instance | Path | Next | Owns |
+|----------|------|------|------|
+| Tool (this file) | `mechanicall-os/CURRENT.md` | `tester-apk-live` | stable pin and the downloadable tester APK |
+| Operator | `~/anphuni-project/CURRENT.md` | (that file's own header) | alias roster, mint, INTAKE, LINKS, sharing |
+
+Paper: `happy-birthday` `e9b16791a12ac1ef521891b6eac3bf68` only. `DEFAULT_PAPER_TICKETS` stays that id.
+
+## Keep
+- Plain, inspectable history; one useful Next; files + git to go back
+- Mechanicall is my Yes; models never approve; silence ≠ permission
+- They need not learn the system; Send is hello, not Yes
+- Paper only on birthday; not live money
+- Room URL is the face; steal grammar, never vendor bitmaps or vendor sites
+- Site-play FLAGS before paint
+- Pointers not copies; no client CURRENT; no nested CURRENT
+- Their opener answers → my Limits for that alias
+- Two instances, two Nexts, never merged
+- Explicit preview + Yes for destructive or external actions
+- Closed-tester debug APK, not a production store release
+- The stable layer stays pinned while later tester builds develop on it
+
+## Relax
+- Approval ceremony for ordinary personal edits
+- Birthday two-app desk polish (done enough to share)
+- Prospectus ratios/timelines — evidence first
+
+## Reject
+- dual-concurrent-next
+- model-auto-write-current
+- proposal-wrapper-as-CURRENT
+- their-yes-as-the-product
+- teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- intake-as-technical-questionnaire
+- form-instead-of-hello
+- framework-before-three-repeats
+- paint-before-sit
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- agent-taste-steal-instead-of-crowd
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- deleting previous experiments because the direction changed
+- turning CURRENT into a backlog
+- protocol compliance as a substitute for making things
+
+## Limits
+- I may revise this file directly; agent output is suggestion until I use it
+- This Next writes only under `mechanicall-os/` (`dev/75_tester-apk-live/` and the debug APK it copies). It does not write `~/anphuni-project` or a trading tree
+- No emails, names, or secrets in git
+- Local `:8788` is the sit; apex only after human deploy
+- No `aether approve` / `aether apply` / `aether next` by the model
+- This halt may assemble the closed-tester debug APK and leave it as a file. It may not pick a recipient address, a website, or a store. Play upload, apex deploy, spend, delete, and messaging a person stay off
+- Signing keys stay off git (`~/.mechanicall/play-upload.jks`)
+- Rename/delete in `~/anphuni-project` or `~/clients` is the operator Next, with preview + Yes there
+
+## Parked (following — not this Next)
+- **apk-ci-prototype** — assemble-only Next; replaced by this objective
+- **legal-assimilation-report** — receipt 2026-09-19
+- **share-urls-kit** — earlier body Action id
+- **telegram-grammar-paint** on `you-decide-ticket.html` (after wave-1 sit + FLAGS)
+- **tradingview-paper-paint** on birthday (after paint above)
+- **pocket-playtest-loop** — authority-disposal APK-servicing loop; not this halt
+- operator-auth dashboard
+- GTK desk; Webull widget desk; thinkorswim
+- Sequential ids; `/offers/` index; OpenRouter/Generate
+- `aether reject` → `aether next` sequence bug? (observed 08:05)
+- Eduwares / ICM templates — only after three repeats
+- this-works named product
+- Trading project on its own CURRENT — not opened from here
+
+## Next allowed action
+**Action id:** tester-apk-live
+
+Pin the stable layer and produce the client's downloadable tester APK. Live development of later tester builds starts from that pin after this halt.
+
+1. Write `dev/75_tester-apk-live/output/STABLE-LAYER.md`. The pin is `applicationId` `com.mechanicall.pocket.demo`, `versionName` `0.19.21-loop-from-20`, `versionCode` 46, plus `git rev-parse HEAD` and whether the worktree is dirty. Do not bump the version in this halt.
+2. From `android/`, run `./gradlew :app:assembleDebug`. Copy the debug APK to `dev/75_tester-apk-live/output/`. Record path, byte size, and sha256.
+3. If the JDK cannot assemble, write that fact in the receipt and halt. Do not substitute another binary.
+4. Receipt `dev/75_tester-apk-live/output/RECEIPT.md`. The APK file is the client download. No Play upload, no apex deploy, no invented recipient. Halt.
+
+## Evidence sought
+1. Is the stable layer pinned to this prototype, version unchanged?
+2. Is there one debug APK on disk with a sha256, ready for the client to download?
+3. Did this file stay the only CURRENT touched?
+
+## Approval condition
+Human applies the proposal, then `aether approve` with a real reason. Apply is not a Yes. Do not `aether next` this same id after apply; the body already sets it. Ordinary personal edits without ceremony. Destructive or external actions still need an explicit Yes. Silence is never permission.
+
+## Prohibited
+- automatic-approve
+- commit-secrets
+- dual-concurrent-next
+- model-auto-write-current
+- proposal-wrapper-as-CURRENT
+- their-yes-as-the-product
+- teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- paint-before-sit
+- intake-as-technical-questionnaire
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- multi-agent-orchestration
+- agent-publish-delete-spend-message-deploy
+```

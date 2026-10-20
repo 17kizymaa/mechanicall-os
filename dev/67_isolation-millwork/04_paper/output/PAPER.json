@@ -1,0 +1,19 @@
+{
+  "dump1": {
+    "hasReset": true,
+    "resetLabel": "Reset",
+    "panelH": 474,
+    "fillsH": 179,
+    "fillN": 4,
+    "fillText": "Sep 16, 12:03 PM · BUY 20 LLOY @ 54.00\nSep 16, 12:03 PM · SELL 4 VOD @ 72.10\nSep 16, 12:03 PM · BUY 5 BP @ 430.0\nSep 16, 12:03 PM · BUY 10 VOD @ 70.50",
+    "posN": 3
+  },
+  "dump2": {
+    "status": "paper book reset · not live",
+    "fillN": 0,
+    "posText": "flat",
+    "cash": "£10,000.00"
+  },
+  "okLogs": true,
+  "okReset": true
+}

@@ -46,6 +46,8 @@ If SPEC-v0.1 conflicts with SPEC-v0.2, **SPEC-v0.2 wins** (v0.1 is historical).
 | `docs/ALPHA-LIMITATIONS.md` | **NORMATIVE** (limits honesty) | What core does **not** force |
 | `docs/PROTOCOL-TEST-SURFACE.md` | **NON-NORMATIVE** | Sprint design + claim→command map |
 | `docs/GROK-SEAT.md` | **NON-NORMATIVE** | Ops contract for Grok TUI |
+| `docs/OPENCODE-SEAT.md` | **NON-NORMATIVE** | Ops contract for opencode CLI (native permission gate + instructions) |
+| `.memory/README.md` | **NON-NORMATIVE** | Session-memory sidecar contract (ledger / TAIL / topics / rollup); never authority |
 | `docs/PROTOCOL-LAB.md` | **NON-NORMATIVE** | Lab design |
 | `docs/SINGLE-APP-DISTRIBUTION.md` | **NON-NORMATIVE** | Incomplete product shape |
 | `docs/PANEL-GROK-SPLIT.md` | **NON-NORMATIVE** | UI contract |

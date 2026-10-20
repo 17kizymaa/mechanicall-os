@@ -708,11 +708,11 @@ class PanelApp:
             load_dotenv_files()
             set_agent_role("peer")
 
-            peer = apply_peer_backend(self.root, model="personal-llm-sft-v4:latest")
+            peer = apply_peer_backend(self.root, model="personal-llm-sft-v6:latest")
             down = peer.endswith("(DOWN)")
             self.shell_lines = [
                 "",
-                "  shell  ·  peer sft-v4",
+                "  shell  ·  peer sft-v6",
                 f"  {status_line(self.root)[:70]}",
                 f"  {peer}",
                 f"  {describe_backend()}",
@@ -1275,10 +1275,10 @@ You run on the same Grok CLI session stack as interactive Grok TUI (thinking + t
             # Free chat only — no agent_mode_enabled (lives in aether_shell, not shell_agent)
             from aether_llm import peer_down_recovery
 
-            peer = apply_peer_backend(self.root, model="personal-llm-sft-v4:latest")
+            peer = apply_peer_backend(self.root, model="personal-llm-sft-v6:latest")
             os.environ["AETHER_LLM_PROVIDER"] = "ollama"
-            os.environ["AETHER_OLLAMA_MODEL"] = "personal-llm-sft-v4:latest"
-            os.environ["AETHER_MODEL"] = "personal-llm-sft-v4:latest"
+            os.environ["AETHER_OLLAMA_MODEL"] = "personal-llm-sft-v6:latest"
+            os.environ["AETHER_MODEL"] = "personal-llm-sft-v6:latest"
             os.environ.setdefault("AETHER_OLLAMA_NUM_CTX", "8192")
             os.environ.setdefault("OLLAMA_HOST", "http://192.168.1.241:11434")
             # R-08: fail-fast when Ollama DOWN — do not hang chat timeout (120s)

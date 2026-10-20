@@ -1,0 +1,11 @@
+GOAL: 100% CURRENT within 3 hours (no CURRENT today)
+RULE: no CURRENT until explicit approval
+
+I will not approve CURRENT.
+You must say SURE and I will reply with one paragraph. Do not write it yet.
+
+Go! Let us make progress!
+
+Let's break this down into a simple, actionable format:
+
+**Objective:** Deliver the "Say" line in

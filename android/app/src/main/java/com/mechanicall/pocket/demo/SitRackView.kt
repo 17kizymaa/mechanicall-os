@@ -11,12 +11,10 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
-import android.text.Editable
 import android.text.InputType
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.MotionEvent
@@ -114,6 +112,22 @@ class SitRackView @JvmOverloads constructor(
                 invalidate()
             }
         }
+    /** Desk word on the existing gate. Blank keeps the painted WAIT plate. */
+    var gateWord: String = ""
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidate()
+            }
+        }
+    /** Draft line already in the folder. Blank draws nothing under "not the plan". */
+    var suggestionLine: String = ""
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidate()
+            }
+        }
     var receiptBody: String = ""
     var liveFields: Map<String, String> = emptyMap()
 
@@ -195,6 +209,7 @@ class SitRackView @JvmOverloads constructor(
     private var wellNextBmp: Bitmap? = null
     private var wellReceiptBmp: Bitmap? = null
     private var folderDestBmp: Bitmap? = null
+    private var sendTailBmp: Bitmap? = null
     private var gateBmp: Bitmap? = null
     private val crtGlassSrc = Rect()
 
@@ -222,7 +237,6 @@ class SitRackView @JvmOverloads constructor(
     private var animator: ValueAnimator? = null
 
     private var editKey: String? = null
-    private var suppressEdit: Boolean = false
     private val crtEdit = editor()
 
     init {
@@ -256,14 +270,6 @@ class SitRackView @JvmOverloads constructor(
                 false
             }
         }
-        addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-            override fun afterTextChanged(s: Editable?) {
-                if (suppressEdit) return
-                if (editKey == "PROPOSE") host?.onDraftTextChanged(s?.toString().orEmpty())
-            }
-        })
     }
 
     private fun styleWhyEditor(ed: EditText = crtEdit) {
@@ -312,6 +318,7 @@ class SitRackView @JvmOverloads constructor(
         wellNextBmp = decode(R.drawable.sit_well_next)
         wellReceiptBmp = decode(R.drawable.sit_well_receipt)
         folderDestBmp = decode(R.drawable.sit_folder_dest)
+        folderDestBmp?.let { buildSendTail(it) }
         gateBmp = decode(R.drawable.sit_gate)
         crtBmp?.let { bmp ->
             crtGlassSrc.set(
@@ -402,10 +409,8 @@ class SitRackView @JvmOverloads constructor(
 
     private fun setEditText(text: String) {
         if (crtEdit.text.toString() == text) return
-        suppressEdit = true
         crtEdit.setText(text)
         crtEdit.setSelection(0)
-        suppressEdit = false
     }
 
     fun dismissEdit() {
@@ -441,6 +446,9 @@ class SitRackView @JvmOverloads constructor(
         requestLayout()
         invalidate()
     }
+
+    /** Writer is on the glass. A paper tap must not reload the file over the cursor. */
+    fun isWritingDraft(): Boolean = isolated == IsolatedMode.DRAFT && editKey == "PROPOSE"
 
     private fun hideCrtEdit() {
         emitDraft()
@@ -522,7 +530,11 @@ class SitRackView @JvmOverloads constructor(
         banksBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         wellBmp()?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
         gateBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
+        drawGateLamp(canvas)
     }
+
+    /** Painted WAIT stays. The probe still runs. Its word and the bar are not drawn. */
+    private fun drawGateLamp(@Suppress("UNUSED_PARAMETER") canvas: Canvas) = Unit
 
     /** CRT module on the chassis. Not IsolatedDark flood. */
     private fun drawCrtDest(canvas: Canvas) {
@@ -576,11 +588,12 @@ class SitRackView @JvmOverloads constructor(
 
     /** Chassis STATUS peek. Truncated. Clipped to visible glass. Same phosphor hue. */
     private fun drawPreviewGlass(canvas: Canvas, w: Float, h: Float) {
-        lcdPaint.textSize = if (zoomed) sp(11f) else sp(13f)
+        val body = lcdBody()
+        val roughLines = body.count { it == '\n' } + 1
+        lcdPaint.textSize = if (zoomed || roughLines > 4) sp(11f) else sp(13f)
         val pad = sp(10f)
         val innerW = (w - pad * 2).toInt().coerceAtLeast(8)
         val innerH = (h - pad * 2).coerceAtLeast(8f)
-        val body = lcdBody()
         val layout = StaticLayout.Builder
             .obtain(body, 0, body.length, lcdPaint, innerW)
             .setAlignment(Layout.Alignment.ALIGN_NORMAL)
@@ -640,6 +653,17 @@ class SitRackView @JvmOverloads constructor(
     companion object {
         private const val PREVIEW_CHARS = 120
 
+        /** Clear rows under the folder photograph. Donor is cream above the handle. */
+        private const val SEND_TAIL_TOP = 1680
+        private const val SEND_TAIL_BOTTOM = 1862
+        private const val SEND_TAIL_DONOR_Y = 1510
+        private const val SEND_TAIL_CREAM_X = 420
+
+        /** Pack y of the send-slip rules under the slogan. */
+        private val sendListRules = intArrayOf(
+            988, 1022, 1055, 1089, 1122, 1156, 1190, 1223, 1256, 1289, 1323, 1356, 1390,
+        )
+
         fun clipPreview(raw: String, n: Int = PREVIEW_CHARS): String {
             val t = raw.replace('\n', ' ').trim()
             if (t.length <= n) return t
@@ -651,10 +675,19 @@ class SitRackView @JvmOverloads constructor(
 
         /** One said-line. Empty is empty. Not a leftover markdown dump. */
         fun receiptStrip(raw: String): String {
+            val saidLine = raw.lineSequence()
+                .map { it.replace("**", "").replace("#", "").trim() }
+                .firstOrNull { it.startsWith("You said:", ignoreCase = true) }
+            if (saidLine != null) {
+                val said = saidLine.substringAfter(":").trim().trimEnd('.')
+                if (said.isNotBlank()) return "You said: $said"
+            }
             val t = stripMd(raw)
             if (t.isBlank()) return "(empty receipt)"
-            val said = Regex("You said:\\s*([^.]*)").find(t)?.groupValues?.get(1)?.trim().orEmpty()
-            if (said.isNotBlank()) return "You said: $said"
+            // Seed copies still say a refusal rewrites the file. The glass does not.
+            if (t.contains("this file is rewritten", ignoreCase = true)) {
+                return "No sitting yet. Not yet leaves the plan. Opening this page is not a Yes."
+            }
             if (t.contains("I did it", ignoreCase = true) || t.contains("What happened", ignoreCase = true)) {
                 return "I did it"
             }
@@ -672,17 +705,63 @@ class SitRackView @JvmOverloads constructor(
     }
 
     private fun drawReceiptWell(canvas: Canvas) {
-        canvas.drawRect(mapPack(SitCRects.receiptPaper), paperFill)
         drawPackText(canvas, SitCRects.receiptPaper, receiptStrip(receiptBody), graphitePaint)
     }
 
     private fun drawSendOverlay(canvas: Canvas) {
-        // tap outside to dismiss. Send not Yes. OEM FILES strip is millwork.
+        // tap outside to dismiss. Send not Yes. The handle has no OEM label.
         dimPaint.color = SitCRects.Dim
         canvas.drawRect(mapPack(PackRect(0, 0, SitCRects.PACK_W, SitCRects.PACK_H)), dimPaint)
-        folderDestBmp?.let { canvas.drawBitmap(it, blit, bitmapPaint) }
-        val listing = folderList.ifBlank { "(empty folder)" }
-        drawPackText(canvas, SitCRects.folderList, listing, paperPaint)
+        val plate = folderDestBmp
+        if (plate != null) {
+            canvas.drawBitmap(plate, blit, bitmapPaint)
+            // Clear hole under the photograph. Cream stays inside the plate. The ring and handle stay.
+            sendTailBmp?.let { tail ->
+                canvas.drawBitmap(
+                    tail,
+                    null,
+                    mapPack(PackRect(0, SEND_TAIL_TOP, SitCRects.PACK_W, SEND_TAIL_TOP + tail.height)),
+                    bitmapPaint,
+                )
+            }
+        }
+        drawSendList(canvas)
+    }
+
+    /** Plate-width cream sampled above the handle. Does not repaint sit_folder_dest. */
+    private fun buildSendTail(plate: Bitmap) {
+        if (plate.height <= SEND_TAIL_TOP || SEND_TAIL_DONOR_Y >= plate.height) return
+        var left = 0
+        var right = plate.width - 1
+        while (left < plate.width && Color.alpha(plate.getPixel(left, SEND_TAIL_DONOR_Y)) == 0) left++
+        while (right > left && Color.alpha(plate.getPixel(right, SEND_TAIL_DONOR_Y)) == 0) right--
+        if (left >= right || SEND_TAIL_CREAM_X !in left..right) return
+        val cream = plate.getPixel(SEND_TAIL_CREAM_X, SEND_TAIL_DONOR_Y)
+        val holeH = SEND_TAIL_BOTTOM - SEND_TAIL_TOP
+        val tail = Bitmap.createBitmap(plate.width, holeH, Bitmap.Config.ARGB_8888)
+        val pixels = IntArray(plate.width * holeH)
+        for (dy in 0 until holeH) {
+            val row = dy * plate.width
+            for (x in left..right) pixels[row + x] = cream
+        }
+        tail.setPixels(pixels, 0, plate.width, 0, 0, plate.width, holeH)
+        sendTailBmp = tail
+    }
+
+    /** File names on the ruled lines under "files only · not Yes". */
+    private fun drawSendList(canvas: Canvas) {
+        val lines = folderList.ifBlank { "(empty folder)" }.split('\n')
+        val saved = paperPaint.textSize
+        paperPaint.textSize = sp(11f)
+        val point = floatArrayOf(0f, 0f)
+        lines.forEachIndexed { i, line ->
+            if (i >= sendListRules.size) return@forEachIndexed
+            point[0] = 236f
+            point[1] = sendListRules[i] - 6f
+            blit.mapPoints(point)
+            canvas.drawText(line, point[0], point[1], paperPaint)
+        }
+        paperPaint.textSize = saved
     }
 
     private fun drawPackText(

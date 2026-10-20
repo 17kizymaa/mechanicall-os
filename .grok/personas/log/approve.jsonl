@@ -1,0 +1,185 @@
+{"ts":"2026-08-01T10:16:57.180Z","kind":"approve","reason":"harden-control-layer-seats","by":"human"}
+{"ts":"2026-08-01T10:27:54.297Z","kind":"approve","reason":"ci-control-layer-gates","by":"human"}
+{"ts":"2026-08-02T11:34:55.198Z","kind":"approve","reason":"seat-nixos-efi-foundation","by":"human"}
+{"ts":"2026-08-03T14:53:38.291Z","kind":"approve","reason":"Looks good — go ahead","by":"human"}
+{"ts":"2026-08-03T14:57:34.504Z","kind":"approve","reason":"want to sort my emails out. Where to start?","by":"human"}
+{"ts":"2026-08-03T15:17:48.903Z","kind":"approve","reason":"Yes — go ahead","by":"human"}
+{"ts":"2026-08-03T15:44:40.811Z","kind":"approve","reason":"Yes — go ahead","by":"human"}
+{"ts":"2026-08-04T09:38:13.672Z","kind":"approve","reason":"c1s3-web-device-session-negotiate .","by":"human"}
+{"ts":"2026-08-04T09:38:13.760Z","kind":"approve","reason":"c1s3-web-device-session-negotiate dev/17_client-one-session-three","by":"human"}
+{"ts":"2026-08-04T09:46:03.421Z","kind":"approve","reason":"c1s3-web-session-mvp-implement .","by":"human"}
+{"ts":"2026-08-04T09:46:03.506Z","kind":"approve","reason":"c1s3-web-session-mvp-implement dev/17_client-one-session-three","by":"human"}
+{"ts":"2026-08-04T14:54:31.105Z","kind":"approve","reason":"protocol-first-core-and-lab .","by":"human"}
+{"ts":"2026-08-04T15:33:19.579Z","kind":"approve","reason":"t /tmp/tmp.i0gIH12Cau","by":"human"}
+{"ts":"2026-08-04T15:41:33.163Z","kind":"approve","reason":"proto-lifecycle-reselect","by":"human"}
+{"ts":"2026-08-04T15:46:41.873Z","kind":"approve","reason":"proto-demo-onecmd","by":"human"}
+{"ts":"2026-08-04T15:49:04.651Z","kind":"approve","reason":"e2e","by":"human"}
+{"ts":"2026-08-04T15:49:43.792Z","kind":"approve","reason":"proto-grok-observability","by":"human"}
+{"ts":"2026-08-04T15:51:29.752Z","kind":"approve","reason":"proto-lab-design","by":"human"}
+{"ts":"2026-08-04T15:52:37.278Z","kind":"approve","reason":"proto-honesty-release-draft","by":"human"}
+{"ts":"2026-08-04T15:55:00.382Z","kind":"approve","reason":"proto-alpha-freeze","by":"human"}
+{"ts":"2026-08-04T15:56:08.539Z","kind":"approve","reason":"implement-remaining-waves","by":"human"}
+{"ts":"2026-08-04T16:12:54.637Z","kind":"approve","reason":"implement-remaining-waves","by":"human"}
+{"ts":"2026-08-04T16:44:10.655Z","kind":"approve","reason":"smoke-verify","by":"human"}
+{"ts":"2026-08-04T16:45:00.500Z","kind":"approve","reason":"smoke-verify","by":"human"}
+{"ts":"2026-08-04T16:45:26.511Z","kind":"approve","reason":"smoke-verify","by":"human"}
+{"ts":"2026-08-04T16:47:33.652Z","kind":"approve","reason":"smoke-verify","by":"human"}
+{"ts":"2026-08-04T16:57:40.689Z","kind":"approve","reason":"human-reselect","by":"human"}
+{"ts":"2026-08-04T16:58:49.045Z","kind":"approve","reason":"commit-hygiene","by":"human"}
+{"ts":"2026-08-04T17:23:30.388Z","kind":"approve","reason":"commit-A-then-B (.gitignore CURRENT.md & .aether/events.jsonl)","by":"human"}
+{"ts":"2026-08-04T18:01:51.134Z","kind":"approve","reason":"next-01-unknown-cmd","by":"human"}
+{"ts":"2026-08-04T18:05:59.463Z","kind":"approve","reason":"next-02-negative-tests","by":"human"}
+{"ts":"2026-08-04T18:06:40.073Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T18:12:22.727Z","kind":"approve","reason":"next-03-license","by":"human"}
+{"ts":"2026-08-04T18:24:45.866Z","kind":"approve","reason":"next-04-exit-codes","by":"human"}
+{"ts":"2026-08-04T18:28:22.230Z","kind":"approve","reason":"next-05-loc-decision","by":"human"}
+{"ts":"2026-08-04T18:35:24.768Z","kind":"approve","reason":"next-06-preflight-receipt","by":"human"}
+{"ts":"2026-08-04T18:37:50.147Z","kind":"approve","reason":"abs /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:37:50.341Z","kind":"approve","reason":"pass /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:37:50.535Z","kind":"approve","reason":"stale /tmp/tmp.kBvJYkZSsY","by":"human"}
+{"ts":"2026-08-04T18:51:40.219Z","kind":"approve","reason":"next-07-shellcheck","by":"human"}
+{"ts":"2026-08-04T18:55:14.064Z","kind":"approve","reason":"next-08-normative-docs","by":"human"}
+{"ts":"2026-08-04T19:02:08.663Z","kind":"approve","reason":"next-09-verb-list","by":"human"}
+{"ts":"2026-08-04T19:04:07.625Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T19:30:20.361Z","kind":"approve","reason":"next-09-verb-list","by":"human"}
+{"ts":"2026-08-04T19:30:39.854Z","kind":"approve","reason":"next-10-lab-status","by":"human"}
+{"ts":"2026-08-04T19:32:27.062Z","kind":"approve","reason":"park-protocol-alpha","by":"human"}
+{"ts":"2026-08-04T19:32:49.537Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-04T19:39:56.630Z","kind":"approve","reason":"park-protocol-alpha","by":"human"}
+{"ts":"2026-08-04T19:40:49.757Z","kind":"approve","reason":"commit-peer-waves","by":"human"}
+{"ts":"2026-08-05T09:21:59.349Z","kind":"approve","reason":"package-alpha-2","by":"human"}
+{"ts":"2026-08-05T11:23:33.129Z","kind":"approve","reason":"defer-package-alpha-for-server-ops","by":"human"}
+{"ts":"2026-08-05T11:31:23.996Z","kind":"approve","reason":"--help","by":"human"}
+{"ts":"2026-08-08T19:02:57.265Z","kind":"approve","reason":"recommended-git-path: PR #4 human-merged / accepted","by":"human"}
+{"ts":"2026-08-08T19:29:13.429Z","kind":"approve","reason":"listen-to-peer-review","by":"human"}
+{"ts":"2026-08-08T19:33:35.554Z","kind":"approve","reason":"scaffold-encouraging-changes-with-valid-execution!","by":"human"}
+{"ts":"2026-08-09T17:19:07.516Z","kind":"approve","reason":"PR #4 human-merged; scaffold-encouraging-changes-with-valid-execution complete","by":"human"}
+{"ts":"2026-08-09T18:02:14.766Z","kind":"approve","reason":"polish-product-reciept-layer complete (PR #5 merged)","by":"human"}
+{"ts":"2026-08-10T11:57:31.899Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:10:57.496Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:15:45.234Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T12:24:53.153Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:12:47.272Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:21:06.471Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T13:21:33.983Z","kind":"approve","reason":"suite map + layers A/B/C (seed technique, deferred creative, employ personal+RAG job)","by":"human"}
+{"ts":"2026-08-10T20:53:04.676Z","kind":"approve","reason":"recipe C + B1 network partial OK","by":"human"}
+{"ts":"2026-08-10T20:54:05.631Z","kind":"approve","reason":"recipe C + B1 network partial OK // going to note-to-self to research the limits of RAG capabilities with my setup (mirrored from lab dev/20_* Domain)","by":"human"}
+{"ts":"2026-08-10T21:10:55.210Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-10T21:11:06.404Z","kind":"approve","reason":"Assuming it works!","by":"human"}
+{"ts":"2026-08-10T21:12:15.913Z","kind":"approve","reason":"continue-executions","by":"human"}
+{"ts":"2026-08-10T21:17:11.970Z","kind":"approve","reason":"aether already installed, and that should've been the stable part of this action's test!","by":"human"}
+{"ts":"2026-08-10T21:24:03.547Z","kind":"approve","reason":"seat-verify static + seat-menu OK","by":"human"}
+{"ts":"2026-08-10T21:27:38.680Z","kind":"approve","reason":"Let's finish off for tonight!","by":"human"}
+{"ts":"2026-08-10T21:31:16.285Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-11T07:31:55.108Z","kind":"approve","reason":"plan MVP: panel + CLAUDE.md + brief hooks + narrow deny (mirrored from lab dev/20_* 2026-08-11)","by":"human"}
+{"ts":"2026-08-11T11:51:27.782Z","kind":"approve","reason":"xfce-claude-code-mech-extension","by":"human"}
+{"ts":"2026-08-11T17:28:23.962Z","kind":"approve","reason":"finish Claim-1 residuals before Claim-2 Hyprland","by":"human"}
+{"ts":"2026-08-11T17:35:54.203Z","kind":"approve","reason":"It can be fixed later, let's continue!","by":"human"}
+{"ts":"2026-08-11T17:44:04.624Z","kind":"approve","reason":"Claim-2 Hyprland habitat + dashboard — kickoff OK","by":"human"}
+{"ts":"2026-08-11T17:46:33.494Z","kind":"approve","reason":"Human: Let's go Claim-2 Hyprland; work only from mechanicall-os root — no sub-CURRENT overhead","by":"human"}
+{"ts":"2026-08-11T19:14:55.807Z","kind":"approve","reason":"casual-core interface direction","by":"human"}
+{"ts":"2026-08-11T19:15:14.743Z","kind":"approve","reason":"Human: Go — casual-core interface contract","by":"human"}
+{"ts":"2026-08-11T19:28:16.289Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T08:23:14.924Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T08:23:37.398Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T09:52:22.828Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-16T09:57:52.906Z","kind":"approve","reason":"Continue!","by":"human"}
+{"ts":"2026-08-17T16:38:58.679Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-18T12:33:20.239Z","kind":"approve","reason":"Good enough!","by":"human"}
+{"ts":"2026-08-18T12:35:15.713Z","kind":"approve","reason":"people-app factory is the Next; sitting is lab","by":"human"}
+{"ts":"2026-08-18T16:57:17.719Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-18T17:09:40.658Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-18T17:16:01.847Z","kind":"approve","reason":"phone seat is APK chrome so mate/ can be sat; pocket-face stays sibling not a second Next","by":"human"}
+{"ts":"2026-08-20T08:28:50.037Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T09:14:52.792Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T12:53:11.067Z","kind":"approve","reason":"Let us hand over authority to CURRENT.md so that this overfitting implementation phase does not drift into my opinionated tasks, here!","by":"human"}
+{"ts":"2026-08-20T13:34:55.604Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T15:46:43.898Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T15:47:01.886Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T16:11:06.772Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-20T18:58:47.320Z","kind":"approve","reason":"one sit: stranger join (userspace) + wake + document workshop under hunk ICM","by":"human"}
+{"ts":"2026-08-20T21:41:21.504Z","kind":"approve","reason":"one Next: genuine VST rack, Headscale preauth, two-phase GATE, read-twin~","by":"human"}
+{"ts":"2026-08-20T21:57:00.956Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-21T17:08:29.779Z","kind":"approve","reason":"original sit central; STORM factory persisted; EdubaWare cut","by":"human"}
+{"ts":"2026-08-21T17:25:37.118Z","kind":"approve","reason":"inbox send is depreciated local offer; Headscale is mesh; FILES is the device manager","by":"human"}
+{"ts":"2026-08-21T18:30:54.971Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-23T05:29:01.706Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-23T11:32:12.608Z","kind":"approve","reason":"first-sit template, off-LAN then Play internal","by":"human"}
+{"ts":"2026-08-24T14:52:35.845Z","kind":"approve","reason":"closed-tester distro gate: contain zip, stock-phone Publish, API 36, then Play internal","by":"human"}
+{"ts":"2026-08-25T11:52:13.973Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-25T11:52:36.192Z","kind":"approve","reason":"...real reason...","by":"human"}
+{"ts":"2026-08-25T12:36:52.810Z","kind":"approve","reason":"sit-conjure-desk: S3 / wol-pi doorbell / sitter WAKE","by":"human"}
+{"ts":"2026-08-25T12:43:19.642Z","kind":"approve","reason":"Trying to get to the next stage: it's all just floating through my brain the information kind of (concurrent errors found on device application - cannot get past the initial bind page dialogue!)","by":"human"}
+{"ts":"2026-08-25T18:19:30.270Z","kind":"approve","reason":"I finally got verified Play Store dev account so we can make the first distribution now!","by":"human"}
+{"ts":"2026-08-25T18:27:25.129Z","kind":"approve","reason":"Didn't really read sh*t to be honest - let's wrap this up like a condom","by":"human"}
+{"ts":"2026-08-25T20:35:06.339Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-28T13:48:46.349Z","kind":"approve","reason":"This codebase reviewer session should be focused enoguh to carry out these proposed nexts it suggested","by":"human"}
+{"ts":"2026-08-28T13:51:42.983Z","kind":"approve","reason":"This codebase reviewer session should be focused enough to carry out these proposed nexts it suggested - the changes seem like it would make the next best PR before redrafting the APK again","by":"human"}
+{"ts":"2026-08-28T14:51:06.152Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-08-28T14:59:03.308Z","kind":"approve","reason":"Just want to get a clean slate to focus on a new implementation of the pocketAPK","by":"human"}
+{"ts":"2026-08-28T15:05:03.745Z","kind":"approve","reason":"Turn finished","by":"human"}
+{"ts":"2026-08-31T18:33:26.439Z","kind":"approve","reason":"speech ≠ listing; park MCP; UI other pocket; Headscale following; idkr unnamed","by":"human"}
+{"ts":"2026-08-31T18:43:50.634Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-03T11:36:56.178Z","kind":"approve","reason":"Ignore the service frameworks introduced by '15-RAW-_SS-CLOSING-APK-THREAD.md' - don't agree with that, moving from now (since here)","by":"human"}
+{"ts":"2026-09-03T11:55:44.644Z","kind":"approve","reason":"We should also look at the 'external CURRENT.md' in making it an actual protocol convention that 'doesn't let that caveat weaken the philosophy, but identify the work still required to emboy it fully' (if that statement really does apply..) - also interested in, after post-APK-listing and MOS-git-tree-polish, to reflect on what 'a model' can do based on its capabilities in terms of running this repo ('models are already smart' - yeah, taht's what the repo is leveraging, but what models?).","by":"human"}
+{"ts":"2026-09-03T11:57:24.536Z","kind":"approve","reason":"We can revisit the 'service framework' later when clientelle gets super-diverse, like.","by":"human"}
+{"ts":"2026-09-03T14:43:02.758Z","kind":"approve","reason":"Last addition: an extra item on 'PROPOSED_CURRENT.md' should be added on a multi-language setting - matter of fact, that module can be the start of the settings tab!","by":"human"}
+{"ts":"2026-09-03T14:43:55.378Z","kind":"approve","reason":"Matter of fact, that last addition should be a parked item. Nevertheless, good luck developing!","by":"human"}
+{"ts":"2026-09-03T16:31:24.248Z","kind":"approve","reason":"handoff ss-closing-apk; UI taste on wired 0.19.0-sit-rack; Play/web following not live","by":"human"}
+{"ts":"2026-09-04T11:02:21.000Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-04T11:28:24.490Z","kind":"approve","reason":"polish millwork + isolated CRT/Send/Draft/Receipt plates; walk stays; not Play","by":"human"}
+{"ts":"2026-09-05T07:15:38.872Z","kind":"approve","reason":"CURRENT.md is product! Nothing beats a single file of authority I can come back to after exhausting a failed sprint...","by":"human"}
+{"ts":"2026-09-05T10:24:19.653Z","kind":"approve","reason":"Big barrelled plan inquiry just filed....","by":"human"}
+{"ts":"2026-09-05T14:41:42.728Z","kind":"approve","reason":"Copy the right proposal to CURRENT.md and I'm approving now","by":"human"}
+{"ts":"2026-09-05T16:16:55.437Z","kind":"approve","reason":"score the visual coherency of the product","by":"human"}
+{"ts":"2026-09-05T17:10:47.562Z","kind":"approve","reason":"Accepted","by":"human"}
+{"ts":"2026-09-06T11:50:09.538Z","kind":"approve","reason":"I want cool fx, tbh, like I feel that being creative could be fun but I also want to not forget the casual use of it.","by":"human"}
+{"ts":"2026-09-07T09:32:36.519Z","kind":"approve","reason":"I am lagging so just going with this since I can't really navigate my dev sh*t rn","by":"human"}
+{"ts":"2026-09-08T08:03:13.387Z","kind":"approve","reason":"recycle millwork; actions then millwork this sprint; discuss on '20_...' and ritual expectations before action!","by":"human"}
+{"ts":"2026-09-08T08:41:06.796Z","kind":"approve","reason":"I kinda wanna wire the thingy in (err, theeeee model into the APK). Lot more managable, rate-abuse-wise!","by":"human"}
+{"ts":"2026-09-08T08:48:48.998Z","kind":"approve","reason":"Found a project-related chat response showing a comparative analysis that really elevated the framework's lessons - imma go for that as 05c","by":"human"}
+{"ts":"2026-09-08T09:42:12.964Z","kind":"approve","reason":"We apply the draft 'feature-pull' part later - includes website (all in post)","by":"human"}
+{"ts":"2026-09-09T13:03:11.957Z","kind":"approve","reason":"I would love to get this finished for today! The peeps are waiting; proposal layer is interesting; it could plan like me; my email is gonna be flooded!","by":"human"}
+{"ts":"2026-09-09T13:39:19.586Z","kind":"approve","reason":"I just want the website now","by":"human"}
+{"ts":"2026-09-09T13:40:49.428Z","kind":"approve","reason":"Go — capability ticket door","by":"human"}
+{"ts":"2026-09-09T15:02:10.222Z","kind":"approve","reason":"Demo is gonna happen now: lets go.","by":"human"}
+{"ts":"2026-09-11T10:53:00.225Z","kind":"approve","reason":"I think this plan covers the shape of what I want to do today! A great outline-style contract ensuring that the 3 sprints go in the right direction!","by":"human"}
+{"ts":"2026-09-11T10:59:45.923Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-11T11:00:08.329Z","kind":"approve","reason":"Ok - literally just forgot that one reject point from earlier.","by":"human"}
+{"ts":"2026-09-11T11:37:15.107Z","kind":"approve","reason":"'Food tasting' will be patched, once ready, as something less insulting to the user (he's fat)","by":"human"}
+{"ts":"2026-09-11T14:35:52.438Z","kind":"approve","reason":"Good to go! I read CURRENT.md","by":"human"}
+{"ts":"2026-09-11T16:39:23.943Z","kind":"approve","reason":"I'm tired, lets go!","by":"human"}
+{"ts":"2026-09-11T18:38:28.639Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-16T10:05:25.983Z","kind":"approve","reason":"millwork has been bugging me forever now and the rage is leaking across every chat session now - I thought once that MAP.md of the site archtecture was complete under anphuni-projects, that I would have some sort of execution on that. Guess that world of assumptions is what this aether system is protecting me against: ***suggestion***","by":"human"}
+{"ts":"2026-09-16T10:10:20.858Z","kind":"approve","reason":"I also like the idea that the user can maybe stamp a project and receive the intended version I had in mind - want them to feel as if they can save their reasoning as to why, whether reject or approve. We should carry out this idea under the dedicated merseyflush folder where there is actually a fresh proposal to stamp it to...","by":"human"}
+{"ts":"2026-09-16T10:24:51.919Z","kind":"approve","reason":"I understand the system more in terms of the public deployment on anphuni's role and how it's architecture in directories work under you-decide vs clients. I do want to plow through a lot though today. Have one critical pointer to open up (promote) with a CURRENT and is about recompiling previous work & state of that client relationship from adjacent disks; same with district-71. Other aliases I will open up afterward (more private - not-actively pointers) to explore general covenant potential of each in dialogue through the project doors...","by":"human"}
+{"ts":"2026-09-16T10:27:04.885Z","kind":"approve","reason":"Oh yeah, and for the merseyflush project, I want to sell it as a possibly (I referred to this before) a product they can say Yes to and get the full version of (with reasons etc, blah blah blah - I have some ideas for this)...","by":"human"}
+{"ts":"2026-09-16T10:34:08.440Z","kind":"approve","reason":"isolation millwork — paper only on birthday","by":"human"}
+{"ts":"2026-09-16T10:36:03.708Z","kind":"approve","reason":"Rejection invalid now: I've learned why I rejected and am happy now!","by":"human"}
+{"ts":"2026-09-16T11:20:48.100Z","kind":"approve","reason":"I want the model to reflect on how to make this as productive as possible considering the live chat session went through 200k tokens. Let's be efficient!","by":"human"}
+{"ts":"2026-09-16T13:43:39.040Z","kind":"approve","reason":"See next reason","by":"human"}
+{"ts":"2026-09-16T15:03:02.281Z","kind":"approve","reason":"deploy","by":"human"}
+{"ts":"2026-09-18T08:05:21.774Z","kind":"approve","reason":"Next didn't change because I think reject doesn't allow new aether nexts (bug?)","by":"human"}
+{"ts":"2026-09-18T09:11:59.601Z","kind":"approve","reason":"Need new next; this next is finished/reevaluated","by":"human"}
+{"ts":"2026-09-18T16:24:29.422Z","kind":"approve","reason":"Fable 5.1 will bootstrap this coding phase, alright!","by":"human"}
+{"ts":"2026-09-19T07:52:50.660Z","kind":"approve","reason":"I want to reflect on AI in regards to mechanicall-os - I have report '25_...' imbound for digestion. Before that, I need a report (local-deep-research installed) on laws in relation to letting my 'anphuni' business financial project targets assimilate with this application - this is to stress-test the justification of those laws considering my want to have an income of 1000GBP and gain 4000GBP in additional savings before Jan. If legality not an issue with the protocol docs / CURRENT python, I am happy to continue with the last progressive development with the doc 24_... software suggestions as maybe defaults (area of discussion, here). Just want to see if my efforts are protected, really.","by":"human"}
+{"ts":"2026-09-19T11:33:58.307Z","kind":"approve","reason":"APPROVED","by":"human"}
+{"ts":"2026-09-19T11:40:48.674Z","kind":"approve","reason":"When we use high tokens per millon models, we should include token-saving measures like recaching context, or just using subagents to do the manual work 'n dispose execution authority!","by":"human"}
+{"ts":"2026-09-19T11:44:53.397Z","kind":"approve","reason":"I'm down to prune some commands - also, these sidecars can just be scaled, right? Why don't we consider that after the active Next is finished (and post-legal-assimilation-report next is selected).","by":"human"}
+{"ts":"2026-09-19T11:55:39.930Z","kind":"approve","reason":"We can continue with the last Claude Opencode chat, however, we need to strategise more in terms of budgeting and leverage - model/chat needs pruning plus authority disposal skills. Understand?","by":"human"}
+{"ts":"2026-09-29T14:30:15.216Z","kind":"approve","reason":"the mechanicall protocol just protected my project from drift! Great, I forgot that this project I was working on had its own CURRENT up. Important reflection for any reflective, 'What is my product?' work.","by":"human"}
+{"ts":"2026-09-29T15:45:11.779Z","kind":"approve","reason":"I keep compiling projects to get unsophisticated outputs... (for conversation-based clients like my unsophisticated tech family - I'm sure there's a term for both a personal relationship and a non-technically savvy person that should actually form a core documentation axiom of the mechanicall protocol.)","by":"human"}
+{"ts":"2026-10-05T17:43:00.024Z","kind":"approve","reason":"I should invest in non-censored-agent-deployment for safety/experimentation","by":"human"}
+{"ts":"2026-10-07T09:23:28.754Z","kind":"approve","reason":"This sprint has been waiting for like 5 weeks to happen; the progress relies on the APK being a public product. Without it, anphuni's projects (anphuni-project) puts too much strain on my decision-making as the sole authority of every project. Disposing authority!","by":"human"}
+{"ts":"2026-10-07T09:35:44.828Z","kind":"approve","reason":"AI fluency misunderstood my last request and then the objective to give the client an APK with a stable layer I can use to develop the tester's version live.","by":"human"}
+{"ts":"2026-10-07T10:15:00.179Z","kind":"approve","reason":"We have finally gotten over the rejected ID gates. Time to complete the task. /next apk-share-24h","by":"human"}
+{"ts":"2026-10-08T15:05:34.160Z","kind":"approve","reason":"session-memory: ./memory sidecar, stage 77","by":"human"}
+{"ts":"2026-10-12T11:36:29.404Z","kind":"approve","reason":"Let's start; we should have by now!","by":"human"}
+{"ts":"2026-10-12T13:07:56.477Z","kind":"approve","reason":"'share-desk' is a whole new Next, even though it will change the 'glass-prototype'. I want the research Next to be a serious and/or critical stage of this APK but; it can be deferred in testing & reevaluated in a different implementation path. Still could nitpick about the coherency though & unimplemented aesthetics.","by":"human"}
+{"ts":"2026-10-12T14:10:08.409Z","kind":"approve","reason":"Chrome's been bothering me awhile - been nitppicking...","by":"human"}
+{"ts":"2026-10-12T15:09:45.305Z","kind":"approve","reason":"Got 2 hours left - making this quick so we can come back tomorrow with a state that's ready for testers.","by":"human"}
+{"ts":"2026-10-14T11:53:16.444Z","kind":"approve","reason":"Whatsapp grammar is not finished completely! Also, toastmasters is pending!","by":"human"}
+{"ts":"2026-10-14T12:09:38.520Z","kind":"approve","reason":"it sounds like a step in the right direction in terms of what I asked for in integration","by":"human"}
+{"ts":"2026-10-14T13:24:15.945Z","kind":"approve","reason":"Ping should be an icon next to the messaging area instead (the button; the rest can still open below, maybe in an overlaid chat module-style. I want the chat to have the whatsapp messaging group-by-datessubheadings. These changes should go into a relaxed Next under nitpicking-website (because I want to CI it all the time but the no-multiple-nexts is a blocker. I'm not sure about aliases, too, and that needs some reflection. IDK on that area of stuff (its basically explore vs support room-app grammar trouble)...","by":"human"}
+{"ts":"2026-10-14T13:26:56.405Z","kind":"approve","reason":"Yes. Yes. Yes. Sidecars-as-personalities is bingo!","by":"human"}
+{"ts":"2026-10-14T13:34:18.502Z","kind":"approve","reason":"rapid cycles AND refreshing targets of the millwork","by":"human"}
