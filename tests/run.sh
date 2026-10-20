@@ -60,8 +60,8 @@ for v in $verbs; do
     case "$v" in
         # Never invoke interactive / long-running / mutating verbs bare.
         # Help-only coverage is enough for dispatch (second PR review).
-        approve|reject|next|apply|preflight|probe|artifact|event|seed|rival|\
-        shell|panel|watch|onboard|garden|try|demo|deinit|app)
+        approve|reject|next|apply|pre-apply|preflight|probe|artifact|event|bookmark|\
+        shell|panel|watch|onboard|try|demo|deinit|app)
             printf '%s\n' "$help_out" | grep -qw "$v" \
                 || fail "verb '$v' missing from help (safe list)"
             ;;
@@ -204,12 +204,17 @@ rm -f "$TMP/clone/.evil"
 [ ! -f "$TMP/clone/.evil" ] || fail "pre-existing malicious hook ran without trust"
 pass "init does not auto-trust pre-existing hooks"
 
-# --- argv quoting preserved: multiword seed (P0 2.3) ---
+# --- pruned verb seed is absent (prune-aether-verbs) ---
 export AETHER_INBOX="$TMP/inbox-quote.md"
 rm -f "$AETHER_INBOX"
-"$AETHER" seed "preserve   deliberate   spacing" || fail "seed multiword"
-grep -q 'preserve   deliberate   spacing' "$AETHER_INBOX" || fail "seed lost internal spacing"
-pass "seed preserves multiword spacing"
+set +e
+out=$("$AETHER" seed "preserve   deliberate   spacing" 2>&1)
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "seed exit=$ec out=$out"
+printf '%s\n' "$out" | grep -q 'unknown command' || fail "seed not unknown: $out"
+[ ! -f "$AETHER_INBOX" ] || fail "pruned seed wrote an inbox"
+pass "seed is not a verb"
 
 # --- corrupt markers refuse distill (P0 2.4 medium) ---
 mkdir -p "$TMP/corrupt"
@@ -316,13 +321,16 @@ sed -i 's/^\*\*Next\*\*:.*/**Next:** silent-proof/' CURRENT.md
 grep -qi 'APPROVED' CURRENT.md || fail "approve did not set APPROVED"
 grep -q '"kind":"approve"' .aether/events.jsonl || fail "approve event missing"
 [ -f DECISIONS.md ] || fail "DECISIONS.md missing after approve/reject"
-# seeds must not create authority
+# a pruned seed must not create authority
 export AETHER_INBOX="$TMP/inbox-auth.md"
-"$AETHER" seed "please build rough-v6 now" >/dev/null || fail "seed"
-# CURRENT next still silent-proof / authority unchanged by seed
-grep -q 'silent-proof' CURRENT.md || fail "seed mutated CURRENT next"
-out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "seed must not unlock rough-v6" || true
-printf '%s\n' "$out" | grep -qi refuse || fail "seed should not authorize rough-v6"
+set +e
+out=$("$AETHER" seed "please build rough-v6 now" 2>&1)
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "pruned seed exit=$ec out=$out"
+grep -q 'silent-proof' CURRENT.md || fail "pruned seed mutated CURRENT next"
+out=$("$AETHER" preflight rough-v6 . 2>&1) && fail "pruned seed unlocked rough-v6" || true
+printf '%s\n' "$out" | grep -qi refuse || fail "rough-v6 not refused after pruned seed"
 pass "v0.2 authority: preflight refuse/allow, reject, approve, events, artifacts"
 
 # --- preflight receipt (next-06 / Opus) ---
@@ -557,6 +565,9 @@ pass "negative path suite (tests/negative.sh)"
 
 sh "$ROOT/tests/apply-proposal.sh" || fail "tests/apply-proposal.sh"
 pass "apply proposal (tests/apply-proposal.sh)"
+
+sh "$ROOT/tests/bookmark.sh" || fail "tests/bookmark.sh"
+pass "bookmark (tests/bookmark.sh)"
 
 # drift: only if git available in temp (may not be a repo)
 cd "$ROOT"
@@ -820,6 +831,211 @@ if command -v python3 >/dev/null 2>&1; then
   sh "$ROOT/scripts/rehearse-pocket-spike.sh" || fail "pocket host rehearsal"
   pass "pocket host rehearsal"
 fi
+
+# --- pre-apply: the conversation session is the suggestion, for one turn ---
+mkdir -p "$TMP/turn"
+cd "$TMP/turn"
+"$AETHER" init . >/dev/null || fail "init turn"
+"$AETHER" current init . >/dev/null || fail "current init turn"
+turn_before=$(cksum CURRENT.md)
+out=$(env -u AGENT_SESSION -u GROK_SESSION_ID "$AETHER" pre-apply --dry-run 2>&1) \
+    || fail "hidden dry-run failed: $out"
+printf '%s\n' "$out" | grep -q 'session hidden; suggestion off' || fail "hidden dry-run text: $out"
+printf '%s\n' "$out" | grep -q 'not stamped' || fail "hidden dry-run stamped: $out"
+[ "$(cksum CURRENT.md)" = "$turn_before" ] || fail "hidden dry-run rewrote CURRENT"
+out=$(env -u AGENT_SESSION -u GROK_SESSION_ID "$AETHER" pre-apply 2>&1) \
+    || fail "hidden pre-apply failed: $out"
+printf '%s\n' "$out" | grep -q 'session hidden; suggestion off' || fail "hidden text: $out"
+[ "$(cksum CURRENT.md)" = "$turn_before" ] || fail "hidden session stamped CURRENT"
+grep -q '"kind":"turn_approval"' .aether/events.jsonl && fail "hidden session wrote turn_approval" || true
+grep -q '"kind":"approve"' .aether/events.jsonl && fail "hidden session wrote approve" || true
+[ ! -e .aether/suggestions.toml ] || fail "hidden session wrote the suggestions sidecar"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --dry-run "this turn" 2>&1) \
+    || fail "turn dry-run failed: $out"
+printf '%s\n' "$out" | grep -q 'would approve this turn of session turn-1' || fail "turn dry-run text: $out"
+printf '%s\n' "$out" | grep -q 'Would write .aether/suggestions.toml' || fail "turn dry-run sidecar: $out"
+printf '%s\n' "$out" | grep -q 'not stamped' || fail "turn dry-run stamped: $out"
+[ ! -e .aether/suggestions.toml ] || fail "dry-run wrote the suggestions sidecar"
+[ "$(cksum CURRENT.md)" = "$turn_before" ] || fail "turn dry-run rewrote CURRENT"
+printf 'not a suggestion\n' > note.md
+mkdir -p slashdir/nested
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "see /current and slashdir/nested" note.md 2>&1) \
+    || fail "slash reason failed: $out"
+printf '%s\n' "$out" | grep -q 'TURN ALLOWED' || fail "slash reason did not allow the turn: $out"
+grep -q '/current' .aether/suggestions.toml || fail "slash dropped out of the reason"
+grep -q 'slashdir/nested' .aether/suggestions.toml || fail "directory word was stolen as a root"
+grep -q 'note.md' .aether/suggestions.toml || fail "stray file was not reason text"
+grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "slash reason replaced the Next body"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "this turn" 2>&1) \
+    || fail "turn pre-apply failed: $out"
+printf '%s\n' "$out" | grep -q 'TURN ALLOWED: session turn-1 is the suggestion for this turn.' \
+    || fail "missing TURN ALLOWED: $out"
+printf '%s\n' "$out" | grep -q 'APPROVED: this turn' || fail "missing turn stamp: $out"
+grep -q '"kind":"turn_approval"' .aether/events.jsonl || fail "turn event missing"
+grep -q '"scope":"turn"' .aether/events.jsonl || fail "turn scope missing"
+grep -q '"suggestion":"turn-1"' .aether/events.jsonl || fail "session suggestion missing"
+grep -q '"source":"conversation"' .aether/events.jsonl || fail "conversation source missing"
+[ -f .aether/suggestions.toml ] || fail "suggestions sidecar missing"
+[ ! -d .aether/sidecars ] || fail "suggestions sidecar made a sidecars folder"
+grep -q 'Not a Yes' .aether/suggestions.toml || fail "sidecar is not marked"
+grep -q 'turn-1' .aether/suggestions.toml || fail "sidecar session missing"
+grep -q 'this turn' .aether/suggestions.toml || fail "sidecar reason missing"
+[ "$(stat -c %a .aether/suggestions.toml)" = "600" ] || fail "sidecar mode"
+grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "turn replaced the Next body"
+grep -q 'APPROVED' CURRENT.md || fail "stamp did not set APPROVED"
+pass "pre-apply approves one turn of the conversation session"
+
+# --- pre-apply applies an approved proposal for the visible session ---
+mkdir -p "$TMP/turn-apply/.aether/proposals"
+cd "$TMP/turn-apply"
+"$AETHER" init . >/dev/null || fail "init turn-apply"
+"$AETHER" current init . >/dev/null || fail "current init turn-apply"
+apply_before=$(cksum CURRENT.md)
+cat > .aether/proposals/approved.md << 'PROP'
+# CURRENT proposal — approved — NOT LAW until applied
+
+## Proposed CURRENT
+
+```markdown
+# CURRENT
+
+**Objective:** Apply one approved proposal for this turn.
+**Phase:** APPROVE
+**Status:** APPROVED
+**Baseline:** test
+**Next:** apply-approved-proposal
+**Approval:** APPROVED
+
+## Keep
+- one next
+
+## Reject
+- automatic-approve
+
+## Limits
+- silence is never permission
+
+## Next allowed action
+
+**Action id:** apply-approved-proposal
+
+Write a note.
+
+## Approval condition
+
+The operator already approved this body.
+
+## Prohibited
+- automatic-approve
+```
+PROP
+cat > .aether/proposals/draft.md << 'PROP'
+# CURRENT proposal — draft
+
+## Proposed CURRENT
+
+```markdown
+# CURRENT
+
+**Objective:** This draft must not be applied.
+**Phase:** SELECT
+**Status:** DRAFT
+**Baseline:** test
+**Next:** draft-proposal
+**Approval:** DRAFT
+
+## Keep
+- one next
+
+## Reject
+- automatic-approve
+
+## Limits
+- silence is never permission
+
+## Next allowed action
+
+**Action id:** draft-proposal
+
+Write nothing.
+
+## Approval condition
+
+Not approved.
+
+## Prohibited
+- automatic-approve
+```
+PROP
+out=$(env -u AGENT_SESSION -u GROK_SESSION_ID "$AETHER" pre-apply "this turn" .aether/proposals/approved.md 2>&1) \
+    || fail "hidden approved pre-apply failed: $out"
+printf '%s\n' "$out" | grep -q 'session hidden; suggestion off' || fail "hidden approved text: $out"
+printf '%s\n' "$out" | grep -q 'APPLIED' && fail "hidden session applied: $out" || true
+[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "hidden session applied the proposal"
+[ ! -e .aether/suggestions.toml ] || fail "hidden approved wrote the sidecar"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --dry-run "this turn" .aether/proposals/approved.md 2>&1) \
+    || fail "approved dry-run failed: $out"
+printf '%s\n' "$out" | grep -q 'Would apply approved proposal' || fail "approved dry-run text: $out"
+printf '%s\n' "$out" | grep -q 'not stamped' || fail "approved dry-run stamped: $out"
+[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "approved dry-run applied"
+[ ! -e .aether/suggestions.toml ] || fail "approved dry-run wrote the sidecar"
+set +e
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "this turn" .aether/proposals/draft.md 2>&1)
+ec=$?
+set -e
+[ "$ec" = "2" ] || fail "draft proposal exit=$ec out=$out"
+printf '%s\n' "$out" | grep -q 'This one is not approved' || fail "draft message: $out"
+[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "draft proposal was applied"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "this turn" .aether/proposals/approved.md 2>&1) \
+    || fail "approved pre-apply failed: $out"
+printf '%s\n' "$out" | grep -q 'APPLIED:' || fail "approved proposal was not applied: $out"
+printf '%s\n' "$out" | grep -q 'Session turn-1 applied the approved proposal.' \
+    || fail "session apply line: $out"
+printf '%s\n' "$out" | grep -q 'TURN ALLOWED: session turn-1 is the suggestion for this turn.' \
+    || fail "approved turn text: $out"
+grep -q '^\*\*Next:\*\* apply-approved-proposal$' CURRENT.md || fail "approved Next missing"
+grep -q '"kind":"proposal_applied"' .aether/events.jsonl || fail "proposal_applied missing"
+[ -f .aether/suggestions.toml ] || fail "approved turn sidecar missing"
+[ ! -d .aether/sidecars ] || fail "approved turn made a sidecars folder"
+[ "$(stat -c %a .aether/suggestions.toml)" = "600" ] || fail "approved sidecar mode"
+pass "pre-apply applies an approved proposal for the session"
+
+# --- pre-apply mode: many turns, no second Approval stamp; slashes stay text ---
+mkdir -p "$TMP/turn-mode/slashdir/nested"
+cd "$TMP/turn-mode"
+"$AETHER" init . >/dev/null || fail "init turn-mode"
+"$AETHER" current init . >/dev/null || fail "current init turn-mode"
+mode_before=$(cksum CURRENT.md)
+out=$(env -u AGENT_SESSION -u GROK_SESSION_ID "$AETHER" pre-apply --mode "see /current" 2>&1) \
+    || fail "hidden mode failed: $out"
+printf '%s\n' "$out" | grep -q 'session hidden; suggestion off' || fail "hidden mode text: $out"
+[ ! -e .aether/pre-apply-mode ] || fail "hidden session started the mode"
+[ "$(cksum CURRENT.md)" = "$mode_before" ] || fail "hidden mode rewrote CURRENT"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --dry-run --mode "see /current" 2>&1) \
+    || fail "mode dry-run failed: $out"
+printf '%s\n' "$out" | grep -q 'would start pre-apply mode for session turn-1' || fail "mode dry-run text: $out"
+[ ! -e .aether/pre-apply-mode ] || fail "mode dry-run wrote the mode file"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --mode "see /current and slashdir/nested" 2>&1) \
+    || fail "mode start failed: $out"
+printf '%s\n' "$out" | grep -q 'MODE ON: session turn-1 allows this sequence.' || fail "mode start text: $out"
+printf '%s\n' "$out" | grep -q 'APPROVED' && fail "mode stamped Approval: $out" || true
+grep -q '"kind":"approve"' .aether/events.jsonl && fail "mode wrote approve" || true
+grep -q '"kind":"pre_apply_mode"' .aether/events.jsonl || fail "mode event missing"
+grep -q '"scope":"mode"' .aether/events.jsonl || fail "mode scope missing"
+grep -q '/current' .aether/pre-apply-mode || fail "mode reason lost the slash"
+[ "$(stat -c %a .aether/pre-apply-mode)" = "600" ] || fail "mode file mode"
+[ "$(cksum CURRENT.md)" = "$mode_before" ] || fail "mode rewrote CURRENT"
+[ ! -d .aether/sidecars ] || fail "mode made a sidecars folder"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "another turn" 2>&1) \
+    || fail "mode second turn failed: $out"
+printf '%s\n' "$out" | grep -q 'already allows this sequence' || fail "second turn text: $out"
+grep -q '"kind":"approve"' .aether/events.jsonl && fail "second turn stamped approve" || true
+[ "$(cksum CURRENT.md)" = "$mode_before" ] || fail "second turn rewrote CURRENT"
+out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --stop 2>&1) \
+    || fail "mode stop failed: $out"
+printf '%s\n' "$out" | grep -q 'MODE OFF: session turn-1' || fail "mode stop text: $out"
+[ ! -e .aether/pre-apply-mode ] || fail "stop left the mode file"
+pass "pre-apply mode allows the sequence without a second stamp"
 
 # --- source checkout unchanged by the suite (porcelain + authority hashes) ---
 AFTER_AUTH_SNAP=$(src_authority_snap)

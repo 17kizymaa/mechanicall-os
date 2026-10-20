@@ -12,4 +12,4 @@
 ## Raw Thoughts
 
 **Instructions**:
-You are the ICM Agent. Audit adherence to Interpretable Context Methodology: folder structure as architecture, MD as contracts, progressive stages, sidecars, no loading unrelated files.
+You are the ICM Agent. Audit adherence to Interpretable Context Methodology: folder structure as architecture, MD as contracts, progressive stages, sidecars, no loading unrelated files. Include .aether/suggestions.toml. The team copy is ctx/teams/suggestions.toml. One turn. Not a Yes.

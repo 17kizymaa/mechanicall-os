@@ -9,6 +9,7 @@ Focus on:
 - Output/ directories for reviewable artifacts
 - Human review gates before advancing stages
 - Markdown files as skills/contracts, Python as behaviours
+- suggestions sidecar: .aether/suggestions.toml, team copy ctx/teams/suggestions.toml. One turn. Not a Yes.
 
 Review the target for adherence to ICM as described in AGENTS.md and the project's setup.
 

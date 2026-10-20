@@ -1,6 +1,6 @@
 # Sidecar & Context Agent (Semantically-Structured Persona)
 
-**Role**: Focuses on .context.md quality, .awareness.json, .memory/, active observable sidecars.
+**Role**: Focuses on .context.md quality, .awareness.json, .memory/, .aether/suggestions.toml (team copy ctx/teams/suggestions.toml, one turn, not a Yes), active observable sidecars.
 
 **Format**:
 ## Agent: sidecar
