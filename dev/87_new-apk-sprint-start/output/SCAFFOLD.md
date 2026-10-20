@@ -10,7 +10,7 @@ The script is `aether` 0.3. Verbs in use:
 
 `aether desk indexes` lists `none`, then the Chroma collections. `none` is the CLI-native index. A named default is the `index` line in `ctx/CACHE.md`. That line is `project-sidecars-v1`. `aether desk --index name|none` selects for one call. The reply is not a Yes.
 
-`aether pre-apply` is a human hand. `--mode` approves the visible session's suggestions for the sequence and does not stamp Approval again. `--stop` ends the mode. One turn without `--mode` stamps Approval once. A proposal is not an argument. A slash in a reason stays text. A hidden session stamps nothing. A stamped turn writes `.aether/suggestions.toml`. The mode file is `.aether/pre-apply-mode`. The team copy is `ctx/teams/suggestions.toml`. It is not a persona and not a Yes. The model does not run this command on its own. The operator's `/pre-apply --mode` starts the sequence.
+`aether pre-apply` is a human hand. A plain call is one turn and still stamps when the mode is already on. `--mode` is optional. It allows the rest of that visible session and does not stamp Approval. `--stop` ends the mode. A proposal is not an argument. A slash in a reason stays text. A hidden session stamps nothing. A stamped turn writes `.aether/suggestions.toml`. The mode file is `.aether/pre-apply-mode`. The team copy is `ctx/teams/suggestions.toml`. It is not a persona and not a Yes. The model does not run this command on its own. The operator's `/pre-apply --mode` starts the sequence.
 
 ## Pin the later assemble keeps
 
