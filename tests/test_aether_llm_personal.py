@@ -18,7 +18,17 @@ from aether_llm import (  # noqa: E402
 )
 
 
-def test_prefer_sft_v4():
+def test_prefer_sft_v6():
+    names = [
+        "llama3:latest",
+        "personal-llm-sft-v4:latest",
+        "personal-llm-sft-v6:latest",
+        "aetherOS-custom:latest",
+    ]
+    assert pick_ollama_model(names).startswith("personal-llm-sft-v6")
+
+
+def test_prefer_sft_v4_when_no_v6():
     names = [
         "llama3:latest",
         "personal-llm-sft-v2:latest",
@@ -104,7 +114,8 @@ def test_openai_compat_from_base_url():
 
 def main() -> int:
     tests = [
-        test_prefer_sft_v4,
+        test_prefer_sft_v6,
+        test_prefer_sft_v4_when_no_v6,
         test_prefer_sft_v2_when_no_v4,
         test_prefer_full_v1_over_custom,
         test_prefer_pilot_over_generic,

@@ -181,7 +181,7 @@ aether garden status
 | `.aether/trusted` | Local hook approval | Safety |
 | `.aether/artifacts/` | Registered artifact metadata | Evidence |
 | `.aether/hooks/` | on-save / on-distill scripts | Must be trusted |
-| `.memory/` | Optional recall fragments | No |
+| `.memory/` | Agent-agnostic session memory: `ledger.jsonl` (append-only) + `TAIL` + `topics/` + `rollup/` — see `.memory/README.md` | No |
 
 ## Capture (Rhizome)
 

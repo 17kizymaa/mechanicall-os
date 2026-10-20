@@ -12,7 +12,7 @@ Three layers. Strictly following the Core Principles.
 - Special **sidecar files** carry active state:
   - `.context.md` — distilled, human+machine readable project context
   - `.awareness.json` — lightweight structured metadata (timestamps, hashes, summaries)
-  - `.memory/` — directory of small markdown fragments or indexed recall files
+  - `.memory/` — session memory shared across agents: append-only `ledger.jsonl` + `TAIL` pointer (capture), `topics/*.md` (deferred structure), `rollup/` (monthly). Contract in `.memory/README.md`. Not authority
   - Other `.aether.*` or dotfiles as needed (always plain text / json / md)
 - All sidecars are:
   - Small by design

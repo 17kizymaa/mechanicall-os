@@ -1,0 +1,32 @@
+[
+  {
+    "room": "mum",
+    "url": "http://127.0.0.1:8788/you-decide/t/e745d275940fa06e191d9870ebbfa205",
+    "enterSent": false,
+    "enterNewlined": true,
+    "before": {
+      "value": "line one\nline two\nline three\nline four last",
+      "rows": 3,
+      "hint": "enter",
+      "h": 83,
+      "lh": "21.6px"
+    },
+    "afterValueTail": " one\nline two\nline three\nline four last\n",
+    "still": "mum-composer.png"
+  },
+  {
+    "room": "birthday-chat",
+    "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68#chat",
+    "enterSent": false,
+    "enterNewlined": true,
+    "before": {
+      "value": "line one\nline two\nline three\nline four last",
+      "rows": 3,
+      "hint": "enter",
+      "h": 81,
+      "lh": "21.6px"
+    },
+    "afterValueTail": " one\nline two\nline three\nline four last\n",
+    "still": "birthday-chat-composer.png"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "ts": "2026-10-16T17:22:58.593Z",
+  "path": "dev/79_advanced-local-model/output/FRAMEWORK.md",
+  "action": "advanced-local-model",
+  "status": "produced",
+  "baseline": "2026-10-16 · pin com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · snapshot .aether/bookmarks/CURRENT-20261016T162428Z-this-current.md cksum 3532677481 · ollama has personal-llm-sft-v6:latest ee279269b24a · closed-tester, not production",
+  "checksum": "1967448844"
+}

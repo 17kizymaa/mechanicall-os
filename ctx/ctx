@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""CTX spec 1.2 spike. Not a Yes. Not on PATH.
+
+Default CTX_HOME is this directory. Conforms only for `start` and `set`.
+"""
+from __future__ import annotations
+
+import argparse
+import fcntl
+import json
+import os
+import sys
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+SPEC = "1.2"
+HERE = Path(__file__).resolve().parent
+
+
+def now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def home() -> Path:
+    raw = os.environ.get("CTX_HOME")
+    return Path(raw).expanduser().resolve() if raw else HERE
+
+
+def memory(root: Path) -> Path:
+    return root / "memory"
+
+
+def lock_path(root: Path) -> Path:
+    return memory(root) / ".lock"
+
+
+def store_path(root: Path, store: str) -> Path:
+    if store not in ("operator", "shared", "agent"):
+        sys.exit(f"ctx: unknown store: {store}")
+    return memory(root) / f"{store}.json"
+
+
+def empty_store(store: str) -> dict:
+    return {"type": store, "version": "1", "last_updated": now(), "entries": {}}
+
+
+def load_store(root: Path, store: str) -> dict:
+    path = store_path(root, store)
+    if not path.is_file():
+        return empty_store(store)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if data.get("version") != "1":
+        sys.exit(f"ctx: refuse write, store version {data.get('version')}")
+    data.setdefault("entries", {})
+    return data
+
+
+def save_store(root: Path, store: str, data: dict) -> None:
+    path = store_path(root, store)
+    data["type"] = store
+    data["version"] = "1"
+    data["last_updated"] = now()
+    fd, tmp = tempfile.mkstemp(prefix=f".{store}.", dir=memory(root))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
+        os.chmod(tmp, 0o600)
+        os.replace(tmp, path)
+        os.chmod(path, 0o600)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
+class Lock:
+    def __init__(self, root: Path) -> None:
+        memory(root).mkdir(mode=0o700, exist_ok=True)
+        self.fh = open(lock_path(root), "a+", encoding="utf-8")
+
+    def __enter__(self) -> "Lock":
+        fcntl.flock(self.fh.fileno(), fcntl.LOCK_EX)
+        return self
+
+    def __exit__(self, *_) -> None:
+        fcntl.flock(self.fh.fileno(), fcntl.LOCK_UN)
+        self.fh.close()
+
+
+def cmd_start(root: Path) -> int:
+    rules = root / "RULES.md"
+    print("# Rules")
+    print()
+    if rules.is_file():
+        print(rules.read_text(encoding="utf-8").rstrip())
+    else:
+        print("(no RULES.md)")
+    print()
+    print("# Brief")
+    print()
+    counts = []
+    focus = ""
+    for store in ("operator", "shared", "agent"):
+        data = load_store(root, store) if store_path(root, store).is_file() else empty_store(store)
+        entries = data.get("entries") or {}
+        counts.append(f"{store} {len(entries)}")
+        if store == "shared" and "current_focus" in entries:
+            focus = str(entries["current_focus"].get("value") or "")
+    print(" ".join(counts) + ". Read an entry: ctx get <key>")
+    if focus:
+        print()
+        print("CURRENT FOCUS")
+        print(focus[:600])
+    else:
+        print("CURRENT FOCUS")
+        print("(none)")
+    print()
+    print("# Session summary")
+    print()
+    sessions = sorted((root / "sessions").glob("*_session.md")) if (root / "sessions").is_dir() else []
+    if sessions:
+        print(sessions[-1].read_text(encoding="utf-8").rstrip())
+    else:
+        print("(no session summary yet)")
+    return 0
+
+
+def cmd_set(root: Path, args: argparse.Namespace) -> int:
+    author = os.environ.get("CTX_AUTHOR", "").strip()
+    source = args.source or ("agent" if author else "operator")
+    basis = args.basis or "inferred"
+    scope = args.scope or "global"
+    with Lock(root):
+        data = load_store(root, args.store)
+        entries = data["entries"]
+        old = entries.get(args.key)
+        entry = {
+            "value": args.value,
+            "source": source,
+            "basis": basis,
+            "scope": scope,
+            "tags": args.tag or [],
+            "created": old["created"] if old else now(),
+            "timestamp": now(),
+        }
+        if author:
+            entry["author"] = author
+        entries[args.key] = entry
+        save_store(root, args.store, data)
+    print(f"set {args.store} {args.key}")
+    return 0
+
+
+def session_id() -> str:
+    return os.environ.get("AGENT_SESSION", "").strip()
+
+
+def safe_id(value: str) -> str:
+    if not value or value in (".", ".."):
+        sys.exit("ctx: bad session id")
+    allowed = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-")
+    if any(ch not in allowed for ch in value):
+        sys.exit("ctx: bad session id")
+    return value
+
+
+def cache_lines(root: Path) -> dict[str, str]:
+    path = root / "CACHE.md"
+    if not path.is_file():
+        return {}
+    found: dict[str, str] = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split()
+        if len(parts) < 3 or parts[1] != "on":
+            continue
+        found[parts[0]] = " ".join(parts[2:])
+    return found
+
+
+def cmd_validate(root: Path) -> int:
+    sid = session_id()
+    if not sid:
+        print("session hidden; cache off")
+        return 0
+    sid = safe_id(sid)
+    stores = cache_lines(root)
+    if "ctx" not in stores:
+        print("ctx off; cache off")
+        return 0
+    dest = root / "sessions" / sid
+    dest.mkdir(mode=0o700, parents=True)
+    os.chmod(dest, 0o700)
+    suggestion = dest / "agent_suggestion.md"
+    suggestion.write_text(
+        "# Agent suggestion\n\nThis is not a Yes. It is not CURRENT.md.\n\n"
+        f"Session: {sid}\n",
+        encoding="utf-8",
+    )
+    os.chmod(suggestion, 0o600)
+    repo = root.parent
+    proposals = sorted((repo / ".aether" / "proposals").glob("*.md"))
+    waiting = dest / "waiting.txt"
+    waiting.write_text(
+        "".join(f"{p}\n" for p in proposals),
+        encoding="utf-8",
+    )
+    os.chmod(waiting, 0o600)
+    print(f"cached {sid}")
+    return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        prog="ctx",
+        description=f"CTX spike. Spec {SPEC}. Default CTX_HOME is {HERE}. Not a Yes.",
+    )
+    sub = parser.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("start")
+    sub.add_parser("validate")
+    pset = sub.add_parser("set")
+    pset.add_argument("key")
+    pset.add_argument("value")
+    pset.add_argument("--store", default="shared")
+    pset.add_argument("--source", default=None)
+    pset.add_argument("--basis", default=None)
+    pset.add_argument("--scope", default=None)
+    pset.add_argument("--tag", action="append")
+    args = parser.parse_args()
+    root = home()
+    if args.cmd == "start":
+        return cmd_start(root)
+    if args.cmd == "validate":
+        return cmd_validate(root)
+    return cmd_set(root, args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

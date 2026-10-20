@@ -290,7 +290,7 @@ slash commands (local — no model):
   /panel /back /p     return to aether panel (same seat / TTY)
   /quit  /exit  bye  leave shell (returns to panel when launched from it)
 empty line waits (never yes). models never approve.
-default agent: peer (personal-llm-sft-v4). /agent grok for real tools.
+default agent: peer (personal-llm-sft-v6). /agent grok for real tools.
 remote: /ollama-host http://100.x.y.z:11434  then chat as peer.
 human /run or ! — allowlisted tools without model.
 """

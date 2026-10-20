@@ -1,0 +1,56 @@
+{
+  "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+  "log": [
+    {
+      "name": "01-boot",
+      "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+      "app": "paper",
+      "title": "Room"
+    },
+    {
+      "name": "02-paper",
+      "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+      "app": "paper",
+      "title": "Room"
+    },
+    {
+      "name": "03-paper-picked",
+      "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+      "app": "paper",
+      "title": "Room"
+    },
+    {
+      "name": "04-chat",
+      "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+      "app": "chat",
+      "title": "Room"
+    },
+    {
+      "name": "05-chat-typed",
+      "url": "http://127.0.0.1:8788/you-decide/t/e9b16791a12ac1ef521891b6eac3bf68",
+      "app": "chat",
+      "title": "Room"
+    }
+  ],
+  "dump": {
+    "title": "Room",
+    "app": "chat",
+    "dock": [
+      {
+        "id": "dock-paper",
+        "label": "Paper",
+        "on": false,
+        "hidden": false
+      },
+      {
+        "id": "dock-chat",
+        "label": "Chat",
+        "on": true,
+        "hidden": false
+      }
+    ],
+    "paperHidden": true,
+    "chatHidden": false
+  },
+  "title": "Room"
+}

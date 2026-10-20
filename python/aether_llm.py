@@ -172,6 +172,7 @@ _PROVIDER_IDS = frozenset(
 # Prefer personal Mechanicall propose layer when local Ollama has it.
 # Order = pick preference (first match wins).
 OLLAMA_PREFER = (
+    "personal-llm-sft-v6",
     "personal-llm-sft-v4",
     "personal-llm-sft-v2",
     "personal-llm-full:v1",
@@ -523,7 +524,7 @@ def resolve_backend() -> Optional[LLMBackend]:
             or os.environ.get("AETHER_MODEL", "").strip()
         )
         if not model:
-            model = _ollama_pick_model(host) or "personal-llm-sft-v4"
+            model = _ollama_pick_model(host) or "personal-llm-sft-v6"
         if _ollama_up(host):
             return LLMBackend("ollama", model, host)
         return None
@@ -664,8 +665,8 @@ def resolve_ollama_host(root: Optional[Path] = None) -> str:
     return host
 
 
-def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> str:
-    """Wire shell for peer agent: ollama + sft-v4 + resolved local/remote host."""
+def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v6:latest") -> str:
+    """Wire shell for peer agent: ollama + sft-v6 + resolved local/remote host."""
     os.environ["AETHER_LLM_PROVIDER"] = "ollama"
     os.environ["AETHER_SHELL_PROVIDER_LOCK"] = "1"
     os.environ["AETHER_OLLAMA_MODEL"] = model
@@ -675,7 +676,7 @@ def apply_peer_backend(root: Optional[Path] = None, *, model: str = "personal-ll
     return f"peer backend: ollama:{model} @ {host}  ({'up' if up else 'DOWN'})"
 
 
-def peer_is_up(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v4:latest") -> tuple[bool, str]:
+def peer_is_up(root: Optional[Path] = None, *, model: str = "personal-llm-sft-v6:latest") -> tuple[bool, str]:
     """Return (up, status_line) after applying peer env. Fail-fast probe for seat shell."""
     status = apply_peer_backend(root, model=model)
     return status.endswith("(up)"), status
@@ -1340,10 +1341,12 @@ def _ollama_chat(backend: LLMBackend, messages: list[dict[str, str]], temperatur
         num_ctx = 8192
     model = backend.model
     # Prefer :latest if bare name fails later — normalize sft tags
-    if model in ("personal-llm-sft-v4", "personal-llm-sft-v2", "personal-llm-full:v1"):
+    if model in ("personal-llm-sft-v6", "personal-llm-sft-v4", "personal-llm-sft-v2", "personal-llm-full:v1"):
         if ":" not in model.replace("personal-llm-full:v1", "x"):  # keep full:v1
             pass
-    if model == "personal-llm-sft-v4":
+    if model == "personal-llm-sft-v6":
+        model = "personal-llm-sft-v6:latest"
+    elif model == "personal-llm-sft-v4":
         model = "personal-llm-sft-v4:latest"
     elif model == "personal-llm-sft-v2":
         model = "personal-llm-sft-v2:latest"

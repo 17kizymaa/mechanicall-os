@@ -1,0 +1,16 @@
+dumped bind2
+dumped typed2
+MISSING Bind this folder
+dumped plan2
+CURRENT True Changes True hunk False
+tapped DRAFT
+dumped draft2
+SEND True KEEP False
+tapped SEND
+SEND not Yes
+dumped sent
+tapped DECIDE
+dumped decide2
+YES arm only
+dumped armed2
+Confirm not tapped

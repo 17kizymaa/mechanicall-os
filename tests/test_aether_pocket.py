@@ -47,6 +47,7 @@ from aether_pocket import (  # noqa: E402
     projection,
     read_propose,
     read_schema_draft,
+    propose_apply_fields,
     record_hunk_alts,
     refuse_if_operator,
     reject_hunk,
@@ -207,6 +208,47 @@ class TestPocketAether(unittest.TestCase):
         after = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
         self.assertEqual(before, after)
         self.assertIn("# note", read_propose(self.pocket))
+
+    def test_propose_apply_fields_matches_yes_copy(self) -> None:
+        fields = propose_apply_fields(self.pocket)
+        self.assertEqual(
+            fields["Objective"],
+            "Plant a herb bed the client can water from the rain barrel.",
+        )
+        self.assertEqual(fields["Phase"], "APPROVE")
+        self.assertEqual(fields["Status"], "APPROVED")
+        self.assertEqual(fields["Next"], "buy-starts")
+        self.assertEqual(fields["Approval"], "PENDING")
+        self.assertNotIn("Baseline", fields)
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        self.assertEqual(before, (self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+
+    def test_propose_apply_fields_does_not_fall_back_to_live(self) -> None:
+        write_propose(self.pocket, "# notes\n\nNo field lines here.\n")
+        self.assertEqual(propose_apply_fields(self.pocket), {})
+        live = read_schema_draft(self.pocket)
+        self.assertEqual(live["Next"], "name-plants")
+        before = (self.pocket / "CURRENT.md").read_text(encoding="utf-8")
+        with self.assertRaises(PocketError) as ctx:
+            yes(self.pocket, reason="should not land")
+        self.assertIn("no **Field:**", str(ctx.exception))
+        self.assertEqual(before, (self.pocket / "CURRENT.md").read_text(encoding="utf-8"))
+
+    def test_propose_apply_fields_missing_file(self) -> None:
+        (self.pocket / "PROPOSE-CURRENT.md").unlink()
+        self.assertEqual(propose_apply_fields(self.pocket), {})
+
+    def test_propose_apply_fields_value_pairs(self) -> None:
+        write_propose(self.pocket, "**Field:** Next\n**Value:** water-the-bed\n")
+        self.assertEqual(propose_apply_fields(self.pocket), {"Next": "water-the-bed"})
+
+    def test_propose_apply_fields_respects_included_hunks(self) -> None:
+        set_hunk_included(self.pocket, ["Next"])
+        fields = propose_apply_fields(self.pocket)
+        self.assertEqual(list(fields), ["Next"])
+        self.assertEqual(fields["Next"], "buy-starts")
+        set_hunk_included(self.pocket, [])
+        self.assertEqual(propose_apply_fields(self.pocket), {})
 
     def test_apply_propose_fields_only(self) -> None:
         r = apply_propose(self.pocket)

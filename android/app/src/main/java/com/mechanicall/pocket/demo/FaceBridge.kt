@@ -268,6 +268,25 @@ object FaceBridge {
 
     fun savePropose(path: String, text: String): String = pyCall("save_propose", path, text)
 
+    /** Keys present in the draft. Missing keys are omitted. Never the live plan. */
+    fun proposeApplyFields(path: String): List<Pair<String, String>> {
+        if (path.isBlank()) return emptyList()
+        val raw = pyCall("propose_apply_fields", path)
+        if (isError(raw)) return emptyList()
+        val o = jsonObject(raw) ?: return emptyList()
+        val src = if (o.opt("fields") is JSONObject) o.getJSONObject("fields") else o
+        val out = ArrayList<Pair<String, String>>(AUTHORITY_FIELDS.size)
+        for (name in AUTHORITY_FIELDS) {
+            val key = when {
+                src.has(name) -> name
+                src.has(name.lowercase()) -> name.lowercase()
+                else -> null
+            } ?: continue
+            out.add(name to src.optString(key, ""))
+        }
+        return out
+    }
+
     fun projectShortcuts(path: String): List<ProjectShortcut> {
         val raw = pyCall("project_shortcuts", path)
         return parseShortcuts(raw)

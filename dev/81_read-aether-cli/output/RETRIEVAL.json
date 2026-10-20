@@ -1,0 +1,66 @@
+{
+  "query": "aether CLI POSIX script CURRENT preflight approve verbs",
+  "embed_model": "nomic-embed-text",
+  "collection": "project-sidecars-v1",
+  "store": "/home/anphuni/MODEL+RAG/rag-archive-manager/artifacts/index/chroma-sampling-v1-nonclient",
+  "paths": [
+    "/home/anphuni/MODEL+RAG/rag-archive-manager/artifacts/KINGSTON-SAMPLING-INDEX-V0.md",
+    "/home/anphuni/mechanicall-os/examples/reel-control/CURRENT.md",
+    "/home/anphuni/MODEL+RAG/rag-archive-manager/CURRENT.md",
+    "/home/anphuni/MODEL+RAG/personal-llm/CURRENT.md",
+    "/home/anphuni/MODEL+RAG/personal-llm/artifacts/MODEL-DEFINITION.md",
+    "/home/anphuni/MODEL+RAG/rag-archive-manager/artifacts/RAG-ROUTE-RESEARCH-20261016.md",
+    "/home/anphuni/MODEL+RAG/research/INTERESTING-RESEARCH/HARNESS-CONTRACT.md",
+    "/home/anphuni/MODEL+RAG/research/INTERESTING-RESEARCH/mechanicall-os-v0.2.handoff.md"
+  ],
+  "hits": [
+    {
+      "path": "/home/anphuni/MODEL+RAG/rag-archive-manager/artifacts/KINGSTON-SAMPLING-INDEX-V0.md",
+      "kind": "nonclient-sidecar",
+      "chunk": 2,
+      "distance": 0.38347887992858887
+    },
+    {
+      "path": "/home/anphuni/mechanicall-os/examples/reel-control/CURRENT.md",
+      "kind": "nonclient-sidecar",
+      "chunk": 0,
+      "distance": 0.3944183588027954
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/rag-archive-manager/CURRENT.md",
+      "kind": "nonclient-sidecar",
+      "chunk": 1,
+      "distance": 0.428244948387146
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/personal-llm/CURRENT.md",
+      "kind": "nonclient-sidecar",
+      "chunk": 0,
+      "distance": 0.42860788106918335
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/personal-llm/artifacts/MODEL-DEFINITION.md",
+      "kind": "forced-tree",
+      "chunk": 0,
+      "distance": null
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/rag-archive-manager/artifacts/RAG-ROUTE-RESEARCH-20261016.md",
+      "kind": "forced-tree",
+      "chunk": 0,
+      "distance": null
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/research/INTERESTING-RESEARCH/HARNESS-CONTRACT.md",
+      "kind": "forced-tree",
+      "chunk": 0,
+      "distance": null
+    },
+    {
+      "path": "/home/anphuni/MODEL+RAG/research/INTERESTING-RESEARCH/mechanicall-os-v0.2.handoff.md",
+      "kind": "forced-tree",
+      "chunk": 0,
+      "distance": null
+    }
+  ]
+}

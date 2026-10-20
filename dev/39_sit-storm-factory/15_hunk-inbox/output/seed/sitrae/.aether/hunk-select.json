@@ -1,0 +1,18 @@
+{
+  "request": "change next so I can sit with a client on their folder",
+  "focus": "Next",
+  "included": ["Next", "Objective"],
+  "alts": {
+    "Next": [
+      {"id": "Next#1", "text": "**Next:** sit-with-client", "source": "desk"},
+      {"id": "Next#2", "text": "**Next:** leftover-inbox", "source": "desk"},
+      {"id": "Next#3", "text": "**Next:** name-the-sit", "source": "live"}
+    ],
+    "Objective": [
+      {"id": "Objective#1", "text": "**Objective:** Sit with a client on their own folder. One Next.", "source": "desk"},
+      {"id": "Objective#2", "text": "**Objective:** Run the shop folder with one Next. Yes only I give.", "source": "live"}
+    ]
+  },
+  "picked": {"Next": "Next#1", "Objective": "Objective#1"},
+  "not_yes": true
+}

@@ -1,0 +1,146 @@
+════════════════════════════════════════
+ CURRENT.md — Domain law (extension surface)
+════════════════════════════════════════
+cwd: /mnt/kingston-nixos-sync/opt/mechanicall-os
+time: 2026-10-20T19:51:15+01:00
+
+--- aether brief ---
+=== aether brief ===
+root: /mnt/kingston-nixos-sync/opt/mechanicall-os
+Next: add-pre-apply
+Phase/Status/Approval: SELECT / REJECTED / REJECTED
+preflight(add-pre-apply): would ALLOW
+events (last 3):
+  {"ts":"2026-10-20T18:04:33.726Z","kind":"reject","reason":"We need to negotiate the 'automatic-approve' point because this update will only strengthen the reliabiliry of the mechanicall protocol & we are measuring the variable in workflows so human authority is protected...","by":"human","phase":"SELECT"}
+  {"ts":"2026-10-20T18:05:09.071Z","kind":"preflight","action":"add-pre-approve","result":"refused","reason":"add-pre-approve is not the next allowed action (add-pre-apply). Phase=SELECT Status=REJECTED.","phase":"SELECT","status":"REJECTED"}
+  {"ts":"2026-10-20T18:05:14.687Z","kind":"preflight","action":"add-pre-apply","result":"allowed","phase":"SELECT","status":"REJECTED"}
+drift: 500 dirty path(s) — run: aether drift
+note: Grok/external TUI does not auto-preflight; human is the gate
+===================
+
+--- CURRENT.md (file) ---
+# CURRENT
+
+**Objective:** Mechanicall: You Decide is prototype-quality for one sit. Next is add-pre-apply: one human CLI command applies a proposal and stamps approve. A plugin slash runs that line. The APK sprint start follows, earlier. I still dispose.
+**Phase:** SELECT
+**Status:** REJECTED
+**Baseline:** 2026-10-19 · pin com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · snapshot .aether/bookmarks/CURRENT-20261016T162428Z-this-current.md cksum 3532677481 · add-aether-bookmark shipped · ejected-verbs witness dev/80_aether-bookmark/output/EJECTED-VERBS.md · ollama has personal-llm-sft-v6:latest ee279269b24a · closed-tester, not production
+**Next:** add-pre-apply
+**Approval:** REJECTED
+**Host:** myarch · local sit :8788 · apex after human deploy · branch `feat/share-urls-readiness`
+
+## What I want now
+
+One human command, `aether pre-apply`. It has the approve functionality of `aether apply --approve`. You type the reason and the proposal path. It copies the fenced `# CURRENT` body, then stamps approve with that reason. The stamp is your Yes for that body.
+
+Then the same hand is a plugin command `/pre-apply` in the installed mechanicall-domain plugin. Set `disable-model-invocation: true`. The model cannot invoke the slash.
+
+`automatic-approve` stays prohibited. There is no mode, hook, or daemon. `desk` stays shipped. The team stays parked. Do not edit `.grok/personas/`. Do not assemble the APK in this halt. The following selection is `new-apk-sprint-start`.
+
+## Product (non-negotiable identity)
+- **Is:** **Mechanicall: You Decide** — my decide. Inference proposes. I dispose. Models never approve. Silence is never permission.
+- **Aether's job:** gate my approval for covenants and for destructive or external actions. Ordinary personal edits to this file I may make myself.
+- **They:** do not learn aether, CURRENT, or Yes. The client gets the tester build. They do not stamp this file.
+- **This Next:** `add-pre-apply` — a human CLI command applies a proposal and stamps approve. A plugin slash runs that line. Team stays parked.
+- **Not this halt:** a smart hook, a daemon, a watcher, automatic-approve, the APK assemble, the version bump, striking the stale verb-removal limit, deleting personas, putting `ctx` on `PATH`, editing `AGENTS.md`, a versionCode bump, a phone install, Play, installing Refly, installing Aegis, an npm CLI, a second Next.
+
+## Rooms (pointers live in the operator map, not here)
+
+| Instance | Path | Next | Owns |
+|----------|------|------|------|
+| Tool (this file) | `mechanicall-os/CURRENT.md` | `add-pre-apply` | human pre-apply; desk stays shipped |
+| Operator | `~/anphuni-project/CURRENT.md` | (that file's own header) | alias roster, mint, INTAKE, LINKS |
+
+Paper: `happy-birthday` `e9b16791a12ac1ef521891b6eac3bf68` only. `DEFAULT_PAPER_TICKETS` stays that id.
+
+## Keep
+- Plain, inspectable history; one useful Next; files + git to go back
+- Mechanicall is my Yes; models never approve; silence ≠ permission
+- They need not learn the system; Send is hello, not Yes
+- Paper only on birthday; not live money
+- Room URL is the face; steal grammar, never vendor bitmaps or vendor sites
+- Site-play FLAGS before paint
+- Pointers not copies; no client CURRENT; no nested CURRENT
+- Their opener answers → my Limits for that alias
+- Two instances, two Nexts, never merged
+- Explicit preview + Yes for destructive or external actions
+- Closed-tester debug APK, not a production store release
+- The stable layer stays pinned while later tester builds develop on it
+- A share of this APK has a deadline
+- The agent's smarts stay files and folders
+- The archive pin stays versionCode 46 until a later Next
+- "files only · not Yes" and "not the plan" stay on the glass
+- Plan keeps its heading tray: cream strip, one word, amber pip
+- YES stays the metal stamp. Not yet stays a refusal on the plate
+- Sidecar personalities quote the logs. A green score is not a Yes
+- The Draft desk model is `personal-llm-sft-v6:latest` on the host. The weight stays outside the APK
+- A host call writes `PROPOSE-CURRENT.md` only. It does not write `CURRENT.md`
+- A bookmark of CURRENT.md is a snapshot of bytes. It is not a Yes. It does not replace CURRENT.md. It is not apply.
+- A nickname on a bookmark is a filename stem. It is not a Yes.
+- `.aether/current-before/` stays apply's backup. Bookmark does not write there.
+- `add-aether-bookmark` shipped: snapshot + list. Restore still parked.
+- `aether desk` shipped. A printed reply is not a Yes.
+- `aether pre-apply` applies a proposal and stamps approve in one human command. The plugin slash runs that line. The model does not invoke it.
+
+## Relax
+- The operator is not bound by this file's limits on handing the tester APK onward. Recipient, website, and store limits here do not bind the operator. The operator still disposes and still does not stamp a client CURRENT. This line does not edit or merge the operator CURRENT.
+- Approval ceremony for ordinary personal edits
+- Birthday two-app desk polish (done enough to share)
+- Prospectus ratios/timelines — evidence first
+
+## Reject
+- dual-concurrent-next
+- model-auto-write-current
+- proposal-wrapper-as-CURRENT
+- their-yes-as-the-product
+- teach-aether-as-the-price-of-help
+- stamp-client-current-for-them
+- nested-current
+- intake-as-technical-questionnaire
+- form-instead-of-hello
+- framework-before-three-repeats
+- paint-before-sit
+- stocks-on-every-room
+- live-money-as-paper-trading
+- ibkr-passing-off
+- wrap-vendor-site-as-the-room
+- agent-taste-steal-instead-of-crowd
+- kitchen-this-works-in-the-room
+- body-as-food-product
+- deleting previous experiments because the direction changed
+- turning CURRENT into a backlog
+- protocol compliance as a substitute for making things
+- bookmark-as-yes
+- restore-bookmark-by-model
+- nickname-as-yes
+- pre-approve-as-yes
+- model-invokes-pre-apply
+
+## Limits
+- I may revise this file directly; agent output is suggestion until I use it
+- After this body is approved, the parent may add a snapshot-time Rename prompt to `cmd_bookmark`. Default stem stays `CURRENT` for CURRENT.md, or the source filename stem for a proposal.
+- Nickname charset is letters, digits, `.`, `_`, `-`. `list` and `restore` are reserved and are not stems. Duplicate nicknames are allowed. The UTC stamp is the unique id.
+- TTY: prompt `Rename: ` with the default stem shown. Empty keeps the default. Non-TTY: no prompt, keep the default stem.
+- A GUI helper (zenity/rofi) may be used when present and a TTY-or-display exists. It is not required. POSIX `read` is enough.
+- Event kind stays `bookmark`. Checksum is cksum. Do not store secrets in the event. Record the stem used.
+- Do not add restore. Do not add `aether snapshot` as a second verb. Do not write `.aether/current-before/` from bookmark.
+- Do not rewrite files already in `.aether/bookmarks/`. Do not copy a snapshot onto CURRENT.md as apply.
+- The snapshot at `.aether/bookmarks/CURRENT-20261016T162428Z-this-current.md` stays a copy. Do not copy it onto CURRENT.md.
+- The six rhizome verbs are already gone. Do not remove more verbs. Do not delete `.grok/personas/` files. This halt may set `AETHER_VERSION` to `0.3` only. Do not bump versionCode. This halt may add the one verb `pre-apply`.
+- Do not copy a weight, a blob, or a Modelfile into `android/`. Do not add a model asset to the APK.
+- Do not draw a model on `sit_well_draft.png`. That plate stays the one sheet, NOT ACTIVE and "not the plan".
+- Do not edit `sit_well_plan.png`, `sit_well_receipt.png`, `sit_folder_dest.png`, the chassis, the title plaque, the three lamps, the four bank keys, or the gate.
+- Do not restyle `decideCopy` or `receiptStrip`. Do not change "not the plan", "NOT ACTIVE", or "files only · not Yes".
+- Wake may keep calling `desk_probe`. Do not draw QUIET, IDLE, LOAD, STREAM, QUEUE, or WARM on the gate. Join stays a no-op. Do not call `wake_desk`. Do not spend an Onyx call.
+- Sidecar personas may speak read-only. They do not edit this file.
+- Do not install Refly, Aegis, an npm CLI, or a policy package. Do not treat `approval: auto` as a Yes.
+- Do not add a workflow file. Do not pick a vendor. Do not install Maestro or Appium.
+- Do not bump versionCode. Do not assemble a store APK. Do not install on the phone. Do not boot a second storm. Do not tap Confirm. Do not tap Yes.
+- Do not write `~/anphuni-project` or a trading tree
+- No emails, names, or secrets in git
+- Local `:8788` stays the room sit; apex only after human deploy
+
+… (218 lines total — use /mechanicall-domain:current-full for remainder)
+
+LAW: models never aether approve|reject|next. Human: /mechanicall-domain:approve|reject|next
+Glance: /mechanicall-domain:current   Full file: /mechanicall-domain:current-full

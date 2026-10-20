@@ -140,8 +140,9 @@ object SitCRects {
     val sendPanel = PackRect(70, 640, 1010, 1680)
     /** FOLDER plaque — tap to stage/send. Not Yes. */
     val folderSend = PackRect(110, 650, 970, 850)
-    val folderList = PackRect(110, 860, 970, 1480)
-    /** OEM FILES strip on the combined Send+FILES dest. */
+    /** Under the painted "files only · not Yes" line. */
+    val folderList = PackRect(110, 1000, 970, 1480)
+    /** Handle on the send slip. The OEM label is not drawn. */
     val folderOem = PackRect(110, 1508, 970, 1648)
 
     val Letterbox = 0xFF12100E.toInt()

@@ -27,7 +27,7 @@ EDGE = os.environ.get("POCKET_EDGE", "anphuni@100.70.86.90")
 SERIAL = os.environ.get("POCKET_SERIAL", "RZCW2038KHN")
 PHONE = os.environ.get("POCKET_PHONE_PATH", "/sdcard/mechanicall-pocket")
 OLLAMA = os.environ.get("POCKET_OLLAMA", "http://127.0.0.1:11434")
-MODEL = os.environ.get("POCKET_MODEL", "personal-llm-sft-v4:latest")
+MODEL = os.environ.get("POCKET_MODEL", "personal-llm-sft-v6:latest")
 
 
 def sync_wanted() -> bool:

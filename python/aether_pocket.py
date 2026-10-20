@@ -38,6 +38,8 @@ OPERATOR_MARKERS = ("PRODUCT.md", "bin/aether", "CORE_PRINCIPLES.md", "AGENTS.md
 PROPOSE_NAME = "PROPOSE-CURRENT.md"
 RECEIPT_NAME = "RECEIPT.md"
 CHAT_NAME = "DRAFT-CHAT.jsonl"
+# Draft desk technique. Propose only. A call writes PROPOSE_NAME, never CURRENT.md.
+DRAFT_DESK_MODEL = "personal-llm-sft-v6:latest"
 WALK_STAGES = ("bind", "plan", "chat", "decide", "receipt")
 CHAT_FILES = 24
 DEFAULT_DESK_HOSTS = (
@@ -680,6 +682,28 @@ def read_schema_draft(pocket: str | Path) -> dict[str, str]:
         if name in proposed:
             out[name] = proposed[name]
     return out
+
+
+def propose_apply_fields(pocket: str | Path) -> dict[str, str]:
+    """Fields Yes would copy. Empty when the draft has nothing to merge.
+
+    Same extraction as apply_propose. A stored hunk list narrows the names.
+    Never falls back to live CURRENT. Never writes.
+    """
+    root = refuse_if_operator(pocket)
+    pf = root / PROPOSE_NAME
+    if not pf.is_file():
+        return {}
+    raw = pf.read_text(encoding="utf-8")
+    block = extract_propose_block(raw)
+    fields = parse_fields(block)
+    if not fields:
+        fields = parse_field_value_pairs(raw)
+    ordered = {name: fields[name] for name in AUTHORITY_FIELDS if name in fields}
+    only = hunk_included(root)
+    if only is None:
+        return ordered
+    return {name: ordered[name] for name in AUTHORITY_FIELDS if name in only and name in ordered}
 
 
 def write_schema_draft(pocket: str | Path, fields: dict) -> PocketResult:
@@ -1857,7 +1881,7 @@ def agent_edit_propose(
     pocket: str | Path,
     *,
     ollama_host: str,
-    model: str = "personal-llm-sft-v4:latest",
+    model: str = DRAFT_DESK_MODEL,
     instruction: str = "Update the proposal from the pocket files.",
     timeout: int = 180,
 ) -> PocketResult:
@@ -1899,7 +1923,7 @@ def draft_chat(
     pocket: str | Path,
     host: str,
     message: str,
-    model: str = "personal-llm-sft-v4:latest",
+    model: str = DRAFT_DESK_MODEL,
     timeout: int = 25,
     focus: str = "",
 ) -> dict:

@@ -299,3 +299,110 @@ Next-stage proposals (folders only if you say proceed; none created):
 - 2026-09-11T11:16:09.632Z REJECTED: Wait, I want to actually reflect on what I'm doing - I was expecting the CURRENT.md's to be more conversation or at least contractual. I did also ask for a mechanicall-style CURRENT, so just let's make something for each alias that has actual emotional impact. (returned to SELECT; no automatic rebuild)
 - 2026-09-11T11:37:15.118Z APPROVED: 'Food tasting' will be patched, once ready, as something less insulting to the user (he's fat)
 - 2026-09-11T12:45:14.224Z REJECTED: OK - the aether project is really about my approval. It gates my covenants to protect my intent. That's its purpose! We need to rewrite CURRENT.md so that we can explicitly review what that means for these projects in terms of what good I can make out of them. Go! (returned to SELECT; no automatic rebuild)
+- 2026-09-11T14:35:52.450Z APPROVED: Good to go! I read CURRENT.md
+- 2026-09-11T16:18:35.375Z REJECTED: No interactive trader sh*t - UI is sh*t (returned to SELECT; no automatic rebuild)
+- 2026-09-11T16:20:40.714Z REJECTED: No interactive trader sh*t - UI is sh*t - chrome is sh*t - we need to actually f*ck all the current UI and chrome should steal a fully-interactive paper trader! (returned to SELECT; no automatic rebuild)
+- 2026-09-11T16:39:23.954Z APPROVED: I'm tired, lets go!
+- 2026-09-11T18:12:01.772Z REJECTED: I want to use crowdsourced, online opinions instead after some research so reseach and then propose current again. (returned to SELECT; no automatic rebuild)
+- 2026-09-11T18:38:28.650Z APPROVED: APPROVED
+- 2026-09-16T10:03:42.127Z NEXT_SELECTED: personal-current-sprint -> millwork-this-halt
+- 2026-09-16T10:05:25.994Z APPROVED: millwork has been bugging me forever now and the rage is leaking across every chat session now - I thought once that MAP.md of the site archtecture was complete under anphuni-projects, that I would have some sort of execution on that. Guess that world of assumptions is what this aether system is protecting me against: ***suggestion***
+- 2026-09-16T10:10:20.869Z APPROVED: I also like the idea that the user can maybe stamp a project and receive the intended version I had in mind - want them to feel as if they can save their reasoning as to why, whether reject or approve. We should carry out this idea under the dedicated merseyflush folder where there is actually a fresh proposal to stamp it to...
+- 2026-09-16T10:24:51.929Z APPROVED: I understand the system more in terms of the public deployment on anphuni's role and how it's architecture in directories work under you-decide vs clients. I do want to plow through a lot though today. Have one critical pointer to open up (promote) with a CURRENT and is about recompiling previous work & state of that client relationship from adjacent disks; same with district-71. Other aliases I will open up afterward (more private - not-actively pointers) to explore general covenant potential of each in dialogue through the project doors...
+- 2026-09-16T10:27:04.896Z APPROVED: Oh yeah, and for the merseyflush project, I want to sell it as a possibly (I referred to this before) a product they can say Yes to and get the full version of (with reasons etc, blah blah blah - I have some ideas for this)...
+- 2026-09-16T10:34:08.450Z APPROVED: isolation millwork — paper only on birthday
+- 2026-09-16T10:35:32.935Z REJECTED: Still want to revisit the reflection - so chat should be paper only? I thought that my little demo was helpful but maybe I guess its actually something I could waste my time on if a user doesn't even become a client (alias didn't even use the demo). (returned to SELECT; no automatic rebuild)
+- 2026-09-16T10:36:03.719Z APPROVED: Rejection invalid now: I've learned why I rejected and am happy now!
+- 2026-09-16T11:20:48.110Z APPROVED: I want the model to reflect on how to make this as productive as possible considering the live chat session went through 200k tokens. Let's be efficient!
+- 2026-09-16T13:43:27.587Z NEXT_SELECTED: isolation-millwork -> operator-auth-later (I'm not tired now; there is context left in the active chat right now!)
+- 2026-09-16T13:43:39.051Z APPROVED: See next reason
+- 2026-09-16T15:03:02.291Z APPROVED: deploy
+- 2026-09-18T07:58:22.312Z NEXT_SELECTED: operator-auth-later -> negotiate-anphuni.com-operations
+- 2026-09-18T08:04:14.618Z REJECTED: anphuni is the right term - the identity is the project-making machine (digital) (returned to SELECT; no automatic rebuild)
+- 2026-09-18T08:05:21.784Z APPROVED: Next didn't change because I think reject doesn't allow new aether nexts (bug?)
+- 2026-09-18T08:05:27.671Z NEXT_SELECTED: negotiate-anphuni.com-operations -> negotiate-anphuni-operations
+- 2026-09-18T08:11:24.509Z REJECTED: Ready to analyse doc for the Next with a better model (Fable 5) (returned to SELECT; no automatic rebuild)
+- 2026-09-18T08:13:01.505Z REJECTED: Ready to analyse doc for the Next with a better model (Fable 5) plus want a fresh CURRENT.md (up to propose) + model needs to look at / ask me about anphuni-projects that exist under aliases or are due aliases (only I know this) of course! (returned to SELECT; no automatic rebuild)
+- 2026-09-18T08:27:00.576Z REJECTED: aider still unstable rn (returned to SELECT; no automatic rebuild)
+- 2026-09-18T09:11:59.611Z APPROVED: Need new next; this next is finished/reevaluated
+- 2026-09-18T09:12:01.416Z NEXT_SELECTED: negotiate-anphuni-operations -> multi-agent-orchestration (I have a big amount of anphuni project operations to assign aliases & dish out some sort of standardised application so I can just enter a share-urls phase. Negotiate with me on what ideas I have that are due inclusion plus the standardised application that fits the projects we've made that literally noone is using rn...)
+- 2026-09-18T09:13:02.359Z REJECTED: CURRENT is very stale! (returned to SELECT; no automatic rebuild)
+- 2026-09-18T16:24:29.432Z APPROVED: Fable 5.1 will bootstrap this coding phase, alright!
+- 2026-09-19T07:52:50.671Z APPROVED: I want to reflect on AI in regards to mechanicall-os - I have report '25_...' imbound for digestion. Before that, I need a report (local-deep-research installed) on laws in relation to letting my 'anphuni' business financial project targets assimilate with this application - this is to stress-test the justification of those laws considering my want to have an income of 1000GBP and gain 4000GBP in additional savings before Jan. If legality not an issue with the protocol docs / CURRENT python, I am happy to continue with the last progressive development with the doc 24_... software suggestions as maybe defaults (area of discussion, here). Just want to see if my efforts are protected, really.
+- 2026-09-19T11:21:05.840Z NEXT_SELECTED: share-urls-kit -> legal-assimilation-report
+- 2026-09-19T11:33:58.317Z APPROVED: APPROVED
+- 2026-09-19T11:40:48.688Z APPROVED: When we use high tokens per millon models, we should include token-saving measures like recaching context, or just using subagents to do the manual work 'n dispose execution authority!
+- 2026-09-19T11:44:53.410Z APPROVED: I'm down to prune some commands - also, these sidecars can just be scaled, right? Why don't we consider that after the active Next is finished (and post-legal-assimilation-report next is selected).
+- 2026-09-19T11:55:39.941Z APPROVED: We can continue with the last Claude Opencode chat, however, we need to strategise more in terms of budgeting and leverage - model/chat needs pruning plus authority disposal skills. Understand?
+- 2026-09-29T14:30:15.227Z APPROVED: the mechanicall protocol just protected my project from drift! Great, I forgot that this project I was working on had its own CURRENT up. Important reflection for any reflective, 'What is my product?' work.
+- 2026-09-29T15:45:11.790Z APPROVED: I keep compiling projects to get unsophisticated outputs... (for conversation-based clients like my unsophisticated tech family - I'm sure there's a term for both a personal relationship and a non-technically savvy person that should actually form a core documentation axiom of the mechanicall protocol.)
+- 2026-10-05T17:43:00.035Z APPROVED: I should invest in non-censored-agent-deployment for safety/experimentation
+- 2026-10-07T09:23:28.765Z APPROVED: This sprint has been waiting for like 5 weeks to happen; the progress relies on the APK being a public product. Without it, anphuni's projects (anphuni-project) puts too much strain on my decision-making as the sole authority of every project. Disposing authority!
+- 2026-10-07T09:35:44.839Z APPROVED: AI fluency misunderstood my last request and then the objective to give the client an APK with a stable layer I can use to develop the tester's version live.
+- 2026-10-07T10:15:00.190Z APPROVED: We have finally gotten over the rejected ID gates. Time to complete the task. /next apk-share-24h
+- 2026-10-08T15:05:29.122Z NEXT_SELECTED: apk-share-24h -> session-memory
+- 2026-10-08T15:05:34.170Z APPROVED: session-memory: ./memory sidecar, stage 77
+- 2026-10-09T11:54:02.374Z REJECTED: We need to do a cross-app study - research using the locally-installed researching app. I want to really discuss the app and it's real voice to make progress to more usable stage for playtesters. (returned to SELECT; no automatic rebuild)
+- 2026-10-12T11:36:29.415Z APPROVED: Let's start; we should have by now!
+- 2026-10-12T13:07:56.488Z APPROVED: 'share-desk' is a whole new Next, even though it will change the 'glass-prototype'. I want the research Next to be a serious and/or critical stage of this APK but; it can be deferred in testing & reevaluated in a different implementation path. Still could nitpick about the coherency though & unimplemented aesthetics.
+- 2026-10-12T14:10:08.419Z APPROVED: Chrome's been bothering me awhile - been nitppicking...
+- 2026-10-12T15:09:45.316Z APPROVED: Got 2 hours left - making this quick so we can come back tomorrow with a state that's ready for testers.
+- 2026-10-14T11:53:16.456Z APPROVED: Whatsapp grammar is not finished completely! Also, toastmasters is pending!
+- 2026-10-14T12:09:38.530Z APPROVED: it sounds like a step in the right direction in terms of what I asked for in integration
+- 2026-10-14T13:24:15.955Z APPROVED: Ping should be an icon next to the messaging area instead (the button; the rest can still open below, maybe in an overlaid chat module-style. I want the chat to have the whatsapp messaging group-by-datessubheadings. These changes should go into a relaxed Next under nitpicking-website (because I want to CI it all the time but the no-multiple-nexts is a blocker. I'm not sure about aliases, too, and that needs some reflection. IDK on that area of stuff (its basically explore vs support room-app grammar trouble)...
+- 2026-10-14T13:26:56.416Z APPROVED: Yes. Yes. Yes. Sidecars-as-personalities is bingo!
+- 2026-10-14T13:34:18.513Z APPROVED: rapid cycles AND refreshing targets of the millwork
+- 2026-10-14T14:38:42.483Z APPROVED: I've spend too d*mn long putting this together that I almost forgot about the custom-model bit I wanted to nail down for the draft
+- 2026-10-14T18:17:03.233Z APPROVED: Suggest a better way to compact multiple messages by Anthony
+- 2026-10-14T18:42:06.034Z APPROVED: because it looks not there at all
+- 2026-10-14T19:52:42.307Z APPROVED: We have actually unlocked the current sidecar's potential!
+- 2026-10-16T09:29:29.281Z APPROVED: Park APK-marketing-campaign, and advanced-personal-model
+- 2026-10-16T09:39:40.392Z APPROVED: Park cmd-aether-approve as a potential NEXT about installing or creating some sort of package where the inline, aether CLI, typed messages/statements/reasons can get protected from accidental deletions etc (or follow similar product grammar - I like what you can do in the Grok CLI chat, for example, but would be happily inspired by whatever the next aether CLI adjacent product is capable of.)/n/n...
+- 2026-10-16T09:42:06.067Z APPROVED: ... like some sort of 'hook' program (unstable for the skill-based, clean tool use via mechanicall-domain:skills), or whatever the OGs of the CLI age, pre-2000s, could come up with.../n/nREADY!
+- 2026-10-16T09:50:45.050Z APPROVED: (p.s. I wouldn't mind an aether command that calls my latest ollama model for when I need to draft things such as the decent inciting prompts practices etc. e.g. aether call (...default model runs under standardised, advanced local model framework plus add a suitable system prompt) '[INSERT-USERS-SHORTHAND-PROSE-HERE...]')
+- 2026-10-16T09:56:14.340Z REJECTED: You need to /grill the local model until it suggests a complete, advanced, standardised framework to use that I'd approve of (maybe even suggest training a better, rented-compute model setup for on-demand, hardcore calls). (returned to SELECT; no automatic rebuild)
+- 2026-10-16T09:57:55.854Z APPROVED: Current action not approved; Next should be this: advanced-local-model.
+- 2026-10-16T09:58:06.634Z NEXT_SELECTED: draft-millwork-rapid -> advanced-local-model
+- 2026-10-16T09:59:12.392Z APPROVED: Local model, v6, will receive another update so that we can begin this investigation...
+- 2026-10-16T11:26:18.342Z APPROVED: Oh - about the aether CLI upgrade suggestion - I would like to suggest that I kind of like the ollama-way 'aether run'; 'type-away-in-chat then approve *or* reject. In future, I would also like to suggest (add to NOT-IMPLEMENTED.md) that the aether client could eventually be the model that judges explicit approval from prose, given it's a project the user would suggest my authority should be in... . Just a thought, right there. Give me the client!
+- 2026-10-16T13:49:15.570Z APPROVED: I want to consider creating an agent hook for injecting events into conversations on-toggle. Like a live speed mode!
+- 2026-10-16T16:20:29.651Z APPROVED: Bookmark last CURRENT.md
+- 2026-10-16T16:25:35.382Z APPROVED: Also, add Bookmarking as a potential aether command.
+- 2026-10-16T17:11:15.977Z APPROVED: Also, add Bookmarking as a potential aether command.
+- 2026-10-16T18:19:44.898Z APPROVED: Verb needs use now. Lot's of job queued up and I want the most assistance I can get.
+- 2026-10-16T20:21:18.975Z APPROVED: Note the 'end-of-session' technique of barrelling-every-single-word-into-detailed-actions-for-rushing. Protocol data.
+- 2026-10-16T22:32:34.577Z APPROVED: aether shell v0.2 is long overdue a clean update, anyway...
+- 2026-10-16T22:34:16.831Z APPROVED: ... as well as the entire mechanicall-os documentation. Getting a proper OpenCode model for this.
+- 2026-10-16T22:51:10.425Z APPROVED: Aether sidecar agents can actually be a bit more dynamic than I thought. Event-based agent profiles (by-time).
+- 2026-10-19T09:50:35.723Z APPROVED: 'aether bookmark' should open a 'Rename: ...'-esque dialog that lets the 'CURRENT' part of the filename get changed to their own nickname/ID. Then, we should revisit (and rename) the bookmarked aether version update (or just propose and 
+- 2026-10-19T09:51:01.417Z APPROVED: ...propose and let human approve!
+- 2026-10-19T10:26:25.821Z APPROVED: The 'aether-version-update' Next/proposal should be bookmarked and renamed: I want to save it with a list of the ejected aether verbs we are going to prune for future-reference.
+- 2026-10-19T10:30:36.436Z APPROVED: Remove preflight from aether-agent-team, and a bunch of other useless sidecars (we are going to integrate the personal model & the dbs more into the system; we'll be ready for the following, very interesting APK sprint!)
+- 2026-10-19T12:04:30.124Z APPROVED: Add seed to the EJECTED-VERBS list.
+- 2026-10-19T12:09:21.546Z APPROVED: This is a meaningful sprint; we'll get to what the 'aether' CLI is now before we set it in stone, in the APK (it is due for a from-scratch rebuild / re-versioning)).
+- 2026-10-19T12:23:01.981Z NEXT_SELECTED: bookmark-rename-nickname -> read-aether-cli ('What is the aether CLI?' - this will help identify the local model setup, too. We should directly give the local model a /grilling until it builds a suggestion of what the aether CLI is. Make sure its wired to the full, more complete RAG database. Then, we'll do a separate match of grilling to the aether agents team. Hopefully, this iteration path will let me agree on the current definition of the CLI before we build an APK out of it (so we can understand the implications within the APK - I think this is a P0 Next right now!))
+- 2026-10-19T12:23:09.468Z APPROVED: 'What is the aether CLI?' - this will help identify the local model setup, too. We should directly give the local model a /grilling until it builds a suggestion of what the aether CLI is. Make sure its wired to the full, more complete RAG database. Then, we'll do a separate match of grilling to the aether agents team. Hopefully, this iteration path will let me agree on the current definition of the CLI before we build an APK out of it (so we can understand the implications within the APK - I think this is a P0 Next right now!)
+- 2026-10-19T12:25:18.871Z APPROVED: 'What is the aether CLI?' - this will help identify the local model setup, too. We should directly give the local model a /grilling until it builds a suggestion of what the aether CLI is. Make sure its wired to the full, more complete RAG database. Then, we'll do a separate match of grilling to the aether agents team. Hopefully, this iteration path will let me agree on the current definition of the CLI before we build an APK out of it (so we can understand the implications within the APK - I think this is a P0 Next right now!)
+- 2026-10-19T13:20:15.304Z APPROVED: We-need-to-chain-thses... actually, it doesn't matter.
+- 2026-10-19T13:37:49.681Z REJECTED: Is there a way to cache context? Considering installing for this direcctory some specialised, cache-saving protocol... (returned to SELECT; no automatic rebuild)
+- 2026-10-19T14:25:22.411Z APPROVED: Let's make it to the APK stage, by today; just a small spike here.
+- 2026-10-19T14:38:58.550Z APPROVED: Add aether clashes/friction to the list of cached items.
+- 2026-10-19T14:43:01.860Z NEXT_SELECTED: sidecar-self-eval -> ctx-clashes (Now the ctx integration with aether via aether clashes)
+- 2026-10-19T14:43:02.393Z APPROVED: Now the ctx integration with aether via aether clashes
+- 2026-10-19T14:44:15.124Z APPROVED: Now the ctx integration with aether via aether clashes
+- 2026-10-19T14:45:30.268Z REJECTED: Let's think about the friction points in the chat-sessions more so we can save precious context! (returned to SELECT; no automatic rebuild)
+- 2026-10-19T14:47:40.869Z APPROVED: Implementation justifications are green from the operator - we are ready to execute!
+- 2026-10-19T14:50:50.594Z REJECTED: We should pre-propose stages; aether-version-update should be apply-able by now! (then, we make sure it's out of the cache) (returned to SELECT; no automatic rebuild)
+- 2026-10-19T14:57:12.428Z REJECTED: No smart-hook added or anything; pre-proposals should happen in these workflows. UNderstand? (returned to SELECT; no automatic rebuild)
+- 2026-10-19T15:04:43.995Z APPROVED: Works; next will be ctx-validation so that we can cache the agent's suggestions... (might have to make it so that whatever proposals it pre-generates, as it recommends, the dead suggestion pre-proposals are stored tidily or disposed, each turn or by the end of the session)
+- 2026-10-19T15:07:49.269Z APPROVED: Works; next will be ctx-validation so that we can cache the agent's suggestions... (might have to make it so that whatever proposals it pre-generates, as it recommends, the dead suggestion pre-proposals are stored tidily or disposed, each turn or by the end of the session)
+- 2026-10-19T15:27:25.307Z REJECTED: We need to look at quick-approval, too. I think it comes to a point where the applies are difficult and I just want to continue. We should discuss this in a /grilling. Then, re-propose again. (returned to SELECT; no automatic rebuild)
+- 2026-10-19T16:20:31.349Z APPROVED: Let's get it working now - P0 optimisation!
+- 2026-10-19T16:23:38.727Z APPROVED: Oops, thought I applied this.
+- 2026-10-19T17:25:42.114Z APPROVED: Arg still doesn't show in the grok CLIs greyed out args list | <proposal.md> [--dry-run] [project], also quotations break the aether reasons action.
+- 2026-10-19T17:34:03.214Z REJECTED: Still want to consider improving the aether agentteam with a sprint-based sidecars (team 'grouped-by-consistency'). I think it has a place in the personal configuration that I so often used today. Hand off that test to the rag-archive-manager. Also ask it to merge the directories under it so that MODEL+RAG has no CURRENT.md-bearing child directories. (returned to SELECT; no automatic rebuild)
+- 2026-10-19T17:58:36.513Z APPROVED: But put grouped-by--consistency up as a team.
+- 2026-10-19T19:02:46.065Z APPROVED: Turn it off - APPLY.md's approve/reject argument is sh*t
+- 2026-10-20T17:42:17.972Z APPROVED: We should now have a new CLI command that let's the agent approve a proposal the user suggests...
+- 2026-10-20T18:04:33.736Z REJECTED: We need to negotiate the 'automatic-approve' point because this update will only strengthen the reliabiliry of the mechanicall protocol & we are measuring the variable in workflows so human authority is protected... (returned to SELECT; no automatic rebuild)
+- 2026-10-20T19:30:37.884Z APPROVED: We should get back to what we was doing - 'aether' CLI is something confident enough to scaffold off of in terms of the modelling work.

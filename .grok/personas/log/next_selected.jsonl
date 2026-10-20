@@ -1,0 +1,59 @@
+{"ts":"2026-08-04T15:38:20.792Z","kind":"next_selected","from":"protocol-first-core-and-lab","to":"proto-lifecycle-reselect","by":"human","reason":""}
+{"ts":"2026-08-04T15:41:33.313Z","kind":"next_selected","from":"proto-lifecycle-reselect","to":"proto-demo-onecmd","by":"human","reason":""}
+{"ts":"2026-08-04T15:47:45.129Z","kind":"next_selected","from":"proto-demo-onecmd","to":"proto-grok-observability","by":"human","reason":""}
+{"ts":"2026-08-04T15:50:24.524Z","kind":"next_selected","from":"proto-grok-observability","to":"proto-lab-design","by":"human","reason":""}
+{"ts":"2026-08-04T15:51:58.008Z","kind":"next_selected","from":"proto-lab-design","to":"proto-honesty-release-draft","by":"human","reason":""}
+{"ts":"2026-08-04T15:52:57.156Z","kind":"next_selected","from":"proto-honesty-release-draft","to":"proto-alpha-freeze","by":"human","reason":""}
+{"ts":"2026-08-04T16:12:54.531Z","kind":"next_selected","from":"proto-alpha-freeze","to":"implement-remaining-waves","by":"human","reason":""}
+{"ts":"2026-08-04T16:44:36.601Z","kind":"next_selected","from":"implement-remaining-waves","to":"smoke-verify","by":"human","reason":""}
+{"ts":"2026-08-04T16:56:30.653Z","kind":"next_selected","from":"smoke-verify","to":"human-reselect","by":"human","reason":""}
+{"ts":"2026-08-04T16:58:33.133Z","kind":"next_selected","from":"human-reselect","to":"commit-hygiene","by":"human","reason":""}
+{"ts":"2026-08-04T18:01:18.550Z","kind":"next_selected","from":"commit-hygiene","to":"next-01-unknown-cmd","by":"human","reason":""}
+{"ts":"2026-08-04T18:05:12.666Z","kind":"next_selected","from":"next-01-unknown-cmd","to":"next-02-negative-tests","by":"human","reason":""}
+{"ts":"2026-08-04T18:09:26.807Z","kind":"next_selected","from":"next-02-negative-tests","to":"next-03-license","by":"human","reason":""}
+{"ts":"2026-08-04T18:24:35.166Z","kind":"next_selected","from":"next-03-license","to":"next-04-exit-codes","by":"human","reason":""}
+{"ts":"2026-08-04T18:28:05.069Z","kind":"next_selected","from":"next-04-exit-codes","to":"next-05-loc-decision","by":"human","reason":""}
+{"ts":"2026-08-04T18:29:58.094Z","kind":"next_selected","from":"next-05-loc-decision","to":"next-06-preflight-receipt","by":"human","reason":""}
+{"ts":"2026-08-04T18:51:30.500Z","kind":"next_selected","from":"next-06-preflight-receipt","to":"next-07-shellcheck","by":"human","reason":""}
+{"ts":"2026-08-04T18:55:01.614Z","kind":"next_selected","from":"next-07-shellcheck","to":"next-08-normative-docs","by":"human","reason":""}
+{"ts":"2026-08-04T19:01:55.315Z","kind":"next_selected","from":"next-08-normative-docs","to":"next-09-verb-list","by":"human","reason":""}
+{"ts":"2026-08-04T19:30:20.513Z","kind":"next_selected","from":"next-09-verb-list","to":"next-10-lab-status","by":"human","reason":""}
+{"ts":"2026-08-04T19:32:10.437Z","kind":"next_selected","from":"next-10-lab-status","to":"park-protocol-alpha","by":"human","reason":""}
+{"ts":"2026-08-04T19:39:56.785Z","kind":"next_selected","from":"park-protocol-alpha","to":"commit-peer-waves","by":"human","reason":""}
+{"ts":"2026-08-05T09:21:53.609Z","kind":"next_selected","from":"commit-peer-waves","to":"package-alpha-2","by":"human","reason":""}
+{"ts":"2026-08-05T10:59:36.628Z","kind":"next_selected","from":"package-alpha-2","to":"defer-package-alpha-for-server-ops","by":"human","reason":"utility: playground distro Domain outside protocol packaging; server_ops owns eMachine+Geobook"}
+{"ts":"2026-08-08T18:31:34.626Z","kind":"next_selected","from":"defer-package-alpha-for-server-ops","to":"recommended-git-path","by":"human","reason":"Human 2026-08-08: Option B peer-waves onto master via open PR; no auto-merge; then polish-product-reciept-layer"}
+{"ts":"2026-08-08T19:02:57.416Z","kind":"next_selected","from":"recommended-git-path","to":"polish-product-reciept-layer","by":"human","reason":""}
+{"ts":"2026-08-08T19:34:53.596Z","kind":"next_selected","from":"polish-product-reciept-layer","to":"scaffold-encouraging-changes-with-valid-execution","by":"human","reason":"Human accepted before polish-product-reciept-layer; polish PR #4 using GPT56 phone-pack sessions digest + executive redraft"}
+{"ts":"2026-08-09T17:19:07.669Z","kind":"next_selected","from":"scaffold-encouraging-changes-with-valid-execution","to":"polish-product-reciept-layer","by":"human","reason":"post-merge queue; human continue"}
+{"ts":"2026-08-09T18:02:14.918Z","kind":"next_selected","from":"polish-product-reciept-layer","to":"agent-agnostic-cold-start-checklist","by":"human","reason":"human: go with handoff follow-up"}
+{"ts":"2026-08-10T12:12:00.892Z","kind":"next_selected","from":"personal-model-dev-launchpad","to":"multi-surface-distribution-suite","by":"human","reason":"human: approve anti-overfit multi-surface distribution suite escalate (law not stack; web/android/desktop/full distro)"}
+{"ts":"2026-08-10T15:40:00.699Z","kind":"next_selected","from":"multi-surface-distribution-suite","to":"meta-next-checkpoint","by":"human","reason":"human: pre-plan project next actions / timeline gauge before picking suite slices"}
+{"ts":"2026-08-10T20:53:04.824Z","kind":"next_selected","from":"employ-personal-model-rag-run","to":"b1-second-device-uat","by":"human","reason":""}
+{"ts":"2026-08-10T21:17:25.883Z","kind":"next_selected","from":"b1-second-device-uat","to":"seat-verify-kingston-run","by":"human","reason":""}
+{"ts":"2026-08-10T21:31:00.515Z","kind":"next_selected","from":"seat-verify-kingston-run","to":"park-product-sprint","by":"human","reason":""}
+{"ts":"2026-08-11T17:25:04.798Z","kind":"next_selected","from":"xfce-claude-code-mech-extension","to":"claim2-hyprland-habitat","by":"human","reason":"Human: patch over slash/WS1; Claim-1 foundation enough; proceed Claim-2 Hyprland habitat+dashboard"}
+{"ts":"2026-08-11T17:28:24.111Z","kind":"next_selected","from":"claim2-hyprland-habitat","to":"xfce-claude-code-mech-extension","by":"human","reason":"complete Claim-1; do not skip module"}
+{"ts":"2026-08-11T17:41:01.627Z","kind":"next_selected","from":"xfce-claude-code-mech-extension","to":"claim2-hyprland-habitat","by":"human","reason":"Human: Claim-1 all green (G1+B1+TS+plugin); residual WS placement is Hyprland class; proceed Claim-2 habitat+dashboard"}
+{"ts":"2026-08-11T19:13:33.148Z","kind":"next_selected","from":"claim2-hyprland-habitat","to":"casual-core-interface","by":"human","reason":"Human: park Claim-2 Hyprland; Next is interface reduced to actual casual core"}
+{"ts":"2026-08-18T12:07:09.535Z","kind":"next_selected","from":"mobile-planning-demo","to":"icm-people-app","by":"human","reason":"leave sitting; people-app informed by failed stranger-send"}
+{"ts":"2026-08-18T16:57:04.713Z","kind":"next_selected","from":"icm-people-app","to":"people-app-validation","by":"human","reason":""}
+{"ts":"2026-08-18T17:09:43.756Z","kind":"next_selected","from":"people-app-validation","to":"people-app-phone-seat","by":"human","reason":"phone seat so mate/ can be sat"}
+{"ts":"2026-08-20T15:46:56.490Z","kind":"next_selected","from":"mechanicall-debug-window","to":"ACTUAL-APP-VERIFICATION","by":"human","reason":""}
+{"ts":"2026-08-20T21:41:18.054Z","kind":"next_selected","from":"sit-join-workshop","to":"sit-vst-headscale","by":"human","reason":"VST frame + Headscale + LOAD/STREAM GATE + twin + STORM iterate"}
+{"ts":"2026-08-25T12:41:43.692Z","kind":"next_selected","from":"sit-distro-gate","to":"sit-conjure-desk","by":"human","reason":""}
+{"ts":"2026-08-25T18:18:45.463Z","kind":"next_selected","from":"sit-conjure-desk","to":"sit-mvp-rack","by":"human","reason":"Cleaner naming - we have turned a new direction in the first official deployment of Mechanicall (first one nobody uses yet)."}
+{"ts":"2026-08-28T13:47:56.357Z","kind":"next_selected","from":"","to":"pr-rubric-as-check","by":"human","reason":"I think I could do with more scripts - helps define the ICM further as the 'project recovery service' tool"}
+{"ts":"2026-08-28T14:51:02.458Z","kind":"next_selected","from":"pr-rubric-as-check","to":"take-forward","by":"human","reason":""}
+{"ts":"2026-08-28T14:55:32.233Z","kind":"next_selected","from":"take-forward","to":"leftover-compose-delete","by":"human","reason":""}
+{"ts":"2026-08-28T15:01:36.582Z","kind":"next_selected","from":"leftover-compose-delete","to":"aether-mcp-projection","by":"human","reason":"Aether integration more solid"}
+{"ts":"2026-08-31T18:43:39.986Z","kind":"next_selected","from":"aether-mcp-projection","to":"listing-bar-pin","by":"human","reason":""}
+{"ts":"2026-09-03T16:31:24.096Z","kind":"next_selected","from":"listing-bar-pin","to":"ss-closing-apk","by":"human","reason":""}
+{"ts":"2026-09-04T11:28:24.338Z","kind":"next_selected","from":"sit-module-panels","to":"sit-glass-polish","by":"human","reason":""}
+{"ts":"2026-09-16T10:03:42.117Z","kind":"next_selected","from":"personal-current-sprint","to":"millwork-this-halt","by":"human","reason":""}
+{"ts":"2026-09-16T13:43:27.576Z","kind":"next_selected","from":"isolation-millwork","to":"operator-auth-later","by":"human","reason":"I'm not tired now; there is context left in the active chat right now!"}
+{"ts":"2026-09-18T07:58:22.301Z","kind":"next_selected","from":"operator-auth-later","to":"negotiate-anphuni.com-operations","by":"human","reason":""}
+{"ts":"2026-09-18T08:05:27.660Z","kind":"next_selected","from":"negotiate-anphuni.com-operations","to":"negotiate-anphuni-operations","by":"human","reason":""}
+{"ts":"2026-09-18T09:12:01.406Z","kind":"next_selected","from":"negotiate-anphuni-operations","to":"multi-agent-orchestration","by":"human","reason":"I have a big amount of anphuni project operations to assign aliases & dish out some sort of standardised application so I can just enter a share-urls phase. Negotiate with me on what ideas I have that are due inclusion plus the standardised application that fits the projects we've made that literally noone is using rn..."}
+{"ts":"2026-09-19T11:21:05.828Z","kind":"next_selected","from":"share-urls-kit","to":"legal-assimilation-report","by":"human","reason":""}
+{"ts":"2026-10-08T15:05:29.111Z","kind":"next_selected","from":"apk-share-24h","to":"session-memory","by":"human","reason":""}

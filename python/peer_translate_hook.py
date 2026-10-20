@@ -25,7 +25,7 @@ import urllib.request
 from pathlib import Path
 
 OLLAMA = os.environ.get("OLLAMA_HOST") or os.environ.get("AETHER_OLLAMA_HOST") or "http://127.0.0.1:11434"
-MODEL = os.environ.get("AETHER_OLLAMA_MODEL") or os.environ.get("PEER_MODEL") or "personal-llm-sft-v4:latest"
+MODEL = os.environ.get("AETHER_OLLAMA_MODEL") or os.environ.get("PEER_MODEL") or "personal-llm-sft-v6:latest"
 ENABLED = os.environ.get("PEER_TRANSLATE", "1").strip().lower() not in ("0", "false", "off", "no")
 # middleman (default) | soft | off
 MODE = (os.environ.get("PEER_MODE") or "middleman").strip().lower()

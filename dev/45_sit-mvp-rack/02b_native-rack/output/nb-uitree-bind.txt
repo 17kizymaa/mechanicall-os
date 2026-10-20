@@ -1,0 +1,2 @@
+app=com.mechanicall.pocket.demo total=6 shown=1
+0 |  |  | Choose your folder | cf | [0,80,1080,2281]

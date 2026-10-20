@@ -20,7 +20,7 @@
 ```markdown
 **Objective:** (one sentence the client can read aloud)
 **Phase:** APPROVE
-**Next:** (one action-id)
+**Next:**
 **Approval:** PENDING
 ```
 

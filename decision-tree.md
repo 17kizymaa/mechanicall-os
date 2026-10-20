@@ -5661,3 +5661,684 @@ Explored instead of interviewing:
 - 2026-08-16 — D4 decided: option 2 + editor-session amendment (not bubble chat). D10 decided: proposal-doc editor; refine after sprint. Posed D7 (what Yes writes).
 - 2026-08-16 — D7 decided: option 1. Principle 17: skip/auto-approve obvious. Auto-closed D8 Tailscale, D11 keep-lab, D13 Android/Compose, D14 both-edit-PROPOSE. Posed D9 (model context) as the remaining non-obvious fork.
 - 2026-08-16 — D9 decided: option 3 whole-tree (override; demo-only). Principle 1 strengthened. Interview closed. Spike + propose-current written.
+
+---
+
+# G-series — facing-video group aliases (2026-10-02)
+
+**Premise:** The dev-mentor clip's rows `withheld-alias`, `this-works`, and `family-outside-trade` should become the group aliases proposed in the redeploy session. Grill first. Shared understanding before any re-render.
+
+**Bind:** `~/anphuni-project`. This file is the grill log. It is not law. Models do not paste CURRENT.
+
+## Guiding principles (G)
+
+1. Header **Next** is `appetite-agent` (re-read 2026-10-02). That halt keeps dev-mentor, group-scheduling, and any other alias outside it. The picture stays local and unsent. The word for that Next stays off the clip.
+2. One Next. Models never approve. Silence is not permission. Mint, deploy, and share wait on an explicit Yes.
+3. The clip faces `dev-mentor`. Other people's names stay in the folder key, in `projects/dev-mentor/HANDOFF.md`.
+4. The assimilation report is research, not advice. A picture that names someone else's project needs their yes in the room. The paper line stays on whichever row holds `happy-birthday`. `pocket-playtester` and `the-block-p` stay unnamed while the under-18 question is open.
+5. Group slugs come from the operator's own approve text. This grill does not coin a new slug.
+
+## Facts (looked up)
+
+Operator reply, round 1, verbatim: "2 (cool new suggestion), 3 family-outside-trade works but the order I've described the groups have been misinterpreted, 1 the coined terms are perfect here."
+
+The table below is the reading they rejected. It merged `hi-its-mother` and `happy-birthday` into one personal row and led with `dev-mentor`.
+
+Approve `2026-10-02T14:43:13Z`, as previously tabled:
+
+| Cluster in that approve | Members named there |
+|---|---|
+| scheduling | `group-scheduling…`, `driving-instructor` |
+| mentor / music | `ghostangel`, `re6ce-music`, `dev-mentor` |
+| local trades | `merseyflush`, `thoughtfully-cafe`, `simply-loaded`, `eagle-cleaning-nw`, `the-block-p` |
+| cic | `*the-cic-projects*`, `toastmasters-d71-pr` |
+| personal | `this-works`, `hi-its-mother`, `happy-birthday`, `*friends*`, `pocket-playtester` |
+
+Approve `2026-10-02T16:21:36Z` adds: a driving-instructor session URL ("1 of 3"), and a friend room grouped under `pocket-playtest`.
+
+Coined group slugs in those two reasons: `the-cic-projects`, `friends`, `pocket-playtest`. The local-trades cluster has no slug.
+
+On disk and not named in either reason: `dad-iceland-agent`, `housesonroofs`. CIC-named folders on disk: `rhythm-reaction-cic`, `rise-up-recovery-cic`.
+
+The clip's five rows today: `dev-mentor`, `group-scheduling-game`, `this-works`, `family-outside-trade` (dad, mother, birthday), `withheld-alias` (the other 13). `family-outside-trade` and `withheld-alias` are labels from this chat, not from the approve.
+
+## Master cost map
+
+| Item | v1 solo | alpha 50 | growth 1,000 | Self-host |
+|---|---|---|---|---|
+| Re-render the local clip | $0, minutes | $0 | $0 | the file already on this machine |
+| New project folders or a mint | $0 cash; spends the one Next and needs a Yes | same | same | folders are markdown |
+
+No SaaS line. The material cost is showing another person's project to dev-mentor.
+
+## Summary of decisions
+
+| ID | Decision | Status | Cost impact |
+|---|---|---|---|
+| G1 | Where the rename lands | decided — option 2, folders deferred | $0 until a later Next |
+| G2 | Shape of the rows | decided — seven rows, `family-outside-trade` kept | $0 |
+| G3 | What kind of slug the clip may show | decided — option 1, coined terms | $0 |
+| G4 | What "2" was | decided — option 1, folders | $0 while deferred |
+| G5 | Order, and the local-trades slug | decided — interpretation kept, slug `local-trades` | $0 |
+| G6 | Re-render now | open | $0, about twenty minutes |
+
+## G1 — Where the rename lands
+
+**Question:** The three labels change on the local clip and in the handoff key. New `projects/` folders, a mint, and a write into the redeploy session's proposal stay out of this grill's first cut.
+
+**Options:**
+
+1. Clip `operator-scroll.mp4` / `operator-list.html` and the key in `projects/dev-mentor/HANDOFF.md`.
+2. Also create `projects/<group>/` folders in the operator map.
+3. Also mint rooms and hand the other Grok session a proposal.
+
+**Selected:** option 2, deferred. Settled by G4. Five pointer folders when a later Next allows them: `local-trades`, `the-cic-projects`, `family-outside-trade`, `friends`, `pocket-playtest`. No mint. `dev-mentor` and `group-scheduling-game` already exist.
+
+**Rationale:** The operator picked the folders. Live Next is `appetite-agent`, and that halt still keeps any other alias outside it, so the pointers wait. The clip is the local preview.
+
+**Cost tradeoff:** $0 at solo, alpha, and growth for option 1. Option 2 is still $0 cash and about an hour of pointer files, and it spends the one Next. Option 3 adds a deploy and a share, which the gate prices as a human Yes, not a vendor fee. Crossover: none on dollars. The switch is authority, at the first new folder.
+
+**Dependencies:** none. Unlocks the re-render once G2 and G3 are decided.
+
+**Status:** decided. Folders deferred. See G4.
+
+## G2 — Shape of the rows
+
+**Question:** The approve has five clusters and the clip has three labels you asked to replace. `this-works` is one folder on the clip and a member of the personal cluster in the approve. `family-outside-trade` overlaps that same cluster.
+
+**Options:**
+
+1. Keep a row per cluster from the 14:43 approve. `this-works` and `family-outside-trade` leave the picture. `dev-mentor` and `group-scheduling-game` stay, and pick up the members you already grouped with them.
+2. Rename exactly those three strings, and assign three of the coined slugs in the next round.
+
+**Selected:** partial. `family-outside-trade` stays a row name. The five-cluster order in the facts table is rejected. Which of option 1 or 2 this becomes waits on G4 and G5.
+
+**Rationale:** The operator kept the family row and said the written order was misread. The merge of that row into `friends` was the miss.
+
+**Cost tradeoff:** $0 at every scale. Option 1 is a re-render of about twenty minutes. Option 2 is the same render with a mapping the approve does not contain, so the later correction costs a second render. No SaaS.
+
+**Dependencies:** none. Unlocks the slug assignment, where `dad-iceland-agent` and `housesonroofs` sit, and whether the personal row is `friends` or `pocket-playtest`.
+
+**Status:** decided. The visible order is G5.
+
+## G3 — Slug the clip may show
+
+**Question:** On this clip, a row name is a role you coined (`friends`, `the-cic-projects`, `pocket-playtest`) or a folder that is already yours on the picture (`dev-mentor`, `group-scheduling-game`). Someone else's trading name stays in the handoff.
+
+**Options:**
+
+1. Role slugs and the two folders already facing the clip.
+2. The member folder names go back on the picture, inside their group.
+
+**Selected:** option 1. User: "1 the coined terms are perfect here."
+
+**Rationale:** The coined slugs are `friends`, `the-cic-projects`, and `pocket-playtest`. Member trading names stay in the handoff. The last pass took those names off the picture because the report treats an unconsented project, shown to a third person, as a communication that wants a yes in the room.
+
+**Cost tradeoff:** $0 at every scale. Option 2 saves no money and spends the consent you do not have yet. A later yes-in-the-room is what would make option 2 cheap. Until then the crossover is the first named third party.
+
+**Dependencies:** none. Unlocks which coined slug is eligible once G2 picks the shape.
+
+**Status:** decided.
+
+## G4 — What "2" referred to
+
+**Question:** The reply leads with "2 (cool new suggestion)". Two numbered 2s were on the table, and the three labels were also an ordered list.
+
+**Options:**
+
+1. G1 option 2. Create `projects/<group>/` folders. They wait until `site-stand-in` is no longer Next, because that halt keeps any other alias outside it.
+2. G2 option 2. Rename exactly the three strings, and assign the coined slugs after the order is settled. No new folders.
+3. The numbers name the three labels. `this-works` takes the new group name. `family-outside-trade` stays. `withheld-alias` becomes the coined terms.
+
+**Selected:** option 1. User: "1 (oops)".
+
+**Rationale:** The folders are the cool suggestion they meant. `site-stand-in` has since finished as Next. The successor, `appetite-agent`, still keeps any other alias outside this halt, so the wait stands. The label-reading (option 3) is not the pick.
+
+**Cost tradeoff:** $0 at solo, alpha, and growth for options 2 and 3. Option 1 is $0 cash and a set of pointer files, and it is outside the live Next. No SaaS. Crossover is the moment a folder is created while `site-stand-in` is still Next.
+
+**Dependencies:** G3 decided. Unlocks whether any pointer folder is written after the order is agreed.
+
+**Status:** decided.
+
+## G5 — Order of the groups
+
+**Question:** Follow the 14:43 sentence left to right. Pull `hi-its-mother` and `happy-birthday` out of the friends list and keep them on `family-outside-trade`.
+
+**Options:**
+
+1. Visible rows, in the sentence's order: `group-scheduling-game`, `dev-mentor`, `the-cic-projects`, `family-outside-trade`, `friends`, `pocket-playtest`. Local trades and `housesonroofs` stay in the handoff until a slug is coined. `this-works` sits behind `friends` and leaves the picture.
+2. Same membership, with the local-trades list as its own visible row under a slug the operator still has to coin.
+
+**Selected:** the offered order, with `local-trades` accepted as the slug and shown as the last row. User: "Interpretation was successful" and "local-trades is accepted as the slug."
+
+**Rationale:** Row order they accepted:
+
+1. `group-scheduling-game` — `driving-instructor` behind it.
+2. `dev-mentor` — `ghostangel`, then `re6ce-music`, behind it.
+3. `the-cic-projects` — `toastmasters-d71-pr`, `rhythm-reaction-cic`, `rise-up-recovery-cic` behind it.
+4. `family-outside-trade` — `hi-its-mother`, `happy-birthday`, `dad-iceland-agent`. Paper line on this row.
+5. `friends` — `this-works` behind it, off the picture.
+6. `pocket-playtest` — `pocket-playtester` behind it, unnamed.
+7. `local-trades` — `merseyflush`, `thoughtfully-cafe`, `simply-loaded`, `eagle-cleaning-nw`, `the-block-p`, `housesonroofs` behind it. `the-block-p` stays unnamed.
+
+The 14:43 sentence names the local-trades members before `the-cic-projects`. The accepted picture places that row last. Member names stay in the handoff. 2+3+3+3+1+1+6 = 19.
+
+**Cost tradeoff:** $0 at every scale. A wrong order is one re-render, about twenty minutes, still on this machine. No vendor.
+
+**Dependencies:** G3. The family name from the round-1 reply. Unlocks the handoff key and, after G4, any folders.
+
+**Status:** decided.
+
+## G6 — Re-render now
+
+**Question:** The seven rows are agreed. The five new pointer folders wait while Next is `appetite-agent`.
+
+**Options:**
+
+1. Re-render `operator-list.html`, the still, and `operator-scroll.mp4`. Update the key in `projects/dev-mentor/HANDOFF.md`. Leave the five folders uncreated.
+2. Hold the clip as well, until the folders are in scope.
+
+**Selected:** option 1, with a membership pass in the same reply. User: move `this-works` to `family-outside-trade`, unnest `dev-mentor`, move `driving-instructor` to `local-trades`, move `group-scheduling-game` to `friends`. G6 is 1.
+
+**Rationale:** The clip re-renders. The five pointer folders stay uncreated while Next is `appetite-agent`. `dev-mentor` is one folder on the picture. `ghostangel` and `re6ce-music` are the two left with no group; their names stay in the handoff. Row counts: 1+3+4+1+1+7+2 = 19.
+
+**Cost tradeoff:** $0 at solo, alpha, and growth. Option 1 is about twenty minutes on this machine. Option 2 spends nothing and leaves the old five-row clip in place. No SaaS.
+
+**Dependencies:** G1–G5. Unlocks the re-render. Nothing follows it inside this grill.
+
+**Status:** decided.
+
+## Open branches not yet asked
+
+None. G6 is the last branch.
+
+# A-series — advance the APK (2026-10-05)
+
+**Premise:** The operator does not know how to advance the Mechanicall APK. Playtesting is the guess. The drafted Tally form may be enough, and the measures may be outdated. Three moves on the table: host a one-off gauntlet, go to a service, or be critical in-house. Grill first. This file is not law.
+
+**Bind:** mechanicall-os sit, and the operator map at `~/anphuni-project`. Live Next there is `prune-empty-rooms`. `apk-loop-this-halt` is Reject. Models do not paste CURRENT.
+
+## Guiding principles (A)
+
+1. One Next. This grill does not start an APK loop and does not publish the form.
+2. A filled form is hello. It does not choose a build and it does not score an answer.
+3. `pocket-playtest` is one group pointer. Its only member is `pocket-playtester`. The form stays unsent. There is no `group/playtesters` folder. Age is outside this tree.
+4. Minimize paid third parties. A stranger panel is a share of the APK.
+5. The functional gauntlet (`you_decide_gauntlet.py`, last recorded 12/12) is the machine check. It is not a person's walk.
+
+## Facts (looked up)
+
+- Form draft: `projects/pocket-playtester/PROPOSALS/FORM.md`. Ten questions plus a still after each hole. Six shorts test whether the walk was understood. Four longs ask where it stopped, what they would ask, and what is missing. Each still then asks what is missing and what feature they would add. Host research (2026-09-30) picks Tally, free, one person, no account. Unpublished.
+- Parked line in anphuni-project CURRENT: the questions need their usefulness reevaluated. `pocket-playtest-loop` is no new package.
+- Services named in September–October 2026 comparisons, read 2026-10-05: UserTesting and Lookback record a native app on a real phone. Maze and Useberry test a Figma or web prototype. Lyssna, Userbrain, and UXArmy sell fast unmoderated tests, from about $29 to $166 a month before a panel. Userlytics is cited from about $30 a session. IndieAppCircle is a free exchange: other indie developers install the app and write a report, paid in credits earned by testing their apps. Screenshot auditors (UX Lens, Pixelait, aiuxdesign.guide, UXRay) return a score and a change list from a still. They do not walk a Yes.
+- Those pages disagree on which product ranks first. They agree on the split: recruitment, session recording, prototype click-tests, and a written critique are four different purchases.
+
+## Master cost map
+
+| Line | v1 solo | alpha 50 | growth 1,000 | Self-host |
+|---|---|---|---|---|
+| One Tally form, one person | $0 | $0 until the reply count leaves fair use | same | markdown already drafted |
+| Lookback, bring your own person | about $40/mo while a session is on | same per seat | unused at 1,000 | a call plus the phone |
+| Lyssna / UXArmy class | about $29–$166/mo plus panel fees | panel fees dominate | enterprise | the form |
+| UserTesting / Userlytics session | about $30–$250 a session, often annual | per tester | per tester | no |
+| IndieAppCircle | $0 or credits from about €5 | reciprocal installs | the exchange is the product | a room message |
+| Screenshot AI audit | $0 to a few dollars a still | per still | per still | read the stills already in PROPOSALS/stills |
+| Functional gauntlet | $0, already run | same script | same script | `you_decide_gauntlet.py` |
+
+## Summary of decisions
+
+| ID | Decision | Status | Cost impact |
+|---|---|---|---|
+| A1 | What this sitting is for | decided — 5, research better testing | $0 reading |
+| A2 | Who the test is for | decided — 1, age struck | $0; panel stays off |
+| A3 | What the research is asking | open | picks the hours |
+
+## A1 — What this sitting is for
+
+**Question:** Advance the APK. The form tests whether one person understood the walk. A service or a screenshot audit returns a change list. The gauntlet already scores the build.
+
+**Options:**
+
+1. Learn where one person's walk stops. No new APK this sitting.
+2. Produce a change list for a later Next.
+3. Recruit playtesters across other projects.
+4. Leave the APK parked. The form draft is the artifact.
+
+**Selected:** **5** (2026-10-05). Operator override, not one of the four options: "I want to research better testing."
+
+**Rationale / recommendation:** 1 was the recommendation. The operator chose research before any walk, change list, recruitment, or a decision that the draft is enough.
+
+**Cost tradeoff:** The research sitting is $0 at solo, alpha, and growth. Options 1–4 stay priced as written: the form is $0, a change list is operator hours or $30 and up a session, recruitment is a share, parking spends nothing. Crossover into a paid tool waits until the research names one. Engineer-time is a few hours of reading, not a package.
+
+**Dependencies:** none. Unlocks A3, the research question.
+
+**Status:** decided.
+
+## A2 — Who may see the APK
+
+**Question:** The group has one member. Age is undecided. A service panel and an indie exchange both hand the build to people who are not that member.
+
+**Options:**
+
+1. The named playtester only, and only after age is settled by the operator.
+2. The operator, on the stills and the gauntlet. No other person.
+3. Strangers: a paid panel or a free tester exchange.
+
+**Selected:** **1** (2026-10-05), with the age clause struck. Operator: "1, age is a non-sequitor." The named playtester is who the test is for. Age is not a premise of this tree.
+
+**Rationale / recommendation:** 2, then 1 after age, was the recommendation. The operator took 1 and removed the age gate. Option 3 stays rejected.
+
+**Cost tradeoff:** Option 1 is $0 on Tally when a form is eventually sent. Option 2 is $0 and never reaches that person. Option 3 starts at $0 (IndieAppCircle, paid by testing other apps) or about $30 a session and climbs to $166–$250/mo. At 50 testers the panel fee is the product. Self-host of the same job is one person and a session design. No crossover at v1. A panel also needs a Play track or a sideload, which the parked loop forbids.
+
+**Dependencies:** none. With A1, unlocks the research question.
+
+**Status:** decided.
+
+## A3 — What the research is asking
+
+**Question:** The sitting is research. The person is the named playtester. The draft in `SESSION.md` is a six-question recall quiz, then a feature-or-bridge ask under each still. The gauntlet scores the build. The September–October services record a task, test a prototype, or return a critique.
+
+**Options:**
+
+1. Session design for that one person on the APK: one task, something recorded, where they stop.
+2. What a short test of this app should measure: understanding the Yes, or completing a task.
+3. Which 2026 tool hosts that one person.
+4. A written comparison of 1, 2, and 3, then a pick.
+
+**Selected:** open.
+
+**Rationale / recommendation:** 2. A tool and a session shape follow from what the test is allowed to prove. The draft proves recall of six sentences. A panel proves a stranger finished a task. Those are different tests.
+
+**Cost tradeoff:** Option 2 is a few hours and $0 at every scale. Option 1 is the same hours, then a $0 phone session later. Option 3 is $0 to read and $29–$250/mo if a tool is chosen before the question is. Option 4 is a day of writing and still ends at a pick. Crossover: a hosted recorder (Lookback, about $40/mo) earns its fee only after the test is a session someone must rewatch. A quiz does not need it. Engineer-time for a vendor trial is a later Next.
+
+**Dependencies:** A1, A2. Unlocks A4 (what happens to the per-still feature ask) and A5 (whether a note gets written).
+
+**Status:** open.
+
+## Open branches not yet asked
+
+- A4 whether the per-still "what feature would you add" lines stay. Depends on A3.
+- A5 whether this grill writes a method note. Depends on A3. Does not write CURRENT.
+
+---
+
+# P-series (2026-10-09) — ideal APK shape, grilled on the three sitters
+
+**Not Yes. Not CURRENT.** Three AI playtesters who had only seen the storm-0 stills of `0.19.21-loop-from-20` versionCode 46. Human has not stamped this series. Models do not paste CURRENT.
+
+**Premise:** The taste sit worked. Grill the sitters on the ideal APK shape, then research implementation grammar to steal. The cream machine stays (G1=2\*: commitment owns first sit, millwork is the instrument).
+
+## Facts (looked up — not asked)
+
+- Storm-0, pinned APK, Yes not tapped. Plan tap did not open a second picture. Gate tap did not change the receipt.
+- Plan glass: "This is the plan." / "Next name-the-outcome" / "Plan one afternoon of work I can say Yes to." Five labels looked like buttons and did not open.
+- Decide glass: "Why. Then Yes. Not yet is enough." Then a bare hint "why". Plaque "YES". Label "Not yet".
+- Receipt: "No sitting yet. After Yes or Not yet, this file is rewritten. Opening this page is not a Yes."
+- Folder slip: "files only · not Yes" plus "aether", "OEM FILES", "proposed (one action-id)".
+- Already named, not reopened: Plan steal = iA Writer / till ticket / GitHub README. Draft steal = GitHub Suggesting. Decide steal = Monzo/Wise send sheet. Door = Android Files. Do not steal pixels, pets, Confirm, or the bench.
+
+## Guiding principles (P)
+
+1. Cream machine stays. Change the words and what a tap writes.
+2. First sit is a decision, not a plugin page.
+3. Not yet is enough, and it does not rewrite the plan.
+4. Shop talk (aether, OEM, action-id) is off the first sit.
+5. This series is playtester taste. It is not a Yes.
+
+## Master cost map (P)
+
+| Item | Solo | Alpha (50) | Growth (1,000) | Self-host |
+|------|------|------------|----------------|-----------|
+| Copy and hit changes on the existing glass | $0 | $0 | $0 | The APK already runs locally |
+| Onyx research call (one cheap model) | < $1 | same | same | Onyx is already on localhost |
+| New chassis, new editor, hosted QA | out | out | out | Rejected by the grill |
+
+No SaaS line. Crossover: a hosted user-test tool earns a fee only after a human session must be rewatched. This grill does not need one.
+
+## Summary of decisions (P)
+
+| ID | Decision | Pick | Cost impact | Status |
+|----|----------|------|-------------|--------|
+| P1 | Plan screen says the afternoon in plain words | 2 | Hours of copy, $0 | playtester-agreed, not human-stamped |
+| P2 | Five labels are peek headings, not editors | 2 | Hours if the paint reads as keys, $0 | playtester-agreed, not human-stamped |
+| P3 | Not yet leaves the plan file | 1 | One receipt sentence, $0 | playtester-agreed, not human-stamped |
+| P4 | What Yes does is readable on the decide screen | 2 | One sentence beside the plaque, $0 | playtester-agreed, not human-stamped |
+| P5 | Slip keeps "not Yes" and "not the plan"; drops shop talk | 2 | Copy only, $0 | playtester-agreed, not human-stamped |
+
+## Per-decision (P)
+
+### P1 — Plan screen sentence
+
+**Question:** After the folder is allowed, what should the plan screen say?
+
+**Options:**
+
+1. Keep the three lines. The afternoon stays behind a later tap.
+2. Keep "This is the plan." Replace the Next line with the afternoon itself, in words a person can read.
+3. Add "Tap Next to read the one job."
+
+**Selected:** 2, by all three sitters.
+
+**Rationale / recommendation:** 2. "name-the-outcome" never said the afternoon, and the tap did not open it. Option 3 invents a Next button the sit did not show working.
+
+**Cost tradeoff:** Option 2 is an afternoon of copy on the phosphor and $0 at every scale. Option 1 is $0 and fails the sit. Option 3 is the same hours and teaches a control that is a heading. Engineer-time: under a day. No SaaS.
+
+**Dependencies:** G1=2\* (machine stays). Unlocks the grammar for a readable ticket, not a slug.
+
+**Status:** playtester-agreed, not human-stamped.
+
+### P2 — Five labels
+
+**Question:** What are OBJECTIVE, NEXT, KEEP, REJECT, LIMITS on a first sit?
+
+**Options:**
+
+1. Remove them until after Yes.
+2. Keep them as printed headings. A tap peeks. They must not edit the plan.
+3. Make each one an editor.
+
+**Selected:** 2, by all three sitters.
+
+**Rationale / recommendation:** 2. They looked like buttons and did nothing. An editor on the live plan would teach that a tap is a Yes.
+
+**Cost tradeoff:** Option 2 is paint plus the existing peek, $0. Option 1 deletes hits and is a larger millwork pass. Option 3 is a new editor, weeks, and breaks the Not-yet law. Crossover: none at these scales. Self-host only.
+
+**Dependencies:** P1. Unlocks peek-heading grammar. Does not unlock a schema editor.
+
+**Status:** playtester-agreed, not human-stamped.
+
+### P3 — Not yet and the file
+
+**Question:** What should Not yet do?
+
+**Options:**
+
+1. Leave the plan as it was. The receipt may note the refusal. The plan file is not rewritten.
+2. Keep the sentence that Not yet rewrites the file.
+3. Hide Not yet until after Yes.
+
+**Selected:** 1, by all three sitters.
+
+**Rationale / recommendation:** 1. "Not yet is enough" is a refusal. The receipt's rewrite sentence is why a sitter would not try the app.
+
+**Cost tradeoff:** Option 1 is one sentence and a write-path check, hours, $0. Option 2 is $0 and keeps the contradiction. Option 3 removes the refusal from first sit. No vendor.
+
+**Dependencies:** The receipt sentence on the pinned build. Unlocks a receipt that notes a choice and does not claim a plan rewrite on refusal.
+
+**Status:** playtester-agreed, not human-stamped.
+
+### P4 — What Yes does
+
+**Question:** When should the consequence of Yes be readable?
+
+**Options:**
+
+1. On the plan screen, before they reach Yes.
+2. On the decide screen, in the same breath as "Why. Then Yes."
+3. Only after they tap Yes.
+
+**Selected:** 2, by all three sitters.
+
+**Rationale / recommendation:** 2. Yes sits on that screen, and the screen never said what Yes does to the folder. The two feet stay unseen until after a real Yes.
+
+**Cost tradeoff:** Option 2 is one sentence, $0. Option 1 duplicates it on the plan. Option 3 asks for the stamp before the consequence. No SaaS. Engineer-time: hours.
+
+**Dependencies:** P1, P3. Unlocks a confirmation-sheet grammar on the existing plaque.
+
+**Status:** playtester-agreed, not human-stamped.
+
+### P5 — Shop talk on the folder slip
+
+**Question:** What stays on the first-sit slip?
+
+**Options:**
+
+1. Keep all of it.
+2. Keep "files only · not Yes" and "NOT ACTIVE / not the plan". Drop aether, OEM, and action-id.
+3. Drop the whole slip.
+
+**Selected:** 2, by all three sitters.
+
+**Rationale / recommendation:** 2. The warning was clear. The other three strings were not words they could act on.
+
+**Cost tradeoff:** Option 2 is copy, $0. Option 1 keeps the fail. Option 3 removes the one sentence that answered "is offering the folder a yes?" No vendor.
+
+**Dependencies:** The send slip on the pinned build. Unlocks a one-line packing slip.
+
+**Status:** playtester-agreed, not human-stamped.
+
+## Open branches not yet asked (P)
+
+- Exact sentence for what Yes writes. Depends on P4. Research, not a stamp.
+- Whether the five headings are repainted this pass or only the phosphor copy. Depends on P2. Human stamp.
+- This series does not write CURRENT and does not select a Next.
+
+## P6 and P7 — ordered with the copy pass (2026-10-09)
+
+Human: "we'll execute as planned." That adopts the recommended answers below. Not a CURRENT stamp. Not a Yes. Next stays session-memory.
+
+### P6 — the sentence
+
+**Question:** What does the decide screen say Yes does?
+
+**Options:**
+
+1. "Yes writes this plan into the folder. Not yet leaves it."
+2. "Yes replaces the plan file. Not yet leaves it."
+3. Leave the sentence unnamed.
+
+**Selected:** 1, by the execute order.
+
+**Rationale / recommendation:** 1. It names the folder write and the refusal. Option 2 says replace, which the packet did not define. Option 3 leaves the plaque silent.
+
+**Cost tradeoff:** One sentence on the existing phosphor, $0. No millwork.
+
+**Dependencies:** P4. Does not reveal the two feet.
+
+**Status:** ordered for this copy pass. Not a CURRENT stamp.
+
+### P7 — millwork this pass
+
+**Question:** Do the five headings get repainted in the same pass as the phosphor copy?
+
+**Options:**
+
+1. Copy only. Repaint the five headings as printed ticket lines later.
+2. Repaint the five headings in the same pass.
+
+**Selected:** 1, by the execute order.
+
+**Rationale / recommendation:** 1. The headings stay peek-only. Painted "files only · not Yes" and "OEM FILES" stay this pass.
+
+**Cost tradeoff:** Option 1 is phosphor and the receipt seed, hours, $0. Option 2 is a millwork pass on top.
+
+**Dependencies:** P2, P5. Does not edit the painted strips.
+
+**Status:** ordered for this copy pass. Not a CURRENT stamp.
+
+
+---
+
+# Q-series (2026-10-19) — quick-approval
+
+**Not Yes. Not CURRENT.** Opened after reject of `ctx-validation`. Human has not answered. Models do not paste this into CURRENT.
+
+**Premise:** Applies are heavy. The operator wants to continue. Quick-approval is under discussion. A re-proposal waits until this round is answered.
+
+## Facts (looked up — not asked)
+
+- Apply copies a fenced body and leaves Approval DRAFT. Approve is a second slash. Reject does not clear Next.
+- `/next` refuses while Status is REJECTED.
+- `automatic-approve` and `model-auto-write-current` are prohibited tokens.
+- No hook was added. Pre-proposals are files under `.aether/proposals/`.
+- Session cache, if later built, is off when `AGENT_SESSION` is hidden.
+
+## Round 1 — frontier, unanswered
+
+### Q1 — What one slash may combine
+
+**Question:** May one human slash apply a named proposal and approve it with one reason?
+
+**Options:**
+
+1. Yes. One slash, one path, one reason. Still human. No hook.
+2. No. Apply and approve stay two slashes.
+3. Yes, but only for proposal files already on disk, and never for a body the model writes in that same turn.
+
+**Selected:** trial of one CLI argument. Not option 1, 2, or 3 as written. Human: "we could try an argument!"
+
+**Rationale / recommendation:** 3 was the recommendation. The human wants to try an argument instead. The argument is not designed yet.
+
+**Cost tradeoff:** Option 3 saves a turn on a known file and costs nothing in cash. Option 1 saves every turn and can stamp a file written seconds earlier. Option 2 keeps the weight you are tired of. No SaaS.
+
+**Dependencies:** none. Unlocks Q4 (what the slash refuses).
+
+**Status:** answered 2026-10-19. Argument not designed. Not a CURRENT stamp.
+
+### Q2 — What quick-approval must not touch
+
+**Question:** Which actions stay on the slow gate even if Q1 is yes?
+
+**Options:**
+
+1. versionCode, phone install, Play upload, persona delete, `ctx` on PATH, and `aether next`.
+2. Only the phone install and Play upload.
+3. Nothing is slow. Continue means continue.
+
+**Selected:** 1. versionCode, phone install, Play upload, persona delete, `ctx` on PATH, and `aether next` stay slow.
+
+**Rationale / recommendation:** 1. Those are the hard-to-undo hands. A CLI version string and a ctx note can be in the fast set if you say so later.
+
+**Cost tradeoff:** Option 1 keeps two turns for the phone and zero dollars. Option 3 makes a tired yes able to ship. Option 2 leaves persona delete and PATH changes in the fast set.
+
+**Dependencies:** none. Parallel with Q1.
+
+**Status:** answered 2026-10-19. Not a CURRENT stamp.
+
+### Q3 — Where the yes lives
+
+**Question:** Is quick-approval a slash you type each time, or a standing continue for the visible session?
+
+**Options:**
+
+1. A slash each time, naming the proposal path.
+2. Standing continue while `AGENT_SESSION` is set. Hidden session disables it.
+3. Standing continue for the rest of the calendar day, session or not.
+
+**Selected:** question declined. Human: look at auto-approve mode, and in that mode use the cached systems (personal LLM, heavy databases, everything).
+
+**Rationale / recommendation:** 1 was the recommendation. The human did not pick it. Auto-approve mode is round 2. It is not built.
+
+**Cost tradeoff:** Option 1 is one line per file, $0. Option 2 needs the CLI to see `AGENT_SESSION` and to disable when it cannot. Option 3 continues after the client has hidden the session.
+
+**Dependencies:** none. Parallel with Q1 and Q2.
+
+**Status:** declined 2026-10-19. Replaced by auto-approve mode. Not a CURRENT stamp.
+
+## Round 2 — frontier, unanswered
+
+Facts for this round: live CURRENT lists `automatic-approve` and `model-auto-write-current` as prohibited. Caches on this machine are `ctx/`, Chroma `project-sidecars-v1` under `~/MODEL+RAG`, and Ollama `personal-llm-sft-v6:latest`. There is no `.aether/state.json`. Q2 already keeps versionCode, phone install, Play, persona delete, `ctx` on PATH, and `aether next` on the slow gate.
+
+### Q4 — What auto-approve is allowed to stamp
+
+**Question:** When auto-approve mode is on, what may it write?
+
+**Options:**
+
+1. Side caches only: ctx, the local Chroma store, and the personal LLM context. CURRENT.md stays a human slash.
+2. CURRENT.md as well, which retires the prohibited token `automatic-approve` for that mode.
+3. Nothing until you type the trial argument. The mode does not exist yet.
+
+**Selected:** forget auto-approve. The mode is dropped. Closest written option is 3, and the mode half of that option is withdrawn.
+
+**Rationale / recommendation:** 1 was the recommendation. The human dropped the mode entirely. Prohibited tokens stay.
+
+**Cost tradeoff:** Option 1 is local disk and the model you already run, $0. Option 2 removes a prohibited token and can stamp the phone's law by mistake. Option 3 spends no build time and leaves the applies as they are.
+
+**Dependencies:** Q2. The mode is not unlocked.
+
+**Status:** answered 2026-10-19. Mode dropped. Not a CURRENT stamp.
+
+### Q5 — The argument to try
+
+**Question:** What is the argument?
+
+**Options:**
+
+1. `aether apply FILE --approve "reason"` — you type the path and the reason. One shot. No mode.
+2. A mode switch you turn on once per visible `AGENT_SESSION`. Hidden session turns it off.
+3. Both. The argument works now. The mode is a later body.
+
+**Selected:** 3, then cut by Q4. Human: "3 - yes." The argument is in. The later auto-approve mode is out.
+
+**Rationale / recommendation:** 3 was the recommendation. The argument half stands. The mode half does not.
+
+**Cost tradeoff:** Option 3 is a small flag, then a later design, $0. Option 2 builds the mode before the trial. Option 1 never builds the mode.
+
+**Dependencies:** Q1 and Q4. Mode half cancelled.
+
+**Status:** answered 2026-10-19. Not a CURRENT stamp.
+
+### Q6 — Which caches the mode may touch
+
+**Question:** You said everything. Which stores are in the mode when the session is visible?
+
+**Options:**
+
+1. The three that exist: `ctx/`, `~/MODEL+RAG` Chroma, and `personal-llm-sft-v6:latest`.
+2. Those three plus `.aether/events.jsonl` and bookmarks.
+3. Every store on the machine, including ones not built yet.
+
+**Selected:** 1, plus a requirement. Human: "yes, but configuration is something we should make clear." The three stores are in. Which of them is on must be written down, not implied.
+
+**Rationale / recommendation:** 1. The configuration is round 3. It is not written yet.
+
+**Cost tradeoff:** Option 1 uses disks you have, $0. Option 2 writes the gate log from the mode. Option 3 has no bound.
+
+**Dependencies:** Q4. The mode is dropped, so this list is for the session cache and for any later reader, not for an auto-approve stamp.
+
+**Status:** answered 2026-10-19. Configuration still open. Not a CURRENT stamp.
+
+## Round 3 — frontier, unanswered
+
+### Q7 — Where the cache configuration sits
+
+**Question:** Where is the clear list of the three stores, and what happens if it is missing?
+
+**Options:**
+
+1. `ctx/CACHE.md`, plain text, one store per line, on or off. Missing file means all three off.
+2. Environment variables only. Unset means off.
+3. A section in CURRENT.md.
+
+**Selected:** unanswered.
+
+**Selected:** the file `ctx/CACHE.md` is accepted. The three stores are three lines in that one file, not three files. A missing file means all off. A missing line means that store is off.
+
+**Rationale / recommendation:** 1. One page is the clear configuration. Three files are easier to lose. The lines are `ctx on ctx/`, `chroma on <path>`, and `ollama on personal-llm-sft-v6:latest`.
+
+**Cost tradeoff:** Option 1 is one file, $0. Option 2 is easy to hide, which is the failure you already named. Option 3 mixes the cache menu into the gate.
+
+**Dependencies:** Q6. Unlocks the re-proposal's config path.
+
+**Status:** answered 2026-10-19. Not a CURRENT stamp.
+
+### Q8 — What the trial argument refuses
+
+**Question:** `aether apply FILE --approve "reason"` is the trial. What does it refuse?
+
+**Options:**
+
+1. It refuses a missing reason, a missing file, and every slow hand from Q2. A file written earlier in the same turn is allowed if it is on disk.
+2. It also refuses a file created in the same turn.
+3. Do not add the argument. Leave apply and approve as two slashes.
+
+**Selected:** 1, and the same behavior is a command in the mechanicall-domain plugin beside `commands/apply.md`.
+
+**Rationale / recommendation:** 1. You asked to try an argument. The reason and the path stay typed by you. Q2's slow list stays refused. Same-turn files stay allowed. The plugin command runs that same `aether` invocation. It is not a second implementation.
+
+**Cost tradeoff:** Option 1 is a flag on a command you have, $0. Option 2 is stricter and costs an extra turn whenever the proposal was just written. Option 3 spends nothing and leaves the applies as they are.
+
+**Dependencies:** Q2 and Q5. Unlocks the pre-proposal of the argument. The auto-approve mode is not in this question.
+
+**Status:** answered 2026-10-19. Not a CURRENT stamp.

@@ -1,121 +1,92 @@
 # CURRENT
 
-**Objective:** Mechanicall is **my Yes**. Aether gates my approval so covenants protect my intent. I serve. They do not have to learn the system. This halt: name the good I Yes, then serve in the rooms — not collect their stamps. Kitchen/`this-works` as food is dead. Label: MY YES · SERVE.
-**Phase:** SELECT
-**Status:** READY-FOR-REVIEW
-**Baseline:** 2026-09-11 · reject 12:45 covenants/intent · learnt: Mechanicall is my Yes; Mum good = servant; others’ approval is not the product
-**Next:** serve-the-rooms
-**Approval:** PENDING
-**Host:** myarch · rooms on apex. A33 USB not this halt.
+**Objective:** Start the APK sprint by scaffolding the modelling work from the aether CLI as it stands.
+**Phase:** APPROVE
+**Status:** APPROVED
+**Baseline:** 2026-10-20 · pin com.mechanicall.pocket.demo 0.19.21-loop-from-20 versionCode 46 · snapshot .aether/bookmarks/CURRENT-20261016T162428Z-this-current.md cksum 3532677481 · aether 0.3 · desk and pre-apply shipped · closed-tester, not production
+**Next:** new-apk-sprint-start
+**Approval:** APPROVED
+**Host:** myarch · local sit :8788 · apex after human deploy · branch `feat/share-urls-readiness`
+
+## What I want now
+
+The aether CLI is confident enough to scaffold the modelling work. This Next writes that scaffold and stops. It does not assemble an APK.
+
+The operator's reason for this suggestion: We should get back to what we was doing - 'aether' CLI is something confident enough to scaffold off of in terms of the modelling work.
 
 ## Product (non-negotiable identity)
-- **Is:** **Mechanicall: You Decide** — **my** decide. Inference proposes. I dispose. **My Yes** actualises a covenant. Models never approve. Silence is never permission.
-- **Aether’s job:** gate **my** approval. The file is my covenant. I do not become work I did not Yes.
-- **They:** do not have to learn aether, CURRENT, or Yes. Chat is hello. Send is not Yes. If they never stamp, the system still did its job — it gated *me*.
-- **The good:** what I can make, under a covenant I Yes. Mum: **servant**. Paper trading: room to try, no live money (I Yes that work). this-works: unnamed; serve in the chat; no product CURRENT until I know.
-- **This Next:** `serve-the-rooms` — my covenants, my Yes, then serve. Do not hunt their approval. Do not put kitchen CURRENT in this-works.
-- **Not this halt:** millwork, Play, OpenRouter, sequential ids, zip-only, their-Yes-as-the-product, teach-aether-as-the-price-of-help, app/site as the product, body as food.
 
-## Live rooms — my covenant / the good I Yes
-
-| Alias | Room | What I Yes | The good |
-|-------|------|------------|----------|
-| `happy-birthday` | `e9b16791a12ac1ef521891b6eac3bf68` | Paper trading — room to try, no live money | They can think a market. Rent stays off the line. They need not stamp. |
-| `hi-its-mother` | `e745d275940fa06e191d9870ebbfa205` | I serve | **Servant.** Door open. I run and come back. I do not nag. She does not learn aether to receive help. |
-| `this-works` | `2b48071dd97502c311b7c5d923df2874` | **Parked as a named product.** I still answer the chat. | Not kitchen, not body, not food. “Ok this works” / “Son x” is the room. No CURRENT posted there until I know the good. |
-
-Drafts (my working covenants, not their homework): `.aether/proposals/clients/<alias>/CURRENT.md`  
-Face: the **room** `https://anphuni.com/you-decide/t/<id>`. Not `/offers/`. Not a zip.
-
-## How to proceed (now that it is not their approval)
-
-1. I Yes **this** file. That is Mechanicall.
-2. I serve in the rooms as the table says. Receipts land here (`events.jsonl`, chat replies, work). They never have to `aether approve`.
-3. If someone later wants the system, they can learn it. That is extra. It is not the price of the door.
-4. this-works: reply as servant. Do not invent a product to make the room feel “done.”
-
-## Done (keep)
-- Protocol: one Next, preflight, human `aether approve` with a reason
-- Apex door · three live rooms · kitchen CURRENT **removed** from this-works
-- Learnt: Mechanicall is my Yes; servant; others’ stamp is not the product
+- **Is:** Mechanicall: You Decide. Inference proposes. I dispose. Models never approve. Silence is never permission.
+- **This Next:** `new-apk-sprint-start`. Scaffold only.
+- **Not this halt:** assembling an APK, a versionCode change, a phone install, Play, a weight inside `android/`, deleting personas, putting `ctx` on `PATH`.
 
 ## Keep
-- Mechanicall is **my Yes**
-- Aether gates my approval; covenants protect my intent
-- Models never approve; silence ≠ permission
-- One Next on this tree
-- **Servant** (Mum). Not nag. Not mascot. Not workshop-as-price
-- They need not learn the system
-- Handoff face = the ticket room. Zip is not the carrier. `/offers/` is not the room
-- Form (app / site) unnamed
-- Tickets are not operator law
-- Web Yes Reject
-- USB ≠ LTE
+
+- Plain, inspectable history; one useful Next; files + git to go back
+- Mechanicall is my Yes; models never approve; silence is not permission
+- versionCode stays 46 for this start
+- The pin snapshot cksum stays 3532677481
+- Weight stays outside the APK
+- Desk, index selection, and pre-apply stay as shipped
 
 ## Reject
-- dual-concurrent-next
-- proposal-wrapper-as-CURRENT
-- model-auto-write-current
-- their-yes-as-the-product
-- teach-aether-as-the-price-of-help
-- stamp-client-current-for-them
-- client-law-in-operator-current
-- zip-only-offer
-- yes-to-a-plan-not-the-offer
-- app-site-identification-this-halt
-- schematic-factory-current-as-the-gift
-- agreement-sermon-as-current
-- body-as-food-product
-- kitchen-this-works-in-the-room
-- offers-page-as-the-room
-- nag-to-yes
-- family-mascot-as-face
-- web-yes-splits-authority
-- archive-you-decide-this-halt
-- generate-this-halt / openrouter-this-halt
-- millwork-this-halt
-- sequential-ids-this-halt
-- live-money-as-paper-trading
+
+- automatic-approve
+- model-invokes-pre-apply
+- assembling during this start
+- a second Next beside `new-apk-sprint-start`
 
 ## Limits
-- These three rooms only. No emails or secrets in git.
-- **this-works:** no named product CURRENT in that room until I recast (not food, not body). Chat as servant is allowed.
-- Paper-trading is paper. Not a live brokerage.
-- Do not name app/site/APK/web as the product form.
-- Do not require their `aether approve`.
-- Do not wait on their stamp to serve.
+
+- I may revise this file directly; agent output is suggestion until I use it
+- The model does not run `aether approve`, `aether apply`, `aether next`, or `aether pre-apply`
+- Do not assemble an APK in this halt. Do not bump versionCode. Do not install on the phone. Do not upload to Play.
+- Do not copy a weight, a blob, or a Modelfile into `android/`
+- Do not delete `.grok/personas/` files
+- Do not put `ctx` on `PATH`
+- The snapshot at `.aether/bookmarks/CURRENT-20261016T162428Z-this-current.md` stays a copy
+- Silence is never permission
 
 ## Parked (following — not this Next)
-- Teaching them Mechanicall (only if they ask)
-- **this-works named product**
-- App / site identification
-- Sequential ids
-- millwork, Generate, OpenRouter
-- `/offers/` as a public index
+
+- **apk-from-cli** — after this scaffold. Pin stays versionCode 46 until a later Next says otherwise.
+- **apk-sprint** — the assemble, after the scaffold.
+- **add-pre-apply** — the command exists. Not this Next.
+- **aether-desk** — shipped. Not this Next.
+- **strike-stale-limit** — leftover Limits wording. Not this halt.
 
 ## Next allowed action
-**Action id:** `serve-the-rooms`
 
-1. I `aether approve` this file with a reason — that is the gate.
-2. Mum’s room: serve (reply, fetch, come back). Good = servant. No aether lesson unless she asks.
-3. Happy-birthday: I Yes paper trading as work I will make; they need not stamp.
-4. this-works: answer the chat; do not post a CURRENT; do not invent kitchen.
-5. Stop hunting their Yes. Receipts of *my* work go on disk here.
+**Action id:** new-apk-sprint-start
+
+Write the modelling scaffold under `dev/87_new-apk-sprint-start/output/` and halt.
+
+1. Record the aether CLI surface the scaffold stands on: verbs in use, `aether desk` index selection, and `aether pre-apply` as a human hand.
+2. Record the APK constraints the later assemble must keep: versionCode 46, the pin cksum 3532677481, no weight in the package.
+3. Write one scaffold note. It is not an assemble script.
+4. Halt. Do not assemble. Do not install. Do not open Play.
+
+## Evidence sought
+
+1. Does `dev/87_new-apk-sprint-start/output/` contain the scaffold note?
+2. Does the note name the CLI surface and the pin constraints?
+3. Does versionCode stay 46?
+4. Does the pin snapshot cksum stay 3532677481?
+5. Was an APK assembled in this halt? The answer must be no.
 
 ## Approval condition
-Human `aether approve` with a real reason. That is Mechanicall. Silence is never permission.
+
+The operator runs `aether pre-apply` with the reason and this file. That stamp is the Yes. The model does not run it. Apply of a proposal is not this path. Silence is never permission.
 
 ## Prohibited
+
 - automatic-approve
 - commit-secrets
 - dual-concurrent-next
 - model-auto-write-current
+- proposal-wrapper-as-CURRENT
 - their-yes-as-the-product
 - teach-aether-as-the-price-of-help
-- kitchen-this-works-in-the-room
-- body-as-food-product
-- offers-page-as-the-room
-- nag-to-yes
-- live-money-as-paper-trading
-- millwork-this-halt
-- sequential-ids-this-halt
+- stamp-client-current-for-them
+- nested-current
+- model-invokes-pre-apply
