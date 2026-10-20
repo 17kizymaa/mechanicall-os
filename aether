@@ -13,7 +13,7 @@
 #   aether approve [reason] [path]
 #   aether reject [reason] [path]
 #   aether apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [path]
-#   aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [path]
+#   aether pre-apply [--dry-run] [--mode | --stop] [reason words] [path]
 #   aether event <msg> [path]
 #   aether artifact <path> [--action A] [--status S]
 #   aether bookmark [label] [path] | <file.md> [label] | list [path]
@@ -924,7 +924,8 @@ raise SystemExit(1)
 PY
 }
 
-# A markdown proposal under .aether/proposals/. A slash in a reason is not one.
+# A markdown proposal under .aether/proposals/. apply uses this to end a reason.
+# pre-apply does not. A proposal path there stays reason text.
 is_proposal_arg() {
     [ -f "$1" ] || return 1
     case "$1" in
@@ -945,39 +946,15 @@ is_project_arg() {
     return 0
 }
 
-# Status and Approval both contain APPROVED. Prints nothing. Exit 0 is approved.
-proposal_is_approved() {
-    _body="$1"
-    _vdir="$(mktemp -d "${TMPDIR:-/tmp}/aether-preapply.XXXXXX")"
-    cp "$_body" "$_vdir/CURRENT.md" || {
-        rm -rf "$_vdir"
-        return 2
-    }
-    _appr=$(current_field "$_vdir" Approval 2>/dev/null || true)
-    _status=$(current_field "$_vdir" Status 2>/dev/null || true)
-    rm -rf "$_vdir"
-    _appr_u=$(printf '%s' "$_appr" | tr '[:lower:]' '[:upper:]')
-    _status_u=$(printf '%s' "$_status" | tr '[:lower:]' '[:upper:]')
-    case "$_appr_u" in
-        *APPROVED*) ;;
-        *) return 2 ;;
-    esac
-    case "$_status_u" in
-        *APPROVED*) return 0 ;;
-        *) return 2 ;;
-    esac
-}
-
-# One turn, or a mode for the rest of this visible session.
-# The mode does not stamp Approval. That was the per-turn commitment.
-# An approved proposal is applied for this session.
+# One turn, or --mode for the rest of this visible session.
+# The session is the suggestion. A proposal file is not an argument.
+# The mode does not stamp Approval again. That was the per-turn commitment.
 pre_apply_turn() {
     dry="$1"
     reason="$2"
     root_arg="$3"
-    proposal="$4"
-    mode="$5"
-    stop="$6"
+    mode="$4"
+    stop="$5"
     if [ -z "$reason" ]; then
         if [ "$mode" -eq 1 ]; then
             reason="The operator allows this sequence."
@@ -1018,40 +995,11 @@ pre_apply_turn() {
     if pre_apply_mode_matches "$root" "$session"; then
         mode_on=1
     fi
-    body=""
-    if [ -n "$proposal" ]; then
-        proposal="$(abspath "$proposal")"
-        body="$(aether_tmpfile "$root" preapply)"
-        py="$AETHER_ROOT/python/aether_apply_proposal.py"
-        [ -f "$py" ] || die "missing $py"
-        set +e
-        python3 "$py" --out "$body" "$proposal" >/dev/null 2>&1
-        extract_ec=$?
-        set -e
-        if [ "$extract_ec" -ne 0 ]; then
-            rm -f "$body"
-            printf 'refuse: a file is not the suggestion. The conversation session is.\n' >&2
-            return 2
-        fi
-        if ! proposal_is_approved "$body"; then
-            rm -f "$body"
-            printf 'refuse: the session applies an approved proposal. This one is not approved.\n' >&2
-            return 2
-        fi
-        set +e
-        slow=$(apply_slow_hand "$body")
-        slow_ec=$?
-        set -e
-        rm -f "$body"
-        if [ "$slow_ec" -eq 0 ]; then
-            printf 'refuse: pre-apply will not %s\n' "$slow" >&2
-            return 2
-        fi
-    fi
     if [ "$dry" -eq 1 ]; then
         if [ "$mode" -eq 1 ]; then
             printf 'DRY-RUN: would start pre-apply mode for session %s\n' "$session"
-            printf '  The mode allows this sequence. It does not stamp Approval.\n'
+            printf '  The mode approves this session'"'"'s suggestions.\n'
+            printf '  A proposal is not an argument.\n'
             printf '  Would write .aether/pre-apply-mode\n'
         elif [ "$mode_on" -eq 1 ]; then
             printf 'DRY-RUN: pre-apply mode is already on for session %s\n' "$session"
@@ -1060,22 +1008,9 @@ pre_apply_turn() {
             printf 'DRY-RUN: would approve this turn of session %s\n' "$session"
             printf '  The conversation session is the suggestion.\n'
         fi
-        if [ -n "$proposal" ]; then
-            printf '  Would apply approved proposal %s\n' "$proposal"
-        fi
         printf '  Would write .aether/suggestions.toml\n'
         printf '  Not written. The operator approval is not stamped.\n'
         return 0
-    fi
-    if [ -n "$proposal" ]; then
-        set +e
-        cmd_apply "$proposal" "$root"
-        apply_ec=$?
-        set -e
-        if [ "$apply_ec" -ne 0 ]; then
-            return "$apply_ec"
-        fi
-        printf '  Session %s applied the approved proposal.\n' "$session"
     fi
     if [ "$mode" -eq 1 ]; then
         write_pre_apply_mode "$root" "$session" "$reason"
@@ -1087,8 +1022,8 @@ pre_apply_turn() {
         printf 'MODE ON: session %s allows this sequence.\n' "$session"
         printf '  File: .aether/pre-apply-mode\n'
         printf '  Sidecar: .aether/suggestions.toml\n'
-        printf '  This is a mode for multiple turns. It does not stamp Approval.\n'
-        printf '  A slash in the reason is text. automatic-approve stays prohibited.\n'
+        printf '  This mode approves the session'"'"'s suggestions.\n'
+        printf '  A proposal is not an argument. It does not stamp Approval again.\n'
         return 0
     fi
     if [ "$mode_on" -eq 1 ]; then
@@ -1146,7 +1081,7 @@ session = os.environ.get("AETHER_SIDE_SESSION", "")
 reason = os.environ.get("AETHER_SIDE_REASON", "")
 instructions = (
     "You are the suggestions sidecar for one turn.\n"
-    "The conversation session is the suggestion. A file is not.\n"
+    "The conversation session is the suggestion. A proposal is not an argument.\n"
     "Session: " + session + "\n"
     "Operator reason: " + reason + "\n"
     "This file is written by aether pre-apply.\n"
@@ -1190,16 +1125,16 @@ write_pre_apply_mode() {
     chmod 600 "$_path"
 }
 
-# Operator allows one turn, or starts a mode for the rest of the session.
+# Operator allows one turn, or --mode for the rest of the session.
 # A slash, a quote, or a pipe inside a reason word stays text.
-# aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [project]
+# A proposal path is reason text. It is not an argument.
+# aether pre-apply [--dry-run] [--mode | --stop] [reason words] [project]
 cmd_pre_apply() {
     dry=0
     mode=0
     stop=0
     root_arg=""
     reason=""
-    proposal=""
     last_token=""
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -1220,12 +1155,7 @@ cmd_pre_apply() {
                 ;;
             *)
                 last_token="$1"
-                if is_proposal_arg "$1"; then
-                    if [ -n "$proposal" ]; then
-                        die_usage "usage: aether pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [project]"
-                    fi
-                    proposal="$1"
-                elif [ -n "$reason" ]; then
+                if [ -n "$reason" ]; then
                     reason="$reason $1"
                 else
                     reason="$1"
@@ -1251,7 +1181,7 @@ cmd_pre_apply() {
             reason=${reason%\"}
             ;;
     esac
-    pre_apply_turn "$dry" "$reason" "$root_arg" "$proposal" "$mode" "$stop"
+    pre_apply_turn "$dry" "$reason" "$root_arg" "$mode" "$stop"
     return $?
 }
 
@@ -2852,13 +2782,13 @@ cat <<'U'
   apply [--dry-run] [--approve reason | --reject reason] <proposal.md> [path]
                          human only: copy the fenced # CURRENT body onto CURRENT.md
                          (refuses the wrapper; does not approve; does not re-SELECT)
-  pre-apply [--dry-run] [--mode | --stop] [reason words] [approved-proposal] [path]
-                         one turn approves. --mode allows the rest of this visible session
-                         and does not stamp Approval. --stop ends that mode.
-                         A slash, a quote, or a pipe in a reason stays text.
-                         An approved proposal under .aether/proposals/ is applied for that session.
+  pre-apply [--dry-run] [--mode | --stop] [reason words] [path]
+                         --mode approves this session's suggestions for the sequence.
+                         It does not stamp Approval again. --stop ends that mode.
+                         One turn without --mode stamps Approval once.
+                         A proposal is not an argument. A slash in a reason stays text.
                          Writes .aether/suggestions.toml. The mode file is .aether/pre-apply-mode.
-                         Hidden session: suggestion off, nothing stamped, nothing applied.
+                         Hidden session: suggestion off, nothing stamped.
   demo [--quiet]         one-command protocol demo in temp root (never live CURRENT)
   brief [path]           short Next/gate/events/drift paste for external TUIs
   drift [path]           git dirty report (exit 1 if drift; never writes CURRENT)

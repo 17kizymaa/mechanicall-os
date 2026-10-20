@@ -885,120 +885,28 @@ grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "turn replaced the Next body"
 grep -q 'APPROVED' CURRENT.md || fail "stamp did not set APPROVED"
 pass "pre-apply approves one turn of the conversation session"
 
-# --- pre-apply applies an approved proposal for the visible session ---
-mkdir -p "$TMP/turn-apply/.aether/proposals"
-cd "$TMP/turn-apply"
-"$AETHER" init . >/dev/null || fail "init turn-apply"
-"$AETHER" current init . >/dev/null || fail "current init turn-apply"
-apply_before=$(cksum CURRENT.md)
-cat > .aether/proposals/approved.md << 'PROP'
-# CURRENT proposal — approved — NOT LAW until applied
-
-## Proposed CURRENT
-
-```markdown
-# CURRENT
-
-**Objective:** Apply one approved proposal for this turn.
-**Phase:** APPROVE
-**Status:** APPROVED
-**Baseline:** test
-**Next:** apply-approved-proposal
-**Approval:** APPROVED
-
-## Keep
-- one next
-
-## Reject
-- automatic-approve
-
-## Limits
-- silence is never permission
-
-## Next allowed action
-
-**Action id:** apply-approved-proposal
-
-Write a note.
-
-## Approval condition
-
-The operator already approved this body.
-
-## Prohibited
-- automatic-approve
-```
-PROP
-cat > .aether/proposals/draft.md << 'PROP'
-# CURRENT proposal — draft
-
-## Proposed CURRENT
-
-```markdown
-# CURRENT
-
-**Objective:** This draft must not be applied.
-**Phase:** SELECT
-**Status:** DRAFT
-**Baseline:** test
-**Next:** draft-proposal
-**Approval:** DRAFT
-
-## Keep
-- one next
-
-## Reject
-- automatic-approve
-
-## Limits
-- silence is never permission
-
-## Next allowed action
-
-**Action id:** draft-proposal
-
-Write nothing.
-
-## Approval condition
-
-Not approved.
-
-## Prohibited
-- automatic-approve
-```
-PROP
-out=$(env -u AGENT_SESSION -u GROK_SESSION_ID "$AETHER" pre-apply "this turn" .aether/proposals/approved.md 2>&1) \
-    || fail "hidden approved pre-apply failed: $out"
-printf '%s\n' "$out" | grep -q 'session hidden; suggestion off' || fail "hidden approved text: $out"
-printf '%s\n' "$out" | grep -q 'APPLIED' && fail "hidden session applied: $out" || true
-[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "hidden session applied the proposal"
-[ ! -e .aether/suggestions.toml ] || fail "hidden approved wrote the sidecar"
+# --- pre-apply keeps a proposal path as reason text ---
+mkdir -p "$TMP/turn-proposal/.aether/proposals"
+cd "$TMP/turn-proposal"
+"$AETHER" init . >/dev/null || fail "init turn-proposal"
+"$AETHER" current init . >/dev/null || fail "current init turn-proposal"
+prop_before=$(cksum CURRENT.md)
+printf 'body\n' > .aether/proposals/approved.md
 out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply --dry-run "this turn" .aether/proposals/approved.md 2>&1) \
-    || fail "approved dry-run failed: $out"
-printf '%s\n' "$out" | grep -q 'Would apply approved proposal' || fail "approved dry-run text: $out"
-printf '%s\n' "$out" | grep -q 'not stamped' || fail "approved dry-run stamped: $out"
-[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "approved dry-run applied"
-[ ! -e .aether/suggestions.toml ] || fail "approved dry-run wrote the sidecar"
-set +e
-out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "this turn" .aether/proposals/draft.md 2>&1)
-ec=$?
-set -e
-[ "$ec" = "2" ] || fail "draft proposal exit=$ec out=$out"
-printf '%s\n' "$out" | grep -q 'This one is not approved' || fail "draft message: $out"
-[ "$(cksum CURRENT.md)" = "$apply_before" ] || fail "draft proposal was applied"
+    || fail "proposal dry-run failed: $out"
+printf '%s\n' "$out" | grep -q 'Would apply' && fail "dry-run still applies a proposal: $out" || true
+printf '%s\n' "$out" | grep -q 'not stamped' || fail "proposal dry-run stamped: $out"
+[ "$(cksum CURRENT.md)" = "$prop_before" ] || fail "proposal dry-run rewrote CURRENT"
+[ ! -e .aether/suggestions.toml ] || fail "proposal dry-run wrote the sidecar"
 out=$(env -u GROK_SESSION_ID AGENT_SESSION=turn-1 "$AETHER" pre-apply "this turn" .aether/proposals/approved.md 2>&1) \
-    || fail "approved pre-apply failed: $out"
-printf '%s\n' "$out" | grep -q 'APPLIED:' || fail "approved proposal was not applied: $out"
-printf '%s\n' "$out" | grep -q 'Session turn-1 applied the approved proposal.' \
-    || fail "session apply line: $out"
-printf '%s\n' "$out" | grep -q 'TURN ALLOWED: session turn-1 is the suggestion for this turn.' \
-    || fail "approved turn text: $out"
-grep -q '^\*\*Next:\*\* apply-approved-proposal$' CURRENT.md || fail "approved Next missing"
-grep -q '"kind":"proposal_applied"' .aether/events.jsonl || fail "proposal_applied missing"
-[ -f .aether/suggestions.toml ] || fail "approved turn sidecar missing"
-[ ! -d .aether/sidecars ] || fail "approved turn made a sidecars folder"
-[ "$(stat -c %a .aether/suggestions.toml)" = "600" ] || fail "approved sidecar mode"
-pass "pre-apply applies an approved proposal for the session"
+    || fail "proposal word failed: $out"
+printf '%s\n' "$out" | grep -q 'TURN ALLOWED' || fail "proposal word did not allow the turn: $out"
+printf '%s\n' "$out" | grep -q 'APPLIED' && fail "proposal word applied a file: $out" || true
+grep -q 'approved.md' .aether/suggestions.toml || fail "proposal path was not reason text"
+grep -q '"kind":"proposal_applied"' .aether/events.jsonl && fail "proposal_applied was written" || true
+grep -q '^\*\*Next:\*\* unset$' CURRENT.md || fail "proposal word replaced the Next body"
+[ ! -d .aether/sidecars ] || fail "proposal word made a sidecars folder"
+pass "pre-apply keeps a proposal path as reason text"
 
 # --- pre-apply mode: many turns, no second Approval stamp; slashes stay text ---
 mkdir -p "$TMP/turn-mode/slashdir/nested"
