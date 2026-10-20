@@ -10,7 +10,7 @@ We should get back to what we was doing - 'aether' CLI is something confident en
 
 `dev/87_new-apk-sprint-start/output/SCAFFOLD.md` is the modelling scaffold. It names the CLI surface and the pin. It is not an assemble script.
 
-`aether pre-apply` approves one turn of the visible conversation session. That session is the suggestion. An approved proposal is applied for that session. The verb writes `.aether/suggestions.toml`. The team copy is `ctx/teams/suggestions.toml`. A hidden session writes nothing and applies nothing. The model does not run `pre-apply`.
+`aether pre-apply --mode` approves the visible session's suggestions. That session is the suggestion. A proposal is not an argument. The verb writes `.aether/suggestions.toml`. The team copy is `ctx/teams/suggestions.toml`. A hidden session writes nothing. The model does not run `pre-apply` on its own.
 
 versionCode stays 46. Pin cksum stays `3532677481`. Weight stays outside the APK. The next assemble is parked as `apk-sprint`.
 
